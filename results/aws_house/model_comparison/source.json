@@ -1,0 +1,9 @@
+{
+  "url": "https://github.com/ultralytics/assets/releases/download/v8.4.0/yolov8s-seg.pt",
+  "sha256": "0bac0770b55e5eb5b76a61bc535673288dcec36c2bc0cd25ee0d584c632f3413",
+  "role": "offline comparison only; default remains yolov8n-seg.pt",
+  "evidence": [
+    "../validation/side_fov/small_model_evaluation.json",
+    "../validation/side_view_retry/small_model_evaluation.json"
+  ]
+}

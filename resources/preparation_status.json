@@ -1,0 +1,35 @@
+{
+  "status": "prepared",
+  "checks": {
+    "asset_plastic_cup": true,
+    "asset_blue_mug": true,
+    "asset_mustard_bottle": true,
+    "asset_water_bottle": true,
+    "asset_bowl": true,
+    "asset_patterned_bowl": true,
+    "asset_book": true,
+    "asset_mobile_phone": true,
+    "voice_model_files": true,
+    "native_audio_archive": true,
+    "native_audio_library": true,
+    "camera_reference": true,
+    "voice_packages": true,
+    "offline_voice_wheels": true,
+    "navigation_plugins_installed": true,
+    "active_baseline_unchanged": true
+  },
+  "verified_at_utc": "2026-11-09T10:28:34.688077+00:00",
+  "target_assets": 8,
+  "navigation_packages": {
+    "ros-humble-nav2-mppi-controller": "1.1.20-1jammy.20260915.232158",
+    "ros-humble-nav2-regulated-pure-pursuit-controller": "1.1.20-1jammy.20260915.232155",
+    "ros-humble-nav2-smac-planner": "1.1.20-1jammy.20260915.232226"
+  },
+  "voice_environment": ".venv-voice",
+  "voice_model_revision": "536b0662742c02347bc0e980a01041f333bce120",
+  "functional_experiments_run": false,
+  "speech_inference_tested": false,
+  "audio_recording_tested": false,
+  "assets_inserted_into_scene": false,
+  "camera_reference_activated": false
+}

@@ -1,0 +1,98 @@
+{
+  "topics": {
+    "/clock": {
+      "messages": 7941,
+      "sim_hz": 992.1279520179933
+    },
+    "/odom": {
+      "messages": 400,
+      "sim_hz": 49.99999999999997
+    },
+    "/rgbd/camera_info": {
+      "messages": 64,
+      "sim_hz": 8.0,
+      "frame": "camera_optical_frame",
+      "k": [
+        565.6008952774198,
+        0.0,
+        320.0,
+        0.0,
+        565.6008952774197,
+        240.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    "/scan": {
+      "messages": 40,
+      "sim_hz": 4.999999999999997,
+      "frame": "base_scan",
+      "samples": 360,
+      "minimum": 0.6799939274787903,
+      "maximum": 4.950701713562012
+    },
+    "/rgbd/depth_image": {
+      "messages": 50,
+      "sim_hz": 6.533333333333333,
+      "frame": "camera_optical_frame",
+      "encoding": "32FC1",
+      "width": 640,
+      "height": 480,
+      "valid_fraction": 1.0,
+      "minimum": 0.631254255771637,
+      "maximum": 3.882185697555542
+    },
+    "/rgbd/image": {
+      "messages": 47,
+      "sim_hz": 6.133333333333334,
+      "frame": "camera_optical_frame",
+      "encoding": "rgb8",
+      "width": 640,
+      "height": 480
+    }
+  },
+  "tf": {
+    "odom->base_footprint": {
+      "xyz": [
+        -5.691845631920821e-05,
+        1.4515622112085319e-11,
+        0.0
+      ],
+      "xyzw": [
+        -7.163360414845162e-10,
+        -0.002845540546452096,
+        -7.843855164957742e-09,
+        0.9999959514413038
+      ]
+    },
+    "base_footprint->base_scan": {
+      "xyz": [
+        -0.064,
+        0.0,
+        0.121
+      ],
+      "xyzw": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    "base_link->camera_optical_frame": {
+      "xyz": [
+        0.069,
+        -0.047,
+        0.3
+      ],
+      "xyzw": [
+        -0.5000000000000001,
+        0.5000000000025515,
+        -0.5000000000000001,
+        0.4999999999974484
+      ]
+    }
+  },
+  "motion_distance_m": 0.29779793541009464,
+  "passed": true
+}

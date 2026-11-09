@@ -1,0 +1,97 @@
+{
+  "topics": {
+    "/clock": {
+      "messages": 1994,
+      "sim_hz": 995.504495504519
+    },
+    "/odom": {
+      "messages": 100,
+      "sim_hz": 49.99999999999954
+    },
+    "/scan": {
+      "messages": 10,
+      "sim_hz": 5.000000000000126,
+      "frame": "base_scan",
+      "samples": 360,
+      "minimum": 0.7288448214530945,
+      "maximum": 7.717284679412842
+    },
+    "/rgbd/camera_info": {
+      "messages": 16,
+      "sim_hz": 8.0,
+      "frame": "camera_optical_frame",
+      "k": [
+        565.6008952774198,
+        0.0,
+        320.0,
+        0.0,
+        565.6008952774197,
+        240.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    "/rgbd/depth_image": {
+      "messages": 6,
+      "sim_hz": 3.076923076923077,
+      "frame": "camera_optical_frame",
+      "encoding": "32FC1",
+      "width": 640,
+      "height": 480,
+      "valid_fraction": 0.9287141927083333,
+      "minimum": 0.7430276274681091,
+      "maximum": 7.043752670288086
+    },
+    "/rgbd/image": {
+      "messages": 6,
+      "sim_hz": 3.076923076923077,
+      "frame": "camera_optical_frame",
+      "encoding": "rgb8",
+      "width": 640,
+      "height": 480
+    }
+  },
+  "tf": {
+    "odom->base_footprint": {
+      "xyz": [
+        2.699566193537054,
+        1.2502446056833374,
+        0.0
+      ],
+      "xyzw": [
+        0.0028396974148668474,
+        0.0001939357589338281,
+        0.997671998861492,
+        -0.06813575562968742
+      ]
+    },
+    "base_footprint->base_scan": {
+      "xyz": [
+        -0.064,
+        0.0,
+        0.121
+      ],
+      "xyzw": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    "base_link->camera_optical_frame": {
+      "xyz": [
+        0.069,
+        -0.047,
+        0.3
+      ],
+      "xyzw": [
+        -0.5000000000000001,
+        0.5000000000025515,
+        -0.5000000000000001,
+        0.4999999999974484
+      ]
+    }
+  },
+  "passed": true
+}

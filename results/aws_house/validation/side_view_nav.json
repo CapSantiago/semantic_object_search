@@ -1,0 +1,12 @@
+{
+  "route": [
+    [
+      4.3,
+      1.1,
+      0.32
+    ]
+  ],
+  "visited": [],
+  "status": "TimeoutError: Nav2 response exceeded 15.0 seconds",
+  "wall_seconds": 16.00320686699979
+}

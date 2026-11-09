@@ -1,0 +1,720 @@
+[
+  {
+    "viewpoint": 0,
+    "stamp_ns": 1849875000000,
+    "detections": 1,
+    "points": [
+      [
+        2.315260740009455,
+        2.12427270468524,
+        0.41433722381517435
+      ]
+    ],
+    "instance_ids": [
+      1
+    ],
+    "confirmed_ids": []
+  },
+  {
+    "viewpoint": 0,
+    "stamp_ns": 1850125000000,
+    "detections": 1,
+    "points": [
+      [
+        2.3251627569403466,
+        2.125147126948523,
+        0.41436317809148293
+      ]
+    ],
+    "instance_ids": [
+      1
+    ],
+    "confirmed_ids": [
+      1
+    ]
+  },
+  {
+    "viewpoint": 0,
+    "stamp_ns": 1850500000000,
+    "detections": 1,
+    "points": [
+      [
+        2.330934058368238,
+        2.12567988855673,
+        0.4143794737391941
+      ]
+    ],
+    "instance_ids": [
+      1
+    ],
+    "confirmed_ids": [
+      1
+    ]
+  },
+  {
+    "viewpoint": 0,
+    "stamp_ns": 1851250000000,
+    "detections": 1,
+    "points": [
+      [
+        2.330934058368238,
+        2.12567988855673,
+        0.4143794737391941
+      ]
+    ],
+    "instance_ids": [
+      1
+    ],
+    "confirmed_ids": [
+      1
+    ]
+  },
+  {
+    "viewpoint": 0,
+    "stamp_ns": 1852000000000,
+    "detections": 1,
+    "points": [
+      [
+        2.330934058368238,
+        2.12567988855673,
+        0.4143794737391941
+      ]
+    ],
+    "instance_ids": [
+      1
+    ],
+    "confirmed_ids": [
+      1
+    ]
+  },
+  {
+    "viewpoint": 0,
+    "stamp_ns": 1852125000000,
+    "detections": 1,
+    "points": [
+      [
+        2.330934058368238,
+        2.12567988855673,
+        0.4143794737391941
+      ]
+    ],
+    "instance_ids": [
+      1
+    ],
+    "confirmed_ids": [
+      1
+    ]
+  },
+  {
+    "viewpoint": 0,
+    "stamp_ns": 1852500000000,
+    "detections": 1,
+    "points": [
+      [
+        2.330934058368238,
+        2.12567988855673,
+        0.4143794737391941
+      ]
+    ],
+    "instance_ids": [
+      1
+    ],
+    "confirmed_ids": [
+      1
+    ]
+  },
+  {
+    "viewpoint": 0,
+    "stamp_ns": 1852875000000,
+    "detections": 1,
+    "points": [
+      [
+        2.330934058368238,
+        2.12567988855673,
+        0.4143794737391941
+      ]
+    ],
+    "instance_ids": [
+      1
+    ],
+    "confirmed_ids": [
+      1
+    ]
+  },
+  {
+    "viewpoint": 0,
+    "stamp_ns": 1853375000000,
+    "detections": 1,
+    "points": [
+      [
+        2.330934058368238,
+        2.12567988855673,
+        0.4143794737391941
+      ]
+    ],
+    "instance_ids": [
+      1
+    ],
+    "confirmed_ids": [
+      1
+    ]
+  },
+  {
+    "viewpoint": 0,
+    "stamp_ns": 1853750000000,
+    "detections": 1,
+    "points": [
+      [
+        2.330934058368238,
+        2.12567988855673,
+        0.4143794737391941
+      ]
+    ],
+    "instance_ids": [
+      1
+    ],
+    "confirmed_ids": [
+      1
+    ]
+  },
+  {
+    "viewpoint": 1,
+    "stamp_ns": 1854375000000,
+    "detections": 1,
+    "points": [
+      [
+        2.3306224269333757,
+        2.1238103960045134,
+        0.4147023381507453
+      ]
+    ],
+    "instance_ids": [
+      1
+    ],
+    "confirmed_ids": [
+      1
+    ]
+  },
+  {
+    "viewpoint": 1,
+    "stamp_ns": 1854750000000,
+    "detections": 1,
+    "points": [
+      [
+        2.3306224269333757,
+        2.1238103960045134,
+        0.4147023381507453
+      ]
+    ],
+    "instance_ids": [
+      1
+    ],
+    "confirmed_ids": [
+      1
+    ]
+  },
+  {
+    "viewpoint": 1,
+    "stamp_ns": 1855000000000,
+    "detections": 1,
+    "points": [
+      [
+        2.3306224269333757,
+        2.1238103960045134,
+        0.4147023381507453
+      ]
+    ],
+    "instance_ids": [
+      1
+    ],
+    "confirmed_ids": [
+      1
+    ]
+  },
+  {
+    "viewpoint": 1,
+    "stamp_ns": 1855125000000,
+    "detections": 1,
+    "points": [
+      [
+        2.3306224269333757,
+        2.1238103960045134,
+        0.4147023381507453
+      ]
+    ],
+    "instance_ids": [
+      1
+    ],
+    "confirmed_ids": [
+      1
+    ]
+  },
+  {
+    "viewpoint": 1,
+    "stamp_ns": 1855500000000,
+    "detections": 1,
+    "points": [
+      [
+        2.3306224269333757,
+        2.1238103960045134,
+        0.4147023381507453
+      ]
+    ],
+    "instance_ids": [
+      1
+    ],
+    "confirmed_ids": [
+      1
+    ]
+  },
+  {
+    "viewpoint": 1,
+    "stamp_ns": 1856000000000,
+    "detections": 1,
+    "points": [
+      [
+        2.3306224269333757,
+        2.1238103960045134,
+        0.4147023381507453
+      ]
+    ],
+    "instance_ids": [
+      1
+    ],
+    "confirmed_ids": [
+      1
+    ]
+  },
+  {
+    "viewpoint": 1,
+    "stamp_ns": 1856125000000,
+    "detections": 1,
+    "points": [
+      [
+        2.3306224269333757,
+        2.1238103960045134,
+        0.4147023381507453
+      ]
+    ],
+    "instance_ids": [
+      1
+    ],
+    "confirmed_ids": [
+      1
+    ]
+  },
+  {
+    "viewpoint": 1,
+    "stamp_ns": 1856250000000,
+    "detections": 1,
+    "points": [
+      [
+        2.3306224269333757,
+        2.1238103960045134,
+        0.4147023381507453
+      ]
+    ],
+    "instance_ids": [
+      1
+    ],
+    "confirmed_ids": [
+      1
+    ]
+  },
+  {
+    "viewpoint": 1,
+    "stamp_ns": 1856375000000,
+    "detections": 1,
+    "points": [
+      [
+        2.3306224269333757,
+        2.1238103960045134,
+        0.4147023381507453
+      ]
+    ],
+    "instance_ids": [
+      1
+    ],
+    "confirmed_ids": [
+      1
+    ]
+  },
+  {
+    "viewpoint": 1,
+    "stamp_ns": 1856500000000,
+    "detections": 1,
+    "points": [
+      [
+        2.3306224269333757,
+        2.1238103960045134,
+        0.4147023381507453
+      ]
+    ],
+    "instance_ids": [
+      1
+    ],
+    "confirmed_ids": [
+      1
+    ]
+  },
+  {
+    "viewpoint": 1,
+    "stamp_ns": 1856750000000,
+    "detections": 1,
+    "points": [
+      [
+        2.3306224269333757,
+        2.1238103960045134,
+        0.4147023381507453
+      ]
+    ],
+    "instance_ids": [
+      1
+    ],
+    "confirmed_ids": [
+      1
+    ]
+  },
+  {
+    "viewpoint": 1,
+    "stamp_ns": 1857375000000,
+    "detections": 1,
+    "points": [
+      [
+        2.3306224269333757,
+        2.1238103960045134,
+        0.4147023381507453
+      ]
+    ],
+    "instance_ids": [
+      1
+    ],
+    "confirmed_ids": [
+      1
+    ]
+  },
+  {
+    "viewpoint": 1,
+    "stamp_ns": 1857625000000,
+    "detections": 1,
+    "points": [
+      [
+        2.3306224269333757,
+        2.1238103960045134,
+        0.4147023381507453
+      ]
+    ],
+    "instance_ids": [
+      1
+    ],
+    "confirmed_ids": [
+      1
+    ]
+  },
+  {
+    "viewpoint": 1,
+    "stamp_ns": 1857750000000,
+    "detections": 1,
+    "points": [
+      [
+        2.3306224269333757,
+        2.1238103960045134,
+        0.4147023381507453
+      ]
+    ],
+    "instance_ids": [
+      1
+    ],
+    "confirmed_ids": [
+      1
+    ]
+  },
+  {
+    "viewpoint": 1,
+    "stamp_ns": 1858125000000,
+    "detections": 1,
+    "points": [
+      [
+        2.3306224269333757,
+        2.1238103960045134,
+        0.4147023381507453
+      ]
+    ],
+    "instance_ids": [
+      1
+    ],
+    "confirmed_ids": [
+      1
+    ]
+  },
+  {
+    "viewpoint": 2,
+    "stamp_ns": 1858500000000,
+    "detections": 1,
+    "points": [
+      [
+        2.3306224269333757,
+        2.1238103960045134,
+        0.4147023381507453
+      ]
+    ],
+    "instance_ids": [
+      1
+    ],
+    "confirmed_ids": [
+      1
+    ]
+  },
+  {
+    "viewpoint": 2,
+    "stamp_ns": 1859375000000,
+    "detections": 1,
+    "points": [
+      [
+        2.3306224269333757,
+        2.1238103960045134,
+        0.4147023381507453
+      ]
+    ],
+    "instance_ids": [
+      1
+    ],
+    "confirmed_ids": [
+      1
+    ]
+  },
+  {
+    "viewpoint": 2,
+    "stamp_ns": 1859875000000,
+    "detections": 1,
+    "points": [
+      [
+        2.3306224269333757,
+        2.1238103960045134,
+        0.4147023381507453
+      ]
+    ],
+    "instance_ids": [
+      1
+    ],
+    "confirmed_ids": [
+      1
+    ]
+  },
+  {
+    "viewpoint": 2,
+    "stamp_ns": 1860000000000,
+    "detections": 1,
+    "points": [
+      [
+        2.3306224269333757,
+        2.1238103960045134,
+        0.4147023381507453
+      ]
+    ],
+    "instance_ids": [
+      1
+    ],
+    "confirmed_ids": [
+      1
+    ]
+  },
+  {
+    "viewpoint": 2,
+    "stamp_ns": 1860125000000,
+    "detections": 1,
+    "points": [
+      [
+        2.3306224269333757,
+        2.1238103960045134,
+        0.4147023381507453
+      ]
+    ],
+    "instance_ids": [
+      1
+    ],
+    "confirmed_ids": [
+      1
+    ]
+  },
+  {
+    "viewpoint": 2,
+    "stamp_ns": 1860250000000,
+    "detections": 1,
+    "points": [
+      [
+        2.3306224269333757,
+        2.1238103960045134,
+        0.4147023381507453
+      ]
+    ],
+    "instance_ids": [
+      1
+    ],
+    "confirmed_ids": [
+      1
+    ]
+  },
+  {
+    "viewpoint": 2,
+    "stamp_ns": 1860500000000,
+    "detections": 1,
+    "points": [
+      [
+        2.3306224269333757,
+        2.1238103960045134,
+        0.4147023381507453
+      ]
+    ],
+    "instance_ids": [
+      1
+    ],
+    "confirmed_ids": [
+      1
+    ]
+  },
+  {
+    "viewpoint": 2,
+    "stamp_ns": 1860750000000,
+    "detections": 1,
+    "points": [
+      [
+        2.3306224269333757,
+        2.1238103960045134,
+        0.4147023381507453
+      ]
+    ],
+    "instance_ids": [
+      1
+    ],
+    "confirmed_ids": [
+      1
+    ]
+  },
+  {
+    "viewpoint": 2,
+    "stamp_ns": 1860875000000,
+    "detections": 1,
+    "points": [
+      [
+        2.3306224269333757,
+        2.1238103960045134,
+        0.4147023381507453
+      ]
+    ],
+    "instance_ids": [
+      1
+    ],
+    "confirmed_ids": [
+      1
+    ]
+  },
+  {
+    "viewpoint": 2,
+    "stamp_ns": 1861000000000,
+    "detections": 1,
+    "points": [
+      [
+        2.3306224269333757,
+        2.1238103960045134,
+        0.4147023381507453
+      ]
+    ],
+    "instance_ids": [
+      1
+    ],
+    "confirmed_ids": [
+      1
+    ]
+  },
+  {
+    "viewpoint": 2,
+    "stamp_ns": 1861500000000,
+    "detections": 1,
+    "points": [
+      [
+        2.3306224269333757,
+        2.1238103960045134,
+        0.4147023381507453
+      ]
+    ],
+    "instance_ids": [
+      1
+    ],
+    "confirmed_ids": [
+      1
+    ]
+  },
+  {
+    "viewpoint": 2,
+    "stamp_ns": 1861625000000,
+    "detections": 1,
+    "points": [
+      [
+        2.3306224269333757,
+        2.1238103960045134,
+        0.4147023381507453
+      ]
+    ],
+    "instance_ids": [
+      1
+    ],
+    "confirmed_ids": [
+      1
+    ]
+  },
+  {
+    "viewpoint": 2,
+    "stamp_ns": 1861750000000,
+    "detections": 1,
+    "points": [
+      [
+        2.3306224269333757,
+        2.1238103960045134,
+        0.4147023381507453
+      ]
+    ],
+    "instance_ids": [
+      1
+    ],
+    "confirmed_ids": [
+      1
+    ]
+  },
+  {
+    "viewpoint": 2,
+    "stamp_ns": 1862000000000,
+    "detections": 1,
+    "points": [
+      [
+        2.3306224269333757,
+        2.1238103960045134,
+        0.4147023381507453
+      ]
+    ],
+    "instance_ids": [
+      1
+    ],
+    "confirmed_ids": [
+      1
+    ]
+  },
+  {
+    "viewpoint": 2,
+    "stamp_ns": 1862375000000,
+    "detections": 1,
+    "points": [
+      [
+        2.3306224269333757,
+        2.1238103960045134,
+        0.4147023381507453
+      ]
+    ],
+    "instance_ids": [
+      1
+    ],
+    "confirmed_ids": [
+      1
+    ]
+  }
+]

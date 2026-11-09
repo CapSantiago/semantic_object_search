@@ -1,0 +1,15 @@
+{
+  "scene_id": "baseline",
+  "label": "基础测试场景（2026-11-08 已验收）",
+  "world_name": "course_house",
+  "kitchen_chairs": 2,
+  "source_validation": "results/validation/summary.json",
+  "sha256": {
+    "maps/course_house.yaml": "61d8dcd2de0210dd592e4508c6166a25eb8fc732f31201fbaaa7ca435a86d334",
+    "maps/course_house.pgm": "2809a0ef3daf297a61ea00f096fecfd89a2166ce842d3ec45fa2b1ca3c317308",
+    "src/semantic_search/config/rooms.json": "b529a36e20f703145600fa97064c2324f9c175364189f21ec3b91f2c71866dbd",
+    "src/semantic_search/config/rooms_baseline.json": "b529a36e20f703145600fa97064c2324f9c175364189f21ec3b91f2c71866dbd",
+    "maps/baseline/course_house.yaml": "61d8dcd2de0210dd592e4508c6166a25eb8fc732f31201fbaaa7ca435a86d334",
+    "maps/baseline/course_house.pgm": "2809a0ef3daf297a61ea00f096fecfd89a2166ce842d3ec45fa2b1ca3c317308"
+  }
+}

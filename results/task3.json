@@ -1,0 +1,32 @@
+{
+  "task_id": "35af6f80-fc0d-482b-85e1-020e15863c32",
+  "command": "去厨房找椅子",
+  "mode": "find",
+  "room": "kitchen",
+  "category": "chair",
+  "status": "found",
+  "count": 1,
+  "objects": [
+    {
+      "id": 1,
+      "x": 1.4019739615178337,
+      "y": 1.6997528444042151,
+      "z": 0.43912248217561944,
+      "hits": 2
+    }
+  ],
+  "viewpoints_visited": 1,
+  "viewpoints_total": 3,
+  "synchronized_frames": 2,
+  "tf_failures": 0,
+  "invalid_target_depth": 0,
+  "valid_projections": 4,
+  "viewpoints": [
+    [
+      2.8,
+      0.65,
+      2.4
+    ]
+  ],
+  "elapsed_seconds": 28.713
+}

@@ -1,0 +1,19 @@
+{
+  "settings_version": "0.0.8",
+  "datasets_dir": "/home/willmatic/\u684c\u9762/semantic_object_search/datasets",
+  "weights_dir": "weights",
+  "runs_dir": "runs",
+  "uuid": "26537864f39bba3e3690d3eec26e304b4a1aa8aa183b0513ed28c36c43676245",
+  "sync": true,
+  "api_key": "",
+  "openai_api_key": "",
+  "clearml": true,
+  "comet": true,
+  "dvc": true,
+  "mlflow": true,
+  "raytune": true,
+  "tensorboard": false,
+  "wandb": false,
+  "vscode_msg": true,
+  "openvino_msg": true
+}

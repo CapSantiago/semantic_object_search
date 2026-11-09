@@ -1,0 +1,12 @@
+[
+  {
+    "file": "yolov8n.pt",
+    "sha256": "f59b3d833e2ff32e194b5bb8e08d211dc7c5bdf144b90d2c8412c47ccfc83b36",
+    "source": "https://github.com/ultralytics/assets/releases/download/v8.4.0/yolov8n.pt"
+  },
+  {
+    "file": "yolov8n-seg.pt",
+    "sha256": "a7cd8f929e1903d78a12a48efecab430209f18dc46cb96c3599a5980c63c423c",
+    "source": "https://github.com/ultralytics/assets/releases/download/v8.4.0/yolov8n-seg.pt"
+  }
+]

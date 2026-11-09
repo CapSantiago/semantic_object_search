@@ -1,0 +1,158 @@
+{
+  "scene_id": "aws_house",
+  "status": "passed",
+  "checks": {
+    "build": true,
+    "regression_tests": true,
+    "baseline_preserved": true,
+    "baseline_sensors": true,
+    "sensors": true,
+    "mapping": true,
+    "scene_identity": true,
+    "task3": true,
+    "task4": true,
+    "viewpoints": true,
+    "tf": true,
+    "xy_evaluation": true,
+    "svg_labels": true,
+    "rviz_markers": true
+  },
+  "task3": {
+    "scene_id": "aws_house",
+    "task_id": "96dd0c3b-9794-4c52-9407-2f4999242bcb",
+    "command": "去厨房找椅子",
+    "mode": "find",
+    "room": "kitchen",
+    "category": "chair",
+    "status": "found",
+    "count": 1,
+    "objects": [
+      {
+        "id": 1,
+        "x": 7.069476303740053,
+        "y": 0.169766516551784,
+        "z": 0.5730228230447865,
+        "hits": 2
+      }
+    ],
+    "viewpoints_visited": 1,
+    "viewpoints_total": 4,
+    "synchronized_frames": 2,
+    "tf_failures": 0,
+    "invalid_target_depth": 0,
+    "valid_projections": 2,
+    "viewpoints": [
+      [
+        5.1,
+        -0.8,
+        0.7
+      ]
+    ],
+    "elapsed_seconds": 25.282
+  },
+  "task4": {
+    "scene_id": "aws_house",
+    "task_id": "52bf5a78-9d42-4705-b203-4ef90a0b06a7",
+    "command": "去厨房统计椅子",
+    "mode": "count",
+    "room": "kitchen",
+    "category": "chair",
+    "status": "completed",
+    "count": 4,
+    "objects": [
+      {
+        "id": 1,
+        "x": 7.092293551039019,
+        "y": 0.14674044348836196,
+        "z": 0.5725725829628794,
+        "hits": 9
+      },
+      {
+        "id": 2,
+        "x": 5.994362013620508,
+        "y": 1.7208757656785187,
+        "z": 0.5304671176958675,
+        "hits": 11
+      },
+      {
+        "id": 3,
+        "x": 6.016791134402293,
+        "y": 0.22031900713224772,
+        "z": 0.45809427210407255,
+        "hits": 12
+      },
+      {
+        "id": 4,
+        "x": 6.970423891451632,
+        "y": 1.705681090462292,
+        "z": 0.5122999333010829,
+        "hits": 12
+      }
+    ],
+    "viewpoints_visited": 4,
+    "viewpoints_total": 4,
+    "synchronized_frames": 44,
+    "tf_failures": 0,
+    "invalid_target_depth": 0,
+    "valid_projections": 44,
+    "viewpoints": [
+      [
+        5.1,
+        -0.8,
+        0.7
+      ],
+      [
+        4.3,
+        1.1,
+        0.65
+      ],
+      [
+        4.3,
+        -0.1,
+        -0.15
+      ],
+      [
+        8.6,
+        1.0,
+        2.6
+      ]
+    ],
+    "elapsed_seconds": 73.198
+  },
+  "xy_evaluation": [
+    {
+      "id": 1,
+      "truth": "ChairA_01_001",
+      "distance_to_model_origin_xy_m": 0.06635219803650581
+    },
+    {
+      "id": 2,
+      "truth": "ChairA_01_003",
+      "distance_to_model_origin_xy_m": 0.0827915564689276
+    },
+    {
+      "id": 3,
+      "truth": "ChairA_01_002",
+      "distance_to_model_origin_xy_m": 0.23827038533220468
+    },
+    {
+      "id": 4,
+      "truth": "ChairA_01_004",
+      "distance_to_model_origin_xy_m": 0.04761460428184715
+    }
+  ],
+  "artifacts": [
+    "results/aws_house/tasks/20261109T082553_648790Z",
+    "results/aws_house/tasks/20261109T082709_166175Z"
+  ],
+  "regression_tests": 15,
+  "limitations": [
+    "Fixed layout and chair category; not a repeated-run benchmark",
+    "Speech, GPU inference, cup/bottle recognition unvalidated"
+  ],
+  "calibration_history": [
+    "task4_initial.json",
+    "task4_threshold05.json",
+    "task4_side_only.json"
+  ]
+}

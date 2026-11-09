@@ -1,0 +1,8 @@
+{
+  "package": "libportaudio2",
+  "version": "19.6.0-1.1",
+  "url": "https://archive.ubuntu.com/ubuntu/pool/universe/p/portaudio19/libportaudio2_19.6.0-1.1_amd64.deb",
+  "archive": "downloads/archives/libportaudio2_19.6.0-1.1_amd64.deb",
+  "sha256": "0d63021f05c7f8566222298b55729ffdf521fe09c242d4f51788eaa4f56ba0d5",
+  "installation": "project-local extraction; system package database unchanged"
+}

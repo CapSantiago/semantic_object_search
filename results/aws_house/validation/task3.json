@@ -1,0 +1,33 @@
+{
+  "scene_id": "aws_house",
+  "task_id": "1f935884-c185-47b7-bf48-42f98d12fd67",
+  "command": "去厨房找椅子",
+  "mode": "find",
+  "room": "kitchen",
+  "category": "chair",
+  "status": "found",
+  "count": 1,
+  "objects": [
+    {
+      "id": 1,
+      "x": 7.045737068717521,
+      "y": 0.1403735264085551,
+      "z": 0.5769129169481204,
+      "hits": 2
+    }
+  ],
+  "viewpoints_visited": 1,
+  "viewpoints_total": 4,
+  "synchronized_frames": 2,
+  "tf_failures": 0,
+  "invalid_target_depth": 0,
+  "valid_projections": 2,
+  "viewpoints": [
+    [
+      5.1,
+      -0.8,
+      0.7
+    ]
+  ],
+  "elapsed_seconds": 27.35
+}

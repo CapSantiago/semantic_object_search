@@ -1,0 +1,13 @@
+{
+  "purpose": "Preparation only. Assets are not inserted into any active scene.",
+  "assets": [
+    {"id":"plastic_cup", "category":"cup", "owner":"OpenRobotics", "name":"Plastic Cup"},
+    {"id":"blue_mug", "category":"cup", "owner":"GoogleResearch", "name":"Cole_Hardware_Mug_Classic_Blue"},
+    {"id":"mustard_bottle", "category":"bottle", "owner":"Gambit", "name":"Mustard Bottle"},
+    {"id":"water_bottle", "category":"bottle", "owner":"iche033", "name":"Water Bottle", "note":"Source describes GLB; Fortress mesh adaptation remains unverified."},
+    {"id":"bowl", "category":"bowl", "owner":"OpenRobotics", "name":"Bowl"},
+    {"id":"patterned_bowl", "category":"bowl", "owner":"GoogleResearch", "name":"Cole_Hardware_Bowl_Scirocco_YellowBlue"},
+    {"id":"book", "category":"book", "owner":"GoogleResearch", "name":"Eat_to_Live_The_Amazing_NutrientRich_Program_for_Fast_and_Sustained_Weight_Loss_Revised_Edition_Book"},
+    {"id":"mobile_phone", "category":"cell phone", "owner":"OpenRobotics", "name":"Samsung J8 Black"}
+  ]
+}

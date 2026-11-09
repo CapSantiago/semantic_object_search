@@ -1,0 +1,12 @@
+{
+  "src/semantic_search/config/nav2.yaml": "475d371b36f7414112b80c31ac4770df53078e7327a4fc4871955f7268edde14",
+  "src/semantic_search/config/scenes.json": "4c97f3a091458b8abcf6a8888e9042d4799fb137f737b7a97050214f655d5cc6",
+  "src/semantic_search/config/rooms_aws_house.json": "dca246d13a970d43d0a6677d823957a4e6f41c0c791d668300e7c699331a09ad",
+  "src/semantic_search/launch/fortress.launch.py": "ed88be918d2f9f115dedd2f4cf13753f3bc913ab196fdc1bf12ca47e80bbd3be",
+  "requirements-vision-ubuntu-cpu.txt": "deae4f3df448eb25dcab0f897c9379d235f72a514699da568def95913ec07013",
+  "maps/course_house.yaml": "61d8dcd2de0210dd592e4508c6166a25eb8fc732f31201fbaaa7ca435a86d334",
+  "maps/course_house.pgm": "2809a0ef3daf297a61ea00f096fecfd89a2166ce842d3ec45fa2b1ca3c317308",
+  "maps/aws_house/house.yaml": "0dac305d71af1e771b54ff9093b28a8948707fbdefa96b7ea12910c4607d3b5e",
+  "maps/aws_house/house.pgm": "fd3b7f0c4924354c084b802e3110ef0d845ccb47a71799cc018ce9b64c0eaa53",
+  "yolov8n-seg.pt": "a7cd8f929e1903d78a12a48efecab430209f18dc46cb96c3599a5980c63c423c"
+}

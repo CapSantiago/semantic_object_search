@@ -1,0 +1,20 @@
+test_chair_hole_does_not_project_onto_wall (test_depth.DepthTests) ... ok
+test_instance_extent_rejects_far_holes_and_transforms_to_map (test_depth.DepthTests) ... ok
+test_invalid_depth_and_invalid_box_are_rejected (test_depth.DepthTests) ... ok
+test_mask_excludes_nearer_occluding_instance (test_depth.DepthTests) ... ok
+test_uint16_millimetres_and_clipped_box (test_depth.DepthTests) ... ok
+test_accepted_baseline_is_byte_for_byte_preserved (test_scenes.SceneTests) ... ok
+test_aws_adapter_preserves_instances_and_repairs_all_texture_paths (test_scenes.SceneTests) ... ok
+test_scene_configuration_cannot_mix_maps_rooms_or_results (test_scenes.SceneTests) ... ok
+test_assignment_does_not_create_track_when_both_can_match (test_semantic_map.AssociationTests) ... ok
+test_close_simultaneous_instances_stay_separate (test_semantic_map.AssociationTests) ... ok
+test_new_task_has_fresh_ids (test_semantic_map.AssociationTests) ... ok
+test_one_frame_cannot_confirm_or_double_update_a_track (test_semantic_map.AssociationTests) ... ok
+test_repeated_views_do_not_inflate_count (test_semantic_map.AssociationTests) ... ok
+test_constrained_command_parsing (test_semantic_map.OutputTests) ... ok
+test_rotated_map_coordinates_and_json (test_semantic_map.OutputTests) ... ok
+
+----------------------------------------------------------------------
+Ran 15 tests in 0.239s
+
+OK

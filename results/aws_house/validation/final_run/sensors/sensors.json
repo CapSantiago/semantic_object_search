@@ -1,0 +1,98 @@
+{
+  "topics": {
+    "/clock": {
+      "messages": 6004,
+      "sim_hz": 500.00000000000006
+    },
+    "/odom": {
+      "messages": 600,
+      "sim_hz": 50.00000000000001
+    },
+    "/rgbd/camera_info": {
+      "messages": 96,
+      "sim_hz": 7.999326372515999,
+      "frame": "camera_optical_frame",
+      "k": [
+        565.6008952774198,
+        0.0,
+        320.0,
+        0.0,
+        565.6008952774197,
+        240.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    "/scan": {
+      "messages": 60,
+      "sim_hz": 5.000000000000001,
+      "frame": "base_scan",
+      "samples": 360,
+      "minimum": 0.803612232208252,
+      "maximum": 10.28968620300293
+    },
+    "/rgbd/depth_image": {
+      "messages": 66,
+      "sim_hz": 5.777777777777778,
+      "frame": "camera_optical_frame",
+      "encoding": "32FC1",
+      "width": 640,
+      "height": 480,
+      "valid_fraction": 0.484736328125,
+      "minimum": 1.573411464691162,
+      "maximum": 7.900669097900391
+    },
+    "/rgbd/image": {
+      "messages": 56,
+      "sim_hz": 4.834739803094234,
+      "frame": "camera_optical_frame",
+      "encoding": "rgb8",
+      "width": 640,
+      "height": 480
+    }
+  },
+  "tf": {
+    "odom->base_footprint": {
+      "xyz": [
+        -5.692962024174603e-05,
+        5.645122246838061e-11,
+        0.0
+      ],
+      "xyzw": [
+        -2.8168128390866104e-09,
+        -0.0028458891306736523,
+        -6.988099833991683e-09,
+        0.9999959504493285
+      ]
+    },
+    "base_footprint->base_scan": {
+      "xyz": [
+        -0.064,
+        0.0,
+        0.121
+      ],
+      "xyzw": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    "base_link->camera_optical_frame": {
+      "xyz": [
+        0.069,
+        -0.047,
+        0.65
+      ],
+      "xyzw": [
+        -0.5000000000000001,
+        0.5000000000025515,
+        -0.5000000000000001,
+        0.4999999999974484
+      ]
+    }
+  },
+  "motion_distance_m": 0.2988436315512021,
+  "passed": true
+}

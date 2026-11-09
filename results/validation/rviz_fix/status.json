@@ -1,0 +1,14 @@
+{
+  "window_open": true,
+  "rviz_pids": [
+    353337
+  ],
+  "snap_libpthread_loaded": false,
+  "opengl_initialized": true,
+  "subscriptions": {
+    "/map": true,
+    "/scan": true,
+    "/search/markers": true
+  },
+  "passed": true
+}

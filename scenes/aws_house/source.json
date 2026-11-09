@@ -1,0 +1,23 @@
+{
+  "repository": "https://github.com/aws-robotics/aws-robomaker-small-house-world",
+  "branch": "ros2",
+  "commit": "ff9631ca6d1db9c1ba656498151464b5ab74aafe",
+  "upstream_modified": false,
+  "source_world": "worlds/small_house.world",
+  "source_world_sha256": "8eef40841c462e3f015dc092f24a1b696ea10f8f05b662b529b76ddd720b544f",
+  "license_file": "third_party/aws_small_house/LICENSE",
+  "license_note": "Root LICENSE is a permissive Amazon grant; package.xml declares Apache 2.0. Original files retained.",
+  "adaptation": [
+    "Original 87 static instances, original placement and mesh scale",
+    "Fortress physics/sensors/bridges from the existing project, not gazebo_ros plugins",
+    "Runtime Collada cache fixes broken photo references and absolutizes textures",
+    "Remove Classic GUI layer metadata and incomplete static inertias",
+    "Use Fortress ground plane collision for zero-thickness floor; keep textured floor visual",
+    "RGB-D mast height 0.65 m; matching SDF and TF"
+  ],
+  "ground_truth": "scenes/aws_house/ground_truth.json (evaluation only)",
+  "asset_catalog_models": 68,
+  "placed_asset_types": 63,
+  "placed_instances": 87,
+  "chairs": 8
+}

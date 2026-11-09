@@ -1,0 +1,142 @@
+{
+  "passed": true,
+  "sensors_passed": true,
+  "final_sensors_passed": true,
+  "fresh_start_passed": true,
+  "rviz_markers_passed": true,
+  "build_passed": true,
+  "unit_tests_passed": true,
+  "unit_test_count": 12,
+  "mapping": {
+    "status": "completed",
+    "waypoints": 21,
+    "wall_seconds": 146.6001786930001
+  },
+  "cases": {
+    "task3_final": {
+      "passed": true,
+      "status": "found",
+      "count": 1,
+      "expected_count": 1,
+      "synchronized_frames": 2,
+      "elapsed_seconds": 30.527,
+      "object_hits": [
+        2
+      ],
+      "observations_per_view": {
+        "0": 2,
+        "1": 0,
+        "2": 0
+      },
+      "artifact_dir": "results/tasks/20261108T080105_250168Z",
+      "svg_ids": [
+        1
+      ]
+    },
+    "task4_final": {
+      "passed": true,
+      "status": "completed",
+      "count": 2,
+      "expected_count": 2,
+      "synchronized_frames": 46,
+      "elapsed_seconds": 25.167,
+      "object_hits": [
+        28,
+        28
+      ],
+      "observations_per_view": {
+        "0": 16,
+        "1": 12,
+        "2": 0
+      },
+      "artifact_dir": "results/tasks/20261108T080157_272160Z",
+      "svg_ids": [
+        1,
+        2
+      ]
+    },
+    "task4_cross_view_final": {
+      "passed": true,
+      "status": "completed",
+      "count": 2,
+      "expected_count": 2,
+      "synchronized_frames": 37,
+      "elapsed_seconds": 39.9,
+      "object_hits": [
+        23,
+        23
+      ],
+      "observations_per_view": {
+        "0": 16,
+        "1": 0,
+        "2": 7
+      },
+      "artifact_dir": "results/acceptance/20261108T074223_921008Z",
+      "svg_ids": [
+        1,
+        2
+      ]
+    },
+    "task4_close_pair_final": {
+      "passed": true,
+      "status": "completed",
+      "count": 2,
+      "expected_count": 2,
+      "synchronized_frames": 27,
+      "elapsed_seconds": 20.729,
+      "object_hits": [
+        27,
+        27
+      ],
+      "observations_per_view": {
+        "0": 14,
+        "1": 13
+      },
+      "artifact_dir": "results/acceptance/20261108T074723_327343Z",
+      "svg_ids": [
+        1,
+        2
+      ]
+    },
+    "task4_stationary_final": {
+      "passed": true,
+      "status": "completed",
+      "count": 1,
+      "expected_count": 1,
+      "synchronized_frames": 41,
+      "elapsed_seconds": 41.083,
+      "object_hits": [
+        40
+      ],
+      "observations_per_view": {
+        "0": 10,
+        "1": 15,
+        "2": 15
+      },
+      "artifact_dir": "results/tasks/20261108T074852_859888Z",
+      "svg_ids": [
+        1
+      ]
+    },
+    "first_chair_view": {
+      "passed": true,
+      "status": "completed",
+      "count": 2,
+      "expected_count": 2,
+      "synchronized_frames": 12,
+      "elapsed_seconds": 13.32,
+      "object_hits": [
+        12,
+        12
+      ],
+      "observations_per_view": {
+        "0": 12
+      },
+      "artifact_dir": "results/tasks/20261108T075827_981093Z",
+      "svg_ids": [
+        1,
+        2
+      ]
+    }
+  }
+}

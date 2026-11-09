@@ -1,0 +1,23 @@
+{
+  "scenes": {
+    "baseline": {
+      "label": "基础测试场景（已验收）",
+      "world": "course_house",
+      "map": "maps/baseline/course_house.yaml",
+      "rooms": "src/semantic_search/config/rooms_baseline.json",
+      "route": "scripts/mapping_route.json",
+      "output": "results/baseline/tasks",
+      "spawn": [0.0, 0.0, 0.0]
+    },
+    "aws_house": {
+      "label": "AWS 家庭展示场景",
+      "detector_iou": 0.30,
+      "world": "aws_house",
+      "map": "maps/aws_house/house.yaml",
+      "rooms": "src/semantic_search/config/rooms_aws_house.json",
+      "route": "scenes/aws_house/mapping_route.json",
+      "output": "results/aws_house/tasks",
+      "spawn": [0.0, 0.0, 0.0]
+    }
+  }
+}

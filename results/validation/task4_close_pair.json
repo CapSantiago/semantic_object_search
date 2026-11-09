@@ -1,0 +1,37 @@
+{
+  "task_id": "7cce42ec-f695-42ca-b2ec-f0624859e29a",
+  "command": "去厨房统计椅子",
+  "mode": "count",
+  "room": "kitchen",
+  "category": "chair",
+  "status": "completed",
+  "count": 1,
+  "objects": [
+    {
+      "id": 1,
+      "x": 1.5752831759724522,
+      "y": 2.128283039025807,
+      "z": 0.42200740522167346,
+      "hits": 25
+    }
+  ],
+  "viewpoints_visited": 2,
+  "viewpoints_total": 2,
+  "synchronized_frames": 25,
+  "tf_failures": 0,
+  "invalid_target_depth": 0,
+  "valid_projections": 25,
+  "viewpoints": [
+    [
+      2.1,
+      0.8,
+      1.57
+    ],
+    [
+      2.1,
+      0.8,
+      1.57
+    ]
+  ],
+  "elapsed_seconds": 15.647
+}
