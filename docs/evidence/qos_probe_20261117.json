@@ -1,0 +1,540 @@
+{
+  "schema_version": 1,
+  "generated_utc": "2026-11-17T05:18:43.284560+00:00",
+  "status": "observed",
+  "purpose": "Portable simultaneous two-reader QoS timing observation; not a robot task-acceptance test or root-cause proof.",
+  "observation": {
+    "started_utc": "2026-11-17T05:16:08.127962+00:00",
+    "finished_utc": "2026-11-17T05:16:28.141623+00:00",
+    "ros_domain_id": 66,
+    "observer_node": "dual_qos_timing_readonly",
+    "elapsed_wall_seconds": 20.00092512600031,
+    "first_wall_seconds_excluded": 5,
+    "prerequisite": {
+      "path": "results/development/20261117_bounded_wait/repeat_matrix/report.json",
+      "status": "passed",
+      "runs": 15
+    },
+    "execution_context": "Authorized localhost DDS access; no sandbox UDP retry for this probe.",
+    "subscriptions": "Two simultaneous subscriptions per listed topic within the same observer node.",
+    "callback_work": "Read header, monotonic receive time, latest group-specific /clock, and detection-array length; no image conversion.",
+    "published_task_commands": false,
+    "changed_search_or_detector": false,
+    "changed_global_dds_or_sysctl": false,
+    "changed_other_runtime_processes": false,
+    "observer_exited": true
+  },
+  "sources": [
+    {
+      "path": "results/development/20261117_qos_probe/summary.json",
+      "sha256": "f11bb08a163f13009af892ef22f04292c872248fd20690ac6fd737e02035f788",
+      "bytes": 15670
+    },
+    {
+      "path": "results/development/20261117_qos_probe/headers.json",
+      "sha256": "791b6234cac46ebf19d5dd2c88306dc302791f2776e1cfdf821e2d4c934191ad",
+      "bytes": 5685938
+    },
+    {
+      "path": "results/development/20261117_qos_probe/observation.log",
+      "sha256": "f11bb08a163f13009af892ef22f04292c872248fd20690ac6fd737e02035f788",
+      "bytes": 15670
+    },
+    {
+      "path": "results/development/20261117_qos_probe/observe_dual_qos.py",
+      "sha256": "a4a42595aa5e4b7c35eacba274733c988f857668c92b37ed2f3606eee5a93ab5",
+      "bytes": 9891
+    }
+  ],
+  "reader_qos": {
+    "history": "KEEP_LAST",
+    "depth": 5,
+    "durability": "VOLATILE",
+    "varying_field": "reliability",
+    "reliabilities": [
+      "BEST_EFFORT",
+      "RELIABLE"
+    ]
+  },
+  "publisher_discovery_wall_seconds": {
+    "/rgbd/image": 0.03876962699996511,
+    "/rgbd/depth_image": 0.03876962699996511,
+    "/rgbd/camera_info": 0.03876962699996511,
+    "/yolo/detections": 0.03876962699996511,
+    "/clock": 0.03876962699996511
+  },
+  "publishers_as_observed": {
+    "/rgbd/image": [
+      {
+        "node_name": "_NODE_NAME_UNKNOWN_",
+        "node_namespace": "_NODE_NAMESPACE_UNKNOWN_",
+        "reliability": "RELIABLE",
+        "durability": "VOLATILE"
+      }
+    ],
+    "/rgbd/depth_image": [
+      {
+        "node_name": "_NODE_NAME_UNKNOWN_",
+        "node_namespace": "_NODE_NAMESPACE_UNKNOWN_",
+        "reliability": "RELIABLE",
+        "durability": "VOLATILE"
+      }
+    ],
+    "/rgbd/camera_info": [
+      {
+        "node_name": "_NODE_NAME_UNKNOWN_",
+        "node_namespace": "_NODE_NAMESPACE_UNKNOWN_",
+        "reliability": "RELIABLE",
+        "durability": "VOLATILE"
+      }
+    ],
+    "/yolo/detections": [
+      {
+        "node_name": "_NODE_NAME_UNKNOWN_",
+        "node_namespace": "_NODE_NAMESPACE_UNKNOWN_",
+        "reliability": "RELIABLE",
+        "durability": "VOLATILE"
+      }
+    ],
+    "/clock": [
+      {
+        "node_name": "_NODE_NAME_UNKNOWN_",
+        "node_namespace": "_NODE_NAMESPACE_UNKNOWN_",
+        "reliability": "RELIABLE",
+        "durability": "VOLATILE"
+      }
+    ]
+  },
+  "publisher_identity_boundary": "Graph endpoint records exposed reliability/durability but returned unknown node names/namespaces; those unknown fields are preserved.",
+  "upstream_detector_context": {
+    "input_topic": "/rgbd/image",
+    "input_reliability_during_probe": "BEST_EFFORT",
+    "evidence_basis": "Unchanged running detector configuration reported by the operator, consistent with the then-current detector.py subscription using qos_profile_sensor_data. The probe did not introspect the detector subscriber endpoint.",
+    "detector_source_at_packaging": {
+      "path": "src/semantic_search/semantic_search/detector.py",
+      "sha256": "b4a4bec846bf96fbaa3a51bffd7d87b29df8d916d5930652307a1a096581c0b9",
+      "bytes": 2673
+    },
+    "changed_by_probe": false,
+    "interpretation": "Both observer groups consumed the same existing detector publisher. Changing a downstream observer QoS did not switch the detector image subscription to RELIABLE; both groups received the same six detection header timestamps in the stable window.",
+    "boundary": "This does not measure the detector with RELIABLE image input, nor prove why the unchanged detector output was sparse. A reliable observer may still alter the shared upstream writer traffic."
+  },
+  "topic_comparison": {
+    "/rgbd/image": {
+      "best_effort": {
+        "total_messages": 6,
+        "first_message_wall_seconds": 4.525274480999997,
+        "after_5s_messages": 5,
+        "after_5s_messages_per_wall_second": 0.3333127762456306,
+        "after_5s_arrival_gap_wall_seconds": {
+          "count": 4,
+          "minimum": 1.4930851260000964,
+          "median": 2.6938405339999463,
+          "p95": 3.508026145999793,
+          "maximum": 3.880451623999761
+        },
+        "after_5s_header_gap_sim_seconds": {
+          "count": 4,
+          "minimum": 1.5,
+          "median": 2.686999999999898,
+          "p95": 3.5,
+          "maximum": 3.8760000000002037
+        },
+        "after_5s_duplicate_header_stamps": 0,
+        "after_5s_header_backsteps": 0
+      },
+      "reliable": {
+        "total_messages": 159,
+        "first_message_wall_seconds": 0.1608883019998757,
+        "after_5s_messages": 120,
+        "after_5s_messages_per_wall_second": 7.9995066298951345,
+        "after_5s_arrival_gap_wall_seconds": {
+          "count": 119,
+          "minimum": 0.10298703999978898,
+          "median": 0.1249527400000261,
+          "p95": 0.13980362900019827,
+          "maximum": 0.14530807300025117
+        },
+        "after_5s_header_gap_sim_seconds": {
+          "count": 119,
+          "minimum": 0.12399999999979627,
+          "median": 0.12600000000020373,
+          "p95": 0.12600000000020373,
+          "maximum": 0.12600000000020373
+        },
+        "after_5s_duplicate_header_stamps": 0,
+        "after_5s_header_backsteps": 0
+      }
+    },
+    "/rgbd/depth_image": {
+      "best_effort": {
+        "total_messages": 52,
+        "first_message_wall_seconds": 0.2554983660002108,
+        "after_5s_messages": 43,
+        "after_5s_messages_per_wall_second": 2.8664898757124235,
+        "after_5s_arrival_gap_wall_seconds": {
+          "count": 42,
+          "minimum": 0.11566827500018917,
+          "median": 0.2489581290001297,
+          "p95": 0.7463599920001798,
+          "maximum": 1.6199788060002902
+        },
+        "after_5s_header_gap_sim_seconds": {
+          "count": 42,
+          "minimum": 0.12399999999979627,
+          "median": 0.25,
+          "p95": 0.75,
+          "maximum": 1.6239999999997963
+        },
+        "after_5s_duplicate_header_stamps": 0,
+        "after_5s_header_backsteps": 0
+      },
+      "reliable": {
+        "total_messages": 159,
+        "first_message_wall_seconds": 0.1424232839999604,
+        "after_5s_messages": 120,
+        "after_5s_messages_per_wall_second": 7.9995066298951345,
+        "after_5s_arrival_gap_wall_seconds": {
+          "count": 119,
+          "minimum": 0.10167509299981248,
+          "median": 0.12554704400008632,
+          "p95": 0.13783818199999587,
+          "maximum": 0.14268032499967376
+        },
+        "after_5s_header_gap_sim_seconds": {
+          "count": 119,
+          "minimum": 0.12399999999979627,
+          "median": 0.12600000000020373,
+          "p95": 0.12600000000020373,
+          "maximum": 0.12600000000020373
+        },
+        "after_5s_duplicate_header_stamps": 0,
+        "after_5s_header_backsteps": 0
+      }
+    },
+    "/rgbd/camera_info": {
+      "best_effort": {
+        "total_messages": 159,
+        "first_message_wall_seconds": 0.10851829000012003,
+        "after_5s_messages": 119,
+        "after_5s_messages_per_wall_second": 7.932844074646009,
+        "after_5s_arrival_gap_wall_seconds": {
+          "count": 118,
+          "minimum": 0.12171175299999959,
+          "median": 0.12511808649992417,
+          "p95": 0.1277321560000928,
+          "maximum": 0.1355625159999363
+        },
+        "after_5s_header_gap_sim_seconds": {
+          "count": 118,
+          "minimum": 0.12399999999979627,
+          "median": 0.125,
+          "p95": 0.12600000000020373,
+          "maximum": 0.12600000000020373
+        },
+        "after_5s_duplicate_header_stamps": 0,
+        "after_5s_header_backsteps": 0
+      },
+      "reliable": {
+        "total_messages": 159,
+        "first_message_wall_seconds": 0.10878759600018384,
+        "after_5s_messages": 119,
+        "after_5s_messages_per_wall_second": 7.932844074646009,
+        "after_5s_arrival_gap_wall_seconds": {
+          "count": 118,
+          "minimum": 0.12174005399992893,
+          "median": 0.12517599900024834,
+          "p95": 0.12781794700003957,
+          "maximum": 0.13557297600027596
+        },
+        "after_5s_header_gap_sim_seconds": {
+          "count": 118,
+          "minimum": 0.12399999999979627,
+          "median": 0.125,
+          "p95": 0.12600000000020373,
+          "maximum": 0.12600000000020373
+        },
+        "after_5s_duplicate_header_stamps": 0,
+        "after_5s_header_backsteps": 0
+      }
+    },
+    "/yolo/detections": {
+      "best_effort": {
+        "total_messages": 7,
+        "first_message_wall_seconds": 4.592924083000071,
+        "after_5s_messages": 6,
+        "after_5s_messages_per_wall_second": 0.3999753314947567,
+        "after_5s_arrival_gap_wall_seconds": {
+          "count": 5,
+          "minimum": 1.5106374540000616,
+          "median": 1.8908933089996935,
+          "p95": 1.9913539799999853,
+          "maximum": 3.866539379000187
+        },
+        "after_5s_header_gap_sim_seconds": {
+          "count": 5,
+          "minimum": 1.5,
+          "median": 1.8739999999997963,
+          "p95": 2.0,
+          "maximum": 3.8760000000002037
+        },
+        "after_5s_duplicate_header_stamps": 0,
+        "after_5s_header_backsteps": 0
+      },
+      "reliable": {
+        "total_messages": 7,
+        "first_message_wall_seconds": 4.5948577429999204,
+        "after_5s_messages": 6,
+        "after_5s_messages_per_wall_second": 0.3999753314947567,
+        "after_5s_arrival_gap_wall_seconds": {
+          "count": 5,
+          "minimum": 1.5100015329999223,
+          "median": 1.8899781999998595,
+          "p95": 1.992297876000066,
+          "maximum": 3.866452492999997
+        },
+        "after_5s_header_gap_sim_seconds": {
+          "count": 5,
+          "minimum": 1.5,
+          "median": 1.8739999999997963,
+          "p95": 2.0,
+          "maximum": 3.8760000000002037
+        },
+        "after_5s_duplicate_header_stamps": 0,
+        "after_5s_header_backsteps": 0
+      }
+    },
+    "/clock": {
+      "best_effort": {
+        "total_messages": 9408,
+        "first_message_wall_seconds": 0.03874466300021595,
+        "after_5s_messages": 7053,
+        "after_5s_messages_per_wall_second": 470.17100217208656,
+        "after_5s_arrival_gap_wall_seconds": {
+          "count": 7052,
+          "minimum": 0.00010585500012894045,
+          "median": 0.0019850834999033395,
+          "p95": 0.002422949999981938,
+          "maximum": 0.040824593999786885
+        },
+        "after_5s_header_gap_sim_seconds": {
+          "count": 7052,
+          "minimum": 0.0019999999999527063,
+          "median": 0.0019999999999527063,
+          "p95": 0.0020000000004074536,
+          "maximum": 0.026000000000294676
+        },
+        "after_5s_duplicate_header_stamps": 0,
+        "after_5s_header_backsteps": 0
+      },
+      "reliable": {
+        "total_messages": 9377,
+        "first_message_wall_seconds": 0.039103523999983736,
+        "after_5s_messages": 7031,
+        "after_5s_messages_per_wall_second": 468.7044259566058,
+        "after_5s_arrival_gap_wall_seconds": {
+          "count": 7030,
+          "minimum": 0.00010563199975877069,
+          "median": 0.001984568999887415,
+          "p95": 0.0024759000002632092,
+          "maximum": 0.04084848599995894
+        },
+        "after_5s_header_gap_sim_seconds": {
+          "count": 7030,
+          "minimum": 0.0019999999999527063,
+          "median": 0.0019999999999527063,
+          "p95": 0.0020000000004074536,
+          "maximum": 0.026000000000294676
+        },
+        "after_5s_duplicate_header_stamps": 0,
+        "after_5s_header_backsteps": 0
+      }
+    }
+  },
+  "matching_and_latency": {
+    "best_effort": {
+      "header_matching": {
+        "denominator": "Detection messages received after first 5 wall seconds; counterpart headers from the same QoS group over the full capture.",
+        "detection_messages": 6,
+        "exact_detection_depth_info_count": 2,
+        "exact_detection_depth_info_fraction": 0.3333333333333333,
+        "exact_detection_rgb_depth_info_count": 2,
+        "exact_detection_rgb_depth_info_fraction": 0.3333333333333333,
+        "detection_pairwise_exact_counts": {
+          "/rgbd/image": 5,
+          "/rgbd/depth_image": 2,
+          "/rgbd/camera_info": 6
+        },
+        "exact_joint_detection_arrival_gaps_wall_seconds": {
+          "count": 1,
+          "minimum": 5.39288474299974,
+          "median": 5.39288474299974,
+          "p95": 5.39288474299974,
+          "maximum": 5.39288474299974
+        },
+        "exact_joint_detection_arrival_elapsed_wall_seconds": [
+          11.979101098000228,
+          17.37198584099997
+        ]
+      },
+      "detection_latency": {
+        "header_to_latest_clock_sim_seconds": {
+          "count": 6,
+          "minimum": 0.092,
+          "median": 0.106,
+          "p95": 0.11,
+          "maximum": 0.132
+        },
+        "latest_clock_age_wall_seconds": {
+          "count": 6,
+          "minimum": 0.0026092599996445642,
+          "median": 0.003262689499933913,
+          "p95": 0.003450275999966834,
+          "maximum": 0.004274857999917003
+        },
+        "exact_header_rgb_receive_to_detection_receive_wall_seconds": {
+          "count": 5,
+          "minimum": 0.050784495000243624,
+          "median": 0.06202288199983741,
+          "p95": 0.06469673999981751,
+          "maximum": 0.08570218300019405
+        }
+      }
+    },
+    "reliable": {
+      "header_matching": {
+        "denominator": "Detection messages received after first 5 wall seconds; counterpart headers from the same QoS group over the full capture.",
+        "detection_messages": 6,
+        "exact_detection_depth_info_count": 6,
+        "exact_detection_depth_info_fraction": 1.0,
+        "exact_detection_rgb_depth_info_count": 6,
+        "exact_detection_rgb_depth_info_fraction": 1.0,
+        "detection_pairwise_exact_counts": {
+          "/rgbd/image": 6,
+          "/rgbd/depth_image": 6,
+          "/rgbd/camera_info": 6
+        },
+        "exact_joint_detection_arrival_gaps_wall_seconds": {
+          "count": 5,
+          "minimum": 1.5100015329999223,
+          "median": 1.8899781999998595,
+          "p95": 1.992297876000066,
+          "maximum": 3.866452492999997
+        },
+        "exact_joint_detection_arrival_elapsed_wall_seconds": [
+          8.114747952000016,
+          11.981200445000013,
+          13.871178644999873,
+          15.863476520999939,
+          17.37347805399986,
+          18.89707525499989
+        ]
+      },
+      "detection_latency": {
+        "header_to_latest_clock_sim_seconds": {
+          "count": 6,
+          "minimum": 0.092,
+          "median": 0.106,
+          "p95": 0.11,
+          "maximum": 0.132
+        },
+        "latest_clock_age_wall_seconds": {
+          "count": 6,
+          "minimum": 0.004347431999576656,
+          "median": 0.004782967999744869,
+          "p95": 0.005387566000081279,
+          "maximum": 0.006487800999821047
+        },
+        "exact_header_rgb_receive_to_detection_receive_wall_seconds": {
+          "count": 6,
+          "minimum": 0.05181826699981684,
+          "median": 0.05781782549979653,
+          "p95": 0.06587551099983102,
+          "maximum": 0.08524430199986455
+        }
+      }
+    }
+  },
+  "cross_group_header_receipt": {
+    "/rgbd/image": {
+      "shared_unique_stamps": 5,
+      "best_effort_only_unique_stamps": 0,
+      "reliable_only_unique_stamps": 115
+    },
+    "/rgbd/depth_image": {
+      "shared_unique_stamps": 43,
+      "best_effort_only_unique_stamps": 0,
+      "reliable_only_unique_stamps": 77
+    },
+    "/rgbd/camera_info": {
+      "shared_unique_stamps": 119,
+      "best_effort_only_unique_stamps": 0,
+      "reliable_only_unique_stamps": 0
+    },
+    "/yolo/detections": {
+      "shared_unique_stamps": 6,
+      "best_effort_only_unique_stamps": 0,
+      "reliable_only_unique_stamps": 0
+    },
+    "/clock": {
+      "shared_unique_stamps": 7002,
+      "best_effort_only_unique_stamps": 51,
+      "reliable_only_unique_stamps": 29
+    }
+  },
+  "integrity_checks": {
+    "expected_domain": true,
+    "previous_matrix_finished": true,
+    "common_reader_history_depth_durability": true,
+    "reader_reliability_is_only_varied_setting": true,
+    "all_observed_publishers_reliable": true,
+    "about_20_wall_seconds": true,
+    "both_groups_received_each_topic": true,
+    "both_groups_received_same_detection_header_set": true,
+    "observer_exited": true,
+    "no_observation_exception": true
+  },
+  "integrity_checks_boundary": "Checks concern observation configuration and evidence integrity; no claim that either stream passed a task or perception-accuracy threshold.",
+  "findings": {
+    "best_effort_stable_counts": {
+      "rgb": 5,
+      "depth": 43,
+      "camera_info": 119,
+      "detections": 6
+    },
+    "reliable_stable_counts": {
+      "rgb": 120,
+      "depth": 120,
+      "camera_info": 119,
+      "detections": 6
+    },
+    "best_effort_exact_detection_depth_info": {
+      "matched": 2,
+      "total": 6,
+      "fraction": 0.3333333333333333
+    },
+    "reliable_exact_detection_depth_info": {
+      "matched": 6,
+      "total": 6,
+      "fraction": 1.0
+    },
+    "directly_observed": "The simultaneous RELIABLE observer received many more RGB and depth headers; camera_info and detection header sets were equal across groups during the stable window.",
+    "root_cause_of_prior_task_44": "undetermined",
+    "cpu_root_cause_established": false,
+    "dds_root_cause_established": false,
+    "production_qos_change_tested": false
+  },
+  "limitations": [
+    "This is a simultaneous two-reader observation on one existing shared runtime, not an isolated writer A/B experiment.",
+    "Adding a RELIABLE reader may change shared writer traffic, acknowledgement/retransmission or backpressure. Neither reader is an unaffected baseline.",
+    "The probe may itself change observation overhead; it deserializes messages to read headers but does not convert or decode image arrays.",
+    "These are newly joined listeners, not the search ApproximateTimeSynchronizer. Joint timestamps are offline set matches, not observed search callbacks.",
+    "Timestamp counterparts use the full capture; stable-window and end-of-capture boundaries can censor matches.",
+    "No command was published and no search/detector/global DDS/sysctl/process settings were changed. The node exits after measurement.",
+    "This observation cannot directly establish the cause of the earlier 44th task failure. CPU and DDS root causes remain unproven.",
+    "KEEP_LAST depth 5 can discard local queued samples; RELIABLE does not by itself certify every application callback or bounded latency.",
+    "Joint matching is conditional on the six detections actually received, not a detector recall or sensor-coverage rate.",
+    "This probe preceded any optional sensor_reliability implementation or subsequent runtime switch; it cannot be used as validation of that candidate.",
+    "Bounded observation waiting may tolerate missing messages but is not evidence that the sensor root cause has been fixed."
+  ]
+}

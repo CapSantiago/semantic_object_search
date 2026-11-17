@@ -1,0 +1,634 @@
+{
+  "cycle": "C011",
+  "baseline_commit": "edd2895bcc496a90b8360861dff51d746bafd661",
+  "path_base": "project root",
+  "role": "Artifact trail, not a second plan. Git commit/index is authoritative after checkpoint.",
+  "files": [
+    {
+      "path": ".agents/skills",
+      "change": "added",
+      "type": "discovery_symlink"
+    },
+    {
+      "path": ".gitignore",
+      "change": "modified",
+      "type": "file"
+    },
+    {
+      "path": "AGENTS.md",
+      "change": "added",
+      "type": "file"
+    },
+    {
+      "path": "HANDOFF.md",
+      "change": "modified",
+      "type": "file"
+    },
+    {
+      "path": "README.md",
+      "change": "modified",
+      "type": "file"
+    },
+    {
+      "path": "SOURCES.md",
+      "change": "modified",
+      "type": "file"
+    },
+    {
+      "path": "docs/AWS_HOUSE.md",
+      "change": "modified",
+      "type": "file"
+    },
+    {
+      "path": "docs/DEPLOYMENT_PLAN.md",
+      "change": "modified",
+      "type": "file"
+    },
+    {
+      "path": "docs/DEVELOPMENT_VALIDATION.md",
+      "change": "added",
+      "type": "file"
+    },
+    {
+      "path": "docs/GITHUB_DEPLOYMENT.md",
+      "change": "modified",
+      "type": "file"
+    },
+    {
+      "path": "docs/INTERFACES.md",
+      "change": "modified",
+      "type": "file"
+    },
+    {
+      "path": "docs/REQUIREMENTS_STATUS.md",
+      "change": "modified",
+      "type": "file"
+    },
+    {
+      "path": "docs/RESOURCE_PREPARATION.md",
+      "change": "modified",
+      "type": "file"
+    },
+    {
+      "path": "docs/SCENE_PLAN.md",
+      "change": "modified",
+      "type": "file"
+    },
+    {
+      "path": "docs/TARGET_CATALOG.md",
+      "change": "modified",
+      "type": "file"
+    },
+    {
+      "path": "docs/evidence/baseline_preservation_20261116.json",
+      "change": "added",
+      "type": "file"
+    },
+    {
+      "path": "docs/evidence/bedroom_cup_map.svg",
+      "change": "added",
+      "type": "file"
+    },
+    {
+      "path": "docs/evidence/bedroom_yellow_rgb.png",
+      "change": "added",
+      "type": "file"
+    },
+    {
+      "path": "docs/evidence/engineering_checks_20261116.json",
+      "change": "added",
+      "type": "file"
+    },
+    {
+      "path": "docs/evidence/failure_modes_20261116.json",
+      "change": "added",
+      "type": "file"
+    },
+    {
+      "path": "docs/evidence/runtime_shutdown_20261116.json",
+      "change": "added",
+      "type": "file"
+    },
+    {
+      "path": "docs/evidence/tabletop_empty_20261116.json",
+      "change": "added",
+      "type": "file"
+    },
+    {
+      "path": "docs/evidence/tabletop_single_20261116.json",
+      "change": "added",
+      "type": "file"
+    },
+    {
+      "path": "docs/evidence/tabletop_two_20261116.json",
+      "change": "added",
+      "type": "file"
+    },
+    {
+      "path": "docs/evidence/two_cups_map.svg",
+      "change": "added",
+      "type": "file"
+    },
+    {
+      "path": "docs/evidence/two_cups_markers.json",
+      "change": "added",
+      "type": "file"
+    },
+    {
+      "path": "docs/evidence/two_cups_rgb.png",
+      "change": "added",
+      "type": "file"
+    },
+    {
+      "path": "docs/history/2026-11-16-context-C001-C003.md",
+      "change": "added",
+      "type": "file"
+    },
+    {
+      "path": "docs/history/2026-11-16-context-C004.md",
+      "change": "added",
+      "type": "file"
+    },
+    {
+      "path": "resources/asset_requests.json",
+      "change": "modified",
+      "type": "file"
+    },
+    {
+      "path": "resources/assets.lock.json",
+      "change": "modified",
+      "type": "file"
+    },
+    {
+      "path": "resources/context_review.json",
+      "change": "added",
+      "type": "file"
+    },
+    {
+      "path": "resources/git_recovery.json",
+      "change": "added",
+      "type": "file"
+    },
+    {
+      "path": "resources/project_skills.lock.json",
+      "change": "added",
+      "type": "file"
+    },
+    {
+      "path": "scenes/aws_house/layout_r0_empty_kitchen_v1.json",
+      "change": "added",
+      "type": "file"
+    },
+    {
+      "path": "scenes/aws_house/layout_r0_v1.json",
+      "change": "added",
+      "type": "file"
+    },
+    {
+      "path": "scenes/aws_house/layout_r0_yellow_two_v1.json",
+      "change": "added",
+      "type": "file"
+    },
+    {
+      "path": "scenes/aws_house/layout_r0_yellow_v1.json",
+      "change": "added",
+      "type": "file"
+    },
+    {
+      "path": "scenes/aws_house/planning_inventory.json",
+      "change": "added",
+      "type": "file"
+    },
+    {
+      "path": "scenes/aws_house/r0_v1/map_provenance.json",
+      "change": "added",
+      "type": "file"
+    },
+    {
+      "path": "scenes/aws_house/r0_v1/maps/house.pgm",
+      "change": "added",
+      "type": "file"
+    },
+    {
+      "path": "scenes/aws_house/r0_v1/maps/house.yaml",
+      "change": "added",
+      "type": "file"
+    },
+    {
+      "path": "scenes/aws_house/r0_v1/navigation_route.json",
+      "change": "added",
+      "type": "file"
+    },
+    {
+      "path": "scenes/aws_house/spatial_v1.json",
+      "change": "added",
+      "type": "file"
+    },
+    {
+      "path": "scenes/aws_house/spatial_v2.json",
+      "change": "added",
+      "type": "file"
+    },
+    {
+      "path": "scripts/calibrate_layout.py",
+      "change": "added",
+      "type": "file"
+    },
+    {
+      "path": "scripts/capture_rgbd.py",
+      "change": "modified",
+      "type": "file"
+    },
+    {
+      "path": "scripts/development.sh",
+      "change": "added",
+      "type": "file"
+    },
+    {
+      "path": "scripts/development_detector.sh",
+      "change": "added",
+      "type": "file"
+    },
+    {
+      "path": "scripts/development_navigation.sh",
+      "change": "added",
+      "type": "file"
+    },
+    {
+      "path": "scripts/development_search.sh",
+      "change": "added",
+      "type": "file"
+    },
+    {
+      "path": "scripts/evaluate_camera_views.py",
+      "change": "added",
+      "type": "file"
+    },
+    {
+      "path": "scripts/evaluate_captured_targets.py",
+      "change": "added",
+      "type": "file"
+    },
+    {
+      "path": "scripts/inventory_scene.py",
+      "change": "added",
+      "type": "file"
+    },
+    {
+      "path": "scripts/navigate_route.py",
+      "change": "modified",
+      "type": "file"
+    },
+    {
+      "path": "scripts/start_navigation.py",
+      "change": "added",
+      "type": "file"
+    },
+    {
+      "path": "scripts/summarize_tabletop_validation.py",
+      "change": "added",
+      "type": "file"
+    },
+    {
+      "path": "scripts/validate_spatial_plan.py",
+      "change": "added",
+      "type": "file"
+    },
+    {
+      "path": "skills/context-compression/SKILL.md",
+      "change": "added",
+      "type": "file"
+    },
+    {
+      "path": "skills/context-compression/references/evaluation-framework.md",
+      "change": "added",
+      "type": "file"
+    },
+    {
+      "path": "skills/context-compression/scripts/compression_evaluator.py",
+      "change": "added",
+      "type": "file"
+    },
+    {
+      "path": "skills/context-compression/tests/test_compression_evaluator.py",
+      "change": "added",
+      "type": "file"
+    },
+    {
+      "path": "skills/grill-me/SKILL.md",
+      "change": "added",
+      "type": "file"
+    },
+    {
+      "path": "skills/grill-me/agents/openai.yaml",
+      "change": "added",
+      "type": "file"
+    },
+    {
+      "path": "skills/grilling/SKILL.md",
+      "change": "added",
+      "type": "file"
+    },
+    {
+      "path": "skills/grilling/agents/openai.yaml",
+      "change": "added",
+      "type": "file"
+    },
+    {
+      "path": "skills/upstream-licenses/mattpocock__skills/LICENSE",
+      "change": "added",
+      "type": "file"
+    },
+    {
+      "path": "skills/upstream-licenses/muratcankoylan__Agent-Skills-for-Context-Engineering/LICENSE",
+      "change": "added",
+      "type": "file"
+    },
+    {
+      "path": "src/semantic_search/config/nav2_depth.yaml",
+      "change": "added",
+      "type": "file"
+    },
+    {
+      "path": "src/semantic_search/config/rooms_aws_house_v1.json",
+      "change": "added",
+      "type": "file"
+    },
+    {
+      "path": "src/semantic_search/config/rooms_aws_house_v2.json",
+      "change": "added",
+      "type": "file"
+    },
+    {
+      "path": "src/semantic_search/launch/development.launch.py",
+      "change": "added",
+      "type": "file"
+    },
+    {
+      "path": "src/semantic_search/semantic_search/cloud_adapter.py",
+      "change": "added",
+      "type": "file"
+    },
+    {
+      "path": "src/semantic_search/semantic_search/clouds.py",
+      "change": "added",
+      "type": "file"
+    },
+    {
+      "path": "src/semantic_search/semantic_search/detector.py",
+      "change": "modified",
+      "type": "file"
+    },
+    {
+      "path": "src/semantic_search/semantic_search/development.py",
+      "change": "added",
+      "type": "file"
+    },
+    {
+      "path": "src/semantic_search/semantic_search/rooms.py",
+      "change": "added",
+      "type": "file"
+    },
+    {
+      "path": "src/semantic_search/semantic_search/search_node.py",
+      "change": "modified",
+      "type": "file"
+    },
+    {
+      "path": "src/semantic_search/setup.py",
+      "change": "modified",
+      "type": "file"
+    },
+    {
+      "path": "tests/scenarios/unreachable_tabletop.json",
+      "change": "added",
+      "type": "file"
+    },
+    {
+      "path": "tests/test_clouds.py",
+      "change": "added",
+      "type": "file"
+    },
+    {
+      "path": "tests/test_development.py",
+      "change": "added",
+      "type": "file"
+    },
+    {
+      "path": "tests/test_rooms.py",
+      "change": "added",
+      "type": "file"
+    },
+    {
+      "path": "tools/mesh_bounds.cpp",
+      "change": "added",
+      "type": "file"
+    },
+    {
+      "path": "scripts/start_robot.sh",
+      "change": "added",
+      "type": "file",
+      "cycle": "C010"
+    },
+    {
+      "path": "scripts/robot_runtime.py",
+      "change": "added",
+      "type": "file",
+      "cycle": "C010"
+    },
+    {
+      "path": "scripts/robot_monitor.py",
+      "change": "added",
+      "type": "file",
+      "cycle": "C010"
+    },
+    {
+      "path": "scripts/robot_console.py",
+      "change": "added",
+      "type": "file",
+      "cycle": "C010"
+    },
+    {
+      "path": "ui/index.html",
+      "change": "added",
+      "type": "file",
+      "cycle": "C010"
+    },
+    {
+      "path": "ui/app.js",
+      "change": "added",
+      "type": "file",
+      "cycle": "C010"
+    },
+    {
+      "path": "ui/style.css",
+      "change": "added",
+      "type": "file",
+      "cycle": "C010"
+    },
+    {
+      "path": "tests/test_robot_runtime.py",
+      "change": "added",
+      "type": "file",
+      "cycle": "C010"
+    },
+    {
+      "path": "tests/test_robot_monitor.py",
+      "change": "added",
+      "type": "file",
+      "cycle": "C010"
+    },
+    {
+      "path": "tests/test_robot_console.py",
+      "change": "added",
+      "type": "file",
+      "cycle": "C010"
+    },
+    {
+      "path": "tests/test_robot_console_failures.py",
+      "change": "added",
+      "type": "file",
+      "cycle": "C010"
+    },
+    {
+      "path": "docs/evidence/oneclick_ui_20261117.json",
+      "change": "added",
+      "type": "file",
+      "cycle": "C010"
+    },
+    {
+      "path": "src/semantic_search/config/rooms_aws_house_v4.json",
+      "change": "added",
+      "type": "file",
+      "cycle": "C011"
+    },
+    {
+      "path": "scenes/aws_house/spatial_v4.json",
+      "change": "added",
+      "type": "file",
+      "cycle": "C011"
+    },
+    {
+      "path": "docs/assets/house_five_zones.png",
+      "change": "added",
+      "type": "file",
+      "cycle": "C011"
+    },
+    {
+      "path": "docs/assets/house_five_zones_coordinates.png",
+      "change": "added",
+      "type": "file",
+      "cycle": "C011"
+    },
+    {
+      "path": "docs/evidence/five_zone_image_prompt.txt",
+      "change": "added",
+      "type": "file",
+      "cycle": "C011"
+    },
+    {
+      "path": "tests/test_five_zones.py",
+      "change": "added",
+      "type": "file",
+      "cycle": "C011"
+    }
+  ],
+  "working_tree_checkpoint": "Uncommitted C006 changes; no remote upload in this cycle.",
+  "C006_files": [
+    "HANDOFF.md",
+    "README.md",
+    "SOURCES.md",
+    "docs/DEPLOYMENT_PLAN.md",
+    "docs/DEVELOPMENT_VALIDATION.md",
+    "docs/INTERFACES.md",
+    "docs/REQUIREMENTS_STATUS.md",
+    "docs/evidence/baseline_preservation_20261117.json",
+    "docs/evidence/bedroom_bounded_wait_20261117.json",
+    "docs/evidence/bedroom_repeats_20261117.json",
+    "docs/evidence/bedroom_v3_review_20261117.json",
+    "docs/evidence/client_discovery_failure_20261117.json",
+    "docs/evidence/client_discovery_fix_20261117.json",
+    "docs/evidence/client_freshness_20261117.json",
+    "docs/evidence/client_stale_result_20261117.json",
+    "docs/evidence/final_navigation_20261117.json",
+    "docs/evidence/observation_recovery_20261117.json",
+    "docs/evidence/partial_observation_20261117.json",
+    "docs/evidence/qos_probe_20261117.json",
+    "docs/evidence/reliable_sensor_timing_20261117.json",
+    "docs/evidence/sensor_timing_20261117.json",
+    "docs/evidence/source_snapshots/4a856d128edc3bfa58e702224ea92800ee9524e3a46c2939cc6cfa5740b123de/manifest.json",
+    "docs/evidence/source_snapshots/4a856d128edc3bfa58e702224ea92800ee9524e3a46c2939cc6cfa5740b123de/search_node.py",
+    "docs/evidence/source_snapshots/4ae89f64a33538eb80b8fd811e0f369bddb3cbe6853f5e8b3beea19086128d1f/manifest.json",
+    "docs/evidence/source_snapshots/4ae89f64a33538eb80b8fd811e0f369bddb3cbe6853f5e8b3beea19086128d1f/search_node.py",
+    "docs/evidence/tabletop_matrix_20261117.json",
+    "docs/history/2026-11-16-context-C005.md",
+    "resources/context_review.json",
+    "scenes/aws_house/spatial_v3.json",
+    "scripts/record_navigation_state.py",
+    "scripts/run_search.py",
+    "scripts/run_search_matrix.py",
+    "scripts/summarize_tabletop_validation.py",
+    "scripts/validate_sensors.py",
+    "src/semantic_search/config/rooms_aws_house_v3.json",
+    "src/semantic_search/package.xml",
+    "src/semantic_search/semantic_search/detector.py",
+    "src/semantic_search/semantic_search/rooms.py",
+    "src/semantic_search/semantic_search/search_node.py",
+    "src/semantic_search/semantic_search/sensor_qos.py",
+    "tests/scenarios/tabletop_repeat_matrix.json",
+    "tests/test_rooms.py",
+    "tests/test_search_client_ros.py",
+    "tests/test_search_matrix.py",
+    "tests/test_search_observation.py",
+    "tests/test_sensor_qos.py"
+  ],
+  "C006_evidence": "docs/evidence/client_discovery_fix_20261117.json",
+  "C007_files": [
+    "docs/DEPLOYMENT_PLAN.md",
+    "HANDOFF.md",
+    "docs/REQUIREMENTS_STATUS.md",
+    "README.md",
+    "SOURCES.md",
+    "resources/context_review.json",
+    "resources/development_artifacts.json"
+  ],
+  "C007_scope": "Documentation and upstream research; no new runtime implementation or experiments. Previous C006 working-tree changes retained.",
+  "C008_files": [
+    "docs/DEPLOYMENT_PLAN.md",
+    "docs/history/2026-11-17-plan-before-milestone-reformat.md",
+    "HANDOFF.md",
+    "README.md",
+    "SOURCES.md",
+    "docs/REQUIREMENTS_STATUS.md",
+    "resources/context_review.json",
+    "resources/development_artifacts.json"
+  ],
+  "C008_scope": "Milestone plan and approved UI requirement; documentation only; no UI implementation or runtime changes.",
+  "C009_scope": "Reorganized maintained documents, preserved course originals, archived completed runs/tools/logs, deleted regenerable caches; previous working-tree changes retained.",
+  "C009_migration": "resources/maintenance/reorganization_20261117.json",
+  "current_handoff": "docs/maintained/HANDOFF.md",
+  "current_plan": "docs/maintained/DEPLOYMENT_PLAN.md",
+  "historical_path_note": "Earlier cycle paths intentionally retain their original values. Resolve relocated files using C009_migration; archived run member names retain original paths.",
+  "oneclick_ui": {
+    "entry": "scripts/start_robot.sh",
+    "evidence": "docs/evidence/oneclick_ui_20261117.json",
+    "docs": [
+      "README.md",
+      "scripts/README.md",
+      "docs/maintained/RUNNING.md",
+      "docs/maintained/HANDOFF.md",
+      "docs/maintained/DEPLOYMENT_PLAN.md",
+      "docs/maintained/INTERFACES.md",
+      "docs/maintained/REQUIREMENTS_STATUS.md",
+      "docs/maintained/DEVELOPMENT_VALIDATION.md"
+    ],
+    "live_processes_after_verification": false
+  },
+  "five_zones": {
+    "config": "src/semantic_search/config/rooms_aws_house_v4.json",
+    "image": "docs/assets/house_five_zones.png",
+    "coordinate_plot": "docs/assets/house_five_zones_coordinates.png",
+    "evidence": "docs/evidence/oneclick_ui_20261117.json#five_zone_update",
+    "old_config_preserved": "src/semantic_search/config/rooms_aws_house_v3.json"
+  }
+}

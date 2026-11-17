@@ -294,6 +294,42 @@
       },
       "status": "downloaded_not_scene_validated",
       "active_scene_modified": false
+    },
+    {
+      "id": "yellow_mug",
+      "category": "cup",
+      "owner": "GoogleResearch",
+      "name": "Room_Essentials_Mug_White_Yellow",
+      "note": "R0 compatibility asset after blue mug cup/bowl confusion. Fixed-layout validation is recorded separately in docs/DEVELOPMENT_VALIDATION.md; formal G0 remains incomplete.",
+      "version": 1,
+      "archive_url": "https://fuel.gazebosim.org/1.0/GoogleResearch/models/Room_Essentials_Mug_White_Yellow/1/Room_Essentials_Mug_White_Yellow.zip",
+      "sha256": "b2ed3e3d8fc87621a090612efd400f78bb38ba27b9759a18aeb95bc36ac23167",
+      "archive": "downloads/archives/yellow_mug_v1.zip",
+      "directory": "third_party/target_assets/yellow_mug",
+      "model_sdf_sha256": "ae5919b556069ad95e76288f80fcfc42f4f93d911969d4eb0f8137bf0a1a77bd",
+      "metadata": {
+        "createdAt": "2020-09-18T17:55:16Z",
+        "updatedAt": "2026-11-16T04:33:38Z",
+        "name": "Room_Essentials_Mug_White_Yellow",
+        "owner": "GoogleResearch",
+        "description": "Room Essentials Mug, White/ Yellow",
+        "likes": 2,
+        "downloads": 4358,
+        "filesize": 4658945,
+        "upload_date": "2020-09-18T17:55:13Z",
+        "modify_date": "2020-09-18T20:05:35Z",
+        "license_id": 2,
+        "license_name": "Creative Commons Attribution 4.0 International",
+        "license_url": "http://creativecommons.org/licenses/by/4.0/",
+        "license_image": "https://i.creativecommons.org/l/by/4.0/88x31.png",
+        "permission": 0,
+        "url_name": "",
+        "thumbnail_url": "/GoogleResearch/models/Room_Essentials_Mug_White_Yellow/tip/files/thumbnails/0.jpg",
+        "version": 1,
+        "private": false
+      },
+      "status": "downloaded_not_scene_validated",
+      "active_scene_modified": false
     }
   ]
 }

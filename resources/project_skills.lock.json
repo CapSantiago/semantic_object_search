@@ -1,0 +1,83 @@
+{
+  "checked_on": "2026-11-16",
+  "scope": "project",
+  "installer": "skill-installer/scripts/install-skill-from-github.py --dest <project>/skills",
+  "discovery_link": ".agents/skills -> ../skills",
+  "host_discovery_link_verified": true,
+  "current_conversation_usage": "Native catalog lists context-compression/grilling; grill-me is explicit-invocation-only. All three SKILL.md read manually; native Skill tool not exposed.",
+  "native_context_compaction_executed": false,
+  "skills": [
+    {
+      "name": "context-compression",
+      "repository": "muratcankoylan/Agent-Skills-for-Context-Engineering",
+      "commit": "9ff0c99108b36d3b886defd825d8ac1f47dba374",
+      "upstream_path": "skills/context-compression",
+      "directory": "skills/context-compression",
+      "files": [
+        {
+          "path": "skills/context-compression/SKILL.md",
+          "sha256": "ab4fd1e1046db339d83ead5089d4cb9d9c487232945d4ff6be90e08a03f6cfea",
+          "git_blob": "44b78abf987b07ee5c63bc325a5ced366ffd7d15"
+        },
+        {
+          "path": "skills/context-compression/scripts/compression_evaluator.py",
+          "sha256": "425d07d73420073304ce58c078c561cddd61420816efdb080b40778f5c1ed350",
+          "git_blob": "f8ce4f4b61df37bab19061272ae24119a734e2eb"
+        },
+        {
+          "path": "skills/context-compression/tests/test_compression_evaluator.py",
+          "sha256": "8d0d4a83ac0b0eae25b2c270b54f0982e16be56a6dc935b73cd1411aa21ef829",
+          "git_blob": "0bdd6fbe9128850c966a794a565cb43d99ae808b"
+        },
+        {
+          "path": "skills/context-compression/references/evaluation-framework.md",
+          "sha256": "2584d5ab6c1322c0df7a581a6f5354be052bae077e16f76ef7c772f750ef81d2",
+          "git_blob": "eac3e0572c8f50a7bdee5e04817d9d1a389a93fe"
+        }
+      ],
+      "required_skills": []
+    },
+    {
+      "name": "grill-me",
+      "repository": "mattpocock/skills",
+      "commit": "5863806dd4e15c63174bee4e7515a4256792ecfa",
+      "upstream_path": "skills/productivity/grill-me",
+      "directory": "skills/grill-me",
+      "files": [
+        {
+          "path": "skills/grill-me/SKILL.md",
+          "sha256": "caaf8b8de1684f96e26b28f3c29189db5c89cce4b73e1c93d86164f66ef88637",
+          "git_blob": "3947ff9c4ad980d14fc07fccbf659d47c114e81d"
+        },
+        {
+          "path": "skills/grill-me/agents/openai.yaml",
+          "sha256": "c061e39c3e0f9d865fb1b97556d485704af2a8a58f4b8221a8917a5c2074a32b",
+          "git_blob": "4d6fb0c746c5d21364dce5d0cf8c51eab9712e7b"
+        }
+      ],
+      "required_skills": [
+        "grilling"
+      ]
+    },
+    {
+      "name": "grilling",
+      "repository": "mattpocock/skills",
+      "commit": "5863806dd4e15c63174bee4e7515a4256792ecfa",
+      "upstream_path": "skills/productivity/grilling",
+      "directory": "skills/grilling",
+      "files": [
+        {
+          "path": "skills/grilling/SKILL.md",
+          "sha256": "a146842ed93ca43d833550fa9adf02e58cb63c83fea9d4b4522995b82242d4e2",
+          "git_blob": "d2f09a18e6a6c65c55f1271ba08dfeaf06f0bed3"
+        },
+        {
+          "path": "skills/grilling/agents/openai.yaml",
+          "sha256": "1411d7df7d99b7e621a1ff8283c8133cc2464be63d064e52d8ce169c6800ee9b",
+          "git_blob": "ddbdb96139c0c1dfe6bca698f39d0465674b8a39"
+        }
+      ],
+      "required_skills": []
+    }
+  ]
+}

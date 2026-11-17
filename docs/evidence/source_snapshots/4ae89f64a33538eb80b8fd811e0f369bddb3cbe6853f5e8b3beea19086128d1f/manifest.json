@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "generated_utc": "2026-11-17T05:33:19.011630+00:00",
+  "artifact": "search_node.py",
+  "sha256": "4ae89f64a33538eb80b8fd811e0f369bddb3cbe6853f5e8b3beea19086128d1f",
+  "bytes": 21057,
+  "verification": "Exact SHA-256 match to the preserved run-time source hash",
+  "method": "Reconstructed after execution by reversing known later patches on a copy; not a source file captured during the run",
+  "reconstructed_from_sha256": "4f87befe76146938be6bc6ecce5c0b2631552d083ff61a1b8ff18ce2cff9f4ca",
+  "reversed_changes": [
+    "Removed startup sensor_reliability helper declaration/import",
+    "Restored the three synchronization inputs to the original qos_profile_sensor_data preset"
+  ],
+  "expected_hash_evidence": [
+    "results/development/20261117_bounded_wait/runtime_config.json",
+    "docs/evidence/observation_recovery_20261117.json"
+  ],
+  "limitation": "This snapshot identifies search_node.py only; companion source files, dependencies, parameters and actual process provenance remain governed by the separate run evidence."
+}

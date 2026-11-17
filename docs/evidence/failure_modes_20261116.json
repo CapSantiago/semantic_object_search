@@ -1,0 +1,293 @@
+{
+  "scope": "Deliberate configuration/data-outage tests and actual moving cancellation; not perception reliability trials",
+  "checks": {
+    "tf_fault": true,
+    "no_detection_data": true,
+    "cancel_and_stop": true,
+    "partial_feedback": true,
+    "normal_profile_restored": true
+  },
+  "passed": true,
+  "tf_fault": {
+    "config": {
+      "parameters": {
+        "scene_id": "aws_house_r0_failure_modes_v1",
+        "output_dir": "/home/willmatic/桌面/semantic_object_search/results/development/r0_failure_modes_v1/tasks",
+        "optical_frame": "deliberately_missing_calibration_frame"
+      },
+      "purpose": "Deliberate configuration fault to test failure feedback; real image/depth/detection/TF streams unmodified"
+    },
+    "result": {
+      "scene_id": "aws_house_r0_failure_modes_v1",
+      "task_id": "f5dc7aff-1bb4-4c5c-bff8-6d3d8e411b7e",
+      "command": "统计卧室的瓶子",
+      "frame_id": "map",
+      "coordinate_unit": "m",
+      "mode": "count",
+      "room": "bedroom",
+      "category": "bottle",
+      "status": "localization_failed",
+      "count": 0,
+      "objects": [],
+      "viewpoints_visited": 2,
+      "viewpoints_total": 2,
+      "synchronized_frames": 11,
+      "tf_failures": 11,
+      "invalid_target_depth": 0,
+      "valid_projections": 0,
+      "viewpoints": [
+        [
+          -8.05,
+          0.65,
+          2.2
+        ],
+        [
+          -8.05,
+          1.05,
+          2.4
+        ]
+      ],
+      "viewpoint_failures": [],
+      "elapsed_seconds": 29.048,
+      "elapsed_wall_seconds": 29.069413877000443,
+      "coverage": {
+        "observation_plan_completed": true,
+        "full_room_coverage_verified": false,
+        "basis": "configured_viewpoints_only"
+      }
+    }
+  },
+  "no_detection_data": {
+    "config": {
+      "optical_frame": "camera_optical_frame",
+      "fault": "Stopped only owned YOLO detector pid 24553; simulator/camera/depth/pointcloud/navigation remain active.",
+      "expected": "no_sensor_data"
+    },
+    "topic_counts_in_four_wall_seconds": {
+      "/rgbd/image": 13,
+      "/rgbd/obstacles": 5,
+      "/yolo/detections": 0
+    },
+    "result": {
+      "scene_id": "aws_house_r0_failure_modes_v1",
+      "task_id": "73424367-6d0a-4b9e-9f0d-9563165e8874",
+      "command": "统计卧室的杯子",
+      "frame_id": "map",
+      "coordinate_unit": "m",
+      "mode": "count",
+      "room": "bedroom",
+      "category": "cup",
+      "status": "no_sensor_data",
+      "count": 0,
+      "objects": [],
+      "viewpoints_visited": 2,
+      "viewpoints_total": 2,
+      "synchronized_frames": 0,
+      "tf_failures": 0,
+      "invalid_target_depth": 0,
+      "valid_projections": 0,
+      "viewpoints": [
+        [
+          -8.05,
+          0.65,
+          2.2
+        ],
+        [
+          -8.05,
+          1.05,
+          2.4
+        ]
+      ],
+      "viewpoint_failures": [],
+      "elapsed_seconds": 37.092,
+      "elapsed_wall_seconds": 37.10486687499997,
+      "coverage": {
+        "observation_plan_completed": true,
+        "full_room_coverage_verified": false,
+        "basis": "configured_viewpoints_only"
+      }
+    }
+  },
+  "cancel": {
+    "moving_before_cancel": true,
+    "result": {
+      "scene_id": "aws_house_r0_failure_modes_v1",
+      "task_id": "cb43289c-bbaa-495c-bac3-26d894ba6ad5",
+      "command": "去厨房找杯子",
+      "frame_id": "map",
+      "coordinate_unit": "m",
+      "mode": "find",
+      "room": "kitchen",
+      "category": "cup",
+      "status": "canceled",
+      "count": 0,
+      "objects": [],
+      "viewpoints_visited": 0,
+      "viewpoints_total": 2,
+      "synchronized_frames": 0,
+      "tf_failures": 0,
+      "invalid_target_depth": 0,
+      "valid_projections": 0,
+      "viewpoints": [],
+      "viewpoint_failures": [],
+      "elapsed_seconds": 1.154,
+      "elapsed_wall_seconds": 1.1526985800001057,
+      "coverage": {
+        "observation_plan_completed": false,
+        "full_room_coverage_verified": false,
+        "basis": "configured_viewpoints_only"
+      }
+    },
+    "post_cancel_samples": 53,
+    "max_linear_after_one_wall_second": 0.0,
+    "max_angular_after_one_wall_second": 0.0,
+    "passed": true
+  },
+  "source_sha256": {
+    "results/development/r0_failure_modes_v1/tf_failure.json": "1c660d0393149577614f54704d2bb667f18a45781052500cb406e7ab73cf805c",
+    "results/development/r0_failure_modes_v1/no_detection_data.json": "12a7a58d64d3501e1eda8f9105ea01d6660f617d50da2f37ac58f5993f376ea3",
+    "results/development/r0_failure_modes_v1/cancel_motion.json": "f0f3573a3c84242a2c31acaf5c6a3a22b6e1d3307c27ee0384e96cd8049cca2c",
+    "results/development/r0_failure_modes_v1/outage_topic_counts.json": "c821cf009e8dbc23c3efebe91a8588dc3e20a61c1127a65fe83c86778be81d84",
+    "results/development/r0_partial_view_v1/partial_count.json": "45edc1ae88651c3616a2138751c7bf46719f627f0f5e83d9b7c32bea48a04db1",
+    "results/development/r0_restored_v1/two_cups_after_faults.json": "d96cfe085c453500a06b55965b0b4ecb8fe7665198512cb0ad9c2d9391f8c899"
+  },
+  "partial_view": {
+    "fixture_target_count": 2,
+    "configuration": {
+      "scene_id": "aws_house_r0_partial_view_v1",
+      "world": "aws_house_r0_v1",
+      "ros_domain_id": 65,
+      "camera_height_m": 1.0,
+      "camera_pitch_rad": 0.25,
+      "detector": {
+        "model": "yolov8n-seg.pt",
+        "image_size": 640,
+        "confidence": 0.35,
+        "nms_iou": 0.3,
+        "device": "cpu"
+      },
+      "scope": "Online candidate task trials, not G0/full-room coverage certification",
+      "file_sha256": {
+        "yolov8n-seg.pt": "a7cd8f929e1903d78a12a48efecab430209f18dc46cb96c3599a5980c63c423c",
+        "src/semantic_search/config/nav2_depth.yaml": "544105fe17ba2d3478556d45b7e198b179e36eb45738774e112117c5d71488b8",
+        "scenes/aws_house/r0_v1/maps/house.yaml": "0dac305d71af1e771b54ff9093b28a8948707fbdefa96b7ea12910c4607d3b5e",
+        "scenes/aws_house/r0_v1/maps/house.pgm": "fd3b7f0c4924354c084b802e3110ef0d845ccb47a71799cc018ce9b64c0eaa53",
+        "scenes/aws_house/layout_r0_yellow_two_v1.json": "57f42368311e46cfb4626378d0187b729d8e4e9a6a0467c14abeb718fdf6c1d8",
+        "tests/scenarios/unreachable_tabletop.json": "2f9dfb77af32f0b1fbcf2efac695410280f077b5f9872cc705f38e61efdafad5"
+      },
+      "ign_partition": "semantic_yellow_v2",
+      "initial_condition": "Existing simulator/detector, one new mug added through create service; Nav2/search restarted, robot remains at bedroom after previous batch. Not a fresh simulator cold start.",
+      "fault_injection": "First cup observation goal is intentionally outside known map at [50,50,0]; second is original kitchen front. Real sensors/detector/Nav2 unchanged."
+    },
+    "result": {
+      "scene_id": "aws_house_r0_partial_view_v1",
+      "task_id": "fa2e55c4-242a-42f7-852a-2dfd0fd7fa06",
+      "command": "统计厨房的杯子",
+      "frame_id": "map",
+      "coordinate_unit": "m",
+      "mode": "count",
+      "room": "kitchen",
+      "category": "cup",
+      "status": "partial",
+      "count": 1,
+      "objects": [
+        {
+          "id": 1,
+          "x": 6.318396654975064,
+          "y": 0.9516766390147502,
+          "z": 0.8593938905278731,
+          "hits": 7
+        }
+      ],
+      "viewpoints_visited": 1,
+      "viewpoints_total": 2,
+      "synchronized_frames": 7,
+      "tf_failures": 0,
+      "invalid_target_depth": 0,
+      "valid_projections": 7,
+      "viewpoints": [
+        [
+          6.6,
+          -0.4,
+          1.57079633
+        ]
+      ],
+      "viewpoint_failures": [
+        {
+          "index": 0,
+          "pose": [
+            50.0,
+            50.0,
+            0.0
+          ],
+          "navigation_status": 6
+        }
+      ],
+      "elapsed_seconds": 46.3,
+      "elapsed_wall_seconds": 46.32908758399935,
+      "coverage": {
+        "observation_plan_completed": false,
+        "full_room_coverage_verified": false,
+        "basis": "configured_viewpoints_only"
+      }
+    },
+    "note": "One successful viewpoint confirmed only one of two physical cups. This validates partial feedback, not a successful total count; the usual side viewpoint was unavailable."
+  },
+  "restored_normal_profile": {
+    "rooms_file": "src/semantic_search/config/rooms_aws_house_v1.json",
+    "result": {
+      "scene_id": "aws_house_r0_restored_v1",
+      "task_id": "e1329d00-6d7a-42dd-8b9a-7ed3eb1b650a",
+      "command": "统计厨房的杯子",
+      "frame_id": "map",
+      "coordinate_unit": "m",
+      "mode": "count",
+      "room": "kitchen",
+      "category": "cup",
+      "status": "completed",
+      "count": 2,
+      "objects": [
+        {
+          "id": 1,
+          "x": 6.316050101729863,
+          "y": 0.9574650030593574,
+          "z": 0.8575922744491769,
+          "hits": 12
+        },
+        {
+          "id": 2,
+          "x": 5.857143391135807,
+          "y": 0.9477798654855254,
+          "z": 0.8571930673860644,
+          "hits": 6
+        }
+      ],
+      "viewpoints_visited": 2,
+      "viewpoints_total": 2,
+      "synchronized_frames": 12,
+      "tf_failures": 0,
+      "invalid_target_depth": 0,
+      "valid_projections": 18,
+      "viewpoints": [
+        [
+          6.6,
+          -0.4,
+          1.57079633
+        ],
+        [
+          5.1,
+          -0.8,
+          0.7
+        ]
+      ],
+      "viewpoint_failures": [],
+      "elapsed_seconds": 22.744,
+      "elapsed_wall_seconds": 22.775606488999983,
+      "coverage": {
+        "observation_plan_completed": true,
+        "full_room_coverage_verified": false,
+        "basis": "configured_viewpoints_only"
+      }
+    }
+  }
+}

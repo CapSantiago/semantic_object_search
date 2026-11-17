@@ -1,0 +1,288 @@
+{
+  "schema_version": 1,
+  "generated_utc": "2026-11-17T04:43:35.687906+00:00",
+  "status": "passed",
+  "purpose": "Portable regression evidence for client result freshness, transport subscription and cancellation behavior; evaluation only.",
+  "runtime": {
+    "ros_distribution": "humble",
+    "ros_domain_id": 69,
+    "fixture_publisher_durability": "transient_local",
+    "client_subscriber_durability": "volatile",
+    "execution": "Two actual ROS publisher/subscriber tests with separate run_search.py subprocesses.",
+    "launched_simulation": false,
+    "launched_search_server": false,
+    "used_robot_sensor_data": false,
+    "robot_runtime_domain_66_touched": false
+  },
+  "synthetic_data_boundary": {
+    "origin": "tests/test_search_client_ros.py manually constructs every test result payload.",
+    "all_task_ids_statuses_and_counts_are_synthetic": true,
+    "count_one_is_a_fixture_constant_not_an_observation": true,
+    "topics": "/matrix_client_test_<random-id>/command and /matrix_client_test_<random-id>/result only",
+    "no_test_payload_published_to": [
+      "/search/command",
+      "/search/result"
+    ],
+    "verifies": [
+      "Retained result avoidance",
+      "Known old task ID rejection after a new command",
+      "Waiting for a fresh result",
+      "Timeout cancellation",
+      "Original text/JSON preservation",
+      "Client process cleanup"
+    ],
+    "does_not_verify": [
+      "Object detection/count accuracy",
+      "Navigation or physical stop behavior",
+      "Map localization or pose freshness",
+      "Full-room coverage",
+      "Formal task acceptance or G0"
+    ]
+  },
+  "source_hash_policy": "Raw evidence files are hashed as packaged. Code hashes below identify the current source at packaging time, not a separately captured runtime manifest.",
+  "code_sources_at_packaging": [
+    {
+      "path": "scripts/run_search.py",
+      "sha256": "87e1fc97bbc509093e99eb9099c90cdbd9f6ff07c65cde511ebd8a160749399a",
+      "bytes": 8825
+    },
+    {
+      "path": "scripts/run_search_matrix.py",
+      "sha256": "ed0cdfed279dddda17d08578d35440284cf6375597fc7b0ce4fdc6681c670471",
+      "bytes": 13972
+    },
+    {
+      "path": "tests/test_search_client_ros.py",
+      "sha256": "373dd4a21c54e4b4c51c7fa756a071415671e535ca400febf9edfee48bed2cc6",
+      "bytes": 7378
+    },
+    {
+      "path": "tests/test_search_matrix.py",
+      "sha256": "d1ce9e279a0a5919c22fe81aaf25fbccef4793af0e2f5c36dd3015981463d5b9",
+      "bytes": 10377
+    }
+  ],
+  "reproduction": {
+    "commands": [
+      "export SEMANTIC_ROS_DOMAIN_ID=69",
+      "source scripts/env.sh",
+      "SEMANTIC_RUN_ROS_CLIENT_TESTS=1 python3 -m unittest discover -s tests -p test_search_client_ros.py -v"
+    ],
+    "default_suite_behavior": "These ROS tests are explicitly skipped without SEMANTIC_RUN_ROS_CLIENT_TESTS=1; opted-in tests also require ROS_DOMAIN_ID=69.",
+    "optional_evidence_variable": "SEMANTIC_CLIENT_TEST_EVIDENCE_DIR; each test creates a new unique subdirectory."
+  },
+  "checks": {
+    "two_recorded_ros_cases": true,
+    "all_case_checks": true,
+    "independent_test_topic_pairs": true
+  },
+  "cases": [
+    {
+      "id": "old_id_then_new_id",
+      "source_directory": "results/development/20261117_client_freshness/test_delayed_old_id_is_ignored_until_new_result_and_json_is_unchanged_ne5lrw34",
+      "sources": [
+        {
+          "path": "results/development/20261117_client_freshness/test_delayed_old_id_is_ignored_until_new_result_and_json_is_unchanged_ne5lrw34/test_evidence.json",
+          "sha256": "bc1a68934e3b34fc02ea8bda297f657974e6ef4234e745d671969a63959fec5b",
+          "bytes": 569
+        },
+        {
+          "path": "results/development/20261117_client_freshness/test_delayed_old_id_is_ignored_until_new_result_and_json_is_unchanged_ne5lrw34/diagnostics.json",
+          "sha256": "713e121d01235b07b6769f46d341f8e950d3b50443197bb13ed9f3f9e65d06fd",
+          "bytes": 684
+        },
+        {
+          "path": "results/development/20261117_client_freshness/test_delayed_old_id_is_ignored_until_new_result_and_json_is_unchanged_ne5lrw34/result.json",
+          "sha256": "77968f9e260b2d160266f9e89205d79f8b1018949ee561b327efec4ba6266250",
+          "bytes": 156
+        },
+        {
+          "path": "results/development/20261117_client_freshness/test_delayed_old_id_is_ignored_until_new_result_and_json_is_unchanged_ne5lrw34/client.log",
+          "sha256": "1123da0861178cafbb41f3cb6177105154c994432a27ce301edf67d391ee7e2f",
+          "bytes": 782
+        }
+      ],
+      "scenario": {
+        "command_format": "JSON text with original spacing",
+        "retained_message": {
+          "task_id": "cached-unlisted-id",
+          "publication": "before client starts"
+        },
+        "delayed_live_message": {
+          "task_id": "previous-task-id",
+          "publication": "after command receipt, at least 0.15 wall seconds"
+        },
+        "waiting_assertion": "After at least 0.45 wall seconds, client must still run and result.json must not exist.",
+        "next_message": "After at least 0.8 wall seconds, publish synthetic completed result with new-task-id.",
+        "timeout_wall_seconds": 1.5,
+        "cancellation_wait_wall_seconds": 2
+      },
+      "checks": {
+        "isolated_domain_69": true,
+        "dedicated_test_topics": true,
+        "actual_subscription_volatile": true,
+        "retained_history_not_received": true,
+        "delayed_known_old_id_ignored": true,
+        "client_waited_after_old_id": true,
+        "result_has_new_id": true,
+        "command_text_preserved": true,
+        "correct_return_code": true,
+        "correct_terminal_status": true,
+        "correct_client_outcome": true,
+        "cancellation_behavior": true,
+        "child_client_reaped": true,
+        "no_client_errors": true
+      },
+      "passed": true,
+      "test_evidence": {
+        "domain": 69,
+        "command_topic": "/matrix_client_test_96fb58474d73482a9de7070aa4b861b5/command",
+        "result_topic": "/matrix_client_test_96fb58474d73482a9de7070aa4b861b5/result",
+        "command": "{ \"mode\": \"count\", \"room\": \"kitchen\", \"category\": \"cup\" }",
+        "received_commands": [
+          "{ \"mode\": \"count\", \"room\": \"kitchen\", \"category\": \"cup\" }"
+        ],
+        "previous_live_id_ignored": true,
+        "cached_id_not_received": true,
+        "waited_for_new_result": true,
+        "actual_subscription_volatile": true,
+        "client_returncode": 0,
+        "client_reaped": true
+      },
+      "client_diagnostics": {
+        "command": "{ \"mode\": \"count\", \"room\": \"kitchen\", \"category\": \"cup\" }",
+        "result_topic": "/matrix_client_test_96fb58474d73482a9de7070aa4b861b5/result",
+        "command_topic": "/matrix_client_test_96fb58474d73482a9de7070aa4b861b5/command",
+        "result_qos_durability": "volatile",
+        "excluded_task_ids": [
+          "previous-task-id"
+        ],
+        "ignored_task_ids": [
+          "previous-task-id"
+        ],
+        "pre_command_task_ids": [],
+        "command_sent": true,
+        "cancellation_sent": false,
+        "cancellation_observed": false,
+        "outcome": "result_received",
+        "errors": [],
+        "command_sent_unix_seconds": 1794890486.8865378,
+        "elapsed_client_wall_seconds": 2.8596007559999634,
+        "signals": []
+      },
+      "synthetic_result": {
+        "task_id": "new-task-id",
+        "command": "{ \"mode\": \"count\", \"room\": \"kitchen\", \"category\": \"cup\" }",
+        "status": "completed",
+        "count": 1
+      }
+    },
+    {
+      "id": "only_old_id_times_out_and_cancels",
+      "source_directory": "results/development/20261117_client_freshness/test_only_replayed_old_id_times_out_and_cancels_instead_of_passing_j9c7xw77",
+      "sources": [
+        {
+          "path": "results/development/20261117_client_freshness/test_only_replayed_old_id_times_out_and_cancels_instead_of_passing_j9c7xw77/test_evidence.json",
+          "sha256": "7bbd576b574df3c28a705d684644750c5931ec9e844b9ad064414b4347717e75",
+          "bytes": 489
+        },
+        {
+          "path": "results/development/20261117_client_freshness/test_only_replayed_old_id_times_out_and_cancels_instead_of_passing_j9c7xw77/diagnostics.json",
+          "sha256": "84a8735a3aef686a183a1d51e0f05086b0e9e375fb9c9788d9efcf9bb716e77c",
+          "bytes": 625
+        },
+        {
+          "path": "results/development/20261117_client_freshness/test_only_replayed_old_id_times_out_and_cancels_instead_of_passing_j9c7xw77/result.json",
+          "sha256": "4e7f336d75735ffff142a35a81b28ab4fca36a8ff2222e39bde615d060e51d42",
+          "bytes": 107
+        },
+        {
+          "path": "results/development/20261117_client_freshness/test_only_replayed_old_id_times_out_and_cancels_instead_of_passing_j9c7xw77/client.log",
+          "sha256": "f7ee35ad22fe3e244529420694258c08dc2bf1ec4343ebc9f5a6f2bfad9732ce",
+          "bytes": 733
+        }
+      ],
+      "scenario": {
+        "command_format": "text",
+        "retained_message": {
+          "task_id": "cached-unlisted-id",
+          "publication": "before client starts"
+        },
+        "delayed_live_message": {
+          "task_id": "previous-task-id",
+          "publication": "after command receipt, at least 0.15 wall seconds"
+        },
+        "waiting_assertion": "After at least 0.45 wall seconds, client must still run and result.json must not exist.",
+        "next_message": "On cancellation, publish a synthetic canceled result with new-task-id.",
+        "timeout_wall_seconds": 1.5,
+        "cancellation_wait_wall_seconds": 2
+      },
+      "checks": {
+        "isolated_domain_69": true,
+        "dedicated_test_topics": true,
+        "actual_subscription_volatile": true,
+        "retained_history_not_received": true,
+        "delayed_known_old_id_ignored": true,
+        "client_waited_after_old_id": true,
+        "result_has_new_id": true,
+        "command_text_preserved": true,
+        "correct_return_code": true,
+        "correct_terminal_status": true,
+        "correct_client_outcome": true,
+        "cancellation_behavior": true,
+        "child_client_reaped": true,
+        "no_client_errors": true
+      },
+      "passed": true,
+      "test_evidence": {
+        "domain": 69,
+        "command_topic": "/matrix_client_test_a7814ab1275a45f4b075cdfc052ab484/command",
+        "result_topic": "/matrix_client_test_a7814ab1275a45f4b075cdfc052ab484/result",
+        "command": "去厨房统计杯子",
+        "received_commands": [
+          "去厨房统计杯子",
+          "取消"
+        ],
+        "previous_live_id_ignored": true,
+        "cached_id_not_received": true,
+        "waited_for_new_result": true,
+        "actual_subscription_volatile": true,
+        "client_returncode": 124,
+        "client_reaped": true
+      },
+      "client_diagnostics": {
+        "command": "去厨房统计杯子",
+        "result_topic": "/matrix_client_test_a7814ab1275a45f4b075cdfc052ab484/result",
+        "command_topic": "/matrix_client_test_a7814ab1275a45f4b075cdfc052ab484/command",
+        "result_qos_durability": "volatile",
+        "excluded_task_ids": [
+          "previous-task-id"
+        ],
+        "ignored_task_ids": [
+          "previous-task-id"
+        ],
+        "pre_command_task_ids": [],
+        "command_sent": true,
+        "cancellation_sent": true,
+        "cancellation_observed": true,
+        "outcome": "timeout",
+        "errors": [],
+        "command_sent_unix_seconds": 1794890490.0214362,
+        "elapsed_client_wall_seconds": 3.584592319999956,
+        "signals": []
+      },
+      "synthetic_result": {
+        "task_id": "new-task-id",
+        "command": "去厨房统计杯子",
+        "status": "canceled",
+        "count": 1
+      }
+    }
+  ],
+  "limitations": [
+    "Known prior task IDs are supplied by the matrix. The unchanged string protocol has no caller-generated request ID, so these tests do not prove correlation under arbitrary concurrent publishers or unknown delayed live results.",
+    "The matrix still rejects duplicate result IDs independently. Its freshness checks are bookkeeping integrity checks and must not be counted as perception accuracy tests.",
+    "Client logs retain sandbox getifaddrs/UDP socket permission warnings. Actual local ROS message exchange and subscription QoS checks passed; this is not a network transport benchmark.",
+    "Synthetic cancellation replies confirm client behavior only; no real robot cancellation or odometry was measured in these tests."
+  ]
+}

@@ -1,0 +1,749 @@
+{
+  "date": "2026-11-17",
+  "status": "passed",
+  "scope": "Controlled error handling and recovery on real ROS/Gazebo streams, not detector accuracy or full-room coverage",
+  "loaded_search_sha256": "4ae89f64a33538eb80b8fd811e0f369bddb3cbe6853f5e8b3beea19086128d1f",
+  "checks": {
+    "invalid_depth_localization_failed": true,
+    "restored_count": true,
+    "transient_recovered": true,
+    "permanent_bounded_failure": true,
+    "relay_only_test_topic": true
+  },
+  "sources": {
+    "invalid_depth": {
+      "path": "results/development/20261117_depth_invalid/invalid/001_invalid_depth_bottle_01/result.json",
+      "sha256": "3be1d77bf2e8e4bb12aea4dfd35c56b5541b25731e9d824fb9f3b97225a4aca8",
+      "data": {
+        "scene_id": "aws_house_invalid_depth_20261117",
+        "task_id": "922c28d8-6852-4d09-a8b6-c47e1b5bb9c4",
+        "command": "去卧室统计瓶子",
+        "frame_id": "map",
+        "coordinate_unit": "m",
+        "mode": "count",
+        "room": "bedroom",
+        "category": "bottle",
+        "status": "localization_failed",
+        "count": 0,
+        "objects": [],
+        "viewpoints_visited": 2,
+        "viewpoints_total": 2,
+        "synchronized_frames": 3,
+        "tf_failures": 0,
+        "invalid_target_depth": 3,
+        "valid_projections": 0,
+        "viewpoints": [
+          [
+            -8.3,
+            0.9,
+            2.1
+          ],
+          [
+            -8.3,
+            0.9,
+            2.4
+          ]
+        ],
+        "viewpoint_failures": [],
+        "viewpoint_diagnostics": [
+          {
+            "index": 0,
+            "pose": [
+              -8.3,
+              0.9,
+              2.1
+            ],
+            "reached": true,
+            "navigation_status": 4,
+            "dwell_completed": true,
+            "extra_wait_started": true,
+            "waiting_for_sensor_data": false,
+            "extra_wait_seconds": 1.83,
+            "synchronized_messages": 1,
+            "rejected_sensor_frames": 0,
+            "synchronized_frames": 1,
+            "tf_failures": 0,
+            "invalid_target_depth": 1,
+            "valid_projections": 0,
+            "nominal_dwell_seconds": 4.0,
+            "extra_wait_limit_seconds": 4.0,
+            "arrival_sim_seconds": 2575.57,
+            "arrival_pose_lookup": "latest",
+            "arrival_map_pose": {
+              "frame_id": "map",
+              "child_frame_id": "base_link",
+              "xyz": [
+                -8.159107579585793,
+                0.8336925441441602,
+                -6.358391940602948e-06
+              ],
+              "xyzw": [
+                -0.00015766098118597514,
+                -0.0003709135330256388,
+                0.8903057736279172,
+                0.45536300575580557
+              ]
+            },
+            "arrival_transform_stamp_ns": 2575560000000,
+            "arrival_pose_error": null
+          },
+          {
+            "index": 1,
+            "pose": [
+              -8.3,
+              0.9,
+              2.4
+            ],
+            "reached": true,
+            "navigation_status": 4,
+            "dwell_completed": true,
+            "extra_wait_started": false,
+            "waiting_for_sensor_data": false,
+            "extra_wait_seconds": 0.0,
+            "synchronized_messages": 2,
+            "rejected_sensor_frames": 0,
+            "synchronized_frames": 2,
+            "tf_failures": 0,
+            "invalid_target_depth": 2,
+            "valid_projections": 0,
+            "nominal_dwell_seconds": 4.0,
+            "extra_wait_limit_seconds": 4.0,
+            "arrival_sim_seconds": 2583.062,
+            "arrival_pose_lookup": "latest",
+            "arrival_map_pose": {
+              "frame_id": "map",
+              "child_frame_id": "base_link",
+              "xyz": [
+                -8.158421482654676,
+                0.8327752508557943,
+                1.1178680239809502e-07
+              ],
+              "xyzw": [
+                -3.826435410436818e-05,
+                -9.002086828194951e-05,
+                0.9134532793505854,
+                0.40694360404820706
+              ]
+            },
+            "arrival_transform_stamp_ns": 2583060000000,
+            "arrival_pose_error": null
+          }
+        ],
+        "elapsed_seconds": 13.36,
+        "elapsed_wall_seconds": 13.368762169000092,
+        "coverage": {
+          "arrival_plan_completed": true,
+          "observation_plan_completed": true,
+          "observation_data_complete": false,
+          "viewpoints_observed": 0,
+          "incomplete_viewpoints": [
+            {
+              "index": 0,
+              "reasons": [
+                "localization_failed"
+              ]
+            },
+            {
+              "index": 1,
+              "reasons": [
+                "localization_failed"
+              ]
+            }
+          ],
+          "full_room_coverage_verified": false,
+          "basis": "configured_viewpoints_only"
+        }
+      }
+    },
+    "restored_depth": {
+      "path": "results/development/20261117_depth_invalid/restored/001_restored_depth_bottle_01/result.json",
+      "sha256": "06cd952d80990b70beff3704c86d75a5b40ce969b5669e39f2b8f51de8244d5c",
+      "data": {
+        "scene_id": "aws_house_bounded_wait_20261117",
+        "task_id": "d04f5b87-4c19-4c6e-acc9-35411f3f8870",
+        "command": "去卧室统计瓶子",
+        "frame_id": "map",
+        "coordinate_unit": "m",
+        "mode": "count",
+        "room": "bedroom",
+        "category": "bottle",
+        "status": "completed",
+        "count": 1,
+        "objects": [
+          {
+            "id": 1,
+            "x": -8.889510385604941,
+            "y": 2.154324638264559,
+            "z": 0.8107175964824086,
+            "hits": 9
+          }
+        ],
+        "viewpoints_visited": 2,
+        "viewpoints_total": 2,
+        "synchronized_frames": 9,
+        "tf_failures": 0,
+        "invalid_target_depth": 0,
+        "valid_projections": 9,
+        "viewpoints": [
+          [
+            -8.3,
+            0.9,
+            2.1
+          ],
+          [
+            -8.3,
+            0.9,
+            2.4
+          ]
+        ],
+        "viewpoint_failures": [],
+        "viewpoint_diagnostics": [
+          {
+            "index": 0,
+            "pose": [
+              -8.3,
+              0.9,
+              2.1
+            ],
+            "reached": true,
+            "navigation_status": 4,
+            "dwell_completed": true,
+            "extra_wait_started": false,
+            "waiting_for_sensor_data": false,
+            "extra_wait_seconds": 0.0,
+            "synchronized_messages": 5,
+            "rejected_sensor_frames": 0,
+            "synchronized_frames": 5,
+            "tf_failures": 0,
+            "invalid_target_depth": 0,
+            "valid_projections": 5,
+            "nominal_dwell_seconds": 4.0,
+            "extra_wait_limit_seconds": 4.0,
+            "arrival_sim_seconds": 2636.614,
+            "arrival_pose_lookup": "latest",
+            "arrival_map_pose": {
+              "frame_id": "map",
+              "child_frame_id": "base_link",
+              "xyz": [
+                -8.15910882015002,
+                0.8336687357482861,
+                -6.265705509614361e-06
+              ],
+              "xyzw": [
+                -0.00015833928449118833,
+                -0.0003725091985591802,
+                0.8901666866023933,
+                0.45563483869090243
+              ]
+            },
+            "arrival_transform_stamp_ns": 2636600000000,
+            "arrival_pose_error": null
+          },
+          {
+            "index": 1,
+            "pose": [
+              -8.3,
+              0.9,
+              2.4
+            ],
+            "reached": true,
+            "navigation_status": 4,
+            "dwell_completed": true,
+            "extra_wait_started": false,
+            "waiting_for_sensor_data": false,
+            "extra_wait_seconds": 0.0,
+            "synchronized_messages": 4,
+            "rejected_sensor_frames": 0,
+            "synchronized_frames": 4,
+            "tf_failures": 0,
+            "invalid_target_depth": 0,
+            "valid_projections": 4,
+            "nominal_dwell_seconds": 4.0,
+            "extra_wait_limit_seconds": 4.0,
+            "arrival_sim_seconds": 2642.454,
+            "arrival_pose_lookup": "latest",
+            "arrival_map_pose": {
+              "frame_id": "map",
+              "child_frame_id": "base_link",
+              "xyz": [
+                -8.158430216189911,
+                0.8327664400627551,
+                1.1340034937468157e-07
+              ],
+              "xyzw": [
+                -3.855178033739331e-05,
+                -9.069706791460084e-05,
+                0.9134007392882589,
+                0.4070615183918323
+              ]
+            },
+            "arrival_transform_stamp_ns": 2642440000000,
+            "arrival_pose_error": null
+          }
+        ],
+        "elapsed_seconds": 11.684,
+        "elapsed_wall_seconds": 11.69785906800007,
+        "coverage": {
+          "arrival_plan_completed": true,
+          "observation_plan_completed": true,
+          "observation_data_complete": true,
+          "viewpoints_observed": 2,
+          "incomplete_viewpoints": [],
+          "full_room_coverage_verified": false,
+          "basis": "configured_viewpoints_only"
+        }
+      }
+    },
+    "transient_outage": {
+      "path": "results/development/20261117_bounded_wait/transient/evidence.json",
+      "sha256": "e11856f1b159cd85f2fc093cca36e672f9acd84ecf186e082bf6f785bcf8e9cd",
+      "data": {
+        "mode": "transient",
+        "detector_pid": 6936,
+        "method": "Owned detector SIGSTOP only; all sensor messages and Nav2 unmodified",
+        "resume_policy": "first navigation arrival + 6 sim seconds",
+        "pause_sim_seconds": 2665.09,
+        "first_arrival_sim_seconds": 2666.754,
+        "resume_sim_seconds": 2672.754,
+        "result": {
+          "scene_id": "aws_house_bounded_wait_20261117",
+          "task_id": "e5e8afbd-32ee-447f-ad02-acf9d07f2b5c",
+          "command": "去卧室统计瓶子",
+          "frame_id": "map",
+          "coordinate_unit": "m",
+          "mode": "count",
+          "room": "bedroom",
+          "category": "bottle",
+          "status": "completed",
+          "count": 1,
+          "objects": [
+            {
+              "id": 1,
+              "x": -8.888493860784635,
+              "y": 2.153746051498863,
+              "z": 0.811764177282047,
+              "hits": 6
+            }
+          ],
+          "viewpoints_visited": 2,
+          "viewpoints_total": 2,
+          "synchronized_frames": 6,
+          "tf_failures": 0,
+          "invalid_target_depth": 0,
+          "valid_projections": 6,
+          "viewpoints": [
+            [
+              -8.3,
+              0.9,
+              2.1
+            ],
+            [
+              -8.3,
+              0.9,
+              2.4
+            ]
+          ],
+          "viewpoint_failures": [],
+          "viewpoint_diagnostics": [
+            {
+              "index": 0,
+              "pose": [
+                -8.3,
+                0.9,
+                2.1
+              ],
+              "reached": true,
+              "navigation_status": 4,
+              "dwell_completed": true,
+              "extra_wait_started": true,
+              "waiting_for_sensor_data": false,
+              "extra_wait_seconds": 3.6500000000000004,
+              "synchronized_messages": 2,
+              "rejected_sensor_frames": 0,
+              "synchronized_frames": 2,
+              "tf_failures": 0,
+              "invalid_target_depth": 0,
+              "valid_projections": 2,
+              "nominal_dwell_seconds": 4.0,
+              "extra_wait_limit_seconds": 4.0,
+              "arrival_sim_seconds": 2666.754,
+              "arrival_pose_lookup": "latest",
+              "arrival_map_pose": {
+                "frame_id": "map",
+                "child_frame_id": "base_link",
+                "xyz": [
+                  -8.159116536303026,
+                  0.8336636831017045,
+                  -6.2754770263698245e-06
+                ],
+                "xyzw": [
+                  -0.0001564868652616077,
+                  -0.0003681513064429333,
+                  0.8905463378604148,
+                  0.4548923610040957
+                ]
+              },
+              "arrival_transform_stamp_ns": 2666740000000,
+              "arrival_pose_error": null
+            },
+            {
+              "index": 1,
+              "pose": [
+                -8.3,
+                0.9,
+                2.4
+              ],
+              "reached": true,
+              "navigation_status": 4,
+              "dwell_completed": true,
+              "extra_wait_started": false,
+              "waiting_for_sensor_data": false,
+              "extra_wait_seconds": 0.0,
+              "synchronized_messages": 4,
+              "rejected_sensor_frames": 0,
+              "synchronized_frames": 4,
+              "tf_failures": 0,
+              "invalid_target_depth": 0,
+              "valid_projections": 4,
+              "nominal_dwell_seconds": 4.0,
+              "extra_wait_limit_seconds": 4.0,
+              "arrival_sim_seconds": 2676.072,
+              "arrival_pose_lookup": "latest",
+              "arrival_map_pose": {
+                "frame_id": "map",
+                "child_frame_id": "base_link",
+                "xyz": [
+                  -8.158438494070403,
+                  0.8327538209957891,
+                  1.3242344926167604e-07
+                ],
+                "xyzw": [
+                  -3.946248697273553e-05,
+                  -9.283949908351361e-05,
+                  0.9132341713717134,
+                  0.40743507220483577
+                ]
+              },
+              "arrival_transform_stamp_ns": 2676060000000,
+              "arrival_pose_error": null
+            }
+          ],
+          "elapsed_seconds": 15.11,
+          "elapsed_wall_seconds": 15.129722474000118,
+          "coverage": {
+            "arrival_plan_completed": true,
+            "observation_plan_completed": true,
+            "observation_data_complete": true,
+            "viewpoints_observed": 2,
+            "incomplete_viewpoints": [],
+            "full_room_coverage_verified": false,
+            "basis": "configured_viewpoints_only"
+          }
+        },
+        "passed": true,
+        "detector_resumed": true
+      }
+    },
+    "permanent_outage": {
+      "path": "results/development/20261117_bounded_wait/permanent/evidence.json",
+      "sha256": "698b77943d54c859bc069eac7a9c72ef02f20834bed9acd736f265f505aab383",
+      "data": {
+        "mode": "permanent",
+        "detector_pid": 6936,
+        "method": "Owned detector SIGSTOP only; all sensor messages and Nav2 unmodified",
+        "resume_policy": "after terminal result",
+        "pause_sim_seconds": 2700.87,
+        "first_arrival_sim_seconds": 2702.526,
+        "result": {
+          "scene_id": "aws_house_bounded_wait_20261117",
+          "task_id": "97f25685-9fee-42ce-bf03-75616262a713",
+          "command": "去卧室统计瓶子",
+          "frame_id": "map",
+          "coordinate_unit": "m",
+          "mode": "count",
+          "room": "bedroom",
+          "category": "bottle",
+          "status": "no_sensor_data",
+          "count": 0,
+          "objects": [],
+          "viewpoints_visited": 2,
+          "viewpoints_total": 2,
+          "synchronized_frames": 0,
+          "tf_failures": 0,
+          "invalid_target_depth": 0,
+          "valid_projections": 0,
+          "viewpoints": [
+            [
+              -8.3,
+              0.9,
+              2.1
+            ],
+            [
+              -8.3,
+              0.9,
+              2.4
+            ]
+          ],
+          "viewpoint_failures": [],
+          "viewpoint_diagnostics": [
+            {
+              "index": 0,
+              "pose": [
+                -8.3,
+                0.9,
+                2.1
+              ],
+              "reached": true,
+              "navigation_status": 4,
+              "dwell_completed": true,
+              "extra_wait_started": true,
+              "waiting_for_sensor_data": false,
+              "extra_wait_seconds": 4.074,
+              "synchronized_messages": 0,
+              "rejected_sensor_frames": 0,
+              "synchronized_frames": 0,
+              "tf_failures": 0,
+              "invalid_target_depth": 0,
+              "valid_projections": 0,
+              "nominal_dwell_seconds": 4.0,
+              "extra_wait_limit_seconds": 4.0,
+              "arrival_sim_seconds": 2702.526,
+              "arrival_pose_lookup": "latest",
+              "arrival_map_pose": {
+                "frame_id": "map",
+                "child_frame_id": "base_link",
+                "xyz": [
+                  -8.159118221862924,
+                  0.8336407360276775,
+                  -6.1880789190421615e-06
+                ],
+                "xyzw": [
+                  -0.00015840037503977387,
+                  -0.000372653010426,
+                  0.8901541488697426,
+                  0.4556593324941771
+                ]
+              },
+              "arrival_transform_stamp_ns": 2702520000000,
+              "arrival_pose_error": null
+            },
+            {
+              "index": 1,
+              "pose": [
+                -8.3,
+                0.9,
+                2.4
+              ],
+              "reached": true,
+              "navigation_status": 4,
+              "dwell_completed": true,
+              "extra_wait_started": true,
+              "waiting_for_sensor_data": false,
+              "extra_wait_seconds": 4.140000000000001,
+              "synchronized_messages": 0,
+              "rejected_sensor_frames": 0,
+              "synchronized_frames": 0,
+              "tf_failures": 0,
+              "invalid_target_depth": 0,
+              "valid_projections": 0,
+              "nominal_dwell_seconds": 4.0,
+              "extra_wait_limit_seconds": 4.0,
+              "arrival_sim_seconds": 2712.26,
+              "arrival_pose_lookup": "latest",
+              "arrival_map_pose": {
+                "frame_id": "map",
+                "child_frame_id": "base_link",
+                "xyz": [
+                  -8.158441638427526,
+                  0.8327386460546865,
+                  1.8220195775048298e-07
+                ],
+                "xyzw": [
+                  -3.869888297478062e-05,
+                  -9.104304254211076e-05,
+                  0.9133738496800985,
+                  0.40712185022928665
+                ]
+              },
+              "arrival_transform_stamp_ns": 2712260000000,
+              "arrival_pose_error": null
+            }
+          ],
+          "elapsed_seconds": 19.53,
+          "elapsed_wall_seconds": 19.543384056999912,
+          "coverage": {
+            "arrival_plan_completed": true,
+            "observation_plan_completed": true,
+            "observation_data_complete": false,
+            "viewpoints_observed": 0,
+            "incomplete_viewpoints": [
+              {
+                "index": 0,
+                "reasons": [
+                  "no_sensor_data"
+                ]
+              },
+              {
+                "index": 1,
+                "reasons": [
+                  "no_sensor_data"
+                ]
+              }
+            ],
+            "full_room_coverage_verified": false,
+            "basis": "configured_viewpoints_only"
+          }
+        },
+        "passed": true,
+        "detector_resumed": true
+      }
+    },
+    "relay": {
+      "path": "results/development/20261117_depth_invalid/relay.json",
+      "sha256": "8718991ad686514c2bca6e1311ed250789633b53137b007fe52c274a2c3f8d9e",
+      "data": {
+        "source": "/rgbd/depth_image",
+        "destination": "/validation/invalid_depth",
+        "fault": "All 32FC1 samples replaced with NaN; original header, dimensions and timing retained",
+        "received": 1965,
+        "published": 1964,
+        "unsupported": 0,
+        "first_stamp": 2230.25,
+        "last_stamp": 2621.626
+      }
+    },
+    "sensor_snapshot": {
+      "path": "results/development/20261117_depth_invalid/original_sensors/sensors.json",
+      "sha256": "d25488bf828869b00055a24cf94cda3d16867c6b8dbcc455b9363ce9dd0f9464",
+      "data": {
+        "topics": {
+          "/odom": {
+            "messages": 219,
+            "sim_hz": 49.999999999998536
+          },
+          "/clock": {
+            "messages": 2076,
+            "sim_hz": 475.26339899221415
+          },
+          "/scan": {
+            "messages": 22,
+            "sim_hz": 5.000000000000217,
+            "frame": "base_scan",
+            "samples": 360,
+            "minimum": 0.3987976908683777,
+            "maximum": 13.54854679107666
+          },
+          "/rgbd/camera_info": {
+            "messages": 35,
+            "sim_hz": 8.0,
+            "frame": "camera_optical_frame",
+            "k": [
+              565.6008952774198,
+              0.0,
+              320.0,
+              0.0,
+              565.6008952774197,
+              240.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          },
+          "/rgbd/depth_image": {
+            "messages": 17,
+            "sim_hz": 3.8797284190108607,
+            "frame": "camera_optical_frame",
+            "encoding": "32FC1",
+            "width": 640,
+            "height": 480,
+            "valid_fraction": 1.0,
+            "minimum": 0.7125999331474304,
+            "maximum": 2.4723596572875977
+          },
+          "/rgbd/image": {
+            "messages": 1,
+            "sim_hz": 0,
+            "frame": "camera_optical_frame",
+            "encoding": "rgb8",
+            "width": 640,
+            "height": 480
+          }
+        },
+        "tf": {
+          "odom->base_footprint": {
+            "xyz": [
+              -8.25867466695893,
+              0.8545525129168563,
+              0.0
+            ],
+            "xyzw": [
+              0.0026038354851298327,
+              -0.0011494889309278966,
+              0.9148185955975164,
+              0.4038549688501454
+            ]
+          },
+          "base_footprint->base_scan": {
+            "xyz": [
+              -0.064,
+              0.0,
+              0.121
+            ],
+            "xyzw": [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          },
+          "base_link->camera_optical_frame": {
+            "xyz": [
+              0.069,
+              -0.047,
+              1.0
+            ],
+            "xyzw": [
+              -0.5584362003072785,
+              0.5584362003094919,
+              -0.43376146692205075,
+              0.43376146691920076
+            ]
+          }
+        },
+        "passed": false
+      }
+    }
+  },
+  "procedures": [
+    {
+      "path": "results/development/20261117_depth_invalid/procedure.py",
+      "sha256": "d4038c64a23a41dd15beaf59f833245d1df0ee496c23860b5922a70f52d59de7"
+    },
+    {
+      "path": "results/development/controlled_outage_20261117.py",
+      "sha256": "9dd0adbf27dcac39313066a949c3ebb85cb72f91c4a9cf5b98fc3ab486ea26bb"
+    },
+    {
+      "path": "results/development/20261117_bounded_wait/live_search.yaml",
+      "sha256": "9aaf704fdd63e76e43e69594d70587ab874b4e95805d9f717512cdb6f9371d74"
+    }
+  ],
+  "limitations": [
+    "NaN depth is an explicitly injected fault only on a dedicated test topic, not measured sensor data.",
+    "Original raw sensor snapshot failed its minimum-message check: RGB only 1 message in 5 seconds; retained as failure, not relabeled healthy. See sensor_timing_20261117.json.",
+    "Bounded extra observation uses simulation seconds; observed timer overrun up to .140s is recorded. Paused /clock still needs client wall timeout/cancel.",
+    "Extra waiting improves bounded recovery; origin of sporadic missing RGB/synchronized data is undetermined."
+  ],
+  "audit_corrections": [
+    {
+      "original_check": "Every invalid-depth viewpoint must have extra_wait_started=false",
+      "original_check_passed": false,
+      "reason": "Too strict: the first view initially had zero synchronized frames and correctly waited 1.83s before receiving an invalid-depth frame. The final state remained localization_failed. The second view received two invalid-depth frames with no extension."
+    }
+  ],
+  "observed_invalid_depth_wait": {
+    "view_0_extra_seconds": 1.83,
+    "view_1_extra_seconds": 0.0,
+    "result_remained": "localization_failed"
+  }
+}

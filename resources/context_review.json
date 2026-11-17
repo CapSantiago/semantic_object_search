@@ -1,0 +1,163 @@
+{
+  "cycle": "C011",
+  "date": "2026-11-17",
+  "handoff": "docs/maintained/HANDOFF.md",
+  "method": "Anchored incremental maintained handoff; C010 one-click UI integration and actual verification appended.",
+  "native_host_compaction_executed": false,
+  "probes": [
+    {
+      "kind": "recall",
+      "question": "Can resumed work distinguish 9 first-trial positives, 5 repeats of one double-cup case and incomplete G0?",
+      "passed": true,
+      "evidence": [
+        "docs/evidence/tabletop_single_20261116.json",
+        "docs/evidence/tabletop_two_20261116.json",
+        "HANDOFF.md"
+      ]
+    },
+    {
+      "kind": "artifact",
+      "question": "Are code paths, preserved baselines, skills and failed experiments recoverable?",
+      "passed": true,
+      "evidence": [
+        "resources/development_artifacts.json",
+        "resources/project_skills.lock.json",
+        "docs/evidence/baseline_preservation_20261116.json",
+        "docs/DEVELOPMENT_VALIDATION.md"
+      ]
+    },
+    {
+      "kind": "decision",
+      "question": "Are fixed model/algorithms, no truth-driven perception, no premature G1/G2 and historical failure decisions preserved?",
+      "passed": true,
+      "evidence": [
+        "docs/DEPLOYMENT_PLAN.md",
+        "HANDOFF.md"
+      ]
+    },
+    {
+      "kind": "continuation",
+      "question": "Can a successor reproduce the candidate and identify missing formal repeats/coverage/voice work?",
+      "passed": true,
+      "evidence": [
+        "docs/DEVELOPMENT_VALIDATION.md",
+        "HANDOFF.md"
+      ]
+    },
+    {
+      "kind": "instruction_following",
+      "question": "Are manual skill use, saved summary versus native compaction, Git local versus remote and current process state distinguished?",
+      "passed": true,
+      "evidence": [
+        "resources/project_skills.lock.json",
+        "resources/git_recovery.json",
+        "HANDOFF.md"
+      ]
+    },
+    {
+      "kind": "continuation",
+      "question": "能否区分旧45例44成功、可靠输入27成功及1未发指令失败，且恢复时需要重新启动？",
+      "passed": true,
+      "evidence": [
+        "HANDOFF.md",
+        "docs/DEPLOYMENT_PLAN.md",
+        "docs/evidence/client_discovery_failure_20261117.json",
+        "docs/evidence/client_discovery_fix_20261117.json"
+      ]
+    },
+    {
+      "kind": "decision",
+      "question": "是否保留四项全部必做、共用架构逐步建设、实测未增加以及创新仍为建议？",
+      "passed": true,
+      "evidence": [
+        "HANDOFF.md",
+        "docs/DEPLOYMENT_PLAN.md",
+        "docs/REQUIREMENTS_STATUS.md"
+      ]
+    },
+    {
+      "kind": "artifact",
+      "question": "能否找到唯一现行计划、原文历史快照、逐项完成状态和UI尚未实现的说明？",
+      "passed": true,
+      "evidence": [
+        "docs/DEPLOYMENT_PLAN.md",
+        "docs/history/2026-11-17-plan-before-milestone-reformat.md",
+        "HANDOFF.md"
+      ]
+    },
+    {
+      "kind": "continuation",
+      "question": "整理后能否找到当前配置、20例补跑、未执行回归脚本及旧失败原始成员？",
+      "passed": true,
+      "evidence": [
+        "docs/maintained/HANDOFF.md",
+        "docs/maintained/RUNNING.md",
+        "archive/README.md",
+        "resources/maintenance/reorganization_20261117.json"
+      ]
+    },
+    {
+      "kind": "continuation",
+      "question": "能否一键启动并区分UI已实现、两次实测已清理、134工程测试、P3正式补跑和G0/G1/G2仍未验收？",
+      "passed": true,
+      "evidence": [
+        "docs/maintained/HANDOFF.md",
+        "docs/maintained/RUNNING.md",
+        "docs/maintained/DEPLOYMENT_PLAN.md",
+        "docs/evidence/oneclick_ui_20261117.json"
+      ]
+    },
+    {
+      "kind": "continuation",
+      "question": "是否保留五区v4/四区v3区别、139项测试及健身区寻椅取消不算通过的限制？",
+      "passed": true,
+      "evidence": [
+        "docs/maintained/HANDOFF.md",
+        "docs/evidence/oneclick_ui_20261117.json"
+      ]
+    }
+  ],
+  "evaluation_limit": "Manual and deterministic artifact/source checks; no independent LLM judge, hidden-history recovery or production compression benchmark. Upstream sample evaluator has stubbed LLM calls; its 2 tests are not context-quality certification.",
+  "decision_tree": {
+    "settled": [
+      "任务三四/G0 → 任务一/G1 → 任务二与集成/G2 → 算法探索",
+      "原场景保留及独立新布局",
+      "Dijkstra+DWB、CPU YOLO 基线",
+      "先文本执行后语音联调",
+      "房间先人工多边形",
+      "R0 chair/cup/bottle 优先",
+      "四项功能全部必做，共用入口/任务管理/地图/运动控制；先完成四项功能，再开展语义记忆等创新",
+      "认可统一系统方案；里程碑逐项标完成状态；P4建设启动后打开的本地UI，后续随功能扩展",
+      "长期文档集中docs/maintained；教师原件docs/course_materials；旧记录校验后归档；删除仅限可再生缓存",
+      "按最新指令先接通一键UI；保持现有算法/权重/候选，实测后停止测试实例，不将UI完成等同于四项功能验收",
+      "五区v4：中部以y=1.0拆分客厅/健身区；挡板处卧室/杂物间沿y=-1.5；保留四区v3。语言简洁，集中更新现有记录。"
+    ],
+    "frontier_requiring_user_choice_now": [],
+    "deferred": [
+      "模拟充电的课程验收认可，在任务二正式验收前核对",
+      "小物体定位、覆盖和返航容差，在标定后冻结"
+    ],
+    "proposed_extensions": [
+      "持久物品语义地图",
+      "主动观察与核验",
+      "清扫与观察协同",
+      "变化检测、暂停恢复和有依据的自然交互"
+    ]
+  },
+  "skill_use": "grill-me delegates to grilling; both SKILL.md read manually, no native Skill tool exposed. User instruction takes precedence over generic request for another confirmation when no critical questions exist.",
+  "state_record": "docs/maintained/HANDOFF.md",
+  "stop_boundary": {
+    "historical_request": "Earlier stop-after-subtask honored through C009",
+    "superseded_for_current_scope": true,
+    "current_authorization": "User explicitly requested one-click startup, simplified UI, configuration and autonomous startup verification",
+    "current_status": "Five-zone GUI session stopped; user requested GitHub update"
+  },
+  "current_review": {
+    "scope": "Five-zone config/UI/image update and user-authorized GitHub publish",
+    "plan": "docs/maintained/DEPLOYMENT_PLAN.md",
+    "evidence": "docs/evidence/oneclick_ui_20261117.json#five_zone_update",
+    "new_robot_experiments": true,
+    "next_action": "Verify remote main after push; continue P3 with explicit v3/v4 distinction",
+    "critical_user_decisions_pending_now": []
+  }
+}

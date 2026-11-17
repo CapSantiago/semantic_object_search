@@ -16,5 +16,6 @@ setup(
         'search = semantic_search.search_node:main',
         'detect = semantic_search.detector:main',
         'voice = semantic_search.voice:main',
+        'cloud_adapter = semantic_search.cloud_adapter:main',
     ]},
 )

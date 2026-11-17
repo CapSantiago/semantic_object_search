@@ -1,13 +1,61 @@
 {
-  "purpose": "Preparation only. Assets are not inserted into any active scene.",
+  "purpose": "Download preparation manifest only. Candidate layouts opt in separately; preparation is not runtime admission.",
   "assets": [
-    {"id":"plastic_cup", "category":"cup", "owner":"OpenRobotics", "name":"Plastic Cup"},
-    {"id":"blue_mug", "category":"cup", "owner":"GoogleResearch", "name":"Cole_Hardware_Mug_Classic_Blue"},
-    {"id":"mustard_bottle", "category":"bottle", "owner":"Gambit", "name":"Mustard Bottle"},
-    {"id":"water_bottle", "category":"bottle", "owner":"iche033", "name":"Water Bottle", "note":"Source describes GLB; Fortress mesh adaptation remains unverified."},
-    {"id":"bowl", "category":"bowl", "owner":"OpenRobotics", "name":"Bowl"},
-    {"id":"patterned_bowl", "category":"bowl", "owner":"GoogleResearch", "name":"Cole_Hardware_Bowl_Scirocco_YellowBlue"},
-    {"id":"book", "category":"book", "owner":"GoogleResearch", "name":"Eat_to_Live_The_Amazing_NutrientRich_Program_for_Fast_and_Sustained_Weight_Loss_Revised_Edition_Book"},
-    {"id":"mobile_phone", "category":"cell phone", "owner":"OpenRobotics", "name":"Samsung J8 Black"}
+    {
+      "id": "plastic_cup",
+      "category": "cup",
+      "owner": "OpenRobotics",
+      "name": "Plastic Cup"
+    },
+    {
+      "id": "blue_mug",
+      "category": "cup",
+      "owner": "GoogleResearch",
+      "name": "Cole_Hardware_Mug_Classic_Blue"
+    },
+    {
+      "id": "mustard_bottle",
+      "category": "bottle",
+      "owner": "Gambit",
+      "name": "Mustard Bottle"
+    },
+    {
+      "id": "water_bottle",
+      "category": "bottle",
+      "owner": "iche033",
+      "name": "Water Bottle",
+      "note": "Source describes GLB; Fortress mesh adaptation remains unverified."
+    },
+    {
+      "id": "bowl",
+      "category": "bowl",
+      "owner": "OpenRobotics",
+      "name": "Bowl"
+    },
+    {
+      "id": "patterned_bowl",
+      "category": "bowl",
+      "owner": "GoogleResearch",
+      "name": "Cole_Hardware_Bowl_Scirocco_YellowBlue"
+    },
+    {
+      "id": "book",
+      "category": "book",
+      "owner": "GoogleResearch",
+      "name": "Eat_to_Live_The_Amazing_NutrientRich_Program_for_Fast_and_Sustained_Weight_Loss_Revised_Edition_Book"
+    },
+    {
+      "id": "mobile_phone",
+      "category": "cell phone",
+      "owner": "OpenRobotics",
+      "name": "Samsung J8 Black"
+    },
+    {
+      "id": "yellow_mug",
+      "category": "cup",
+      "owner": "GoogleResearch",
+      "name": "Room_Essentials_Mug_White_Yellow",
+      "note": "R0 compatibility asset after blue mug cup/bowl confusion. Fixed-layout validation is recorded separately in docs/maintained/DEVELOPMENT_VALIDATION.md; formal G0 remains incomplete."
+    }
   ]
 }

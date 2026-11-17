@@ -3,6 +3,7 @@ from datetime import datetime, timezone
 import json
 from math import cos, isfinite, sin
 from pathlib import Path
+from time import monotonic
 from uuid import uuid4
 
 from action_msgs.msg import GoalStatus
@@ -12,10 +13,11 @@ from geometry_msgs.msg import PointStamped
 from message_filters import ApproximateTimeSynchronizer, Subscriber
 from nav2_msgs.action import NavigateToPose
 from nav_msgs.msg import OccupancyGrid
+from rcl_interfaces.msg import SetParametersResult
 import rclpy
 from rclpy.action import ActionClient
 from rclpy.node import Node
-from rclpy.qos import DurabilityPolicy, QoSProfile, qos_profile_sensor_data
+from rclpy.qos import DurabilityPolicy, QoSProfile
 from rclpy.time import Time
 from sensor_msgs.msg import CameraInfo, Image
 from std_msgs.msg import String
@@ -26,6 +28,8 @@ from yolo_msgs.msg import DetectionArray
 
 from .semantic_map import LandmarkMap, parse_command, write_results
 from .depth import foreground_depth, instance_centroid
+from .rooms import belongs_to, validate_rooms, observation_views, observation_status, observation_coverage
+from .sensor_qos import declare_sensor_qos
 
 
 class Search(Node):
@@ -38,12 +42,20 @@ class Search(Node):
         self.declare_parameter('merge_radius', 0.30)
         self.declare_parameter('min_hits', 2)
         self.declare_parameter('dwell_seconds', 4.0)
+        self.declare_parameter('observation_extra_seconds', 4.0)
+        validation = self.validate_observation_parameters([
+            self.get_parameter('dwell_seconds'), self.get_parameter('observation_extra_seconds')])
+        if not validation.successful:
+            raise ValueError(validation.reason)
+        self.add_on_set_parameters_callback(self.validate_observation_parameters)
         self.declare_parameter('min_score', 0.35)
         self.declare_parameter('optical_frame', 'camera_optical_frame')
         self.declare_parameter('depth_topic', '/rgbd/depth_image')
         self.declare_parameter('camera_info_topic', '/rgbd/camera_info')
         self.declare_parameter('detections_topic', '/yolo/detections')
+        sensor_qos = declare_sensor_qos(self)
         self.rooms = json.loads(Path(self.param('rooms_file')).read_text(encoding='utf-8'))
+        validate_rooms(self.rooms)
         self.nav = ActionClient(self, NavigateToPose, 'navigate_to_pose')
         self.tf = Buffer()
         self.tf_listener = TransformListener(self.tf, self)
@@ -61,10 +73,10 @@ class Search(Node):
 
         self.inputs = [
             Subscriber(self, DetectionArray, self.param('detections_topic'),
-                       qos_profile=qos_profile_sensor_data),
-            Subscriber(self, Image, self.param('depth_topic'), qos_profile=qos_profile_sensor_data),
+                       qos_profile=sensor_qos),
+            Subscriber(self, Image, self.param('depth_topic'), qos_profile=sensor_qos),
             Subscriber(self, CameraInfo, self.param('camera_info_topic'),
-                       qos_profile=qos_profile_sensor_data),
+                       qos_profile=sensor_qos),
         ]
         self.sync = ApproximateTimeSynchronizer(self.inputs, queue_size=20, slop=0.075)
         self.sync.registerCallback(self.on_observation)
@@ -73,6 +85,16 @@ class Search(Node):
     def param(self, name):
         return self.get_parameter(name).value
 
+    def validate_observation_parameters(self, parameters):
+        for parameter in parameters:
+            if parameter.name in ('dwell_seconds', 'observation_extra_seconds'):
+                value = parameter.value
+                if (isinstance(value, bool) or not isinstance(value, (int, float)) or
+                        not isfinite(value) or value < 0):
+                    return SetParametersResult(successful=False,
+                        reason=f'{parameter.name} must be finite and nonnegative')
+        return SetParametersResult(successful=True)
+
     def set_map(self, grid):
         self.grid = grid
 
@@ -80,6 +102,7 @@ class Search(Node):
         try:
             if not self.task:
                 self.rooms = json.loads(Path(self.param('rooms_file')).read_text(encoding='utf-8'))
+                validate_rooms(self.rooms)
             mode, room, category = parse_command(msg.data, self.rooms)
         except (OSError, ValueError) as error:
             self.get_logger().warning(str(error))
@@ -103,15 +126,24 @@ class Search(Node):
         self.task_id = str(uuid4())
         self.command_text = msg.data
         self.canceled = False
-        self.views = self.rooms[room]['views']
+        self.views = observation_views(self.rooms[room], category)
         self.view = 0
         self.visited = 0
+        self.visited_poses = []
+        self.failed_views = []
+        self.viewpoint_diagnostics = [dict(
+            index=index, pose=pose, reached=False, navigation_status=None, dwell_completed=False,
+            extra_wait_started=False, waiting_for_sensor_data=False, extra_wait_seconds=0.0,
+            synchronized_messages=0, rejected_sensor_frames=0, synchronized_frames=0,
+            tf_failures=0, invalid_target_depth=0, valid_projections=0)
+            for index, pose in enumerate(self.views)]
         self.frames = 0
         self.observations = []
         self.tf_failures = 0
         self.valid_projection = 0
         self.invalid_target_depth = 0
         self.started = self.get_clock().now().nanoseconds
+        self.started_wall = monotonic()
         self.landmarks = LandmarkMap(self.param('merge_radius'), self.param('min_hits'))
         self.publish_markers([])
         self.get_logger().info(f'开始任务 {mode}: {category} in {room}')
@@ -119,12 +151,9 @@ class Search(Node):
 
     def next_view(self):
         if self.view == len(self.views):
-            if not self.frames:
-                status = 'no_sensor_data'
-            elif not self.valid_projection and (self.tf_failures or self.invalid_target_depth):
-                status = 'localization_failed'
-            else:
-                status = 'completed' if self.landmarks.confirmed else 'not_found'
+            status = observation_status(self.task[0], self.frames, bool(self.landmarks.confirmed),
+                self.valid_projection, self.tf_failures, self.invalid_target_depth, self.failed_views,
+                self.viewpoint_diagnostics)
             self.finish(status)
             return
 
@@ -161,40 +190,98 @@ class Search(Node):
             self.get_logger().error(f'读取导航结果失败：{error}')
             self.finish('navigation_failed')
             return
+        self.viewpoint_diagnostics[self.view]['navigation_status'] = status
         if self.canceled:
+            self.viewpoint_diagnostics[self.view]['task_canceled'] = True
             self.finish('canceled')
         elif status != GoalStatus.STATUS_SUCCEEDED:
-            self.finish('navigation_failed')
+            self.failed_views.append(dict(index=self.view, pose=self.views[self.view],
+                                          navigation_status=status))
+            self.get_logger().warning(f'观察点 {self.view} 导航失败，继续检查其他视点。')
+            self.view += 1
+            self.next_view()
         else:
+            self.viewpoint_diagnostics[self.view]['reached'] = True
             self.visited += 1
+            self.visited_poses.append(self.views[self.view])
             self.phase = 'observing'
             self.observe_start = self.get_clock().now().nanoseconds
+            self.observe_dwell_seconds = self.param('dwell_seconds')
+            self.observe_extra_seconds = self.param('observation_extra_seconds')
             self.last_stamp = -1
+            diagnostics = self.viewpoint_diagnostics[self.view]
+            diagnostics['nominal_dwell_seconds'] = self.observe_dwell_seconds
+            diagnostics['extra_wait_limit_seconds'] = self.observe_extra_seconds
+            diagnostics['arrival_sim_seconds'] = self.observe_start / 1e9
+            diagnostics['arrival_pose_lookup'] = 'latest'
+            diagnostics['arrival_map_pose'] = None
+            diagnostics['arrival_transform_stamp_ns'] = None
+            diagnostics['arrival_pose_error'] = None
+            try:
+                arrival = self.tf.lookup_transform('map', 'base_link', Time())
+                position, orientation = arrival.transform.translation, arrival.transform.rotation
+                diagnostics['arrival_map_pose'] = dict(
+                    frame_id='map', child_frame_id='base_link',
+                    xyz=[position.x, position.y, position.z],
+                    xyzw=[orientation.x, orientation.y, orientation.z, orientation.w])
+                diagnostics['arrival_transform_stamp_ns'] = Time.from_msg(arrival.header.stamp).nanoseconds
+            except TransformException as error:
+                diagnostics['arrival_pose_error'] = str(error)
 
     def tick(self):
         if self.phase != 'observing':
             return
         elapsed = (self.get_clock().now().nanoseconds - self.observe_start) / 1e9
-        if elapsed >= self.param('dwell_seconds'):
-            self.view += 1
-            self.next_view()
+        if elapsed < self.observe_dwell_seconds:
+            return
+        diagnostics = self.viewpoint_diagnostics[self.view]
+        diagnostics['dwell_completed'] = True
+        if not diagnostics['synchronized_frames'] and self.observe_extra_seconds > 0:
+            diagnostics['extra_wait_started'] = True
+        if diagnostics['extra_wait_started']:
+            diagnostics['extra_wait_seconds'] = max(0.0, elapsed-self.observe_dwell_seconds)
+        diagnostics['waiting_for_sensor_data'] = (
+            not diagnostics['synchronized_frames'] and
+            elapsed < self.observe_dwell_seconds+self.observe_extra_seconds)
+        if diagnostics['waiting_for_sensor_data']:
+            return
+        self.view += 1
+        self.next_view()
+
+    def record_observation(self, field):
+        """Keep existing task counters and the active viewpoint's counters in step."""
+        self.viewpoint_diagnostics[self.view][field] += 1
+        attribute = {'synchronized_frames': 'frames', 'valid_projections': 'valid_projection'}.get(field, field)
+        setattr(self, attribute, getattr(self, attribute) + 1)
 
     def on_observation(self, detections, depth, info):
         if self.phase != 'observing':
             return
+        diagnostics = self.viewpoint_diagnostics[self.view]
+        if diagnostics['waiting_for_sensor_data'] or not diagnostics['synchronized_frames']:
+            elapsed = (self.get_clock().now().nanoseconds-self.observe_start)/1e9
+            if elapsed >= self.observe_dwell_seconds+self.observe_extra_seconds:
+                self.tick()
+                return
         stamp = Time.from_msg(detections.header.stamp)
         if stamp.nanoseconds < self.observe_start or stamp.nanoseconds <= self.last_stamp:
             return
-        if depth.width != info.width or depth.height != info.height:
+        self.last_stamp = stamp.nanoseconds
+        diagnostics = self.viewpoint_diagnostics[self.view]
+        diagnostics['synchronized_messages'] += 1
+        if (depth.width <= 0 or depth.height <= 0 or
+                depth.width != info.width or depth.height != info.height):
+            diagnostics['rejected_sensor_frames'] += 1
             return
         fx, fy = info.k[0], info.k[4]
         cx, cy = info.k[2], info.k[5]
-        if not (fx > 0 and fy > 0):
+        if not (isfinite(fx) and isfinite(fy) and isfinite(cx) and isfinite(cy) and fx > 0 and fy > 0):
+            diagnostics['rejected_sensor_frames'] += 1
             return
         if depth.encoding not in ('32FC1', '16UC1'):
+            diagnostics['rejected_sensor_frames'] += 1
             return
-        self.last_stamp = stamp.nanoseconds
-        self.frames += 1
+        self.record_observation('synchronized_frames')
         mode, room, category = self.task
         targets = [det for det in detections.detections
                    if det.class_name.lower() == category and det.score >= self.param('min_score')]
@@ -203,28 +290,29 @@ class Search(Node):
         try:
             image = self.bridge.imgmsg_to_cv2(depth, desired_encoding='passthrough')
         except CvBridgeError as error:
-            self.invalid_target_depth += 1
+            self.record_observation('invalid_target_depth')
             self.get_logger().warning(f'读取深度图失败：{error}')
             return
         try:
             transform = self.tf.lookup_transform('map', self.param('optical_frame'), stamp)
         except TransformException:
-            self.tf_failures += 1
+            self.record_observation('tf_failures')
             return
         scale = 0.001 if depth.encoding == '16UC1' else 1.0
-        left, bottom, right, top = self.rooms[room]['bounds']
         points = []
         for target in targets:
             center = target.bbox.center.position
             if not (isfinite(center.x) and isfinite(center.y)):
+                self.record_observation('invalid_target_depth')
                 continue
             u, v = round(center.x), round(center.y)
             if not (0 <= u < depth.width and 0 <= v < depth.height):
+                self.record_observation('invalid_target_depth')
                 continue
             polygon = None
             if target.mask.data:
                 if target.mask.width != depth.width or target.mask.height != depth.height:
-                    self.invalid_target_depth += 1
+                    self.record_observation('invalid_target_depth')
                     continue
                 polygon = [(p.x, p.y) for p in target.mask.data]
             if polygon is not None:
@@ -232,16 +320,16 @@ class Search(Node):
                 mapped = instance_centroid(image, polygon, info.k,
                     [t.x, t.y, t.z], [q.x, q.y, q.z, q.w], scale)
                 if mapped is None:
-                    self.invalid_target_depth += 1
+                    self.record_observation('invalid_target_depth')
                     continue
-                self.valid_projection += 1
-                if left <= mapped[0] <= right and bottom <= mapped[1] <= top:
+                self.record_observation('valid_projections')
+                if belongs_to(self.rooms, room, mapped[0], mapped[1]):
                     points.append(mapped)
                 continue
             sample = foreground_depth(image, center.x, center.y,
                                       target.bbox.size.x, target.bbox.size.y, scale, polygon)
             if sample is None:
-                self.invalid_target_depth += 1
+                self.record_observation('invalid_target_depth')
                 continue
             u, v, z = sample
             point = PointStamped()
@@ -251,8 +339,8 @@ class Search(Node):
             point.point.y = (v - cy) * z / fy
             point.point.z = z
             mapped = do_transform_point(point, transform).point
-            self.valid_projection += 1
-            if left <= mapped.x <= right and bottom <= mapped.y <= top:
+            self.record_observation('valid_projections')
+            if belongs_to(self.rooms, room, mapped.x, mapped.y):
                 points.append((mapped.x, mapped.y, mapped.z))
         point_ids = self.landmarks.observe(points)
         self.observations.append(dict(viewpoint=self.view, stamp_ns=stamp.nanoseconds,
@@ -286,6 +374,12 @@ class Search(Node):
         self.markers.publish(MarkerArray(markers=markers))
 
     def finish(self, status):
+        if self.phase == 'observing' and self.view < len(self.viewpoint_diagnostics):
+            diagnostics = self.viewpoint_diagnostics[self.view]
+            if diagnostics['extra_wait_started']:
+                elapsed = (self.get_clock().now().nanoseconds-self.observe_start)/1e9
+                diagnostics['extra_wait_seconds'] = max(0.0, elapsed-self.observe_dwell_seconds)
+            diagnostics['waiting_for_sensor_data'] = False
         mode, room, category = self.task
         confirmed = self.landmarks.confirmed
         if mode == 'find':
@@ -298,8 +392,11 @@ class Search(Node):
                       viewpoints_total=len(self.views), synchronized_frames=self.frames,
                       tf_failures=self.tf_failures, invalid_target_depth=self.invalid_target_depth,
                       valid_projections=self.valid_projection,
-                      viewpoints=self.views[:self.visited],
-                      elapsed_seconds=(self.get_clock().now().nanoseconds-self.started)/1e9)
+                      viewpoints=self.visited_poses, viewpoint_failures=self.failed_views,
+                      viewpoint_diagnostics=self.viewpoint_diagnostics,
+                      elapsed_seconds=(self.get_clock().now().nanoseconds-self.started)/1e9,
+                      elapsed_wall_seconds=monotonic()-self.started_wall)
+        result['coverage'] = observation_coverage(self.viewpoint_diagnostics)
         self.task = self.goal = None
         self.phase = 'idle'
         self.publish_markers(objects)

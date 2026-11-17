@@ -8,7 +8,7 @@
 - 地图：`maps/baseline/course_house.yaml` 和 `course_house.pgm`。
 - 原地图路径 `maps/course_house.*` 也保留。
 - 房间/观察点：`src/semantic_search/config/rooms_baseline.json`。
-- 历史验收：`results/validation/summary.json`、`docs/VALIDATION.md`。
+- 历史验收：`results/validation/summary.json`、`docs/archive/validation/VALIDATION.md`。
 - 原始地图与配置的 SHA-256：本目录 `preservation.json`。
 
 后续家庭场景的建图、结果和调整使用独立路径，不能覆盖这些基础场景验收材料。

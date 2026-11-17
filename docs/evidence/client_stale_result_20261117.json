@@ -1,0 +1,507 @@
+{
+  "date": "2026-11-17",
+  "status": "failed_batch_retained",
+  "failure_kind": "client_received_previous_retained_result",
+  "scope": "Client/result freshness failure, not object count failure; no claim of all 30 trials passing.",
+  "source": "results/development/20261117_bedroom/other_rooms/report.json",
+  "source_sha256": "329d262d9a97cf36770a146917f7a8537af3093f44fb4884cb2fa85080dcbc6d",
+  "matrix_status": "aborted",
+  "completed_trials": 12,
+  "passed_trials": 11,
+  "previous_task_id": "0d2f6af0-1116-4ef6-a524-44186a40b56b",
+  "failed_trial": {
+    "case": "kitchen_count_bottle",
+    "repeat": 2,
+    "command": "去厨房统计瓶子",
+    "directory": "/home/willmatic/桌面/semantic_object_search/results/development/20261117_bedroom/other_rooms/012_kitchen_count_bottle_02",
+    "startup_state": "warm",
+    "started_utc": "2026-11-17T04:38:45.444942+00:00",
+    "artifacts": {
+      "configs": [
+        {
+          "path": "/home/willmatic/桌面/semantic_object_search/src/semantic_search/config/rooms_aws_house_v3.json",
+          "sha256": "139adb2cc80108931ab99c1f13c65bbf144315788d505389cf1329ae065afa4a",
+          "bytes": 3677
+        },
+        {
+          "path": "/home/willmatic/桌面/semantic_object_search/src/semantic_search/config/nav2_depth.yaml",
+          "sha256": "544105fe17ba2d3478556d45b7e198b179e36eb45738774e112117c5d71488b8",
+          "bytes": 10481
+        },
+        {
+          "path": "/home/willmatic/桌面/semantic_object_search/scenes/aws_house/layout_r0_yellow_v1.json",
+          "sha256": "a701a5e7efba8533441ad881bb0f88b367b47e78e8e8649c84612ef3392fb7eb",
+          "bytes": 5206
+        }
+      ],
+      "weights": {
+        "path": "/home/willmatic/桌面/semantic_object_search/yolov8n-seg.pt",
+        "sha256": "a7cd8f929e1903d78a12a48efecab430209f18dc46cb96c3599a5980c63c423c",
+        "bytes": 7071756
+      }
+    },
+    "client": {
+      "returncode": 0,
+      "watchdog_timeout": false,
+      "interrupted": false
+    },
+    "elapsed_client_wall_seconds": 2.639281254000025,
+    "initial_state": {
+      "captured_unix_seconds": 1794890327.7355258,
+      "source": "observed_ros_messages_before_command",
+      "map_pose": {
+        "source": "tf",
+        "target_frame": "map",
+        "source_frame": "base_footprint",
+        "available": true,
+        "transform": {
+          "header": {
+            "stamp": {
+              "sec": 753,
+              "nanosec": 420000000
+            },
+            "frame_id": "map"
+          },
+          "child_frame_id": "base_footprint",
+          "transform": {
+            "translation": {
+              "x": 5.1979968433589905,
+              "y": -0.7826882137644798,
+              "z": -2.752007017221836e-06
+            },
+            "rotation": {
+              "x": -0.00014770664410045166,
+              "y": -6.898957784442388e-05,
+              "z": 0.3970668004121849,
+              "w": 0.9177896978249515
+            }
+          }
+        },
+        "error": null
+      },
+      "odom": {
+        "source": "/odom",
+        "available": true,
+        "message": {
+          "header": {
+            "stamp": {
+              "sec": 753,
+              "nanosec": 440000000
+            },
+            "frame_id": "odom"
+          },
+          "child_frame_id": "base_footprint",
+          "pose": {
+            "pose": {
+              "position": {
+                "x": 5.218153768570154,
+                "y": -0.8002555568195543,
+                "z": 0.0
+              },
+              "orientation": {
+                "x": 0.001118923258310226,
+                "y": -0.0026171157775923583,
+                "z": 0.39311743214025835,
+                "w": 0.9194838678645744
+              }
+            },
+            "covariance": [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "twist": {
+            "twist": {
+              "linear": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+              },
+              "angular": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+              }
+            },
+            "covariance": [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        },
+        "error": null
+      },
+      "limitation": "Latest received TF and odometry; timestamps retained, freshness not certified."
+    },
+    "diagnostics": {
+      "command": "去厨房统计瓶子",
+      "result_topic": "/search/result",
+      "command_sent": true,
+      "cancellation_sent": false,
+      "cancellation_observed": false,
+      "outcome": "result_received",
+      "errors": [],
+      "command_sent_unix_seconds": 1794890327.736174,
+      "elapsed_client_wall_seconds": 2.3524140729998635,
+      "signals": []
+    },
+    "result": {
+      "scene_id": "aws_house_bedroom_20261117",
+      "task_id": "0d2f6af0-1116-4ef6-a524-44186a40b56b",
+      "command": "去厨房统计瓶子",
+      "frame_id": "map",
+      "coordinate_unit": "m",
+      "mode": "count",
+      "room": "kitchen",
+      "category": "bottle",
+      "status": "completed",
+      "count": 1,
+      "objects": [
+        {
+          "id": 1,
+          "x": 6.624255733225707,
+          "y": 0.9459638679520682,
+          "z": 0.8811763843711364,
+          "hits": 12
+        }
+      ],
+      "viewpoints_visited": 2,
+      "viewpoints_total": 2,
+      "synchronized_frames": 12,
+      "tf_failures": 0,
+      "invalid_target_depth": 0,
+      "valid_projections": 12,
+      "viewpoints": [
+        [
+          6.6,
+          -0.4,
+          1.57079633
+        ],
+        [
+          5.1,
+          -0.8,
+          0.7
+        ]
+      ],
+      "viewpoint_failures": [],
+      "viewpoint_diagnostics": [
+        {
+          "index": 0,
+          "pose": [
+            6.6,
+            -0.4,
+            1.57079633
+          ],
+          "reached": true,
+          "navigation_status": 4,
+          "dwell_completed": true,
+          "synchronized_messages": 4,
+          "rejected_sensor_frames": 0,
+          "synchronized_frames": 4,
+          "tf_failures": 0,
+          "invalid_target_depth": 0,
+          "valid_projections": 4,
+          "arrival_sim_seconds": 728.516,
+          "arrival_pose_lookup": "latest",
+          "arrival_map_pose": {
+            "frame_id": "map",
+            "child_frame_id": "base_link",
+            "xyz": [
+              6.521412013120154,
+              -0.4489360854108222,
+              3.3579353364227363e-06
+            ],
+            "xyzw": [
+              0.00014645447079870134,
+              0.00012645992362251898,
+              0.6789004815438399,
+              0.7342302763564834
+            ]
+          },
+          "arrival_transform_stamp_ns": 728500000000,
+          "arrival_pose_error": null
+        },
+        {
+          "index": 1,
+          "pose": [
+            5.1,
+            -0.8,
+            0.7
+          ],
+          "reached": true,
+          "navigation_status": 4,
+          "dwell_completed": true,
+          "synchronized_messages": 8,
+          "rejected_sensor_frames": 0,
+          "synchronized_frames": 8,
+          "tf_failures": 0,
+          "invalid_target_depth": 0,
+          "valid_projections": 8,
+          "arrival_sim_seconds": 746.912,
+          "arrival_pose_lookup": "latest",
+          "arrival_map_pose": {
+            "frame_id": "map",
+            "child_frame_id": "base_link",
+            "xyz": [
+              5.198018096593865,
+              -0.7826741987740995,
+              -2.8908401890001545e-06
+            ],
+            "xyzw": [
+              -0.00014605791091892143,
+              -6.821946283103998e-05,
+              0.39736028291090497,
+              0.9176626719978083
+            ]
+          },
+          "arrival_transform_stamp_ns": 746880000000,
+          "arrival_pose_error": null
+        }
+      ],
+      "elapsed_seconds": 34.54,
+      "elapsed_wall_seconds": 34.556110823999916,
+      "coverage": {
+        "arrival_plan_completed": true,
+        "observation_plan_completed": true,
+        "observation_data_complete": true,
+        "viewpoints_observed": 2,
+        "incomplete_viewpoints": [],
+        "full_room_coverage_verified": false,
+        "basis": "configured_viewpoints_only"
+      }
+    },
+    "metrics": {
+      "status": "completed",
+      "count": 1,
+      "elapsed_seconds": 34.54,
+      "elapsed_wall_seconds": 34.556110823999916,
+      "synchronized_frames": 12,
+      "valid_projections": 12,
+      "tf_failures": 0
+    },
+    "evaluation": {
+      "expected": {
+        "status": "completed",
+        "count": 1
+      },
+      "checks": {
+        "status": true,
+        "count": true
+      },
+      "passed": true
+    },
+    "errors": [
+      "result command/task_id does not identify a fresh matching task"
+    ],
+    "passed": false
+  },
+  "actual_next_task": {
+    "source": "results/development/20261117_bedroom/tasks/20261117T043923_524526Z/result.json",
+    "source_sha256": "e63871653463a3cb6c4d538ed2f071f0e98366181937051320c586b4a3fd4825",
+    "result": {
+      "scene_id": "aws_house_bedroom_20261117",
+      "task_id": "a2fbae7b-8f30-4cbb-9ed0-b6a026de07c4",
+      "command": "去厨房统计瓶子",
+      "frame_id": "map",
+      "coordinate_unit": "m",
+      "mode": "count",
+      "room": "kitchen",
+      "category": "bottle",
+      "status": "completed",
+      "count": 1,
+      "objects": [
+        {
+          "id": 1,
+          "x": 6.653822034036911,
+          "y": 0.9205550166898153,
+          "z": 0.8811394360701246,
+          "hits": 4
+        }
+      ],
+      "viewpoints_visited": 2,
+      "viewpoints_total": 2,
+      "synchronized_frames": 4,
+      "tf_failures": 0,
+      "invalid_target_depth": 0,
+      "valid_projections": 4,
+      "viewpoints": [
+        [
+          6.6,
+          -0.4,
+          1.57079633
+        ],
+        [
+          5.1,
+          -0.8,
+          0.7
+        ]
+      ],
+      "viewpoint_failures": [],
+      "viewpoint_diagnostics": [
+        {
+          "index": 0,
+          "pose": [
+            6.6,
+            -0.4,
+            1.57079633
+          ],
+          "reached": true,
+          "navigation_status": 4,
+          "dwell_completed": true,
+          "synchronized_messages": 1,
+          "rejected_sensor_frames": 0,
+          "synchronized_frames": 1,
+          "tf_failures": 0,
+          "invalid_target_depth": 0,
+          "valid_projections": 1,
+          "arrival_sim_seconds": 766.79,
+          "arrival_pose_lookup": "latest",
+          "arrival_map_pose": {
+            "frame_id": "map",
+            "child_frame_id": "base_link",
+            "xyz": [
+              6.500017809094729,
+              -0.4430519604872137,
+              1.0782609658971723e-05
+            ],
+            "xyzw": [
+              0.0005356606216883715,
+              0.00038674656748200116,
+              0.6718992755790395,
+              0.7406422395267184
+            ]
+          },
+          "arrival_transform_stamp_ns": 766780000000,
+          "arrival_pose_error": null
+        },
+        {
+          "index": 1,
+          "pose": [
+            5.1,
+            -0.8,
+            0.7
+          ],
+          "reached": true,
+          "navigation_status": 4,
+          "dwell_completed": true,
+          "synchronized_messages": 3,
+          "rejected_sensor_frames": 0,
+          "synchronized_frames": 3,
+          "tf_failures": 0,
+          "invalid_target_depth": 0,
+          "valid_projections": 3,
+          "arrival_sim_seconds": 785.044,
+          "arrival_pose_lookup": "latest",
+          "arrival_map_pose": {
+            "frame_id": "map",
+            "child_frame_id": "base_link",
+            "xyz": [
+              5.1677812434384345,
+              -0.7358453191517133,
+              -8.384128164867777e-06
+            ],
+            "xyzw": [
+              -0.0005069592507901063,
+              -0.00028844477364336097,
+              0.38792515127652355,
+              0.9216906947555763
+            ]
+          },
+          "arrival_transform_stamp_ns": 785040000000,
+          "arrival_pose_error": null
+        }
+      ],
+      "elapsed_seconds": 35.89,
+      "elapsed_wall_seconds": 35.59294143600005,
+      "coverage": {
+        "arrival_plan_completed": true,
+        "observation_plan_completed": true,
+        "observation_data_complete": true,
+        "viewpoints_observed": 2,
+        "incomplete_viewpoints": [],
+        "full_room_coverage_verified": false,
+        "basis": "configured_viewpoints_only"
+      }
+    }
+  },
+  "decision": "Do not overwrite this batch or relabel trial 12 successful. Fix client filtering and repeat in a new directory.",
+  "offline_audit": {
+    "source": "results/development/20261117_bedroom/aborted_batch_audit.json",
+    "sha256": "7eb7363b9fc8dfb10be84a9f8bf3d406759bf29cb565f6be061d9087be0127f4",
+    "status": "failed",
+    "checks": {
+      "has_cases": true,
+      "all_case_checks": true,
+      "unique_task_ids": false
+    },
+    "note": "All individual object-count records look valid, but repeated task_id makes the batch invalid."
+  }
+}

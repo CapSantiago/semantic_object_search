@@ -12,11 +12,11 @@ from nav_msgs.msg import Odometry
 import numpy as np
 import rclpy
 from rclpy.node import Node
-from rclpy.qos import qos_profile_sensor_data
 from rclpy.time import Time
 from rosgraph_msgs.msg import Clock
 from sensor_msgs.msg import CameraInfo, Image, LaserScan
 from tf2_ros import Buffer, TransformListener
+from semantic_search.sensor_qos import sensor_qos_profile
 
 
 def main():
@@ -24,7 +24,9 @@ def main():
     parser.add_argument('--output', default='results/validation')
     parser.add_argument('--seconds', type=float, default=8)
     parser.add_argument('--motion', action='store_true')
+    parser.add_argument('--sensor-reliability', choices=('best_effort', 'reliable'), default='best_effort')
     args = parser.parse_args()
+    sensor_qos = sensor_qos_profile(args.sensor_reliability)
     folder = Path(args.output)
     folder.mkdir(parents=True, exist_ok=True)
     rclpy.init()
@@ -42,11 +44,12 @@ def main():
                         ('/rgbd/image', Image), ('/rgbd/depth_image', Image),
                         ('/rgbd/camera_info', CameraInfo)]:
         subscriptions.append(node.create_subscription(
-            kind, topic, lambda msg, t=topic: receive(t, msg), qos_profile_sensor_data))
+            kind, topic, lambda msg, t=topic: receive(t, msg), sensor_qos))
     start = time.monotonic()
     while time.monotonic() - start < args.seconds:
         rclpy.spin_once(node, timeout_sec=0.1)
-    report = {'topics': {t: {'messages': n, 'sim_hz': (n-1)/(stamps[t][-1]-stamps[t][0])
+    report = {'sensor_reliability': args.sensor_reliability,
+              'topics': {t: {'messages': n, 'sim_hz': (n-1)/(stamps[t][-1]-stamps[t][0])
                             if n > 1 and stamps[t][-1] > stamps[t][0] else 0}
                          for t, n in counts.items()}, 'tf': {}}
     bridge = CvBridge()

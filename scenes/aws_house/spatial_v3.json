@@ -1,0 +1,94 @@
+{
+  "version": "aws_house_spatial_v3_same_position_scan",
+  "status": "static_map_connectivity_passed_navigation_trial_passed",
+  "frame_id": "map",
+  "coordinate_unit": "m",
+  "rooms_file": "src/semantic_search/config/rooms_aws_house_v3.json",
+  "map_file": "maps/aws_house/house.yaml",
+  "map_sha256": {
+    "maps/aws_house/house.yaml": "0dac305d71af1e771b54ff9093b28a8948707fbdefa96b7ea12910c4607d3b5e",
+    "maps/aws_house/house.pgm": "fd3b7f0c4924354c084b802e3110ef0d845ccb47a71799cc018ce9b64c0eaa53"
+  },
+  "home_pose": [
+    0,
+    0,
+    0
+  ],
+  "home_role": "candidate_initial_pose_not_a_verified_charger",
+  "boundary_rule": "lexicographically first room ID; outside polygons is unassigned",
+  "connections": [
+    {
+      "rooms": [
+        "living",
+        "kitchen"
+      ],
+      "poses": [
+        [
+          4.3,
+          -0.8,
+          0
+        ],
+        [
+          5.3,
+          -0.8,
+          0
+        ]
+      ]
+    },
+    {
+      "rooms": [
+        "living",
+        "bedroom"
+      ],
+      "poses": [
+        [
+          -2.1,
+          -0.5,
+          3.14159
+        ],
+        [
+          -2.9,
+          -0.5,
+          3.14159
+        ]
+      ]
+    },
+    {
+      "rooms": [
+        "living",
+        "utility"
+      ],
+      "poses": [
+        [
+          -2.0,
+          -2.0,
+          3.14159
+        ],
+        [
+          -2.9,
+          -2.0,
+          3.14159
+        ]
+      ]
+    }
+  ],
+  "limitations": [
+    "Polygons manually traced against archived map; furniture remains inside room regions, not traversable floor masks.",
+    "Grid connectivity checks do not replace Nav2 or dynamic obstacle tests.",
+    "Observation poses may be outside target room to view objects across a doorway."
+  ],
+  "navigation_evidence": "results/development/r0_v1d/navigation_route.json",
+  "scope": "Candidate manual semantic regions; archived scan map reference, not fresh SLAM or full-room coverage",
+  "rejected_views": [
+    {
+      "pose": [
+        -8.435,
+        2.495,
+        -2.5
+      ],
+      "reason": "Scan-only map reachable, but depth-enabled Nav2 could not plan to this narrow rear desk corridor",
+      "evidence": "results/development/r0_v3/task4_bottle_bedroom.json"
+    }
+  ],
+  "candidate_change": "Use previously reachable bedroom first point with two headings; isolate short reverse translation associated with recovery. No controller/planner parameter changes."
+}

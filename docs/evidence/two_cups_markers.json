@@ -1,0 +1,21 @@
+{
+  "task_id": "2ff39478-9d92-4ef5-a49d-69e2dd825b73",
+  "scene_id": "aws_house_r0_yellow_two_v1",
+  "sphere_ids": [
+    1,
+    2
+  ],
+  "label_ids": [
+    1,
+    2
+  ],
+  "labels": [
+    "1",
+    "2"
+  ],
+  "frames": [
+    "map"
+  ],
+  "callback_wall_gap_seconds": 0.0003412020005271188,
+  "passed": true
+}

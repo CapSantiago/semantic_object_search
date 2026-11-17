@@ -1,0 +1,156 @@
+{
+  "status": "passed",
+  "scope": "Fixed tabletop fixtures; not G0, speech or full-room coverage certification",
+  "runtime_config": {
+    "scene_id": "aws_house_r0_empty_kitchen_v1",
+    "world": "aws_house_r0_v1",
+    "ros_domain_id": 65,
+    "camera_height_m": 1.0,
+    "camera_pitch_rad": 0.25,
+    "detector": {
+      "model": "yolov8n-seg.pt",
+      "image_size": 640,
+      "confidence": 0.35,
+      "nms_iou": 0.3,
+      "device": "cpu"
+    },
+    "scope": "Online candidate task trials, not G0/full-room coverage certification",
+    "file_sha256": {
+      "yolov8n-seg.pt": "a7cd8f929e1903d78a12a48efecab430209f18dc46cb96c3599a5980c63c423c",
+      "src/semantic_search/config/nav2_depth.yaml": "544105fe17ba2d3478556d45b7e198b179e36eb45738774e112117c5d71488b8",
+      "scenes/aws_house/r0_v1/maps/house.yaml": "0dac305d71af1e771b54ff9093b28a8948707fbdefa96b7ea12910c4607d3b5e",
+      "scenes/aws_house/r0_v1/maps/house.pgm": "fd3b7f0c4924354c084b802e3110ef0d845ccb47a71799cc018ce9b64c0eaa53",
+      "src/semantic_search/config/rooms_aws_house_v2.json": "82272f29551f5c1df3b6ebd2775c1d5f8a5ea4e20083640f60d1e1df50c77e50",
+      "scenes/aws_house/layout_r0_empty_kitchen_v1.json": "6fbc954144e673e0aa01f66ad02f4a52d7d75ce6d9931c867e1de7f405eada61"
+    },
+    "ign_partition": "semantic_yellow_v2",
+    "initial_condition": "Same simulator after successful cancellation, detector restored; both kitchen cups removed through create/remove service, other targets unchanged."
+  },
+  "checks": {
+    "has_cases": true,
+    "all_case_checks": true
+  },
+  "layout": "scenes/aws_house/layout_r0_empty_kitchen_v1.json",
+  "layout_sha256": "6fbc954144e673e0aa01f66ad02f4a52d7d75ce6d9931c867e1de7f405eada61",
+  "cases": [
+    {
+      "case": "task3_cup_kitchen_absent",
+      "source": "results/development/r0_empty_kitchen_v1/task3_cup_kitchen_absent.json",
+      "source_sha256": "d6d57112d373b9ea6f426e5bdd19e042067e2c1598617cf5d43de3d8d151a10a",
+      "checks": {
+        "status": true,
+        "count": true,
+        "unique_ids": true,
+        "tf": true,
+        "synchronized_data": true,
+        "persisted_result": true,
+        "projections": true,
+        "svg_ids": true,
+        "observed_hits": true
+      },
+      "passed": true,
+      "result": {
+        "scene_id": "aws_house_r0_empty_kitchen_v1",
+        "task_id": "9e2e9926-d75e-4e52-9e5a-0c8d5f549e4b",
+        "command": "去厨房找杯子",
+        "frame_id": "map",
+        "coordinate_unit": "m",
+        "mode": "find",
+        "room": "kitchen",
+        "category": "cup",
+        "status": "not_found",
+        "count": 0,
+        "objects": [],
+        "viewpoints_visited": 2,
+        "viewpoints_total": 2,
+        "synchronized_frames": 12,
+        "tf_failures": 0,
+        "invalid_target_depth": 0,
+        "valid_projections": 0,
+        "viewpoints": [
+          [
+            6.6,
+            -0.4,
+            1.57079633
+          ],
+          [
+            5.1,
+            -0.8,
+            0.7
+          ]
+        ],
+        "viewpoint_failures": [],
+        "elapsed_seconds": 88.776,
+        "elapsed_wall_seconds": 88.90300791200025,
+        "coverage": {
+          "observation_plan_completed": true,
+          "full_room_coverage_verified": false,
+          "basis": "configured_viewpoints_only"
+        }
+      },
+      "xy_evaluation": []
+    },
+    {
+      "case": "task4_cup_kitchen_absent",
+      "source": "results/development/r0_empty_kitchen_v1/task4_cup_kitchen_absent.json",
+      "source_sha256": "3f463827da06f9d69ba5164562ee64aad43b6d3ba9e54616af09eaf5fda42d01",
+      "checks": {
+        "status": true,
+        "count": true,
+        "unique_ids": true,
+        "tf": true,
+        "synchronized_data": true,
+        "persisted_result": true,
+        "projections": true,
+        "svg_ids": true,
+        "observed_hits": true
+      },
+      "passed": true,
+      "result": {
+        "scene_id": "aws_house_r0_empty_kitchen_v1",
+        "task_id": "2879ecfe-b240-4175-93c5-e263f9d72620",
+        "command": "统计厨房的杯子",
+        "frame_id": "map",
+        "coordinate_unit": "m",
+        "mode": "count",
+        "room": "kitchen",
+        "category": "cup",
+        "status": "not_found",
+        "count": 0,
+        "objects": [],
+        "viewpoints_visited": 2,
+        "viewpoints_total": 2,
+        "synchronized_frames": 8,
+        "tf_failures": 0,
+        "invalid_target_depth": 0,
+        "valid_projections": 0,
+        "viewpoints": [
+          [
+            6.6,
+            -0.4,
+            1.57079633
+          ],
+          [
+            5.1,
+            -0.8,
+            0.7
+          ]
+        ],
+        "viewpoint_failures": [],
+        "elapsed_seconds": 36.79,
+        "elapsed_wall_seconds": 36.87361807199977,
+        "coverage": {
+          "observation_plan_completed": true,
+          "full_room_coverage_verified": false,
+          "basis": "configured_viewpoints_only"
+        }
+      },
+      "xy_evaluation": []
+    }
+  ],
+  "limitations": [
+    "Model-origin XY comparison assumes this project map/world alignment; not independent sensor accuracy.",
+    "No collision/contact-sensor proof; inspect actual navigation/recovery logs separately.",
+    "Repeat/cold-start completeness and full-room coverage are not inferred from these checks."
+  ]
+}

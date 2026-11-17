@@ -1,0 +1,469 @@
+{
+  "date": "2026-11-17",
+  "scope": "Authorized documentation consolidation and reversible historical cleanup",
+  "source_files_before": {
+    "src/semantic_search/setup.py": "c4972ff292fe501f405109b9cdf8c1321d4c1f82ee9c1ffe7ecf176c85cf52c6",
+    "src/semantic_search/setup.cfg": "3ecdbd39aa7a93a7725b0ac5a598a8230b265a8110577331e03099c5f1908404",
+    "src/semantic_search/package.xml": "f273cae7f9a191cd147a9b7afe980893a15931720e2d8bca4ab1c57097e62156",
+    "src/semantic_search/launch/development.launch.py": "36f5b3acca749968e9ea19dede95398617b4d19a86166ea914c7ae14a5fce9b6",
+    "src/semantic_search/launch/search.launch.py": "971a1ebef499d6f15f575bde0e19aef07a385a4a9a9e09a7ffb55a467f2255cc",
+    "src/semantic_search/launch/fortress.launch.py": "ed88be918d2f9f115dedd2f4cf13753f3bc913ab196fdc1bf12ca47e80bbd3be",
+    "src/semantic_search/config/rooms_aws_house_v2.json": "82272f29551f5c1df3b6ebd2775c1d5f8a5ea4e20083640f60d1e1df50c77e50",
+    "src/semantic_search/config/search.rviz": "d7097154c4b66d2c2301b90f68eb636c98404a8321a1344c4d29ec98402be4e7",
+    "src/semantic_search/config/slam.yaml": "57237decab2c3735bc911beed3cbfa31157875309d0a382bc00426e05ad7f35f",
+    "src/semantic_search/config/rooms_aws_house_v1.json": "228c88859245985ee10cd4e00d88d89fb7ecb19a41edae9abd2349f78afbaa76",
+    "src/semantic_search/config/rooms_baseline.json": "b529a36e20f703145600fa97064c2324f9c175364189f21ec3b91f2c71866dbd",
+    "src/semantic_search/config/rooms.json": "b529a36e20f703145600fa97064c2324f9c175364189f21ec3b91f2c71866dbd",
+    "src/semantic_search/config/tb3_frames.urdf": "613b5aac068e3fe5e19f85f15fac4fdcb6dce8032af7540b3e3d3f17be522f0b",
+    "src/semantic_search/config/nav2.yaml": "475d371b36f7414112b80c31ac4770df53078e7327a4fc4871955f7268edde14",
+    "src/semantic_search/config/rooms_aws_house_v3.json": "139adb2cc80108931ab99c1f13c65bbf144315788d505389cf1329ae065afa4a",
+    "src/semantic_search/config/rooms_aws_house.json": "dca246d13a970d43d0a6677d823957a4e6f41c0c791d668300e7c699331a09ad",
+    "src/semantic_search/config/scenes.json": "4c97f3a091458b8abcf6a8888e9042d4799fb137f737b7a97050214f655d5cc6",
+    "src/semantic_search/config/nav2_depth.yaml": "544105fe17ba2d3478556d45b7e198b179e36eb45738774e112117c5d71488b8",
+    "src/semantic_search/semantic_search/cloud_adapter.py": "0d8f860021517d86081a2f69528fcb31678da6d09f5bddeef3d9cacabe507a5e",
+    "src/semantic_search/semantic_search/__init__.py": "7eb70257593da06f682a3ddda54a9d260d4fc514f645237f5ca74b08f8da61a6",
+    "src/semantic_search/semantic_search/clouds.py": "99bf38b11c37d6fc55a219dd6379ea283c4042befc0c2b5489af315905132424",
+    "src/semantic_search/semantic_search/semantic_map.py": "bc622cd105b44416251010ae791e48601f7d41cdc5b866b0e0f2c0c39f2c4f34",
+    "src/semantic_search/semantic_search/scene_view.py": "7608632deeb50d64d1f937800c61a7828cf4dc79650871c4cac729f28812a3cd",
+    "src/semantic_search/semantic_search/sensor_qos.py": "4b47e1b9b3b08754b7c578435a6c391539730d02b98616c2e017a4d44b0d57d8",
+    "src/semantic_search/semantic_search/rooms.py": "5807b9ab6e3bf9a4595824fe6da415015f8732597d8e6ed4b8370aaa6f1a8b5a",
+    "src/semantic_search/semantic_search/depth.py": "8e16ef4f9be98e4e8ce1f8a829a7b6e023f2fbef4950a3b0962be1075cb78d6f",
+    "src/semantic_search/semantic_search/detector.py": "ddac1900956b1f61d26e422c741e9df9683f93349e7ba0d6b470fa1b32148c0d",
+    "src/semantic_search/semantic_search/aws_world.py": "5630a6d60f563d373578251f7d6d314eb71d65196984c654cbb19ab697a9733e",
+    "src/semantic_search/semantic_search/scenes.py": "1b7545d52f53859217252cc0fd7a34cf4817c23d1bdb9c775d64009ee85f101b",
+    "src/semantic_search/semantic_search/development.py": "204af27a8a8303675090ed05939d6b9faef1e827d475c9f7dc1fda576fbaff17",
+    "src/semantic_search/semantic_search/voice.py": "d2b8d19ebe80374b2c0a746b9f428546711337e0b98a6af6b71eb569506d1200",
+    "src/semantic_search/semantic_search/search_node.py": "4f87befe76146938be6bc6ecce5c0b2631552d083ff61a1b8ff18ce2cff9f4ca",
+    "src/semantic_search/resource/semantic_search": "7eb70257593da06f682a3ddda54a9d260d4fc514f645237f5ca74b08f8da61a6",
+    "scripts/evaluate_captured_targets.py": "045c937877192a327beda8a8a936f02c0ed4dde3a184f4b33171d4e0509cf214",
+    "scripts/development_navigation.sh": "2909983cff74f467273d7ae4f6b363a6e61f4fb7645f01c0d432b4bce075cff6",
+    "scripts/validate_sensors.py": "d208b54346183612d90c2ba7e5034affaf10369e60e9db4f66a3de3d86873f7b",
+    "scripts/calibrate_layout.py": "b0872d2835202cf43282df09f0c311b37c71897fa42aa3bdcac8e5e4a64e9ade",
+    "scripts/drive_waypoints.py": "37e0381190f3d907f81759161cbf5d633a0a31b7a69bac6ab24c2a2ab7fe4534",
+    "scripts/navigate_route.py": "fd31528c00008d05bc4e838f8a63f646d8b88bc595de68468ed447bad31a0c0f",
+    "scripts/verify_resources.py": "2026e607040b1faae8a46c4ca3699047df3dbd2942ba5c53040a128a2efddd25",
+    "scripts/run_search_matrix.py": "928199aaa323e959751ab72024d6e71ca5943c33a50f78c1e812fb6f467a1d3e",
+    "scripts/plot_result.py": "ce25a34a8fce37d3188e9e11825a23b353abe8a5d5f099e06241ee7a3b8e168f",
+    "scripts/build.sh": "9a4c68144b56e874181634b8b5352396a4e3365f1d6ba6c0fe8e7add80036622",
+    "scripts/summarize_validation.py": "4c2b879c1c856deded7747e0c5bf4cb28c486ccf8bb93febca357f854be06e4c",
+    "scripts/record_navigation_state.py": "b448b3c32cc68f8e970efcf23363e0c77c5590aafae0d00ca21a7da194b5843a",
+    "scripts/inventory_scene.py": "e99baabfbbdb3616cf539a88b06cbd9d212523276dc3d8a7dd29a9577054eb38",
+    "scripts/run_search.py": "5a951e01a5256c8d2fba8b18ad4716c7b3f8592763933972fe6b77b2fd6e861e",
+    "scripts/summarize_tabletop_validation.py": "bc77a0a2b311c56b8da59ebacf36865fbb13ca3d69d83bae3a0c11598d0500ca",
+    "scripts/env.sh": "c75ef8a0200319107954316a90003df5ab637f6b78e99781c52cebf1802a7e2b",
+    "scripts/prepare_runtime.py": "a0662b90c755e9b86c5ca74e268710c79d9bf0669987f29316a06d8a8c2bef69",
+    "scripts/start_navigation.py": "a9a1282b99ac37e957443effa0c025de34920282eb8157727af0318ad32a05e4",
+    "scripts/prepare_voice_model.py": "409e4d0e320b57927f5e54ebe373bb2b4153c8b2348a0fc1b100016723f00e30",
+    "scripts/development_detector.sh": "be77793005a3bc421f35b49585d4e1f8fe01c576988ee1df926408fba3a47295",
+    "scripts/initialize_sim_amcl.py": "82547a181b1142d4a72957b5cff4c5d6d7a7a12f29c06712114cee168bf93db3",
+    "scripts/navigation.sh": "d731733e6cbefe6070b8abc48ffb1e094c5beb031ee0794e786e918586ce68c1",
+    "scripts/save_map.sh": "1de866a87269d56e5c927d26c39e4dcb6f58757651bcd018accda60cd191ff8b",
+    "scripts/search.sh": "5b0e8bca430cfe85fda3566ea26cb65db6695348ebf079ac5e18e5c921cfc038",
+    "scripts/scene_env.sh": "d68df3575e44c36f27d69117955f4b27c1ff0a5ea7032103d072cd3dcd552364",
+    "scripts/mapping_route.json": "cf61229dd7b5acfd8a23bbce13f6881fbc915cdebed0256826d0e0e506a248ee",
+    "scripts/native_gui_env.sh": "cc9c14566fdc2aefc6ffecd8712335c9068d0ec2aa39b6936760394dc54fc669",
+    "scripts/validate_spatial_plan.py": "f27c975c9825fa8f68ef3978b854121ca46eb07c61963d75b22aa14268e9ffc9",
+    "scripts/rviz.sh": "9d7ebd40fdbdfe5a730037eab70ec54d7f426bf86e5522c8d458f205177b4930",
+    "scripts/fetch_aws_house.sh": "bd87d71cd8e62f81c5e6e1dc09df02fa849b777fe41e175c5d98005d118257b5",
+    "scripts/capture_rgbd.py": "809ed1e925b2e34e158f9f39f2e8b1b60f1674f19c803d68965f2501159e9c93",
+    "scripts/prepare_voice.sh": "b509b10ffeec1c03695e404dac2d187d064e0da77dd0374d949dc2e1a5da2e37",
+    "scripts/development_search.sh": "67529d93c992a9c8e779c1e6987b05ff60c5168cfd9061e4daa9cb08f8b69123",
+    "scripts/mapping.sh": "f7254dbfee0bf9716fbbf38444b886677f37986311a3623a26b4eb81c0c662b5",
+    "scripts/mapping_navigation.sh": "32aaf2b1495a13327753e5ea84f1c895d154c2d2654909dd9c33f46e3bc0ae0c",
+    "scripts/evaluate_camera_views.py": "bf370c7cd15d9f5c5155e7453e3ab29292d71ca700d429900f689354ec5f8e9c",
+    "scripts/development.sh": "1b1eae6cecf84384619d11e1d8b08d2040afff04c190c1ed816e975ba1d58984",
+    "scripts/simulation.sh": "a7e1d4248e61e4bdc7bab4133feb17ee0b35e8060f5b98886a733dcf3fa2eede",
+    "scripts/summarize_aws_validation.py": "558bffcbe534e40e527f35cc8e92035afe7564adff11629e9e9ff82dbff34381",
+    "scripts/voice.sh": "590443a85710d7b0690eb2a8d7bcd646ee46c04fb1f8fadbc35c14bf631f829c",
+    "scripts/voice_env.sh": "1a06aa2b86c5b1ad29bc6e4b36bc913fddf3d7d89e55fe3bca315b58b98fbfe9",
+    "scripts/prepare_target_assets.py": "682e8384a46cf8177ec79dd5def3be3c6a6fe77a96b4d617134bda158256bc35",
+    "tests/test_sensor_qos.py": "3d351d31fba85713eaee6f8e18b6bb2ec32d5a9ee48e69ca640648d337974959",
+    "tests/test_depth.py": "14b77c841441b2c3c73fd6e9059c2de5af874f25b5cfc62850d7e989b6af820c",
+    "tests/test_search_matrix.py": "1e52ba6dd2ea4ec095c355fa67829c9e56fd7f1b80539fc52cc9c43871d2f91d",
+    "tests/test_scenes.py": "2cf7d52f5c252b51d8cba006a200035f846e9e3efe1f791872f12123f4c675c7",
+    "tests/test_rooms.py": "26a540eb2cf55b65f95f3bbd351cc375a12216f497f8e76e5d6ab6439cb748f8",
+    "tests/test_search_client_ros.py": "e897d1be3a98bfa099eae426954c385e0fb6c1437ee66062c660a46211c1b508",
+    "tests/test_clouds.py": "6259e0358c080c5486d6ef42827975482b5ccb1959107919bfd74365797a9c9f",
+    "tests/test_semantic_map.py": "3e438c591d94d50f36a1ee471ef5312e1f44c33cb2161a831f044fa6ad37d801",
+    "tests/test_search_observation.py": "7748a7345d76530f3f50a89712be6336c806b0680541a173a6e3c78d673c9356",
+    "tests/test_development.py": "c4f080beb0a7fbeb9ac022b2335e4937338c9db48944da84f09ae07392ad545c",
+    "tests/scenarios/unreachable_tabletop.json": "2f9dfb77af32f0b1fbcf2efac695410280f077b5f9872cc705f38e61efdafad5",
+    "tests/scenarios/cross_view.json": "86b2e4064096fd1539bb15098b106f6c7183e69f164e064ecb1ab475adac2a50",
+    "tests/scenarios/tabletop_repeat_matrix.json": "1e6f7cdb05bb2c7db46ddbbfa7da9ae0dd6247bf77eca38ffcfde59e0405ad1c",
+    "tests/scenarios/first_chair.json": "175cb3f029a140a7c7018e7ceea45f3ee8a7e7c8bfae835ba31ca52e715f6ea0",
+    "tests/scenarios/stationary.json": "3d48648ec834685510d7bcb349b01b5664794eada6eb754d99d1ab2ef4dff5e8",
+    "tests/scenarios/close_pair.json": "e3bf32d7304b37c2760869a315fdaaa37cf1aa583220677ee86f5a78d67a0654",
+    "maps/course_house.pgm": "2809a0ef3daf297a61ea00f096fecfd89a2166ce842d3ec45fa2b1ca3c317308",
+    "maps/course_house.yaml": "61d8dcd2de0210dd592e4508c6166a25eb8fc732f31201fbaaa7ca435a86d334",
+    "maps/baseline/course_house.pgm": "2809a0ef3daf297a61ea00f096fecfd89a2166ce842d3ec45fa2b1ca3c317308",
+    "maps/baseline/course_house.yaml": "61d8dcd2de0210dd592e4508c6166a25eb8fc732f31201fbaaa7ca435a86d334",
+    "maps/aws_house/house.pgm": "fd3b7f0c4924354c084b802e3110ef0d845ccb47a71799cc018ce9b64c0eaa53",
+    "maps/aws_house/house.yaml": "0dac305d71af1e771b54ff9093b28a8948707fbdefa96b7ea12910c4607d3b5e",
+    "scenes/baseline/preservation.json": "7db186ecc30e214330ca50c587cd0b6aa9e101d308014102717cc746b03abbd9",
+    "scenes/baseline/README.md": "efcd4cefc09a7a88be04945e5603d7a7b525dcb51e4b209c95ff004c4931fb73",
+    "scenes/baseline/maps/course_house.pgm": "2809a0ef3daf297a61ea00f096fecfd89a2166ce842d3ec45fa2b1ca3c317308",
+    "scenes/baseline/maps/course_house.yaml": "61d8dcd2de0210dd592e4508c6166a25eb8fc732f31201fbaaa7ca435a86d334",
+    "scenes/aws_house/planning_inventory.json": "8dc365d0e4187f4cce33e9a6d53422b125374d0038f48f5e971760ac91d9dd06",
+    "scenes/aws_house/layout_r0_yellow_v1.json": "a701a5e7efba8533441ad881bb0f88b367b47e78e8e8649c84612ef3392fb7eb",
+    "scenes/aws_house/README.md": "23decfae34343f7771a3ab4c05ba5c83ad96475107784358262bd97bbc047666",
+    "scenes/aws_house/spatial_v2.json": "445d5949cd9df1a4f5163f869abf2721f4bfc726ca927b893b9d2390bea7ae5c",
+    "scenes/aws_house/spatial_v1.json": "e3c5b5742468f94277329294ea871c7db70b388a1c764c1cbcdb909ab938abe0",
+    "scenes/aws_house/source.json": "dfdf4a66f015c81471cfd95a2dc5440a3b2ec44a989bcb602d164840919a2b0a",
+    "scenes/aws_house/layout_r0_empty_kitchen_v1.json": "6fbc954144e673e0aa01f66ad02f4a52d7d75ce6d9931c867e1de7f405eada61",
+    "scenes/aws_house/mapping_route.json": "d09b8edcc758da3b0e7b6f8fb4c61e464fed114942551011bfd5a21268435a5d",
+    "scenes/aws_house/layout_r0_yellow_two_v1.json": "57f42368311e46cfb4626378d0187b729d8e4e9a6a0467c14abeb718fdf6c1d8",
+    "scenes/aws_house/spatial_v3.json": "3285f7fb0abfee25084453e37bdfd7a633ae94c8aba41afb45d3b5c8afdd294b",
+    "scenes/aws_house/ground_truth.json": "fa754a280d6f07626390e1fb856f9daa384bd7218d9d0db24a8d1a2bbbcd9483",
+    "scenes/aws_house/layout_r0_v1.json": "f07965b683e1747f674e3237f37171231341f1480e9918a75b1f0064a9d604ae",
+    "scenes/aws_house/maps/house.pgm": "fd3b7f0c4924354c084b802e3110ef0d845ccb47a71799cc018ce9b64c0eaa53",
+    "scenes/aws_house/maps/house.yaml": "0dac305d71af1e771b54ff9093b28a8948707fbdefa96b7ea12910c4607d3b5e",
+    "scenes/aws_house/r0_v1/navigation_route.json": "4720d2f7d7d5a9038e0a376b725aebc082e6638bbbdc23467b78e56b338ff8ea",
+    "scenes/aws_house/r0_v1/map_provenance.json": "cbc26dc942a9eb23d9b008c52a3f15f0113d00c6f620fcfa11026a0591bc9f3a",
+    "scenes/aws_house/r0_v1/maps/house.pgm": "fd3b7f0c4924354c084b802e3110ef0d845ccb47a71799cc018ce9b64c0eaa53",
+    "scenes/aws_house/r0_v1/maps/house.yaml": "0dac305d71af1e771b54ff9093b28a8948707fbdefa96b7ea12910c4607d3b5e",
+    "skills/grilling/SKILL.md": "a146842ed93ca43d833550fa9adf02e58cb63c83fea9d4b4522995b82242d4e2",
+    "skills/grilling/agents/openai.yaml": "1411d7df7d99b7e621a1ff8283c8133cc2464be63d064e52d8ce169c6800ee9b",
+    "skills/grill-me/SKILL.md": "caaf8b8de1684f96e26b28f3c29189db5c89cce4b73e1c93d86164f66ef88637",
+    "skills/grill-me/agents/openai.yaml": "c061e39c3e0f9d865fb1b97556d485704af2a8a58f4b8221a8917a5c2074a32b",
+    "skills/context-compression/SKILL.md": "ab4fd1e1046db339d83ead5089d4cb9d9c487232945d4ff6be90e08a03f6cfea",
+    "skills/context-compression/scripts/compression_evaluator.py": "425d07d73420073304ce58c078c561cddd61420816efdb080b40778f5c1ed350",
+    "skills/context-compression/tests/test_compression_evaluator.py": "8d0d4a83ac0b0eae25b2c270b54f0982e16be56a6dc935b73cd1411aa21ef829",
+    "skills/context-compression/references/evaluation-framework.md": "2584d5ab6c1322c0df7a581a6f5354be052bae077e16f76ef7c772f750ef81d2",
+    "skills/upstream-licenses/muratcankoylan__Agent-Skills-for-Context-Engineering/LICENSE": "65bc33b0759a48b980962833b12bcb820404da9f5256bff39c00e89471bcf209",
+    "skills/upstream-licenses/mattpocock__skills/LICENSE": "0e7ac423bf2c6e223b7c5b156f8cf72da49d748e56a1641402c31f22ad07dbb5"
+  },
+  "git_status_before": " M HANDOFF.md\n M README.md\n M SOURCES.md\n M docs/DEPLOYMENT_PLAN.md\n M docs/DEVELOPMENT_VALIDATION.md\n M docs/INTERFACES.md\n M docs/REQUIREMENTS_STATUS.md\n M resources/context_review.json\n M resources/development_artifacts.json\n M scripts/run_search.py\n M scripts/summarize_tabletop_validation.py\n M scripts/validate_sensors.py\n M src/semantic_search/package.xml\n M src/semantic_search/semantic_search/detector.py\n M src/semantic_search/semantic_search/rooms.py\n M src/semantic_search/semantic_search/search_node.py\n M tests/test_rooms.py\n?? docs/evidence/baseline_preservation_20261117.json\n?? docs/evidence/bedroom_bounded_wait_20261117.json\n?? docs/evidence/bedroom_repeats_20261117.json\n?? docs/evidence/bedroom_v3_review_20261117.json\n?? docs/evidence/client_discovery_failure_20261117.json\n?? docs/evidence/client_discovery_fix_20261117.json\n?? docs/evidence/client_freshness_20261117.json\n?? docs/evidence/client_stale_result_20261117.json\n?? docs/evidence/final_navigation_20261117.json\n?? docs/evidence/observation_recovery_20261117.json\n?? docs/evidence/partial_observation_20261117.json\n?? docs/evidence/qos_probe_20261117.json\n?? docs/evidence/reliable_sensor_timing_20261117.json\n?? docs/evidence/sensor_timing_20261117.json\n?? docs/evidence/source_snapshots/\n?? docs/evidence/tabletop_matrix_20261117.json\n?? docs/history/2026-11-16-context-C005.md\n?? docs/history/2026-11-17-plan-before-milestone-reformat.md\n?? scenes/aws_house/spatial_v3.json\n?? scripts/record_navigation_state.py\n?? scripts/run_search_matrix.py\n?? src/semantic_search/config/rooms_aws_house_v3.json\n?? src/semantic_search/semantic_search/sensor_qos.py\n?? tests/scenarios/tabletop_repeat_matrix.json\n?? tests/test_search_client_ros.py\n?? tests/test_search_matrix.py\n?? tests/test_search_observation.py\n?? tests/test_sensor_qos.py\n",
+  "moves": [
+    {
+      "from": "docs/DEPLOYMENT_PLAN.md",
+      "to": "docs/maintained/DEPLOYMENT_PLAN.md",
+      "sha256_before": "b3b852c3e46f0414dbf56322ef59d2b75ea45c48ce8a25318187d2fcfd6536d2",
+      "kind": "document"
+    },
+    {
+      "from": "docs/REQUIREMENTS_STATUS.md",
+      "to": "docs/maintained/REQUIREMENTS_STATUS.md",
+      "sha256_before": "606ec66538b01ee2d6ff7798dac6a47fea468a8d1375b32dff6a3effdf2eda10",
+      "kind": "document"
+    },
+    {
+      "from": "docs/INTERFACES.md",
+      "to": "docs/maintained/INTERFACES.md",
+      "sha256_before": "5dbac86f1c4c8fccc38658b7ac4957d3053abd961c48b7997caa1c2067abd451",
+      "kind": "document"
+    },
+    {
+      "from": "docs/AWS_HOUSE.md",
+      "to": "docs/maintained/AWS_HOUSE.md",
+      "sha256_before": "5f598c52c3a44e307d575dd277ba08ee1bf72314876ee17a38b1e51b4ee30f2a",
+      "kind": "document"
+    },
+    {
+      "from": "docs/GITHUB_DEPLOYMENT.md",
+      "to": "docs/maintained/GITHUB_DEPLOYMENT.md",
+      "sha256_before": "06736e854ca4c73a48c94157ca4bd1e710d72a555264cd8e0a9982d0b921c4e7",
+      "kind": "document"
+    },
+    {
+      "from": "docs/RESOURCE_PREPARATION.md",
+      "to": "docs/maintained/RESOURCE_PREPARATION.md",
+      "sha256_before": "65bdad25766efec2456732c262e01a2d9f3e176a683c6536cc4aac36d3f77aca",
+      "kind": "document"
+    },
+    {
+      "from": "docs/TARGET_CATALOG.md",
+      "to": "docs/maintained/TARGET_CATALOG.md",
+      "sha256_before": "5460728cc4d9300fc1411717cd8fd8bb508386d6aa8d27f02301de9b5816c457",
+      "kind": "document"
+    },
+    {
+      "from": "docs/DEVELOPMENT_VALIDATION.md",
+      "to": "docs/maintained/DEVELOPMENT_VALIDATION.md",
+      "sha256_before": "a4b154b035a6114295e0e1fafe8b285924af58295032c2da74bde3338bf21e93",
+      "kind": "document"
+    },
+    {
+      "from": "SOURCES.md",
+      "to": "docs/maintained/SOURCES.md",
+      "sha256_before": "7a9a73944720ed4094868f8dfc1e5c49277fb70eca615ba418bc78a84aee67fd",
+      "kind": "document"
+    },
+    {
+      "from": "HANDOFF.md",
+      "to": "docs/maintained/HANDOFF.md",
+      "sha256_before": "6fb73b3ef5aaf9fc18970c6dfdbbdd404dc44d32cb4c039716224b421d0f1de9",
+      "kind": "document"
+    },
+    {
+      "from": "docs/VALIDATION.md",
+      "to": "docs/archive/validation/VALIDATION.md",
+      "sha256_before": "d83f253eefbd5ed5256a45a8c92e58918c4d11a77860b6340d778b69aa96ee6f",
+      "kind": "document"
+    },
+    {
+      "from": "docs/SCENE_RESEARCH.md",
+      "to": "docs/archive/research/SCENE_RESEARCH.md",
+      "sha256_before": "6c3a9f25481e3bb920bb09b2055024d3a682915405d828491025ed885418d9c6",
+      "kind": "document"
+    },
+    {
+      "from": "docs/SCENE_PLAN.md",
+      "to": "docs/archive/research/SCENE_PLAN.md",
+      "sha256_before": "9f87593f364a9634263ed79c07c4e2308437a490f5be31137b71a5770d886203",
+      "kind": "document"
+    },
+    {
+      "from": "docs/history/2026-11-17-plan-before-milestone-reformat.md",
+      "to": "docs/archive/history/2026-11-17-plan-before-milestone-reformat.md",
+      "sha256_before": "7ca7509154d055c25195f088388cd5449138080c5f3e91ff3508d0a44d591c02",
+      "kind": "document"
+    },
+    {
+      "from": "docs/history/2026-11-16-context-C005.md",
+      "to": "docs/archive/history/2026-11-16-context-C005.md",
+      "sha256_before": "94d3e53064664417b4e427ededd1314282d427c8f90e4a302fca830d882beba5",
+      "kind": "document"
+    },
+    {
+      "from": "docs/history/2026-11-16-context-C004.md",
+      "to": "docs/archive/history/2026-11-16-context-C004.md",
+      "sha256_before": "2b0f375cee2abfc65efbfcd74ad6733bb727b609c014b374d5f8fa8f1726ac2b",
+      "kind": "document"
+    },
+    {
+      "from": "docs/history/2026-11-16-context-C001-C003.md",
+      "to": "docs/archive/history/2026-11-16-context-C001-C003.md",
+      "sha256_before": "fb1311df3e7b3881e3f575f66935bbebe8243af5b0eaee3f96b47b4b5de395d1",
+      "kind": "document"
+    },
+    {
+      "from": "docs/设计报告样本--项目最终报告模板.doc",
+      "to": "docs/course_materials/设计报告样本--项目最终报告模板.doc",
+      "sha256_before": "cc876f036df76b24464a4022113fd35b4147220161b273fa7d71634a60c69b36",
+      "kind": "document"
+    },
+    {
+      "from": "docs/设计任务及要求2026.docx",
+      "to": "docs/course_materials/设计任务及要求2026.docx",
+      "sha256_before": "0d614d5d0037aaa164f65707d9eced3da2597db1c731added8d7424c710c9856",
+      "kind": "document"
+    },
+    {
+      "from": "docs/设计教程2.pdf",
+      "to": "docs/course_materials/设计教程2.pdf",
+      "sha256_before": "be1a4db0a23e8dbbacb634c2801fb41ee29085c5b20a89e8ef0919e3d300d3a5",
+      "kind": "document"
+    },
+    {
+      "from": "docs/设计教程3.pdf",
+      "to": "docs/course_materials/设计教程3.pdf",
+      "sha256_before": "90288396f63a52a8d75da74cca887d4b2fe08c5e048ba6cb9ac1dabdf1ab9fea",
+      "kind": "document"
+    },
+    {
+      "from": "docs/设计教程.pdf",
+      "to": "docs/course_materials/设计教程.pdf",
+      "sha256_before": "3d620feb3afd7ff5edd45b1c3ad045d399887523b41fb4451dba3568088c824c",
+      "kind": "document"
+    },
+    {
+      "from": "scripts/calibrate_layout.py",
+      "to": "archive/tools/scripts/calibrate_layout.py",
+      "sha256_before": "b0872d2835202cf43282df09f0c311b37c71897fa42aa3bdcac8e5e4a64e9ade",
+      "kind": "historical_tool"
+    },
+    {
+      "from": "scripts/inventory_scene.py",
+      "to": "archive/tools/scripts/inventory_scene.py",
+      "sha256_before": "e99baabfbbdb3616cf539a88b06cbd9d212523276dc3d8a7dd29a9577054eb38",
+      "kind": "historical_tool"
+    },
+    {
+      "from": "scripts/evaluate_camera_views.py",
+      "to": "archive/tools/scripts/evaluate_camera_views.py",
+      "sha256_before": "bf370c7cd15d9f5c5155e7453e3ab29292d71ca700d429900f689354ec5f8e9c",
+      "kind": "historical_tool"
+    },
+    {
+      "from": "scripts/evaluate_captured_targets.py",
+      "to": "archive/tools/scripts/evaluate_captured_targets.py",
+      "sha256_before": "045c937877192a327beda8a8a936f02c0ed4dde3a184f4b33171d4e0509cf214",
+      "kind": "historical_tool"
+    },
+    {
+      "from": "scripts/summarize_validation.py",
+      "to": "archive/tools/scripts/summarize_validation.py",
+      "sha256_before": "4c2b879c1c856deded7747e0c5bf4cb28c486ccf8bb93febca357f854be06e4c",
+      "kind": "historical_tool"
+    },
+    {
+      "from": "scripts/summarize_aws_validation.py",
+      "to": "archive/tools/scripts/summarize_aws_validation.py",
+      "sha256_before": "558bffcbe534e40e527f35cc8e92035afe7564adff11629e9e9ff82dbff34381",
+      "kind": "historical_tool"
+    },
+    {
+      "from": "tools/mesh_bounds.cpp",
+      "to": "archive/tools/tools/mesh_bounds.cpp",
+      "sha256_before": "ab3baa533448ab73ad0876b471b383588c130d70527cc06f2e5f5d4aaf7d5700",
+      "kind": "historical_tool"
+    },
+    {
+      "from": "results/development/legacy_20261117_procedure.sh",
+      "to": "scripts/validation/legacy_regression.sh",
+      "sha256_before": "cb5ad7f3be8834bec300ce5eb3c7761a2e2305498ca85bda54c5bde76d97593d",
+      "kind": "pending_validation"
+    }
+  ],
+  "archives": [
+    {
+      "archive": "archive/runs/development_completed_20261117.tar.gz",
+      "sha256": "e2e087a9c9d524ff86bd1ad479e4fc8a60edc64bc1e0bf22b2a8da26a201ed89",
+      "original_roots": [
+        "results/development/20261117_bedroom",
+        "results/development/20261117_bounded_wait",
+        "results/development/20261117_client_freshness",
+        "results/development/20261117_depth_invalid",
+        "results/development/20261117_qos_probe",
+        "results/development/20261117_sensor_timing",
+        "results/development/controlled_outage_20261117.py",
+        "results/development/p1",
+        "results/development/r0_empty_kitchen_v1",
+        "results/development/r0_failure_modes_v1",
+        "results/development/r0_partial_view_v1",
+        "results/development/r0_restored_v1",
+        "results/development/r0_v1",
+        "results/development/r0_v1b",
+        "results/development/r0_v1c",
+        "results/development/r0_v1d",
+        "results/development/r0_v2",
+        "results/development/r0_v3",
+        "results/development/r0_yellow_two_v1",
+        "results/development/r0_yellow_v1",
+        "results/development/r0_yellow_v2",
+        "results/development/research",
+        "results/development/shutdown.json"
+      ],
+      "bytes_before": 107953431,
+      "bytes_after": 40132387,
+      "verification": "Every file hash and symlink verified against tar members before deleting originals",
+      "manifest": "archive/runs/development_completed_20261117.tar.gz.manifest.json"
+    },
+    {
+      "archive": "archive/runs/logs_20261117.tar.gz",
+      "sha256": "48760cde3dedbe4dec5903246065af68b0835462f27c5784795082e5a9b06221",
+      "original_roots": [
+        "log"
+      ],
+      "bytes_before": 7553217,
+      "bytes_after": 754795,
+      "verification": "Every file hash and symlink verified against tar members before deleting originals",
+      "manifest": "archive/runs/logs_20261117.tar.gz.manifest.json"
+    }
+  ],
+  "deleted_regenerable": [
+    {
+      "path": "build",
+      "bytes": 242064,
+      "reason": "Unused build residue or reproducible test/Python cache"
+    },
+    {
+      "path": "build_ascii",
+      "bytes": 241968,
+      "reason": "Unused build residue or reproducible test/Python cache"
+    },
+    {
+      "path": ".pytest_cache",
+      "bytes": 8679,
+      "reason": "Unused build residue or reproducible test/Python cache"
+    },
+    {
+      "path": "src/semantic_search/__pycache__",
+      "bytes": 765,
+      "reason": "Unused build residue or reproducible test/Python cache"
+    },
+    {
+      "path": "src/semantic_search/launch/__pycache__",
+      "bytes": 14120,
+      "reason": "Unused build residue or reproducible test/Python cache"
+    },
+    {
+      "path": "src/semantic_search/semantic_search/__pycache__",
+      "bytes": 54672,
+      "reason": "Unused build residue or reproducible test/Python cache"
+    },
+    {
+      "path": "scripts/__pycache__",
+      "bytes": 100927,
+      "reason": "Unused build residue or reproducible test/Python cache"
+    },
+    {
+      "path": "tests/__pycache__",
+      "bytes": 131078,
+      "reason": "Unused build residue or reproducible test/Python cache"
+    },
+    {
+      "path": "results/development/__pycache__",
+      "bytes": 5028,
+      "reason": "Unused build residue or reproducible test/Python cache"
+    }
+  ],
+  "snapshots": [
+    {
+      "source": "HANDOFF.md",
+      "snapshot": "docs/archive/history/HANDOFF_before_cleanup_20261117.md",
+      "sha256": "6fb73b3ef5aaf9fc18970c6dfdbbdd404dc44d32cb4c039716224b421d0f1de9"
+    },
+    {
+      "source": "docs/DEVELOPMENT_VALIDATION.md",
+      "snapshot": "docs/archive/validation/DEVELOPMENT_VALIDATION_20261117.md",
+      "sha256": "a4b154b035a6114295e0e1fafe8b285924af58295032c2da74bde3338bf21e93"
+    },
+    {
+      "source": "docs/maintained/AWS_HOUSE.md (before narrative cleanup)",
+      "snapshot": "docs/archive/validation/AWS_HOUSE_20261117.md",
+      "sha256": "92a29c90f722ba4b6e7134ba6f7c6aed0c88de967aac392de4fdaf653a52c346"
+    }
+  ],
+  "verification": {
+    "source_files_unchanged": 126,
+    "intentional_existing_file_changes": [
+      "scripts/voice_env.sh",
+      "scenes/baseline/README.md",
+      "scenes/aws_house/README.md"
+    ],
+    "teacher_originals_sha256_preserved": 5,
+    "historical_tools_and_pending_script_sha256_preserved": 8,
+    "protected_baseline_hashes_passed": 10,
+    "skill_hashes_passed": 8,
+    "old_45_report_read_from_archive": true,
+    "latest_27_report_retained": true,
+    "manual_demo_retained": true,
+    "shell_syntax": "passed",
+    "runtime_source_changed": false
+  },
+  "archive_totals": {
+    "members": 2338,
+    "bytes_before": 115506648,
+    "bytes_after": 40887182,
+    "bytes_saved": 74619466
+  },
+  "new_documents": [
+    "docs/README.md",
+    "docs/maintained/RUNNING.md",
+    "docs/course_materials/README.md",
+    "docs/archive/README.md",
+    "docs/evidence/README.md",
+    "archive/README.md",
+    "scripts/README.md"
+  ],
+  "compatibility_entries": [
+    "HANDOFF.md",
+    "SOURCES.md"
+  ],
+  "notes": [
+    "No Git commit or push; prior uncommitted code preserved.",
+    "Archives contain original paths and are local-only; manifests and selected evidence remain in source tree.",
+    "Historical JSON and lock-file source fingerprints were not rewritten."
+  ]
+}

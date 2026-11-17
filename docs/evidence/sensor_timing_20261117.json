@@ -1,0 +1,378 @@
+{
+  "schema_version": 1,
+  "generated_utc": "2026-11-17T05:09:25.544324+00:00",
+  "status": "observed",
+  "purpose": "Portable facts from one newly joined, read-only ROS sensor-timing listener; not a sensor-health acceptance result.",
+  "observation": {
+    "started_utc": "2026-11-17T05:07:40.728704+00:00",
+    "finished_utc": "2026-11-17T05:08:00.734081+00:00",
+    "ros_domain_id": 66,
+    "observer_node": "sensor_timing_readonly",
+    "requested_wall_seconds": 20,
+    "elapsed_wall_seconds": 20.00101487300026,
+    "first_wall_seconds_excluded_from_steady_metrics": 5,
+    "clock_observed_sim_span_seconds": 19.946,
+    "subscriptions": [
+      "/rgbd/image",
+      "/rgbd/depth_image",
+      "/rgbd/camera_info",
+      "/yolo/detections",
+      "/clock"
+    ],
+    "subscriber_qos": "sensor_data: BEST_EFFORT, VOLATILE, depth 5",
+    "method": "Header stamps and receive times only; no image decoding/conversion.",
+    "recorded_fields": [
+      "message header timestamp and frame",
+      "arrival monotonic time",
+      "latest received /clock timestamp and its wall age",
+      "detection-array length"
+    ],
+    "published_task_commands": false,
+    "converted_images": false,
+    "changed_runtime_processes_or_configuration": false,
+    "observer_exited": true,
+    "runtime_context_operator_report": "Existing simulation, navigation, detector and /validation/invalid_depth relay; observer subscribed to original sensor topics only.",
+    "runtime_inventory_independently_verified": false,
+    "valid_capture_execution_context": "Localhost DDS access was allowed for the same read-only observer after the sandbox-only attempt failed."
+  },
+  "sources": [
+    {
+      "path": "results/development/20261117_sensor_timing/summary.json",
+      "sha256": "0feae0cb813a3b8085c7981b4e47079df4cfcb7686aa99fc95e2fa8c6ff76475",
+      "bytes": 16949
+    },
+    {
+      "path": "results/development/20261117_sensor_timing/headers.json",
+      "sha256": "a82b31a88c7399b613ffcc98424ac7e88cf63841640e3d9724c97cd79dff178d",
+      "bytes": 2773485
+    },
+    {
+      "path": "results/development/20261117_sensor_timing/observation.log",
+      "sha256": "23477084cb58da3506e5b2a271307fd3cccb993e665735528c38f168d1c0bcbb",
+      "bytes": 16064
+    },
+    {
+      "path": "results/development/20261117_sensor_timing/observe_timing.py",
+      "sha256": "b205f4a6330fc6dbbc8f61e30b383cd45634c27eebc318215698377a6873448d",
+      "bytes": 8699
+    }
+  ],
+  "metrics": {
+    "/rgbd/image": {
+      "first_publisher_discovery_wall_seconds": 0.04590434400006416,
+      "first_message_wall_seconds": 0.34012596499997017,
+      "total_messages": 13,
+      "after_first_5s_messages": 12,
+      "after_first_5s_arrival_gap_wall_seconds": {
+        "count": 11,
+        "minimum": 0.11360769300017637,
+        "median": 1.2371040699999867,
+        "p95": 2.8794651190000877,
+        "maximum": 2.893348855000113
+      },
+      "after_first_5s_header_gap_sim_seconds": {
+        "count": 11,
+        "minimum": 0.12399999999979627,
+        "median": 1.25,
+        "p95": 2.8760000000002037,
+        "maximum": 2.8760000000002037
+      },
+      "after_first_5s_duplicate_header_stamps": 0,
+      "after_first_5s_header_backsteps": 0,
+      "publishers_observed": [
+        {
+          "node_name": "_NODE_NAME_UNKNOWN_",
+          "node_namespace": "_NODE_NAMESPACE_UNKNOWN_",
+          "reliability": "ReliabilityPolicy.RELIABLE",
+          "durability": "DurabilityPolicy.VOLATILE"
+        }
+      ]
+    },
+    "/rgbd/depth_image": {
+      "first_publisher_discovery_wall_seconds": 0.04590434400006416,
+      "first_message_wall_seconds": 0.20032371900015278,
+      "total_messages": 92,
+      "after_first_5s_messages": 66,
+      "after_first_5s_arrival_gap_wall_seconds": {
+        "count": 65,
+        "minimum": 0.11016085999972347,
+        "median": 0.1295349880001595,
+        "p95": 0.3858942639999441,
+        "maximum": 1.0064589870003147
+      },
+      "after_first_5s_header_gap_sim_seconds": {
+        "count": 65,
+        "minimum": 0.12399999999979627,
+        "median": 0.12600000000020373,
+        "p95": 0.3760000000002037,
+        "maximum": 1.0
+      },
+      "after_first_5s_duplicate_header_stamps": 0,
+      "after_first_5s_header_backsteps": 0,
+      "publishers_observed": [
+        {
+          "node_name": "_NODE_NAME_UNKNOWN_",
+          "node_namespace": "_NODE_NAMESPACE_UNKNOWN_",
+          "reliability": "ReliabilityPolicy.RELIABLE",
+          "durability": "DurabilityPolicy.VOLATILE"
+        }
+      ]
+    },
+    "/rgbd/camera_info": {
+      "first_publisher_discovery_wall_seconds": 0.04590434400006416,
+      "first_message_wall_seconds": 0.05408321300001262,
+      "total_messages": 160,
+      "after_first_5s_messages": 120,
+      "after_first_5s_arrival_gap_wall_seconds": {
+        "count": 119,
+        "minimum": 0.12114409200012233,
+        "median": 0.1249832769999557,
+        "p95": 0.12758239000004323,
+        "maximum": 0.13085731000001033
+      },
+      "after_first_5s_header_gap_sim_seconds": {
+        "count": 119,
+        "minimum": 0.12399999999979627,
+        "median": 0.12399999999979627,
+        "p95": 0.12600000000020373,
+        "maximum": 0.12600000000020373
+      },
+      "after_first_5s_duplicate_header_stamps": 0,
+      "after_first_5s_header_backsteps": 0,
+      "publishers_observed": [
+        {
+          "node_name": "_NODE_NAME_UNKNOWN_",
+          "node_namespace": "_NODE_NAMESPACE_UNKNOWN_",
+          "reliability": "ReliabilityPolicy.RELIABLE",
+          "durability": "DurabilityPolicy.VOLATILE"
+        }
+      ]
+    },
+    "/yolo/detections": {
+      "first_publisher_discovery_wall_seconds": 1.049984724999831,
+      "first_message_wall_seconds": 5.759785601000203,
+      "total_messages": 14,
+      "after_first_5s_messages": 14,
+      "after_first_5s_arrival_gap_wall_seconds": {
+        "count": 13,
+        "minimum": 0.1338401680000061,
+        "median": 0.7945838589998857,
+        "p95": 2.2724353710000287,
+        "maximum": 2.894257480000306
+      },
+      "after_first_5s_header_gap_sim_seconds": {
+        "count": 13,
+        "minimum": 0.12399999999979627,
+        "median": 0.75,
+        "p95": 2.25,
+        "maximum": 2.8760000000002037
+      },
+      "after_first_5s_duplicate_header_stamps": 0,
+      "after_first_5s_header_backsteps": 0,
+      "publishers_observed": [
+        {
+          "node_name": "_NODE_NAME_UNKNOWN_",
+          "node_namespace": "_NODE_NAMESPACE_UNKNOWN_",
+          "reliability": "ReliabilityPolicy.RELIABLE",
+          "durability": "DurabilityPolicy.VOLATILE"
+        }
+      ],
+      "header_to_latest_clock_sim_seconds": {
+        "count": 14,
+        "minimum": 0.068,
+        "median": 0.083,
+        "p95": 0.096,
+        "maximum": 0.128
+      },
+      "latest_clock_sample_age_wall_seconds": {
+        "count": 14,
+        "minimum": 0.0024820429998726468,
+        "median": 0.003752033000182564,
+        "p95": 0.004869887000040762,
+        "maximum": 0.005143787000179145
+      }
+    },
+    "/clock": {
+      "first_publisher_discovery_wall_seconds": 0.04590434400006416,
+      "first_message_wall_seconds": 0.0458806699998604,
+      "total_messages": 9506,
+      "after_first_5s_messages": 7137,
+      "after_first_5s_arrival_gap_wall_seconds": {
+        "count": 7136,
+        "minimum": 7.052499995552353e-05,
+        "median": 0.001989835499898618,
+        "p95": 0.0022600800002692267,
+        "maximum": 0.03220842900009302
+      },
+      "after_first_5s_header_gap_sim_seconds": {
+        "count": 7136,
+        "minimum": 0.0019999999999527063,
+        "median": 0.0019999999999527063,
+        "p95": 0.0020000000004074536,
+        "maximum": 0.023999999999887223
+      },
+      "after_first_5s_duplicate_header_stamps": 0,
+      "after_first_5s_header_backsteps": 0,
+      "publishers_observed": [
+        {
+          "node_name": "_NODE_NAME_UNKNOWN_",
+          "node_namespace": "_NODE_NAMESPACE_UNKNOWN_",
+          "reliability": "ReliabilityPolicy.RELIABLE",
+          "durability": "DurabilityPolicy.VOLATILE"
+        }
+      ]
+    }
+  },
+  "notable_gaps": {
+    "first_two_rgb_arrival_elapsed_wall_seconds": [
+      0.34012596499997017,
+      5.714891306000027
+    ],
+    "first_rgb_arrival_gap_wall_seconds": 5.374765341000057,
+    "joint_detection_depth_info_matching_arrival_gaps_wall_seconds": {
+      "count": 7,
+      "minimum": 0.1338401680000061,
+      "median": 1.4895918259999235,
+      "maximum": 5.5046213669998
+    },
+    "joint_detection_depth_info_matching_detection_arrival_elapsed_wall_seconds": [
+      5.759785601000203,
+      11.264406968000003,
+      12.753998793999926,
+      15.648256274000232,
+      17.01575287500009,
+      17.52196313200011,
+      19.017984270999932,
+      19.151824438999938
+    ]
+  },
+  "detection_latency": {
+    "acquisition_header_to_latest_received_sim_clock_seconds": {
+      "count": 14,
+      "minimum": 0.068,
+      "median": 0.083,
+      "p95": 0.096,
+      "maximum": 0.128
+    },
+    "latest_clock_sample_age_wall_seconds": {
+      "count": 14,
+      "minimum": 0.0024820429998726468,
+      "median": 0.003752033000182564,
+      "p95": 0.004869887000040762,
+      "maximum": 0.005143787000179145
+    },
+    "exact_header_rgb_receive_to_detection_receive_wall_seconds": {
+      "count": 12,
+      "minimum": 0.04135676800024157,
+      "median": 0.04509566650017405,
+      "maximum": 0.07620954999993046
+    },
+    "boundary": "Header-to-arrival simulation delay uses the latest received /clock, not a hardware timestamp or direct inference-duration measurement."
+  },
+  "header_matching": {
+    "method": "Each topic uses arrivals >=5s; counterpart headers use all 20s. End-of-capture missing counterparts may be censored.",
+    "tolerance_sim_seconds": 0.075,
+    "detection_reference_messages": 14,
+    "detection_pairwise_matches": {
+      "/rgbd/image": {
+        "exact_header_matches": 12,
+        "within_75ms": 12,
+        "nearest_absolute_stamp_difference_sim_seconds": {
+          "count": 14,
+          "minimum": 0.0,
+          "median": 0.0,
+          "p95": 0.5,
+          "maximum": 0.626
+        }
+      },
+      "/rgbd/depth_image": {
+        "exact_header_matches": 8,
+        "within_75ms": 8,
+        "nearest_absolute_stamp_difference_sim_seconds": {
+          "count": 14,
+          "minimum": 0.0,
+          "median": 0.0,
+          "p95": 0.25,
+          "maximum": 0.25
+        }
+      },
+      "/rgbd/camera_info": {
+        "exact_header_matches": 14,
+        "within_75ms": 14,
+        "nearest_absolute_stamp_difference_sim_seconds": {
+          "count": 14,
+          "minimum": 0.0,
+          "median": 0.0,
+          "p95": 0.0,
+          "maximum": 0.0
+        }
+      }
+    },
+    "detections_with_exact_depth_and_info": 8,
+    "detections_with_exact_rgb_depth_and_info": 7,
+    "boundary": "Matching is computed offline from received header sets. It does not execute or reproduce the search ApproximateTimeSynchronizer queue/slop logic."
+  },
+  "excluded_sandbox_attempt": {
+    "started_utc": "2026-11-17T05:06:54.985237+00:00",
+    "finished_utc": "2026-11-17T05:07:15.037898+00:00",
+    "elapsed_wall_seconds": 20.048752407999928,
+    "ros_domain_id": 66,
+    "all_topic_message_counts": {
+      "/rgbd/image": 0,
+      "/rgbd/depth_image": 0,
+      "/rgbd/camera_info": 0,
+      "/yolo/detections": 0,
+      "/clock": 0
+    },
+    "sources": [
+      {
+        "path": "results/development/20261117_sensor_timing/sandbox_transport_unavailable/summary.json",
+        "sha256": "b9195a2dd1bcff1a4e1139d2b9c9302db4464b7e9681ece780b425cdbc7a3c09",
+        "bytes": 10110
+      },
+      {
+        "path": "results/development/20261117_sensor_timing/sandbox_transport_unavailable/headers.json",
+        "sha256": "fa9814b043b29c0df0294a2e2b004732d9eb634ffca0ff36d355fe9c56319202",
+        "bytes": 120
+      },
+      {
+        "path": "results/development/20261117_sensor_timing/sandbox_transport_unavailable/observation.log",
+        "sha256": "e21584e8c93d910cc354f4ad7b08faf91e0e52d210b573f9bc3ffef41820c8d1",
+        "bytes": 10736
+      }
+    ],
+    "observed_permission_errors": [
+      "getifaddrs: Operation not permitted",
+      "Error creating socket: Operation not permitted",
+      "User transport failed to register."
+    ],
+    "interpretation": "The observer could not access the required network transport in the sandbox. Its all-zero receipt is a permission failure, not evidence of a robot runtime outage.",
+    "included_in_valid_capture_metrics": false
+  },
+  "integrity_checks": {
+    "expected_domain": true,
+    "complete_requested_topic_set": true,
+    "observation_about_20_wall_seconds": true,
+    "valid_capture_received_each_topic": true,
+    "callback_finished_without_exception": true,
+    "sandbox_attempt_had_no_publishers_or_messages": true
+  },
+  "integrity_checks_boundary": "These checks validate capture completeness and evidence scope; they do not declare the sensor stream healthy.",
+  "conclusions": {
+    "directly_observed": "This listener received sparse RGB/detection messages and missing exact depth counterparts while camera_info arrived regularly during the measured window.",
+    "root_cause": "undetermined",
+    "cpu_cause_established": false,
+    "dds_cause_established": false,
+    "measured_search_synchronizer": false,
+    "linked_to_specific_search_viewpoint": false,
+    "mitigations_tested_in_this_observation": false
+  },
+  "limitations": [
+    "One newly joined listener over one 20-second window cannot stand in for the running search subscriber or prove why an earlier viewpoint had no synchronized messages.",
+    "ROS publisher discovery is sampled about every 0.2 wall seconds; first discovery is when this observer noticed a publisher, not publisher startup time.",
+    "The first five wall seconds are excluded from steady receipt statistics; counterpart header matching still uses the entire capture to avoid losing partners across that boundary.",
+    "Observation endpoints, subscription QoS, receive queues and the observer joining may affect receipt; no CPU or DDS root cause was isolated.",
+    "A matching timestamp set is not proof that the real synchronizer emitted that tuple; end-of-capture missing counterparts may be censored.",
+    "Any subsequent bounded waiting experiment would test tolerance to missing observations. It must not be described as resolving the sensor root cause on the basis of this evidence."
+  ]
+}

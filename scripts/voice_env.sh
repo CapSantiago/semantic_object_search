@@ -2,7 +2,7 @@
 # Source only for the separately prepared voice environment.
 source "$(dirname -- "${BASH_SOURCE[0]}")/env.sh" || return 1
 if [[ ! -x "$SEMANTIC_PROJECT_ROOT/.venv-voice/bin/python" ]]; then
-    echo "Voice environment missing; see docs/RESOURCE_PREPARATION.md" >&2
+    echo "Voice environment missing; see docs/maintained/RESOURCE_PREPARATION.md" >&2
     return 1
 fi
 source "$SEMANTIC_PROJECT_ROOT/scripts/native_gui_env.sh"

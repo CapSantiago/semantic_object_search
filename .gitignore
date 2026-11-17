@@ -2,6 +2,8 @@
 /build_ascii/
 /install/
 /log/
+/.pytest_cache/
+/archive/runs/*.tar.gz
 /maps/*
 !/maps/course_house.yaml
 !/maps/course_house.pgm
@@ -25,7 +27,8 @@ __pycache__/
 /third_party/*/
 /.aws/
 /.codex/
-/.agents/
+/.agents/*
+!/.agents/skills
 /.env
 /.env.*
 *.pem

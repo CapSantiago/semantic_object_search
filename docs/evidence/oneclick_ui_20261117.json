@@ -1,0 +1,1032 @@
+{
+  "date": "2026-11-17",
+  "scope": "One-click local browser console integration with the existing candidate; not P3 full coverage or G0/G1/G2 acceptance",
+  "entry": "bash scripts/start_robot.sh",
+  "sessions": [
+    "results/sessions/20261117T102011_228894Z_bf34db0a",
+    "results/sessions/20261117T102736_258168Z_baea094d"
+  ],
+  "configuration": {
+    "domain": 66,
+    "ign_partition": "semantic_session_baea094d873044e892fcec8e3717440e",
+    "headless": false,
+    "scene_id": "aws_house_console_baea094d",
+    "layout": "scenes/aws_house/layout_r0_yellow_v1.json",
+    "rooms": "src/semantic_search/config/rooms_aws_house_v3.json",
+    "navigation": "src/semantic_search/config/nav2_depth.yaml",
+    "sensor_reliability": "reliable",
+    "model": "yolov8n-seg.pt",
+    "camera_height": 1.0,
+    "camera_pitch": 0.25,
+    "detector": {
+      "device": "cpu",
+      "image_size": 640,
+      "confidence": 0.35,
+      "iou": 0.3
+    }
+  },
+  "final_source_sha256": {
+    "scenes/aws_house/layout_r0_yellow_v1.json": "a701a5e7efba8533441ad881bb0f88b367b47e78e8e8649c84612ef3392fb7eb",
+    "src/semantic_search/config/rooms_aws_house_v3.json": "139adb2cc80108931ab99c1f13c65bbf144315788d505389cf1329ae065afa4a",
+    "src/semantic_search/config/nav2_depth.yaml": "544105fe17ba2d3478556d45b7e198b179e36eb45738774e112117c5d71488b8",
+    "yolov8n-seg.pt": "a7cd8f929e1903d78a12a48efecab430209f18dc46cb96c3599a5980c63c423c",
+    "src/semantic_search/semantic_search/search_node.py": "4f87befe76146938be6bc6ecce5c0b2631552d083ff61a1b8ff18ce2cff9f4ca",
+    "src/semantic_search/semantic_search/detector.py": "ddac1900956b1f61d26e422c741e9df9683f93349e7ba0d6b470fa1b32148c0d",
+    "src/semantic_search/semantic_search/sensor_qos.py": "4b47e1b9b3b08754b7c578435a6c391539730d02b98616c2e017a4d44b0d57d8",
+    "scripts/start_robot.sh": "8cd119f3724065185fbfe6fe90ae125bd01b6e81ee69e93386f39bff2486fffa",
+    "scripts/robot_console.py": "7e16a4cd552734b8ee3e468273d16876c6232eb1cad474055796252282ded1b7",
+    "scripts/robot_runtime.py": "f9caef8ff519b8d8ede4bacee1b435f39c1038c1f6da09c474ac14d996aeaa0e",
+    "scripts/robot_monitor.py": "516be34447e43262737bb6eb3164c8998166567043b7bc7ad3b8352ace4fdfca",
+    "ui/index.html": "f0193e5da09539c1f65052968c9fe608df748ca83690fa696c4dbb630c446e51",
+    "ui/app.js": "ea436a62d82dfccb57aaf02b057f644cc4416e4d69525b0e411f2ddaa95dc417",
+    "ui/style.css": "09fdc17737f1d55c48b964ecd09ac736f98491543f012f9ed5de4db61ae70af8"
+  },
+  "startup": {
+    "gui_cold_starts": 2,
+    "both_reached_actual_ros_ready": true,
+    "gazebo_and_rviz_windows": "results/sessions/20261117T102011_228894Z_bf34db0a/verification/desktop_windows.json",
+    "auto_open_browser_verified": true,
+    "duplicate_launch_rejected": true
+  },
+  "sensor_check": {
+    "sensor_reliability": "reliable",
+    "topics": {
+      "/clock": {
+        "messages": 4870,
+        "sim_hz": 486.5107913669067
+      },
+      "/odom": {
+        "messages": 500,
+        "sim_hz": 49.99999999999998
+      },
+      "/rgbd/camera_info": {
+        "messages": 80,
+        "sim_hz": 7.999189955447545,
+        "frame": "camera_optical_frame",
+        "k": [
+          565.6008952774198,
+          0.0,
+          320.0,
+          0.0,
+          565.6008952774197,
+          240.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      },
+      "/scan": {
+        "messages": 50,
+        "sim_hz": 5.000000000000002,
+        "frame": "base_scan",
+        "samples": 360,
+        "minimum": 0.7977014183998108,
+        "maximum": 10.288334846496582
+      },
+      "/rgbd/depth_image": {
+        "messages": 80,
+        "sim_hz": 7.999189955447545,
+        "frame": "camera_optical_frame",
+        "encoding": "32FC1",
+        "width": 640,
+        "height": 480,
+        "valid_fraction": 0.6994694010416667,
+        "minimum": 1.5431239604949951,
+        "maximum": 7.906290531158447
+      },
+      "/rgbd/image": {
+        "messages": 80,
+        "sim_hz": 7.999189955447545,
+        "frame": "camera_optical_frame",
+        "encoding": "rgb8",
+        "width": 640,
+        "height": 480
+      }
+    },
+    "tf": {
+      "odom->base_footprint": {
+        "xyz": [
+          -5.693004149161577e-05,
+          4.144224339307022e-11,
+          0.0
+        ],
+        "xyzw": [
+          -1.9530728529534246e-09,
+          -0.0028458878062101512,
+          -7.310389225414724e-09,
+          0.9999959504530977
+        ]
+      },
+      "base_footprint->base_scan": {
+        "xyz": [
+          -0.064,
+          0.0,
+          0.121
+        ],
+        "xyzw": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      },
+      "base_link->camera_optical_frame": {
+        "xyz": [
+          0.069,
+          -0.047,
+          1.0
+        ],
+        "xyzw": [
+          -0.5584362003072785,
+          0.5584362003094919,
+          -0.43376146692205075,
+          0.43376146691920076
+        ]
+      }
+    },
+    "passed": true
+  },
+  "tasks": [
+    {
+      "request_id": "smoke_find_kitchen_cup",
+      "state": "completed",
+      "task_id": "8caa3574-5105-4fd3-95c3-c0188c63f795",
+      "status": "found",
+      "count": 1,
+      "elapsed_wall_seconds": 42.74,
+      "save_status": "saved",
+      "evidence": "results/sessions/20261117T102011_228894Z_bf34db0a/verification/find_state.json"
+    },
+    {
+      "request_id": "smoke_count_kitchen_cup",
+      "state": "completed",
+      "task_id": "7251ba5f-6202-4338-892a-391184732970",
+      "status": "completed",
+      "count": 1,
+      "elapsed_wall_seconds": 25.31,
+      "save_status": "saved",
+      "evidence": "results/sessions/20261117T102011_228894Z_bf34db0a/verification/count_state.json"
+    },
+    {
+      "request_id": "FINAL_CancelTest",
+      "state": "canceled",
+      "task_id": "ff40fc56-309e-4407-9a50-feb13f6105b4",
+      "status": "canceled",
+      "count": 0,
+      "elapsed_wall_seconds": 5.22,
+      "save_status": "saved",
+      "evidence": "results/sessions/20261117T102736_258168Z_baea094d/verification/cancel_state.json"
+    },
+    {
+      "request_id": "final_after_cancel_find",
+      "state": "completed",
+      "task_id": "e8db5f32-545d-4895-ab81-f4c0103f316b",
+      "status": "found",
+      "count": 1,
+      "elapsed_wall_seconds": 33.02,
+      "save_status": "saved",
+      "evidence": "results/sessions/20261117T102736_258168Z_baea094d/verification/recovery_find_state.json"
+    }
+  ],
+  "actual_browser_controls": {
+    "report": "results/sessions/20261117T102736_258168Z_baea094d/ui_verification/control_test.json",
+    "checks": {
+      "exactly_one_task_submit": true,
+      "exactly_one_cancel_submit": true,
+      "only_authorized_two_mutations": true,
+      "new_task_id": true,
+      "correct_command_payload": true,
+      "task_canceled": true,
+      "canceled_within_20_seconds": true,
+      "ui_shows_canceled": true,
+      "no_javascript_errors": true
+    }
+  },
+  "stop_motion": {
+    "cancel_wall_time": 1794911450.0615296,
+    "samples_total": 2702,
+    "samples_after_cancel_plus_2s": 193,
+    "observed_seconds_after_cancel": 5.840343236923218,
+    "max_linear_speed_after_2s": 0.0,
+    "max_abs_angular_z_after_2s": 0.0,
+    "stationary_after_2s": true
+  },
+  "ui": {
+    "report": "results/sessions/20261117T102736_258168Z_baea094d/ui_verification/report.json",
+    "checks": {
+      "desktop_connected": true,
+      "desktop_map_rendered": true,
+      "mobile_390px_viewport": true,
+      "mobile_log_refresh_button_visible": true,
+      "client_processes_hidden": true,
+      "mobile_no_horizontal_overflow": true,
+      "no_javascript_errors": true,
+      "only_get_requests_before_and_after_refresh": true,
+      "stop_control_visible": true,
+      "desktop_auto_open_window_exists": true
+    },
+    "first_session_screenshots": "results/sessions/20261117T102011_228894Z_bf34db0a/ui_verification",
+    "final_session_screenshots": "results/sessions/20261117T102736_258168Z_baea094d/ui_verification"
+  },
+  "artifact_downloads": [
+    {
+      "name": "任务请求",
+      "status": 200,
+      "bytes": 294,
+      "mime": "application/json"
+    },
+    {
+      "name": "结果JSON",
+      "status": 200,
+      "bytes": 3371,
+      "mime": "application/json"
+    },
+    {
+      "name": "客户端诊断",
+      "status": 200,
+      "bytes": 720,
+      "mime": "application/json"
+    },
+    {
+      "name": "初始位姿",
+      "status": 200,
+      "bytes": 2966,
+      "mime": "application/json"
+    },
+    {
+      "name": "持久化结果",
+      "status": 200,
+      "bytes": 3371,
+      "mime": "application/json"
+    },
+    {
+      "name": "逐帧观测",
+      "status": 200,
+      "bytes": 17314,
+      "mime": "application/json"
+    },
+    {
+      "name": "编号地图SVG",
+      "status": 200,
+      "bytes": 180899,
+      "mime": "image/svg+xml"
+    }
+  ],
+  "checks": {
+    "tests_command": "source scripts/env.sh; PYTHONPATH=\"$PWD/scripts:$PWD/src/semantic_search:${PYTHONPATH:-}\" python3 -m pytest -q tests",
+    "passed": 134,
+    "skipped": 5,
+    "skipped_reason": "Opt-in isolated ROS client tests; prior C006 run passed; ROS client unchanged in this task",
+    "new_console_runtime_monitor_tests": 68,
+    "syntax_checks": "Python compilation, bash -n, node --check passed",
+    "protected_baselines": 10,
+    "baseline_sha256_unchanged": true,
+    "test_invocation_correction": "Initial root-wide pytest also collected unconfigured third_party/yolo_ros tests and failed collection; rerun restricted to this project tests/ passed."
+  },
+  "shutdown": {
+    "results/sessions/20261117T102011_228894Z_bf34db0a": {
+      "closed_utc": "2026-11-17T10:27:24.210288+00:00",
+      "elapsed_wall_seconds": 6.0789133540001785,
+      "status": "stopped",
+      "remaining_owned_processes": [],
+      "signals": [
+        {
+          "name": "navigation",
+          "pid": 25573,
+          "signal": "SIGINT"
+        },
+        {
+          "name": "simulation",
+          "pid": 25129,
+          "signal": "SIGINT"
+        },
+        {
+          "pid": 25129,
+          "signal": "SIGTERM"
+        },
+        {
+          "pid": 25154,
+          "signal": "SIGTERM"
+        },
+        {
+          "pid": 25158,
+          "signal": "SIGTERM"
+        },
+        {
+          "pid": 25160,
+          "signal": "SIGTERM"
+        },
+        {
+          "pid": 25162,
+          "signal": "SIGTERM"
+        },
+        {
+          "pid": 25164,
+          "signal": "SIGTERM"
+        },
+        {
+          "pid": 25195,
+          "signal": "SIGTERM"
+        },
+        {
+          "pid": 25196,
+          "signal": "SIGTERM"
+        },
+        {
+          "pid": 25824,
+          "signal": "SIGTERM"
+        },
+        {
+          "pid": 25825,
+          "signal": "SIGTERM"
+        },
+        {
+          "pid": 25833,
+          "signal": "SIGTERM"
+        },
+        {
+          "pid": 25886,
+          "signal": "SIGTERM"
+        },
+        {
+          "pid": 25888,
+          "signal": "SIGTERM"
+        },
+        {
+          "pid": 25924,
+          "signal": "SIGTERM"
+        },
+        {
+          "pid": 25925,
+          "signal": "SIGTERM"
+        },
+        {
+          "pid": 25158,
+          "signal": "SIGKILL"
+        },
+        {
+          "pid": 25196,
+          "signal": "SIGKILL"
+        }
+      ],
+      "exit_codes": {
+        "simulation": -15,
+        "navigation": 130,
+        "detector": -15,
+        "search": -15,
+        "rviz": -15,
+        "request_84ba710fc2c2400db132910158aaeb9e": 0,
+        "request_smoke_find_kitchen_cup": 0,
+        "request_smoke_count_kitchen_cup": 0
+      },
+      "ownership": "UID + unique inherited token + start_ticks + pidfd"
+    },
+    "results/sessions/20261117T102736_258168Z_baea094d": {
+      "closed_utc": "2026-11-17T10:31:46.250734+00:00",
+      "elapsed_wall_seconds": 4.614904931999263,
+      "status": "stopped",
+      "remaining_owned_processes": [],
+      "signals": [
+        {
+          "name": "rviz",
+          "pid": 30226,
+          "signal": "SIGINT"
+        },
+        {
+          "name": "search",
+          "pid": 30221,
+          "signal": "SIGINT"
+        },
+        {
+          "name": "detector",
+          "pid": 30219,
+          "signal": "SIGINT"
+        },
+        {
+          "name": "navigation",
+          "pid": 29977,
+          "signal": "SIGINT"
+        },
+        {
+          "name": "simulation",
+          "pid": 29549,
+          "signal": "SIGINT"
+        },
+        {
+          "pid": 29549,
+          "signal": "SIGTERM"
+        },
+        {
+          "pid": 29572,
+          "signal": "SIGTERM"
+        },
+        {
+          "pid": 29573,
+          "signal": "SIGTERM"
+        },
+        {
+          "pid": 29575,
+          "signal": "SIGTERM"
+        },
+        {
+          "pid": 29577,
+          "signal": "SIGTERM"
+        },
+        {
+          "pid": 29579,
+          "signal": "SIGTERM"
+        },
+        {
+          "pid": 29610,
+          "signal": "SIGTERM"
+        },
+        {
+          "pid": 29611,
+          "signal": "SIGTERM"
+        },
+        {
+          "pid": 30219,
+          "signal": "SIGTERM"
+        },
+        {
+          "pid": 30221,
+          "signal": "SIGTERM"
+        },
+        {
+          "pid": 30226,
+          "signal": "SIGTERM"
+        },
+        {
+          "pid": 30284,
+          "signal": "SIGTERM"
+        },
+        {
+          "pid": 30286,
+          "signal": "SIGTERM"
+        },
+        {
+          "pid": 30319,
+          "signal": "SIGTERM"
+        },
+        {
+          "pid": 30320,
+          "signal": "SIGTERM"
+        }
+      ],
+      "exit_codes": {
+        "simulation": -15,
+        "navigation": 130,
+        "detector": -15,
+        "search": -15,
+        "rviz": -15,
+        "request_aa4a47646f1429ce79377f040a8bbe51": 130,
+        "request_b35caf7ce2a027ccb4fa6195aab23b9f": 0,
+        "request_a92451f1cf0284b3a5ac242668222d4e": 130
+      },
+      "ownership": "UID + unique inherited token + start_ticks + pidfd"
+    }
+  },
+  "independent_after_shutdown": {
+    "remaining_session_processes": [],
+    "http_port_closed": true
+  },
+  "limitations": [
+    "Existing single-search ROS protocol remains; do not issue concurrent external commands in same domain.",
+    "No microphone, mapping motion UI, cleaning, common motion arbitration, persistent semantic IDs or exact live navigation stages yet.",
+    "Find/count results apply to tested layout and configured observations; full_room_coverage_verified remains false.",
+    "Runtime scenarios do not replace pending P3 repeated cases and baseline regressions."
+  ],
+  "five_zone_update": {
+    "rooms_file": "src/semantic_search/config/rooms_aws_house_v4.json",
+    "spatial_plan": "scenes/aws_house/spatial_v4.json",
+    "diagram": "docs/assets/house_five_zones.png",
+    "coordinate_plot": "docs/assets/house_five_zones_coordinates.png",
+    "image_method": "built-in image_gen; prompt in five_zone_image_prompt.txt",
+    "divider_check": {
+      "model": "RoomWall_01_001",
+      "model_y": -1.49618,
+      "semantic_y": -1.5,
+      "difference_m": 0.00382,
+      "visual_annotation_corrected": true
+    },
+    "static_check": {
+      "status": "passed",
+      "checks": {
+        "map_version": true,
+        "home_clearance": true,
+        "portal_living_kitchen": true,
+        "portal_living_bedroom": true,
+        "portal_living_utility": true,
+        "portal_living_gym": true,
+        "no_room_cell_overlap": true,
+        "observation_poses_connected": true
+      },
+      "frame_id": "map",
+      "radius_m": 0.22,
+      "grid_margin_m": 0.025,
+      "portals": [
+        {
+          "endpoints": [
+            {
+              "room": "living",
+              "pose": [
+                4.3,
+                -0.8,
+                0
+              ],
+              "owner": "living",
+              "clearance_m": 1.8006943105369109,
+              "connected_to_home": true
+            },
+            {
+              "room": "kitchen",
+              "pose": [
+                5.3,
+                -0.8,
+                0
+              ],
+              "owner": "kitchen",
+              "clearance_m": 1.1715374513859982,
+              "connected_to_home": true
+            }
+          ],
+          "passed": true
+        },
+        {
+          "endpoints": [
+            {
+              "room": "living",
+              "pose": [
+                -2.1,
+                -0.5,
+                3.14159
+              ],
+              "owner": "living",
+              "clearance_m": 1.2020815280171309,
+              "connected_to_home": true
+            },
+            {
+              "room": "bedroom",
+              "pose": [
+                -2.9,
+                -0.5,
+                3.14159
+              ],
+              "owner": "bedroom",
+              "clearance_m": 1.2175795661885922,
+              "connected_to_home": true
+            }
+          ],
+          "passed": true
+        },
+        {
+          "endpoints": [
+            {
+              "room": "living",
+              "pose": [
+                -2.0,
+                -2.0,
+                3.14159
+              ],
+              "owner": "living",
+              "clearance_m": 0.8746427842267951,
+              "connected_to_home": true
+            },
+            {
+              "room": "utility",
+              "pose": [
+                -2.9,
+                -2.0,
+                3.14159
+              ],
+              "owner": "utility",
+              "clearance_m": 0.8500000000000001,
+              "connected_to_home": true
+            }
+          ],
+          "passed": true
+        },
+        {
+          "endpoints": [
+            {
+              "room": "living",
+              "pose": [
+                0,
+                0.7,
+                1.57079633
+              ],
+              "owner": "living",
+              "clearance_m": 1.4430869689661812,
+              "connected_to_home": true
+            },
+            {
+              "room": "gym",
+              "pose": [
+                0,
+                1.3,
+                1.57079633
+              ],
+              "owner": "gym",
+              "clearance_m": 2.0303940504246953,
+              "connected_to_home": true
+            }
+          ],
+          "passed": true
+        }
+      ],
+      "overlapping_cell_centres": 0,
+      "observation_poses": [
+        {
+          "room": "kitchen",
+          "category": "default",
+          "pose": [
+            5.1,
+            -0.8,
+            0.7
+          ],
+          "clearance_m": 1.3086252328302401,
+          "connected_to_home": true
+        },
+        {
+          "room": "kitchen",
+          "category": "default",
+          "pose": [
+            4.3,
+            1.1,
+            0.65
+          ],
+          "clearance_m": 0.9656603957913984,
+          "connected_to_home": true
+        },
+        {
+          "room": "kitchen",
+          "category": "default",
+          "pose": [
+            4.3,
+            -0.1,
+            -0.15
+          ],
+          "clearance_m": 1.7240939649566667,
+          "connected_to_home": true
+        },
+        {
+          "room": "kitchen",
+          "category": "default",
+          "pose": [
+            8.6,
+            1.0,
+            2.6
+          ],
+          "clearance_m": 0.7000000000000001,
+          "connected_to_home": true
+        },
+        {
+          "room": "kitchen",
+          "category": "default",
+          "pose": [
+            6.6,
+            -0.4,
+            1.57079633
+          ],
+          "clearance_m": 0.5220153254455275,
+          "connected_to_home": true
+        },
+        {
+          "room": "kitchen",
+          "category": "cup",
+          "pose": [
+            6.6,
+            -0.4,
+            1.57079633
+          ],
+          "clearance_m": 0.5220153254455275,
+          "connected_to_home": true
+        },
+        {
+          "room": "kitchen",
+          "category": "cup",
+          "pose": [
+            5.1,
+            -0.8,
+            0.7
+          ],
+          "clearance_m": 1.3086252328302401,
+          "connected_to_home": true
+        },
+        {
+          "room": "kitchen",
+          "category": "bottle",
+          "pose": [
+            6.6,
+            -0.4,
+            1.57079633
+          ],
+          "clearance_m": 0.5220153254455275,
+          "connected_to_home": true
+        },
+        {
+          "room": "kitchen",
+          "category": "bottle",
+          "pose": [
+            5.1,
+            -0.8,
+            0.7
+          ],
+          "clearance_m": 1.3086252328302401,
+          "connected_to_home": true
+        },
+        {
+          "room": "living",
+          "category": "default",
+          "pose": [
+            0,
+            0,
+            1.57
+          ],
+          "clearance_m": 0.75,
+          "connected_to_home": true
+        },
+        {
+          "room": "living",
+          "category": "default",
+          "pose": [
+            1.2,
+            -0.5,
+            -1.57079633
+          ],
+          "clearance_m": 0.8500000000000001,
+          "connected_to_home": true
+        },
+        {
+          "room": "living",
+          "category": "default",
+          "pose": [
+            2.7,
+            -1.8,
+            3.14159265
+          ],
+          "clearance_m": 0.5099019513592785,
+          "connected_to_home": true
+        },
+        {
+          "room": "living",
+          "category": "cup",
+          "pose": [
+            1.2,
+            -0.5,
+            -1.57079633
+          ],
+          "clearance_m": 0.8500000000000001,
+          "connected_to_home": true
+        },
+        {
+          "room": "living",
+          "category": "cup",
+          "pose": [
+            2.7,
+            -1.8,
+            3.14159265
+          ],
+          "clearance_m": 0.5099019513592785,
+          "connected_to_home": true
+        },
+        {
+          "room": "living",
+          "category": "bottle",
+          "pose": [
+            1.2,
+            -0.5,
+            -1.57079633
+          ],
+          "clearance_m": 0.8500000000000001,
+          "connected_to_home": true
+        },
+        {
+          "room": "living",
+          "category": "bottle",
+          "pose": [
+            2.7,
+            -1.8,
+            3.14159265
+          ],
+          "clearance_m": 0.5099019513592785,
+          "connected_to_home": true
+        },
+        {
+          "room": "bedroom",
+          "category": "default",
+          "pose": [
+            -7.8,
+            0.0,
+            1.8
+          ],
+          "clearance_m": 1.2379418403139948,
+          "connected_to_home": true
+        },
+        {
+          "room": "bedroom",
+          "category": "default",
+          "pose": [
+            -8.8,
+            0.6,
+            1.2
+          ],
+          "clearance_m": 0.304138126514911,
+          "connected_to_home": true
+        },
+        {
+          "room": "bedroom",
+          "category": "default",
+          "pose": [
+            -4.0,
+            0.0,
+            2.8
+          ],
+          "clearance_m": 1.4000000000000001,
+          "connected_to_home": true
+        },
+        {
+          "room": "bedroom",
+          "category": "cup",
+          "pose": [
+            -8.3,
+            0.9,
+            2.1
+          ],
+          "clearance_m": 0.304138126514911,
+          "connected_to_home": true
+        },
+        {
+          "room": "bedroom",
+          "category": "cup",
+          "pose": [
+            -8.3,
+            0.9,
+            2.4
+          ],
+          "clearance_m": 0.304138126514911,
+          "connected_to_home": true
+        },
+        {
+          "room": "bedroom",
+          "category": "bottle",
+          "pose": [
+            -8.3,
+            0.9,
+            2.1
+          ],
+          "clearance_m": 0.304138126514911,
+          "connected_to_home": true
+        },
+        {
+          "room": "bedroom",
+          "category": "bottle",
+          "pose": [
+            -8.3,
+            0.9,
+            2.4
+          ],
+          "clearance_m": 0.304138126514911,
+          "connected_to_home": true
+        },
+        {
+          "room": "utility",
+          "category": "default",
+          "pose": [
+            -6.5,
+            -3.1,
+            -2.4
+          ],
+          "clearance_m": 0.9192388155425117,
+          "connected_to_home": true
+        },
+        {
+          "room": "utility",
+          "category": "default",
+          "pose": [
+            -8.8,
+            -2.5,
+            -1.0
+          ],
+          "clearance_m": 0.45276925690687087,
+          "connected_to_home": true
+        },
+        {
+          "room": "gym",
+          "category": "default",
+          "pose": [
+            0.0,
+            1.2,
+            1.57
+          ],
+          "clearance_m": 1.9319679086361656,
+          "connected_to_home": true
+        },
+        {
+          "room": "gym",
+          "category": "default",
+          "pose": [
+            1.5,
+            4.9,
+            -2.8
+          ],
+          "clearance_m": 0.6000000000000001,
+          "connected_to_home": true
+        },
+        {
+          "room": "gym",
+          "category": "default",
+          "pose": [
+            -1.4,
+            2.6,
+            0.6
+          ],
+          "clearance_m": 1.05,
+          "connected_to_home": true
+        }
+      ],
+      "validation": "archived_static_map_only_not_Nav2_execution",
+      "unvalidated": [
+        "new layout collision map",
+        "dynamic obstacles",
+        "sensor visibility",
+        "full room coverage",
+        "charging"
+      ]
+    },
+    "gym_navigation": {
+      "route": [
+        [
+          0.0,
+          1.2,
+          1.57
+        ],
+        [
+          1.5,
+          4.9,
+          -2.8
+        ],
+        [
+          -1.4,
+          2.6,
+          0.6
+        ]
+      ],
+      "visited": [
+        [
+          0.0,
+          1.2,
+          1.57
+        ],
+        [
+          1.5,
+          4.9,
+          -2.8
+        ],
+        [
+          -1.4,
+          2.6,
+          0.6
+        ]
+      ],
+      "status": "completed",
+      "trajectory_frame_id": "odom",
+      "wall_seconds": 57.09714745299971
+    },
+    "browser_checks": {
+      "desktop_connected": true,
+      "five_room_options": true,
+      "five_labels_drawn": true,
+      "selected_observation_points_drawn": true,
+      "desktop_map_rendered": true,
+      "mobile_390px_viewport": true,
+      "mobile_log_refresh_button_visible": true,
+      "client_processes_hidden": true,
+      "mobile_no_horizontal_overflow": true,
+      "no_javascript_errors": true,
+      "only_get_requests_before_and_after_refresh": true,
+      "stop_control_visible": true
+    },
+    "tests": {
+      "passed": 139,
+      "skipped": 5
+    },
+    "search_attempt": {
+      "request_id": "fivezone_gym_chair_find",
+      "status": "canceled",
+      "viewpoints_visited": 1,
+      "reason": "Canceled when session stopped; no successful gym search claimed; stop trigger not established"
+    },
+    "shutdown": "stopped",
+    "session": "results/sessions/20261117T105354_590939Z_9f841a29",
+    "limitations": [
+      "Static check and gym navigation do not prove perception coverage in all five zones.",
+      "Previous four-zone validation records remain associated with v3."
+    ],
+    "files_sha256": {
+      "src/semantic_search/config/rooms_aws_house_v4.json": "f0e528352b175c4de00c489a62fcc6b3afc6882f738708ba11fa5a23261142b8",
+      "scenes/aws_house/spatial_v4.json": "c79f1a407663aef47472a6edbec716eed3505021bff97fca6a4654a9df918357",
+      "docs/assets/house_five_zones.png": "882cab585685bd6bdb7ce05d8b0737dddeb2bb788b626368136ddd0248c93590"
+    }
+  }
+}

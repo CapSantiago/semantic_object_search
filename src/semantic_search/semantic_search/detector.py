@@ -2,9 +2,10 @@
 from cv_bridge import CvBridge
 import rclpy
 from rclpy.node import Node
-from rclpy.qos import qos_profile_sensor_data
 from sensor_msgs.msg import Image
 from yolo_msgs.msg import Detection, DetectionArray, Point2D
+
+from .sensor_qos import declare_sensor_qos
 
 
 class Detector(Node):
@@ -15,19 +16,22 @@ class Detector(Node):
         self.declare_parameter('image_topic', '/rgbd/image')
         self.declare_parameter('threshold', 0.35)
         self.declare_parameter('iou_threshold', 0.5)
+        self.declare_parameter('image_size', 640)
+        sensor_qos = declare_sensor_qos(self)
         from ultralytics import YOLO
         self.model = YOLO(self.get_parameter('model').value)
         self.bridge = CvBridge()
         self.pub = self.create_publisher(DetectionArray, '/yolo/detections', 10)
         self.sub = self.create_subscription(
             Image, self.get_parameter('image_topic').value, self.detect,
-            qos_profile_sensor_data)
+            sensor_qos)
 
     def detect(self, image):
         result = self.model.predict(
             self.bridge.imgmsg_to_cv2(image, 'bgr8'),
             device=self.get_parameter('device').value,
             conf=self.get_parameter('threshold').value,
+            imgsz=self.get_parameter('image_size').value,
             iou=self.get_parameter('iou_threshold').value, verbose=False)[0]
         msg = DetectionArray()
         msg.header = image.header

@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>家庭机器人 · 控制台</title>
+  <link rel="stylesheet" href="/style.css">
+  <script defer src="/app.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><span class="brand-icon" aria-hidden="true">⌂</span><div><h1>家庭机器人</h1><p>HOME ROBOT · 本地控制台</p></div></div>
+    <div class="top-status"><span id="connection" class="badge neutral">正在连接</span><span id="phase" class="phase">读取系统状态…</span></div>
+  </header>
+  <main>
+    <div id="notice" class="notice" role="status" hidden></div>
+    <div class="workspace">
+      <aside class="sidebar">
+        <section class="card task-card">
+          <div class="section-head"><h2>下达任务</h2><span class="eyebrow">寻找 · 盘点</span></div>
+          <form id="task-form">
+            <fieldset id="task-fields">
+              <legend class="sr-only">选择目标任务</legend>
+              <label for="mode">任务类型</label>
+              <select id="mode" name="mode"><option value="find">寻找一个物品</option><option value="count">统计物品数量</option></select>
+              <div class="form-pair"><div><label for="room">房间</label><select id="room" name="room"><option value="kitchen">厨房</option><option value="living">客厅</option><option value="bedroom">卧室</option><option value="gym">健身区</option><option value="utility">杂物间</option></select></div><div><label for="category">物品</label><select id="category" name="category"><option value="cup">杯子</option><option value="bottle">瓶子</option><option value="chair">椅子</option></select></div></div>
+              <label for="command">或输入中文指令 <span class="optional">选填</span></label>
+              <input id="command" name="command" type="text" maxlength="256" autocomplete="off" placeholder="例如：去厨房找杯子">
+              <p class="field-help">填写指令时，以文字内容执行。</p>
+              <button id="submit-task" class="button primary" type="submit" disabled>等待系统就绪</button>
+            </fieldset>
+          </form>
+          <button id="cancel-task" class="button stop" type="button">停止当前任务</button>
+          <p id="task-help" class="small muted">就绪后可开始。每次执行一个任务。</p>
+        </section>
+        <section class="card">
+          <div class="section-head"><h2>系统状态</h2><span id="system-dot" class="dot neutral" aria-label="状态未知"></span></div>
+          <ul id="health" class="health-list"><li><span>机器人连接</span><span class="muted">等待数据</span></li></ul>
+          <details class="topic-details"><summary>传感器数据</summary><ul id="topics" class="topic-list"></ul></details>
+          <button id="validate" class="button secondary" type="button" disabled>检查传感器</button>
+          <p id="validation-state" class="small muted">检查会保存传感器报告，不移动机器人。</p>
+          <div id="validation-artifacts" class="artifact-list"></div>
+        </section>
+      </aside>
+      <section class="card map-card">
+        <div class="section-head map-heading"><div><h2>家庭地图</h2><p id="map-meta" class="small muted">等待地图数据</p></div><div class="map-tools"><button id="zoom-out" type="button" title="缩小地图" aria-label="缩小地图">−</button><button id="zoom-in" type="button" title="放大地图" aria-label="放大地图">＋</button><button id="fit-map" type="button">适应</button></div></div>
+        <div class="region-controls"><label><input id="show-regions" type="checkbox" checked> 区域轮廓</label><label><input id="show-views" type="checkbox"> 所选物品观察点</label><span id="region-note">区域边界可通行，不是墙体</span></div>
+        <div id="map-stage" class="map-stage"><canvas id="map" aria-label="占据地图、机器人位置与物品标记"></canvas><div id="map-empty" class="map-empty"><span class="map-empty-icon" aria-hidden="true">⌖</span><strong>地图加载中</strong><p>定位和地图就绪后显示机器人位置。</p></div><div id="map-stale" class="map-stale" hidden>地图数据已过期</div></div>
+        <div class="map-footer"><div class="legend"><span><i class="robot-key"></i>机器人</span><span><i class="object-key"></i>已确认物品</span><span><i class="wall-key"></i>障碍</span></div><span id="pose" class="small">位置等待定位</span></div>
+        <p id="map-result-context" class="map-context">物品标记将在任务结果返回后显示。</p>
+      </section>
+      <aside class="results-sidebar">
+        <section class="card execution-card">
+          <div class="section-head"><h2 id="task-title">当前任务</h2><span id="task-badge" class="badge neutral">空闲</span></div>
+          <p id="active-command" class="active-command">等待你的第一条指令</p>
+          <div class="task-facts"><div><span>已用时间</span><strong id="elapsed">—</strong></div><div><span>确认数量</span><strong id="count">—</strong></div></div>
+          <p id="task-feedback" class="feedback">选择房间和物品，系统就绪后即可开始。</p>
+          <div id="coverage" class="coverage" hidden></div>
+          <div id="objects" class="objects"></div>
+          <div id="artifacts" class="artifact-list"></div>
+          <details id="result-details" hidden><summary>查看完整结果</summary><pre id="result-json" class="json-view"></pre></details>
+          <button id="show-current" class="text-button" type="button" hidden>返回当前任务</button>
+        </section>
+        <section class="card history-card"><div class="section-head"><h2>本次运行记录</h2><span id="history-count" class="eyebrow">0 条</span></div><ul id="history" class="history-list"><li class="empty-row">完成的任务会显示在这里。</li></ul></section>
+      </aside>
+    </div>
+    <section class="card log-card">
+      <div class="section-head"><div><h2>运行日志</h2><p id="session" class="small muted">本地会话</p></div><div class="log-controls"><label class="sr-only" for="log-component">日志组件</label><select id="log-component"><option value="task">当前任务</option><option value="simulation">Gazebo</option><option value="navigation">导航</option><option value="detector">视觉检测</option><option value="search">搜索</option><option value="rviz">RViz</option></select><button id="refresh-log" class="button secondary compact" type="button">刷新</button></div></div>
+      <pre id="log-output" class="log-output">正在读取日志…</pre>
+    </section>
+    <footer class="page-footer"><span>当前支持文字寻物与盘点 · 地图坐标单位 m</span><span>关闭网页不停止机器人；结束运行请在启动终端按 Ctrl+C。</span></footer>
+  </main>
+</body>
+</html>

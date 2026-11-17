@@ -1,0 +1,30 @@
+{
+  "requested_stops": [
+    {
+      "role": "simulation_group",
+      "pid": 24004,
+      "group": 23980
+    },
+    {
+      "role": "search",
+      "pid": 26665
+    },
+    {
+      "role": "navigation_wrapper",
+      "pid": 26687,
+      "group": 26709
+    },
+    {
+      "role": "detector",
+      "pid": 28795
+    }
+  ],
+  "verification": "passed",
+  "remaining_owned_runtime_nodes": [],
+  "old_orphan_cleanup": {
+    "pid": 23095,
+    "domain": 64,
+    "component": "nav2 lifecycle manager",
+    "reason": "Did not exit after SIGTERM; force-stopped only this previously owned process."
+  }
+}

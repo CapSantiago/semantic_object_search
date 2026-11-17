@@ -1,0 +1,656 @@
+{
+  "status": "passed",
+  "scope": "Fixed tabletop fixtures; not G0, speech or full-room coverage certification",
+  "runtime_config": {
+    "scene_id": "aws_house_r0_yellow_v2",
+    "world": "aws_house_r0_v1",
+    "ros_domain_id": 65,
+    "camera_height_m": 1.0,
+    "camera_pitch_rad": 0.25,
+    "detector": {
+      "model": "yolov8n-seg.pt",
+      "image_size": 640,
+      "confidence": 0.35,
+      "nms_iou": 0.3,
+      "device": "cpu"
+    },
+    "scope": "Online candidate task trials, not G0/full-room coverage certification",
+    "file_sha256": {
+      "yolov8n-seg.pt": "a7cd8f929e1903d78a12a48efecab430209f18dc46cb96c3599a5980c63c423c",
+      "src/semantic_search/config/rooms_aws_house_v1.json": "228c88859245985ee10cd4e00d88d89fb7ecb19a41edae9abd2349f78afbaa76",
+      "src/semantic_search/config/nav2_depth.yaml": "544105fe17ba2d3478556d45b7e198b179e36eb45738774e112117c5d71488b8",
+      "scenes/aws_house/layout_r0_yellow_v1.json": "a701a5e7efba8533441ad881bb0f88b367b47e78e8e8649c84612ef3392fb7eb",
+      "scenes/aws_house/r0_v1/maps/house.yaml": "0dac305d71af1e771b54ff9093b28a8948707fbdefa96b7ea12910c4607d3b5e",
+      "scenes/aws_house/r0_v1/maps/house.pgm": "fd3b7f0c4924354c084b802e3110ef0d845ccb47a71799cc018ce9b64c0eaa53"
+    },
+    "ign_partition": "semantic_yellow_v2"
+  },
+  "checks": {
+    "has_cases": true,
+    "all_case_checks": true
+  },
+  "layout": "scenes/aws_house/layout_r0_yellow_v1.json",
+  "layout_sha256": "a701a5e7efba8533441ad881bb0f88b367b47e78e8e8649c84612ef3392fb7eb",
+  "cases": [
+    {
+      "case": "task3_cup_bedroom",
+      "source": "results/development/r0_yellow_v2/task3_cup_bedroom.json",
+      "source_sha256": "e5aee28b3b33d83010b0bdbb1ff3204fdc36330c6c5ff7becf175c1c107af074",
+      "checks": {
+        "status": true,
+        "count": true,
+        "unique_ids": true,
+        "tf": true,
+        "synchronized_data": true,
+        "persisted_result": true,
+        "projections": true,
+        "svg_ids": true,
+        "observed_hits": true
+      },
+      "passed": true,
+      "result": {
+        "scene_id": "aws_house_r0_yellow_v2",
+        "task_id": "4c40a3af-bf45-4d1d-866c-476965ae2098",
+        "command": "去卧室找杯子",
+        "frame_id": "map",
+        "coordinate_unit": "m",
+        "mode": "find",
+        "room": "bedroom",
+        "category": "cup",
+        "status": "found",
+        "count": 1,
+        "objects": [
+          {
+            "id": 1,
+            "x": -8.88977823199965,
+            "y": 1.872084157108213,
+            "z": 0.7861097553466778,
+            "hits": 2
+          }
+        ],
+        "viewpoints_visited": 1,
+        "viewpoints_total": 2,
+        "synchronized_frames": 2,
+        "tf_failures": 0,
+        "invalid_target_depth": 0,
+        "valid_projections": 2,
+        "viewpoints": [
+          [
+            -8.3,
+            0.9,
+            2.1
+          ]
+        ],
+        "viewpoint_failures": [],
+        "elapsed_seconds": 63.53,
+        "coverage": {
+          "observation_plan_completed": false,
+          "full_room_coverage_verified": false,
+          "basis": "configured_viewpoints_only"
+        }
+      },
+      "xy_evaluation": [
+        {
+          "id": 1,
+          "target": "bedroom_yellow_mug",
+          "distance_to_model_origin_xy_m": 0.0978651039099425
+        }
+      ]
+    },
+    {
+      "case": "task3_cup_kitchen",
+      "source": "results/development/r0_yellow_v2/task3_cup_kitchen.json",
+      "source_sha256": "b8c413810bcd9a5de041931eb39763e30a3739a3f15b860c5bda97f9cf657fc5",
+      "checks": {
+        "status": true,
+        "count": true,
+        "unique_ids": true,
+        "tf": true,
+        "synchronized_data": true,
+        "persisted_result": true,
+        "projections": true,
+        "svg_ids": true,
+        "observed_hits": true
+      },
+      "passed": true,
+      "result": {
+        "scene_id": "aws_house_r0_yellow_v2",
+        "task_id": "d0abcabb-f935-4992-9488-0df605909091",
+        "command": "去厨房找杯子",
+        "frame_id": "map",
+        "coordinate_unit": "m",
+        "mode": "find",
+        "room": "kitchen",
+        "category": "cup",
+        "status": "found",
+        "count": 1,
+        "objects": [
+          {
+            "id": 1,
+            "x": 6.327910082361186,
+            "y": 0.9613989690741633,
+            "z": 0.8586781293309984,
+            "hits": 2
+          }
+        ],
+        "viewpoints_visited": 1,
+        "viewpoints_total": 2,
+        "synchronized_frames": 2,
+        "tf_failures": 0,
+        "invalid_target_depth": 0,
+        "valid_projections": 2,
+        "viewpoints": [
+          [
+            6.6,
+            -0.4,
+            1.57079633
+          ]
+        ],
+        "viewpoint_failures": [],
+        "elapsed_seconds": 34.374,
+        "coverage": {
+          "observation_plan_completed": false,
+          "full_room_coverage_verified": false,
+          "basis": "configured_viewpoints_only"
+        }
+      },
+      "xy_evaluation": [
+        {
+          "id": 1,
+          "target": "kitchen_yellow_mug",
+          "distance_to_model_origin_xy_m": 0.07298556515589028
+        }
+      ]
+    },
+    {
+      "case": "task3_cup_living",
+      "source": "results/development/r0_yellow_v2/task3_cup_living.json",
+      "source_sha256": "a2c8e7790c270de8892f4437f91984e3263281b5dc1ac657b93f4b6fbad50bfa",
+      "checks": {
+        "status": true,
+        "count": true,
+        "unique_ids": true,
+        "tf": true,
+        "synchronized_data": true,
+        "persisted_result": true,
+        "projections": true,
+        "svg_ids": true,
+        "observed_hits": true
+      },
+      "passed": true,
+      "result": {
+        "scene_id": "aws_house_r0_yellow_v2",
+        "task_id": "d5f23bc6-e03d-49a2-9f4f-7c879d96b4bd",
+        "command": "去客厅找杯子",
+        "frame_id": "map",
+        "coordinate_unit": "m",
+        "mode": "find",
+        "room": "living",
+        "category": "cup",
+        "status": "found",
+        "count": 1,
+        "objects": [
+          {
+            "id": 1,
+            "x": 0.9732248222989434,
+            "y": -1.9524372419511402,
+            "z": 0.4055965865786682,
+            "hits": 2
+          }
+        ],
+        "viewpoints_visited": 1,
+        "viewpoints_total": 2,
+        "synchronized_frames": 2,
+        "tf_failures": 0,
+        "invalid_target_depth": 0,
+        "valid_projections": 2,
+        "viewpoints": [
+          [
+            1.2,
+            -0.5,
+            -1.57079633
+          ]
+        ],
+        "viewpoint_failures": [],
+        "elapsed_seconds": 25.082,
+        "coverage": {
+          "observation_plan_completed": false,
+          "full_room_coverage_verified": false,
+          "basis": "configured_viewpoints_only"
+        }
+      },
+      "xy_evaluation": [
+        {
+          "id": 1,
+          "target": "living_yellow_mug",
+          "distance_to_model_origin_xy_m": 0.09297361052724187
+        }
+      ]
+    },
+    {
+      "case": "task4_bottle_bedroom",
+      "source": "results/development/r0_yellow_v2/task4_bottle_bedroom.json",
+      "source_sha256": "4397cd579f67fed13d537448354459086ed22d7d70104834df7dfffc4ea0a54b",
+      "checks": {
+        "status": true,
+        "count": true,
+        "unique_ids": true,
+        "tf": true,
+        "synchronized_data": true,
+        "persisted_result": true,
+        "projections": true,
+        "svg_ids": true,
+        "observed_hits": true
+      },
+      "passed": true,
+      "result": {
+        "scene_id": "aws_house_r0_yellow_v2",
+        "task_id": "715370d3-4ccc-4aaf-a5df-766eb5b8dce4",
+        "command": "统计卧室的瓶子",
+        "frame_id": "map",
+        "coordinate_unit": "m",
+        "mode": "count",
+        "room": "bedroom",
+        "category": "bottle",
+        "status": "completed",
+        "count": 1,
+        "objects": [
+          {
+            "id": 1,
+            "x": -8.98052823195661,
+            "y": 2.13029333893884,
+            "z": 0.8126626181973636,
+            "hits": 18
+          }
+        ],
+        "viewpoints_visited": 2,
+        "viewpoints_total": 2,
+        "synchronized_frames": 18,
+        "tf_failures": 0,
+        "invalid_target_depth": 0,
+        "valid_projections": 18,
+        "viewpoints": [
+          [
+            -8.3,
+            0.9,
+            2.1
+          ],
+          [
+            -8.25,
+            1.15,
+            2.4
+          ]
+        ],
+        "viewpoint_failures": [],
+        "elapsed_seconds": 46.516,
+        "coverage": {
+          "observation_plan_completed": true,
+          "full_room_coverage_verified": false,
+          "basis": "configured_viewpoints_only"
+        }
+      },
+      "xy_evaluation": [
+        {
+          "id": 1,
+          "target": "bedroom_mustard_bottle",
+          "distance_to_model_origin_xy_m": 0.0797084113912616
+        }
+      ]
+    },
+    {
+      "case": "task4_bottle_kitchen",
+      "source": "results/development/r0_yellow_v2/task4_bottle_kitchen.json",
+      "source_sha256": "75fd420e3f066290e44f02c0a321cae37fbea817ea1e8a9e5b6f32f00de20f95",
+      "checks": {
+        "status": true,
+        "count": true,
+        "unique_ids": true,
+        "tf": true,
+        "synchronized_data": true,
+        "persisted_result": true,
+        "projections": true,
+        "svg_ids": true,
+        "observed_hits": true
+      },
+      "passed": true,
+      "result": {
+        "scene_id": "aws_house_r0_yellow_v2",
+        "task_id": "b77c9439-5691-4b36-804a-42c6d632eff1",
+        "command": "统计厨房的瓶子",
+        "frame_id": "map",
+        "coordinate_unit": "m",
+        "mode": "count",
+        "room": "kitchen",
+        "category": "bottle",
+        "status": "completed",
+        "count": 1,
+        "objects": [
+          {
+            "id": 1,
+            "x": 6.608070570411089,
+            "y": 0.9569133937597203,
+            "z": 0.8805167694890002,
+            "hits": 16
+          }
+        ],
+        "viewpoints_visited": 2,
+        "viewpoints_total": 2,
+        "synchronized_frames": 16,
+        "tf_failures": 0,
+        "invalid_target_depth": 0,
+        "valid_projections": 16,
+        "viewpoints": [
+          [
+            6.6,
+            -0.4,
+            1.57079633
+          ],
+          [
+            5.1,
+            -0.8,
+            0.7
+          ]
+        ],
+        "viewpoint_failures": [],
+        "elapsed_seconds": 35.056,
+        "coverage": {
+          "observation_plan_completed": true,
+          "full_room_coverage_verified": false,
+          "basis": "configured_viewpoints_only"
+        }
+      },
+      "xy_evaluation": [
+        {
+          "id": 1,
+          "target": "kitchen_mustard_bottle",
+          "distance_to_model_origin_xy_m": 0.09218901798923543
+        }
+      ]
+    },
+    {
+      "case": "task4_bottle_living",
+      "source": "results/development/r0_yellow_v2/task4_bottle_living.json",
+      "source_sha256": "449fb786b49322769c740ade870b01dc0af0933e2f3bf6ea5ed90597d6e61de5",
+      "checks": {
+        "status": true,
+        "count": true,
+        "unique_ids": true,
+        "tf": true,
+        "synchronized_data": true,
+        "persisted_result": true,
+        "projections": true,
+        "svg_ids": true,
+        "observed_hits": true
+      },
+      "passed": true,
+      "result": {
+        "scene_id": "aws_house_r0_yellow_v2",
+        "task_id": "1ce02424-956e-4ac5-afc2-be03ac8e1104",
+        "command": "统计客厅的瓶子",
+        "frame_id": "map",
+        "coordinate_unit": "m",
+        "mode": "count",
+        "room": "living",
+        "category": "bottle",
+        "status": "completed",
+        "count": 1,
+        "objects": [
+          {
+            "id": 1,
+            "x": 1.3367710171406297,
+            "y": -2.043479890626976,
+            "z": 0.43017067188988295,
+            "hits": 12
+          }
+        ],
+        "viewpoints_visited": 2,
+        "viewpoints_total": 2,
+        "synchronized_frames": 20,
+        "tf_failures": 0,
+        "invalid_target_depth": 0,
+        "valid_projections": 12,
+        "viewpoints": [
+          [
+            1.2,
+            -0.5,
+            -1.57079633
+          ],
+          [
+            2.7,
+            -1.8,
+            3.14159265
+          ]
+        ],
+        "viewpoint_failures": [],
+        "elapsed_seconds": 49.488,
+        "coverage": {
+          "observation_plan_completed": true,
+          "full_room_coverage_verified": false,
+          "basis": "configured_viewpoints_only"
+        }
+      },
+      "xy_evaluation": [
+        {
+          "id": 1,
+          "target": "living_mustard_bottle",
+          "distance_to_model_origin_xy_m": 0.14408846241744197
+        }
+      ]
+    },
+    {
+      "case": "task4_cup_bedroom",
+      "source": "results/development/r0_yellow_v2/task4_cup_bedroom.json",
+      "source_sha256": "542eca60ebbf42c408c0d6b6ccdd46a9605ea13dfe9606d7ddbe8eaad82813cc",
+      "checks": {
+        "status": true,
+        "count": true,
+        "unique_ids": true,
+        "tf": true,
+        "synchronized_data": true,
+        "persisted_result": true,
+        "projections": true,
+        "svg_ids": true,
+        "observed_hits": true
+      },
+      "passed": true,
+      "result": {
+        "scene_id": "aws_house_r0_yellow_v2",
+        "task_id": "8a54bdb9-fdde-4d9a-99c8-60026899f689",
+        "command": "统计卧室的杯子",
+        "frame_id": "map",
+        "coordinate_unit": "m",
+        "mode": "count",
+        "room": "bedroom",
+        "category": "cup",
+        "status": "completed",
+        "count": 1,
+        "objects": [
+          {
+            "id": 1,
+            "x": -8.933445695880593,
+            "y": 1.9103996876158331,
+            "z": 0.7813957726447252,
+            "hits": 11
+          }
+        ],
+        "viewpoints_visited": 2,
+        "viewpoints_total": 2,
+        "synchronized_frames": 11,
+        "tf_failures": 0,
+        "invalid_target_depth": 0,
+        "valid_projections": 11,
+        "viewpoints": [
+          [
+            -8.3,
+            0.9,
+            2.1
+          ],
+          [
+            -8.25,
+            1.15,
+            2.4
+          ]
+        ],
+        "viewpoint_failures": [],
+        "elapsed_seconds": 50.75,
+        "coverage": {
+          "observation_plan_completed": true,
+          "full_room_coverage_verified": false,
+          "basis": "configured_viewpoints_only"
+        }
+      },
+      "xy_evaluation": [
+        {
+          "id": 1,
+          "target": "bedroom_yellow_mug",
+          "distance_to_model_origin_xy_m": 0.04655601982807943
+        }
+      ]
+    },
+    {
+      "case": "task4_cup_kitchen",
+      "source": "results/development/r0_yellow_v2/task4_cup_kitchen.json",
+      "source_sha256": "64c7def6bd2cc74650b157baac7e5787e4f54f1bbadb167408bfbefbbcb33d97",
+      "checks": {
+        "status": true,
+        "count": true,
+        "unique_ids": true,
+        "tf": true,
+        "synchronized_data": true,
+        "persisted_result": true,
+        "projections": true,
+        "svg_ids": true,
+        "observed_hits": true
+      },
+      "passed": true,
+      "result": {
+        "scene_id": "aws_house_r0_yellow_v2",
+        "task_id": "ee138dda-b231-4760-babd-7140755dce6b",
+        "command": "统计厨房的杯子",
+        "frame_id": "map",
+        "coordinate_unit": "m",
+        "mode": "count",
+        "room": "kitchen",
+        "category": "cup",
+        "status": "completed",
+        "count": 1,
+        "objects": [
+          {
+            "id": 1,
+            "x": 6.332504708071887,
+            "y": 0.9594136652548848,
+            "z": 0.8583086470317237,
+            "hits": 12
+          }
+        ],
+        "viewpoints_visited": 2,
+        "viewpoints_total": 2,
+        "synchronized_frames": 12,
+        "tf_failures": 0,
+        "invalid_target_depth": 0,
+        "valid_projections": 12,
+        "viewpoints": [
+          [
+            6.6,
+            -0.4,
+            1.57079633
+          ],
+          [
+            5.1,
+            -0.8,
+            0.7
+          ]
+        ],
+        "viewpoint_failures": [],
+        "elapsed_seconds": 22.538,
+        "coverage": {
+          "observation_plan_completed": true,
+          "full_room_coverage_verified": false,
+          "basis": "configured_viewpoints_only"
+        }
+      },
+      "xy_evaluation": [
+        {
+          "id": 1,
+          "target": "kitchen_yellow_mug",
+          "distance_to_model_origin_xy_m": 0.06814859885567866
+        }
+      ]
+    },
+    {
+      "case": "task4_cup_living",
+      "source": "results/development/r0_yellow_v2/task4_cup_living.json",
+      "source_sha256": "0972ed8f14895f5f5ec35424d1d7bfbefabc56f7cf21182fa9b75b7230122752",
+      "checks": {
+        "status": true,
+        "count": true,
+        "unique_ids": true,
+        "tf": true,
+        "synchronized_data": true,
+        "persisted_result": true,
+        "projections": true,
+        "svg_ids": true,
+        "observed_hits": true
+      },
+      "passed": true,
+      "result": {
+        "scene_id": "aws_house_r0_yellow_v2",
+        "task_id": "6cfaa306-8faf-4121-a287-32ec85db64be",
+        "command": "统计客厅的杯子",
+        "frame_id": "map",
+        "coordinate_unit": "m",
+        "mode": "count",
+        "room": "living",
+        "category": "cup",
+        "status": "completed",
+        "count": 1,
+        "objects": [
+          {
+            "id": 1,
+            "x": 0.9535262053140737,
+            "y": -1.9062366381518299,
+            "z": 0.4068614233215997,
+            "hits": 10
+          }
+        ],
+        "viewpoints_visited": 2,
+        "viewpoints_total": 2,
+        "synchronized_frames": 10,
+        "tf_failures": 0,
+        "invalid_target_depth": 0,
+        "valid_projections": 10,
+        "viewpoints": [
+          [
+            1.2,
+            -0.5,
+            -1.57079633
+          ],
+          [
+            2.7,
+            -1.8,
+            3.14159265
+          ]
+        ],
+        "viewpoint_failures": [],
+        "elapsed_seconds": 28.402,
+        "coverage": {
+          "observation_plan_completed": true,
+          "full_room_coverage_verified": false,
+          "basis": "configured_viewpoints_only"
+        }
+      },
+      "xy_evaluation": [
+        {
+          "id": 1,
+          "target": "living_yellow_mug",
+          "distance_to_model_origin_xy_m": 0.09667517114822774
+        }
+      ]
+    }
+  ],
+  "limitations": [
+    "Model-origin XY comparison assumes this project map/world alignment; not independent sensor accuracy.",
+    "No collision/contact-sensor proof; inspect actual navigation/recovery logs separately.",
+    "Repeat/cold-start completeness and full-room coverage are not inferred from these checks."
+  ]
+}

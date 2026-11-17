@@ -1,0 +1,333 @@
+{
+  "date": "2026-11-17",
+  "status": "retained_client_startup_failure",
+  "source": "results/development/20261117_reliable/repeat_matrix/report.json",
+  "source_sha256": "6fae9b4586dc32d76d38372738e9f200476b5838a9c0a1f8cf4ec64f695750d9",
+  "planned_runs": 45,
+  "passed_robot_tasks": 27,
+  "unexecuted_runs": 17,
+  "failed_client_attempt": {
+    "case": "living_count_bottle",
+    "repeat": 3,
+    "command": "去客厅统计瓶子",
+    "directory": "/home/willmatic/桌面/semantic_object_search/results/development/20261117_reliable/repeat_matrix/028_living_count_bottle_03",
+    "startup_state": "warm",
+    "started_utc": "2026-11-17T05:40:54.823088+00:00",
+    "artifacts": {
+      "configs": [
+        {
+          "path": "/home/willmatic/桌面/semantic_object_search/src/semantic_search/config/rooms_aws_house_v3.json",
+          "sha256": "139adb2cc80108931ab99c1f13c65bbf144315788d505389cf1329ae065afa4a",
+          "bytes": 3677
+        },
+        {
+          "path": "/home/willmatic/桌面/semantic_object_search/src/semantic_search/config/nav2_depth.yaml",
+          "sha256": "544105fe17ba2d3478556d45b7e198b179e36eb45738774e112117c5d71488b8",
+          "bytes": 10481
+        },
+        {
+          "path": "/home/willmatic/桌面/semantic_object_search/scenes/aws_house/layout_r0_yellow_v1.json",
+          "sha256": "a701a5e7efba8533441ad881bb0f88b367b47e78e8e8649c84612ef3392fb7eb",
+          "bytes": 5206
+        },
+        {
+          "path": "/home/willmatic/桌面/semantic_object_search/src/semantic_search/semantic_search/search_node.py",
+          "sha256": "4f87befe76146938be6bc6ecce5c0b2631552d083ff61a1b8ff18ce2cff9f4ca",
+          "bytes": 21082
+        },
+        {
+          "path": "/home/willmatic/桌面/semantic_object_search/src/semantic_search/semantic_search/detector.py",
+          "sha256": "ddac1900956b1f61d26e422c741e9df9683f93349e7ba0d6b470fa1b32148c0d",
+          "bytes": 2704
+        },
+        {
+          "path": "/home/willmatic/桌面/semantic_object_search/src/semantic_search/semantic_search/sensor_qos.py",
+          "sha256": "4b47e1b9b3b08754b7c578435a6c391539730d02b98616c2e017a4d44b0d57d8",
+          "bytes": 1118
+        }
+      ],
+      "weights": {
+        "path": "/home/willmatic/桌面/semantic_object_search/yolov8n-seg.pt",
+        "sha256": "a7cd8f929e1903d78a12a48efecab430209f18dc46cb96c3599a5980c63c423c",
+        "bytes": 7071756
+      }
+    },
+    "excluded_task_ids": [
+      "049aa0b9-b12a-4ceb-b765-56870cbfbee3",
+      "06c62224-19e5-4cfa-a0fe-f1933ea2c722",
+      "0aa2196c-a4e4-4c6e-940b-83c208e449cb",
+      "0ddd5b9c-4f35-4f81-8a76-742031c4634e",
+      "108c9938-0291-41c2-aab3-ed878201100c",
+      "206fd768-7a5e-4975-8a42-52f35a3d8ad0",
+      "2da50675-a4e7-428e-9051-43f4d7d1b4eb",
+      "2f0be36b-ba31-4781-8713-9bc561eac9cb",
+      "467a9440-28b0-45f3-ac14-72257f66d5ff",
+      "47766233-efcc-4060-984f-6526204228ad",
+      "55726bb3-4955-4620-9224-ce6bfdd983e5",
+      "5eb5f4ca-b3c9-4a0a-8a41-0e8e399d8f59",
+      "64343c17-8247-4ed3-9738-9071eee3a5c9",
+      "678acac5-655a-46ef-9cd2-326c9e6a9fb4",
+      "692e28b8-8ba1-4f46-b0d9-272ce3284943",
+      "6ff455c1-e4ee-4e00-9b66-567249245b2b",
+      "73aed3d2-53f4-4893-b96f-e46aba14f4c7",
+      "7917bc07-1ec8-4f5d-8220-839f8d386a48",
+      "7ca3441c-720c-4c05-8aca-730631604067",
+      "8de433fa-92b6-4438-b28f-c73aa18a0199",
+      "9c211f66-9f45-466b-b463-ad162984aad6",
+      "adad70a5-c1c7-46bb-9d25-6430fcadba45",
+      "bf42a887-fc37-4a6e-86c5-491c1af70fca",
+      "dc435433-c59c-4468-8d0b-dd1ed4333c1b",
+      "f026846f-2b35-4b72-94fc-4606106b980f",
+      "f9df19ed-4337-4061-8abb-dd7d9fb0b56d",
+      "fa3606b4-02cb-40fb-b050-c7627183bcaa"
+    ],
+    "client": {
+      "returncode": 2,
+      "watchdog_timeout": false,
+      "interrupted": false
+    },
+    "elapsed_client_wall_seconds": 2.8244350590002796,
+    "initial_state": {
+      "captured_unix_seconds": 1794894057.5172613,
+      "source": "observed_ros_messages_before_command",
+      "map_pose": {
+        "source": "tf",
+        "target_frame": "map",
+        "source_frame": "base_footprint",
+        "available": true,
+        "transform": {
+          "header": {
+            "stamp": {
+              "sec": 4479,
+              "nanosec": 580000000
+            },
+            "frame_id": "map"
+          },
+          "child_frame_id": "base_footprint",
+          "transform": {
+            "translation": {
+              "x": 2.7416577264571926,
+              "y": -1.7248142739778372,
+              "z": -3.819266868564097e-06
+            },
+            "rotation": {
+              "x": 2.6401770946327082e-05,
+              "y": -0.0002711777170908665,
+              "z": 0.9987912724073349,
+              "w": -0.049152008387544334
+            }
+          }
+        },
+        "error": null
+      },
+      "odom": {
+        "source": "/odom",
+        "available": true,
+        "message": {
+          "header": {
+            "stamp": {
+              "sec": 4479,
+              "nanosec": 660000000
+            },
+            "frame_id": "odom"
+          },
+          "child_frame_id": "base_footprint",
+          "pose": {
+            "pose": {
+              "position": {
+                "x": 2.8240654713629656,
+                "y": -1.7645853426414406,
+                "z": 0.0
+              },
+              "orientation": {
+                "x": 0.0028421862617223036,
+                "y": 0.00015251701896007805,
+                "z": 0.9985592227200475,
+                "w": -0.05358523524766258
+              }
+            },
+            "covariance": [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "twist": {
+            "twist": {
+              "linear": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+              },
+              "angular": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+              }
+            },
+            "covariance": [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        },
+        "error": null
+      },
+      "limitation": "Latest received TF and odometry; timestamps retained, freshness not certified."
+    },
+    "diagnostics": {
+      "command": "去客厅统计瓶子",
+      "result_topic": "/search/result",
+      "command_topic": "/search/command",
+      "result_qos_durability": "volatile",
+      "excluded_task_ids": [
+        "049aa0b9-b12a-4ceb-b765-56870cbfbee3",
+        "06c62224-19e5-4cfa-a0fe-f1933ea2c722",
+        "0aa2196c-a4e4-4c6e-940b-83c208e449cb",
+        "0ddd5b9c-4f35-4f81-8a76-742031c4634e",
+        "108c9938-0291-41c2-aab3-ed878201100c",
+        "206fd768-7a5e-4975-8a42-52f35a3d8ad0",
+        "2da50675-a4e7-428e-9051-43f4d7d1b4eb",
+        "2f0be36b-ba31-4781-8713-9bc561eac9cb",
+        "467a9440-28b0-45f3-ac14-72257f66d5ff",
+        "47766233-efcc-4060-984f-6526204228ad",
+        "55726bb3-4955-4620-9224-ce6bfdd983e5",
+        "5eb5f4ca-b3c9-4a0a-8a41-0e8e399d8f59",
+        "64343c17-8247-4ed3-9738-9071eee3a5c9",
+        "678acac5-655a-46ef-9cd2-326c9e6a9fb4",
+        "692e28b8-8ba1-4f46-b0d9-272ce3284943",
+        "6ff455c1-e4ee-4e00-9b66-567249245b2b",
+        "73aed3d2-53f4-4893-b96f-e46aba14f4c7",
+        "7917bc07-1ec8-4f5d-8220-839f8d386a48",
+        "7ca3441c-720c-4c05-8aca-730631604067",
+        "8de433fa-92b6-4438-b28f-c73aa18a0199",
+        "9c211f66-9f45-466b-b463-ad162984aad6",
+        "adad70a5-c1c7-46bb-9d25-6430fcadba45",
+        "bf42a887-fc37-4a6e-86c5-491c1af70fca",
+        "dc435433-c59c-4468-8d0b-dd1ed4333c1b",
+        "f026846f-2b35-4b72-94fc-4606106b980f",
+        "f9df19ed-4337-4061-8abb-dd7d9fb0b56d",
+        "fa3606b4-02cb-40fb-b050-c7627183bcaa"
+      ],
+      "ignored_task_ids": [],
+      "pre_command_task_ids": [],
+      "command_sent": false,
+      "cancellation_sent": false,
+      "cancellation_observed": false,
+      "outcome": "client_error",
+      "errors": [
+        "RuntimeError: No search command subscriber"
+      ],
+      "elapsed_client_wall_seconds": 2.4945220869994955,
+      "signals": []
+    },
+    "result": null,
+    "errors": [
+      "result.json: [Errno 2] No such file or directory: 'results/development/20261117_reliable/repeat_matrix/028_living_count_bottle_03/result.json'",
+      "client return code inconsistent with the received result"
+    ],
+    "passed": false
+  },
+  "search_process_snapshot": {
+    "source": "results/development/20261117_reliable/failure_process.json",
+    "sha256": "6545bd9b8f64c36447c999617656b82433f2927d991f73b80a0d49664086a246",
+    "data": {
+      "observed_unix_seconds": 1794894316.668322,
+      "pid": 20227,
+      "uid": 1000,
+      "state": "S",
+      "start_ticks": 383818,
+      "argv": [
+        "/usr/bin/python3",
+        "/home/willmatic/桌面/semantic_object_search/install/semantic_search/lib/semantic_search/search",
+        "--ros-args",
+        "-p",
+        "use_sim_time:=true",
+        "-p",
+        "scene_id:=aws_house_r0_v1",
+        "-p",
+        "rooms_file:=/tmp/semantic_object_search_1000/src/semantic_search/config/rooms_aws_house_v1.json",
+        "-p",
+        "output_dir:=/tmp/semantic_object_search_1000/results/development/r0_v1/tasks",
+        "-p",
+        "sensor_reliability:=reliable",
+        "-p",
+        "scene_id:=aws_house_reliable_20261117",
+        "-p",
+        "rooms_file:=/home/willmatic/桌面/semantic_object_search/src/semantic_search/config/rooms_aws_house_v3.json",
+        "-p",
+        "output_dir:=/home/willmatic/桌面/semantic_object_search/results/development/20261117_reliable/tasks"
+      ],
+      "scope": "Process observed alive after client discovery failure; no restart was performed."
+    }
+  },
+  "decision": "Preserve this aborted batch. Add bounded command-subscriber discovery readiness, then rerun the affected living-bottle case and remaining bedroom cases in a new directory. Do not relabel this as an uninterrupted 45-case pass.",
+  "uncertainty": "Subscriber discovery was absent from this client after its short preamble; why discovery was delayed is not established."
+}

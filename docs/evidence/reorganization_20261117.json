@@ -1,0 +1,48 @@
+{
+  "date": "2026-11-17",
+  "scope": "Structure maintenance, no new robot experiments",
+  "status": "passed",
+  "manifest": "resources/maintenance/reorganization_20261117.json",
+  "manifest_sha256": "ffabb312711f26e0379785528bf7c6761b0706ba1325bdcdce4ad500d4bc1260",
+  "checks": {
+    "source_files_unchanged": 126,
+    "intentional_existing_file_changes": [
+      "scripts/voice_env.sh",
+      "scenes/baseline/README.md",
+      "scenes/aws_house/README.md"
+    ],
+    "teacher_originals_sha256_preserved": 5,
+    "historical_tools_and_pending_script_sha256_preserved": 8,
+    "protected_baseline_hashes_passed": 10,
+    "skill_hashes_passed": 8,
+    "old_45_report_read_from_archive": true,
+    "latest_27_report_retained": true,
+    "manual_demo_retained": true,
+    "shell_syntax": "passed",
+    "runtime_source_changed": false
+  },
+  "archives": [
+    {
+      "archive": "archive/runs/development_completed_20261117.tar.gz",
+      "members": 1252,
+      "bytes_before": 107953431,
+      "bytes_after": 40132387,
+      "sha256": "e2e087a9c9d524ff86bd1ad479e4fc8a60edc64bc1e0bf22b2a8da26a201ed89"
+    },
+    {
+      "archive": "archive/runs/logs_20261117.tar.gz",
+      "members": 1086,
+      "bytes_before": 7553217,
+      "bytes_after": 754795,
+      "sha256": "48760cde3dedbe4dec5903246065af68b0835462f27c5784795082e5a9b06221"
+    }
+  ],
+  "tests": {
+    "result": "..........................sssss........................................  [100%]\n66 passed, 5 skipped in 5.25s",
+    "log": "results/maintenance/20261117/tests.log",
+    "sha256": "22d27d6e3c1a804805ce60e2ae072a0a797b2feb53896ce65319ce27af8c2ecb",
+    "ros_integration_tests": "5 opt-in tests skipped; earlier C006 passed evidence retained, not rerun in C009"
+  },
+  "runtime_imports": "semantic_search.search_node / sensor_qos / yolo_msgs import and install symlink check passed",
+  "active_local_links_checked": 121
+}

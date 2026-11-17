@@ -12,6 +12,8 @@ import rclpy
 from rclpy.action import ActionClient
 from rclpy.node import Node
 from rclpy.parameter import Parameter
+from rclpy.qos import qos_profile_sensor_data
+from nav_msgs.msg import Odometry
 
 
 def main():
@@ -27,6 +29,15 @@ def main():
     node = Node('navigate_validation_route', parameter_overrides=[Parameter('use_sim_time', value=True)])
     client = ActionClient(node, NavigateToPose, '/navigate_to_pose')
     report = dict(route=route, visited=[], status='running')
+    trace = []
+    def odometry(msg):
+        stamp = msg.header.stamp.sec+msg.header.stamp.nanosec/1e9
+        if trace and 0 <= stamp-trace[-1]['sim_seconds'] < .1:
+            return
+        p = msg.pose.pose.position
+        trace.append(dict(sim_seconds=stamp, x=p.x, y=p.y))
+        report['trajectory_frame_id'] = msg.header.frame_id
+    node.create_subscription(Odometry, '/odom', odometry, qos_profile_sensor_data)
     active = None
     started = time.monotonic()
 
@@ -77,6 +88,7 @@ def main():
         raise
     finally:
         report['wall_seconds'] = time.monotonic()-started
+        report['trajectory'] = trace
         output = Path(args.output)
         output.parent.mkdir(parents=True, exist_ok=True)
         output.write_text(json.dumps(report, indent=2)+'\n')

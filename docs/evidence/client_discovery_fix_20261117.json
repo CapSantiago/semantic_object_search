@@ -1,0 +1,280 @@
+{
+  "date": "2026-11-17",
+  "recorded_utc": "2026-11-17T08:16:28.721095+00:00",
+  "status": "passed",
+  "scope": "Client readiness and result ownership only; no robot matrix rerun.",
+  "implementation": {
+    "discovery_timeout_default_seconds": 15,
+    "zero_wait_supported": true,
+    "finite_timeouts_required": true,
+    "task_timeout_starts_after_publish": true,
+    "matrix_watchdog_includes_discovery": true
+  },
+  "tests": {
+    "offline": "66 passed, 5 skipped",
+    "isolated_ros": "5 passed in 16.41s",
+    "domain": 69,
+    "logs": [
+      {
+        "path": "results/development/20261117_reliable/closing_tests.log",
+        "sha256": "261f7dfe6fa61fba52b45f8ea8007121ce81640c25e016b31ece529d0c3ee152"
+      },
+      {
+        "path": "results/development/20261117_reliable/client_discovery_tests.log",
+        "sha256": "00eeb0b61790fac115b1da53e397d4c44d776b4fbe377fd3a5e0730e0dd6f17e"
+      }
+    ],
+    "cases": [
+      {
+        "source": "results/development/20261117_reliable/client_discovery_tests/test_command_subscriber_created_after_three_seconds_still_succeeds_meep4ypv/test_evidence.json",
+        "sha256": "106db56215cdbd4087a82ce0a9e350a163f15c5b1c0880d24181331affa80b29",
+        "data": {
+          "domain": 69,
+          "command_topic": "/matrix_client_test_d7653129aed0409ea64fab706a082950/command",
+          "result_topic": "/matrix_client_test_d7653129aed0409ea64fab706a082950/result",
+          "scenario": "delayed_subscriber",
+          "subscriber_creation_delay_after_publisher_discovery": 3.01798649400007,
+          "command_sent": true,
+          "outcome": "result_received",
+          "client_returncode": 0,
+          "discovery_wait_wall_seconds": 1.105181107999897,
+          "task_timeout_seconds": 0.6,
+          "discovery_timeout_seconds": 4,
+          "received_commands": [
+            "去厨房找杯子"
+          ],
+          "client_reaped": true
+        },
+        "diagnostics": {
+          "command": "去厨房找杯子",
+          "result_topic": "/matrix_client_test_d7653129aed0409ea64fab706a082950/result",
+          "command_topic": "/matrix_client_test_d7653129aed0409ea64fab706a082950/command",
+          "result_qos_durability": "volatile",
+          "excluded_task_ids": [],
+          "ignored_task_ids": [],
+          "pre_command_task_ids": [],
+          "discovery_timeout_seconds": 4.0,
+          "discovery_wait_wall_seconds": 1.105181107999897,
+          "command_subscribers_before_publish": 1,
+          "command_sent": true,
+          "cancellation_sent": false,
+          "cancellation_observed": false,
+          "outcome": "result_received",
+          "errors": [],
+          "command_sent_unix_seconds": 1794903344.0854173,
+          "elapsed_client_wall_seconds": 3.1365467829999716,
+          "signals": []
+        }
+      },
+      {
+        "source": "results/development/20261117_reliable/client_discovery_tests/test_delayed_old_id_is_ignored_until_new_result_and_json_is_unchanged_5hon157h/test_evidence.json",
+        "sha256": "1afe5f30a602979589019de85d7c5a094e306d13c5a1bca1d833d13d9afdfe70",
+        "data": {
+          "domain": 69,
+          "command_topic": "/matrix_client_test_a871b38eadea459e819b10f477e29049/command",
+          "result_topic": "/matrix_client_test_a871b38eadea459e819b10f477e29049/result",
+          "command": "{ \"mode\": \"count\", \"room\": \"kitchen\", \"category\": \"cup\" }",
+          "received_commands": [
+            "{ \"mode\": \"count\", \"room\": \"kitchen\", \"category\": \"cup\" }"
+          ],
+          "previous_live_id_ignored": true,
+          "cached_id_not_received": true,
+          "waited_for_new_result": true,
+          "actual_subscription_volatile": true,
+          "client_returncode": 0,
+          "client_reaped": true
+        },
+        "diagnostics": {
+          "command": "{ \"mode\": \"count\", \"room\": \"kitchen\", \"category\": \"cup\" }",
+          "result_topic": "/matrix_client_test_a871b38eadea459e819b10f477e29049/result",
+          "command_topic": "/matrix_client_test_a871b38eadea459e819b10f477e29049/command",
+          "result_qos_durability": "volatile",
+          "excluded_task_ids": [
+            "previous-task-id"
+          ],
+          "ignored_task_ids": [
+            "previous-task-id"
+          ],
+          "pre_command_task_ids": [],
+          "discovery_timeout_seconds": 15,
+          "discovery_wait_wall_seconds": 2.7935999924011412e-05,
+          "command_subscribers_before_publish": 1,
+          "command_sent": true,
+          "cancellation_sent": false,
+          "cancellation_observed": false,
+          "outcome": "result_received",
+          "errors": [],
+          "command_sent_unix_seconds": 1794903346.3984601,
+          "elapsed_client_wall_seconds": 2.858119489000046,
+          "signals": []
+        }
+      },
+      {
+        "source": "results/development/20261117_reliable/client_discovery_tests/test_missing_command_subscriber_exits_without_sending_a_task_rqka77nj/test_evidence.json",
+        "sha256": "3b9ad3669225e2779be4b8679c4cfe3444296b39d4d2d2c3af008b8afe329167",
+        "data": {
+          "domain": 69,
+          "command_topic": "/matrix_client_test_28d7be3e192f4ca68bf70c53faf37b88/command",
+          "result_topic": "/matrix_client_test_28d7be3e192f4ca68bf70c53faf37b88/result",
+          "scenario": "missing_subscriber",
+          "subscriber_creation_delay_after_publisher_discovery": null,
+          "command_sent": false,
+          "outcome": "discovery_timeout",
+          "client_returncode": 2,
+          "discovery_wait_wall_seconds": 0.7032314759999281,
+          "task_timeout_seconds": 0.6,
+          "discovery_timeout_seconds": 0.7,
+          "received_commands": [],
+          "client_reaped": true
+        },
+        "diagnostics": {
+          "command": "去厨房找杯子",
+          "result_topic": "/matrix_client_test_28d7be3e192f4ca68bf70c53faf37b88/result",
+          "command_topic": "/matrix_client_test_28d7be3e192f4ca68bf70c53faf37b88/command",
+          "result_qos_durability": "volatile",
+          "excluded_task_ids": [],
+          "ignored_task_ids": [],
+          "pre_command_task_ids": [],
+          "discovery_timeout_seconds": 0.7,
+          "discovery_wait_wall_seconds": 0.7032314759999281,
+          "command_subscribers_before_publish": 0,
+          "command_sent": false,
+          "cancellation_sent": false,
+          "cancellation_observed": false,
+          "outcome": "discovery_timeout",
+          "errors": [
+            "No search command subscriber within 0.7s after preamble"
+          ],
+          "elapsed_client_wall_seconds": 2.729617441999949,
+          "signals": []
+        }
+      },
+      {
+        "source": "results/development/20261117_reliable/client_discovery_tests/test_only_replayed_old_id_times_out_and_cancels_instead_of_passing_ouzdev49/test_evidence.json",
+        "sha256": "6ebcdfb28dc4770382e470e4a644d662e4f6345a0b5ec375cdd798d4a93f711e",
+        "data": {
+          "domain": 69,
+          "command_topic": "/matrix_client_test_0ee3b08859af470fa8449d63052a1e23/command",
+          "result_topic": "/matrix_client_test_0ee3b08859af470fa8449d63052a1e23/result",
+          "command": "去厨房统计杯子",
+          "received_commands": [
+            "去厨房统计杯子",
+            "取消"
+          ],
+          "previous_live_id_ignored": true,
+          "cached_id_not_received": true,
+          "waited_for_new_result": true,
+          "actual_subscription_volatile": true,
+          "client_returncode": 124,
+          "client_reaped": true
+        },
+        "diagnostics": {
+          "command": "去厨房统计杯子",
+          "result_topic": "/matrix_client_test_0ee3b08859af470fa8449d63052a1e23/result",
+          "command_topic": "/matrix_client_test_0ee3b08859af470fa8449d63052a1e23/command",
+          "result_qos_durability": "volatile",
+          "excluded_task_ids": [
+            "previous-task-id"
+          ],
+          "ignored_task_ids": [
+            "previous-task-id"
+          ],
+          "pre_command_task_ids": [],
+          "discovery_timeout_seconds": 15,
+          "discovery_wait_wall_seconds": 2.7129000045533758e-05,
+          "command_subscribers_before_publish": 1,
+          "command_sent": true,
+          "cancellation_sent": true,
+          "cancellation_observed": true,
+          "outcome": "timeout",
+          "errors": [],
+          "command_sent_unix_seconds": 1794903352.5293071,
+          "elapsed_client_wall_seconds": 3.5924932909999825,
+          "signals": []
+        }
+      },
+      {
+        "source": "results/development/20261117_reliable/client_discovery_tests/test_signal_during_discovery_exits_without_command_or_cancel_cvim7l5c/test_evidence.json",
+        "sha256": "c4f07fe03fcf6c76a86042540e2ffdcd0f5a45105908f2b24def059a66935f04",
+        "data": {
+          "domain": 69,
+          "command_topic": "/matrix_client_test_877d4d32fab14c1f86a5773824107a92/command",
+          "result_topic": "/matrix_client_test_877d4d32fab14c1f86a5773824107a92/result",
+          "scenario": "interrupted_discovery",
+          "subscriber_creation_delay_after_publisher_discovery": null,
+          "command_sent": false,
+          "outcome": "interrupted_before_command",
+          "client_returncode": 130,
+          "discovery_wait_wall_seconds": 0.6016440610000018,
+          "task_timeout_seconds": 0.6,
+          "discovery_timeout_seconds": 4,
+          "received_commands": [],
+          "client_reaped": true
+        },
+        "diagnostics": {
+          "command": "去厨房找杯子",
+          "result_topic": "/matrix_client_test_877d4d32fab14c1f86a5773824107a92/result",
+          "command_topic": "/matrix_client_test_877d4d32fab14c1f86a5773824107a92/command",
+          "result_qos_durability": "volatile",
+          "excluded_task_ids": [],
+          "ignored_task_ids": [],
+          "pre_command_task_ids": [],
+          "discovery_timeout_seconds": 4.0,
+          "discovery_wait_wall_seconds": 0.6016440610000018,
+          "command_subscribers_before_publish": 0,
+          "command_sent": false,
+          "cancellation_sent": false,
+          "cancellation_observed": false,
+          "outcome": "interrupted_before_command",
+          "errors": [],
+          "elapsed_client_wall_seconds": 2.6263204609999775,
+          "signals": [
+            15
+          ]
+        }
+      }
+    ]
+  },
+  "sources": {
+    "scripts/run_search.py": "5a951e01a5256c8d2fba8b18ad4716c7b3f8592763933972fe6b77b2fd6e861e",
+    "scripts/run_search_matrix.py": "928199aaa323e959751ab72024d6e71ca5943c33a50f78c1e812fb6f467a1d3e",
+    "tests/test_search_matrix.py": "1e52ba6dd2ea4ec095c355fa67829c9e56fd7f1b80539fc52cc9c43871d2f91d",
+    "tests/test_search_client_ros.py": "e897d1be3a98bfa099eae426954c385e0fb6c1437ee66062c660a46211c1b508"
+  },
+  "preservation": {
+    "baseline": {
+      "src/semantic_search/config/nav2.yaml": true,
+      "src/semantic_search/config/scenes.json": true,
+      "src/semantic_search/config/rooms_aws_house.json": true,
+      "src/semantic_search/launch/fortress.launch.py": true,
+      "requirements-vision-ubuntu-cpu.txt": true,
+      "maps/course_house.yaml": true,
+      "maps/course_house.pgm": true,
+      "maps/aws_house/house.yaml": true,
+      "maps/aws_house/house.pgm": true,
+      "yolov8n-seg.pt": true
+    },
+    "skill_files": {
+      "skills/context-compression/SKILL.md": true,
+      "skills/context-compression/scripts/compression_evaluator.py": true,
+      "skills/context-compression/tests/test_compression_evaluator.py": true,
+      "skills/context-compression/references/evaluation-framework.md": true,
+      "skills/grill-me/SKILL.md": true,
+      "skills/grill-me/agents/openai.yaml": true,
+      "skills/grilling/SKILL.md": true,
+      "skills/grilling/agents/openai.yaml": true
+    },
+    "discovery_link": "../skills"
+  },
+  "stop_boundary": {
+    "requested_by_user": true,
+    "robot_tasks_rerun": 0,
+    "reliable_batch_passed": 27,
+    "failed_before_send": 1,
+    "scheduled_after_failure_not_run": 17,
+    "continuation_and_legacy_regressions": "not run",
+    "process_inventory": "results/development/20261117_reliable/closing_process_inventory.json",
+    "process_inventory_contents": [],
+    "limitation": "Earlier ROS processes were absent at inspection; no shutdown signal sent and no claim about how they exited."
+  }
+}

@@ -1,0 +1,715 @@
+{
+  "schema_version": 1,
+  "generated_utc": "2026-11-17T05:28:05.496136+00:00",
+  "status": "window_verified",
+  "scope": "20-second candidate data-link window, live subscriber QoS and separate engineering receipts only. The 45-case task matrix is excluded.",
+  "sources": [
+    {
+      "path": "results/development/20261117_reliable/timing/summary.json",
+      "sha256": "756a62e7724480d992689f87b27aa8991a474f2a00acdbdc7b0b794ec939acdf",
+      "bytes": 23446
+    },
+    {
+      "path": "results/development/20261117_reliable/timing/headers.json",
+      "sha256": "d2b451df8d8cb3433ed90392cf405e6d940818c60f0b5077cbb539c973a912f3",
+      "bytes": 2359556
+    },
+    {
+      "path": "results/development/20261117_reliable/timing/endpoint_snapshots.json",
+      "sha256": "88cf3743985cf8066571c053cf22fc3cbd9a8ae6887b35becc0c220b3b26d564",
+      "bytes": 105429
+    },
+    {
+      "path": "results/development/20261117_reliable/timing/observation.log",
+      "sha256": "756a62e7724480d992689f87b27aa8991a474f2a00acdbdc7b0b794ec939acdf",
+      "bytes": 23446
+    },
+    {
+      "path": "results/development/20261117_reliable/timing/observe_reliable_chain.py",
+      "sha256": "02555e0199c9a4ee563f85294f322e9ffdcb510cc10d144e6c8abf71c4ac29c8",
+      "bytes": 9530
+    },
+    {
+      "path": "results/development/20261117_reliable/sensors/sensors.json",
+      "sha256": "7335a190e749ec343ce535acd618054f067581b64cca287852cfcaf18d7d9549",
+      "bytes": 1933
+    },
+    {
+      "path": "results/development/20261117_reliable/sensors/rgb.png",
+      "sha256": "8e554f715a3503c1bf96b75df5396c897c77e531dae63d67568b6d2abaf8c352",
+      "bytes": 263192
+    },
+    {
+      "path": "results/development/20261117_reliable/sensors/depth.npy",
+      "sha256": "be22a14bc6c48739218101c3fc638fa564c7367b53ed295fc6486884a03265c1",
+      "bytes": 1228928
+    },
+    {
+      "path": "results/development/20261117_reliable/sensors.log",
+      "sha256": "7335a190e749ec343ce535acd618054f067581b64cca287852cfcaf18d7d9549",
+      "bytes": 1933
+    },
+    {
+      "path": "results/development/20261117_reliable/tests.log",
+      "sha256": "b3c9113cf52e56845378eb678bf151f049fab9b6257497d8a9fd7ca9ba711803",
+      "bytes": 110
+    },
+    {
+      "path": "results/development/20261117_reliable/build.log",
+      "sha256": "94e7d0e7deea8c30f01d285d56a8eee7f7cb46699b3071ddb85ea9d99538d92d",
+      "bytes": 453
+    },
+    {
+      "path": "results/development/20261117_reliable/runtime_config.json",
+      "sha256": "c0bfc207a12c31dbe26ae9da002ee3445faca6e03d625c502320a712d2afeb2a",
+      "bytes": 3094
+    },
+    {
+      "path": "results/development/20261117_reliable/live_detector.yaml",
+      "sha256": "65940fc38abcd19fa030542c8f6cab84b9d44f96e7eb142efda0192900c9f60e",
+      "bytes": 261
+    },
+    {
+      "path": "results/development/20261117_reliable/live_search.yaml",
+      "sha256": "86ad316a56f15936ac2dbfd6dae61b3d9cedff2b900d3e97c9f7ff6297d5719e",
+      "bytes": 642
+    },
+    {
+      "path": "results/development/20261117_bounded_wait/runtime_config.json",
+      "sha256": "79fb80dbb0cbbab190b231e0235e3d20227b9bc99092919f21367e3621d88e97",
+      "bytes": 1908
+    },
+    {
+      "path": "docs/evidence/client_freshness_20261117.json",
+      "sha256": "fb5d63a29b600a1af3796ae9a9805db536e4eed1c0909e1e7d50c4654a102654",
+      "bytes": 12526
+    },
+    {
+      "path": "src/semantic_search/semantic_search/sensor_qos.py",
+      "sha256": "4b47e1b9b3b08754b7c578435a6c391539730d02b98616c2e017a4d44b0d57d8",
+      "bytes": 1118
+    },
+    {
+      "path": "tests/test_search_client_ros.py",
+      "sha256": "373dd4a21c54e4b4c51c7fa756a071415671e535ca400febf9edfee48bed2cc6",
+      "bytes": 7378
+    }
+  ],
+  "observation": {
+    "started_utc": "2026-11-17T05:22:55.774582+00:00",
+    "finished_utc": "2026-11-17T05:23:15.788269+00:00",
+    "ros_domain_id": 66,
+    "elapsed_wall_seconds": 20.008905806999792,
+    "first_wall_seconds_excluded": 5,
+    "observer_qos": {
+      "reliability": "RELIABLE",
+      "history": "KEEP_LAST",
+      "depth": 5,
+      "durability": "VOLATILE"
+    },
+    "method": "Header-only read-only reliable listener; actual get_subscriptions_info_by_topic snapshots at five times.",
+    "observer_exited": true,
+    "published_commands": false,
+    "changed_runtime_settings": false,
+    "environment_context_operator_report": "Detector and search restarted with sensor_reliability:=reliable; model/threshold/viewpoints/Nav2 unchanged. A separate 10-second reliable validate_sensors listener was ending when the observation was requested.",
+    "other_named_subscribers_seen": [
+      "amcl",
+      "behavior_server",
+      "bt_navigator",
+      "bt_navigator_navigate_through_poses_rclcpp_node",
+      "bt_navigator_navigate_to_pose_rclcpp_node",
+      "controller_server",
+      "fortress_depth_cloud_adapter",
+      "global_costmap",
+      "lifecycle_manager_localization",
+      "lifecycle_manager_navigation",
+      "local_costmap",
+      "map_server",
+      "planner_server",
+      "robot_state_publisher",
+      "smoother_server",
+      "velocity_smoother",
+      "waypoint_follower"
+    ],
+    "observer_overlap_boundary": "No validate_sensors named endpoint appeared in the recorded snapshots. This does not certify absence of every other transient reader."
+  },
+  "actual_named_subscription_verification": [
+    {
+      "node_name": "course_detector",
+      "topic": "/rgbd/image",
+      "status": "verified_reliable",
+      "matching_named_endpoint_samples": 5,
+      "snapshot_elapsed_wall_seconds": [
+        0.20133963699981905,
+        1.003004468999734,
+        5.0044467909997365,
+        10.000831098999697,
+        19.00834980699983
+      ],
+      "observed_reliability": [
+        "RELIABLE"
+      ],
+      "observed_durability": [
+        "VOLATILE"
+      ],
+      "reported_history": [
+        "UNKNOWN"
+      ],
+      "reported_depth": [
+        0
+      ],
+      "unique_endpoint_gids": [
+        [
+          1,
+          15,
+          137,
+          206,
+          134,
+          78,
+          184,
+          74,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          19,
+          4,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "unknown_name_record_count": 0
+    },
+    {
+      "node_name": "semantic_search",
+      "topic": "/rgbd/depth_image",
+      "status": "verified_reliable",
+      "matching_named_endpoint_samples": 5,
+      "snapshot_elapsed_wall_seconds": [
+        0.20133963699981905,
+        1.003004468999734,
+        5.0044467909997365,
+        10.000831098999697,
+        19.00834980699983
+      ],
+      "observed_reliability": [
+        "RELIABLE"
+      ],
+      "observed_durability": [
+        "VOLATILE"
+      ],
+      "reported_history": [
+        "UNKNOWN"
+      ],
+      "reported_depth": [
+        0
+      ],
+      "unique_endpoint_gids": [
+        [
+          1,
+          15,
+          137,
+          206,
+          3,
+          79,
+          133,
+          114,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          33,
+          4,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "unknown_name_record_count": 0
+    },
+    {
+      "node_name": "semantic_search",
+      "topic": "/rgbd/camera_info",
+      "status": "verified_reliable",
+      "matching_named_endpoint_samples": 5,
+      "snapshot_elapsed_wall_seconds": [
+        0.20133963699981905,
+        1.003004468999734,
+        5.0044467909997365,
+        10.000831098999697,
+        19.00834980699983
+      ],
+      "observed_reliability": [
+        "RELIABLE"
+      ],
+      "observed_durability": [
+        "VOLATILE"
+      ],
+      "reported_history": [
+        "UNKNOWN"
+      ],
+      "reported_depth": [
+        0
+      ],
+      "unique_endpoint_gids": [
+        [
+          1,
+          15,
+          137,
+          206,
+          3,
+          79,
+          133,
+          114,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          34,
+          4,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "unknown_name_record_count": 0
+    },
+    {
+      "node_name": "semantic_search",
+      "topic": "/yolo/detections",
+      "status": "verified_reliable",
+      "matching_named_endpoint_samples": 5,
+      "snapshot_elapsed_wall_seconds": [
+        0.20133963699981905,
+        1.003004468999734,
+        5.0044467909997365,
+        10.000831098999697,
+        19.00834980699983
+      ],
+      "observed_reliability": [
+        "RELIABLE"
+      ],
+      "observed_durability": [
+        "VOLATILE"
+      ],
+      "reported_history": [
+        "UNKNOWN"
+      ],
+      "reported_depth": [
+        0
+      ],
+      "unique_endpoint_gids": [
+        [
+          1,
+          15,
+          137,
+          206,
+          3,
+          79,
+          133,
+          114,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          32,
+          4,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "unknown_name_record_count": 0
+    }
+  ],
+  "endpoint_field_boundary": "Node names, RELIABLE and VOLATILE were actually observed. This RMW graph reports history UNKNOWN and depth 0 for these endpoints; those values are preserved, not treated as a real zero-depth queue or proof of runtime queue depth.",
+  "timing_metrics": {
+    "/rgbd/image": {
+      "first_message_wall_seconds": 0.15076087799980087,
+      "total_messages": 159,
+      "after_5s_messages": 120,
+      "after_5s_messages_per_wall_second": 7.995253054625401,
+      "after_5s_arrival_gap_wall_seconds": {
+        "count": 119,
+        "minimum": 0.1017523649998111,
+        "median": 0.12480223200009277,
+        "p95": 0.1454585460000999,
+        "maximum": 0.15134721399999762
+      },
+      "after_5s_header_gap_sim_seconds": {
+        "count": 119,
+        "minimum": 0.12399999999979627,
+        "median": 0.12600000000020373,
+        "p95": 0.12600000000020373,
+        "maximum": 0.12600000000020373
+      },
+      "after_5s_duplicate_header_stamps": 0,
+      "after_5s_header_backsteps": 0
+    },
+    "/rgbd/depth_image": {
+      "first_message_wall_seconds": 0.131328234999728,
+      "total_messages": 160,
+      "after_5s_messages": 121,
+      "after_5s_messages_per_wall_second": 8.061880163413946,
+      "after_5s_arrival_gap_wall_seconds": {
+        "count": 120,
+        "minimum": 0.10837029000003895,
+        "median": 0.12413695000009284,
+        "p95": 0.1397191890000613,
+        "maximum": 0.14448128900039592
+      },
+      "after_5s_header_gap_sim_seconds": {
+        "count": 120,
+        "minimum": 0.12399999999979627,
+        "median": 0.125,
+        "p95": 0.12600000000020373,
+        "maximum": 0.12600000000020373
+      },
+      "after_5s_duplicate_header_stamps": 0,
+      "after_5s_header_backsteps": 0
+    },
+    "/rgbd/camera_info": {
+      "first_message_wall_seconds": 0.11165605599990158,
+      "total_messages": 160,
+      "after_5s_messages": 120,
+      "after_5s_messages_per_wall_second": 7.995253054625401,
+      "after_5s_arrival_gap_wall_seconds": {
+        "count": 119,
+        "minimum": 0.12183849500024735,
+        "median": 0.1247907120000491,
+        "p95": 0.12742701300021508,
+        "maximum": 0.12796053800002483
+      },
+      "after_5s_header_gap_sim_seconds": {
+        "count": 119,
+        "minimum": 0.12399999999979627,
+        "median": 0.12399999999979627,
+        "p95": 0.12600000000020373,
+        "maximum": 0.12600000000020373
+      },
+      "after_5s_duplicate_header_stamps": 0,
+      "after_5s_header_backsteps": 0
+    },
+    "/yolo/detections": {
+      "first_message_wall_seconds": 0.07126884299987069,
+      "total_messages": 160,
+      "after_5s_messages": 120,
+      "after_5s_messages_per_wall_second": 7.995253054625401,
+      "after_5s_arrival_gap_wall_seconds": {
+        "count": 119,
+        "minimum": 0.07387038699971527,
+        "median": 0.1280061099996601,
+        "p95": 0.16234127600000647,
+        "maximum": 0.17506903200001034
+      },
+      "after_5s_header_gap_sim_seconds": {
+        "count": 119,
+        "minimum": 0.12399999999979627,
+        "median": 0.12600000000020373,
+        "p95": 0.12600000000020373,
+        "maximum": 0.12600000000020373
+      },
+      "after_5s_duplicate_header_stamps": 0,
+      "after_5s_header_backsteps": 0
+    },
+    "/clock": {
+      "first_message_wall_seconds": 0.0716009610000583,
+      "total_messages": 7863,
+      "after_5s_messages": 5932,
+      "after_5s_messages_per_wall_second": 395.232009333649,
+      "after_5s_arrival_gap_wall_seconds": {
+        "count": 5931,
+        "minimum": 6.44460001240077e-05,
+        "median": 0.00031666500035498757,
+        "p95": 0.012790170999778638,
+        "maximum": 0.043071491999853606
+      },
+      "after_5s_header_gap_sim_seconds": {
+        "count": 5931,
+        "minimum": 0.0019999999999527063,
+        "median": 0.0019999999999527063,
+        "p95": 0.005999999999858119,
+        "maximum": 0.02599999999983993
+      },
+      "after_5s_duplicate_header_stamps": 0,
+      "after_5s_header_backsteps": 0
+    }
+  },
+  "header_matching": {
+    "denominator": "Detection arrivals >=5s; counterpart headers from this full capture.",
+    "detection_messages": 120,
+    "exact_detection_depth_info_count": 120,
+    "exact_detection_depth_info_fraction": 1.0,
+    "exact_detection_rgb_depth_info_count": 120,
+    "exact_detection_rgb_depth_info_fraction": 1.0,
+    "exact_joint_detection_arrival_gaps_wall_seconds": {
+      "count": 119,
+      "minimum": 0.07387038699971527,
+      "median": 0.1280061099996601,
+      "p95": 0.16234127600000647,
+      "maximum": 0.17506903200001034
+    }
+  },
+  "detection_latency": {
+    "header_to_latest_clock_sim_seconds": {
+      "count": 120,
+      "minimum": 0.056,
+      "median": 0.08499999999999999,
+      "p95": 0.112,
+      "maximum": 0.12
+    },
+    "latest_clock_age_wall_seconds": {
+      "count": 120,
+      "minimum": 0.0012745610001729801,
+      "median": 0.005588742499867294,
+      "p95": 0.013599263000287465,
+      "maximum": 0.015380585000002611
+    },
+    "exact_header_rgb_receive_to_detection_receive_wall_seconds": {
+      "count": 120,
+      "minimum": 0.04106119299967759,
+      "median": 0.05158873450000101,
+      "p95": 0.07239203200015254,
+      "maximum": 0.08389636299989434
+    }
+  },
+  "candidate_configuration": {
+    "sensor_reliability": "reliable",
+    "selection": "Explicit startup override for detector and search; both processes restarted.",
+    "unchanged_default": "best_effort",
+    "default_evidence": "Static AST inspection of sensor_qos_profile default and declare_parameter default in sensor_qos.py.",
+    "actual_detector_parameters": {
+      "device": "cpu",
+      "image_size": 640,
+      "image_topic": "/rgbd/image",
+      "iou_threshold": 0.3,
+      "model": "/tmp/semantic_object_search_1000/yolov8n-seg.pt",
+      "sensor_reliability": "reliable",
+      "threshold": 0.35,
+      "use_sim_time": true
+    },
+    "actual_search_parameters": {
+      "camera_info_topic": "/rgbd/camera_info",
+      "depth_topic": "/rgbd/depth_image",
+      "detections_topic": "/yolo/detections",
+      "dwell_seconds": 4.0,
+      "merge_radius": 0.3,
+      "min_hits": 2,
+      "min_score": 0.35,
+      "observation_extra_seconds": 4.0,
+      "optical_frame": "camera_optical_frame",
+      "output_dir": "/home/willmatic/桌面/semantic_object_search/results/development/20261117_reliable/tasks",
+      "rooms_file": "/home/willmatic/桌面/semantic_object_search/src/semantic_search/config/rooms_aws_house_v3.json",
+      "scene_id": "aws_house_reliable_20261117",
+      "sensor_reliability": "reliable",
+      "use_sim_time": true
+    },
+    "nav2_and_model_boundary": "The runtime was reported unchanged apart from restarting detector/search with explicit reliability. Original weights and Nav2/layout/rooms file hashes match the preceding bounded-wait run; timing probe did not query Nav2 plugin parameters.",
+    "unchanged_hash_comparison": {
+      "yolov8n-seg.pt": {
+        "previous_sha256": "a7cd8f929e1903d78a12a48efecab430209f18dc46cb96c3599a5980c63c423c",
+        "candidate_sha256": "a7cd8f929e1903d78a12a48efecab430209f18dc46cb96c3599a5980c63c423c",
+        "equal": true
+      },
+      "src/semantic_search/config/nav2_depth.yaml": {
+        "previous_sha256": "544105fe17ba2d3478556d45b7e198b179e36eb45738774e112117c5d71488b8",
+        "candidate_sha256": "544105fe17ba2d3478556d45b7e198b179e36eb45738774e112117c5d71488b8",
+        "equal": true
+      },
+      "src/semantic_search/config/rooms_aws_house_v3.json": {
+        "previous_sha256": "139adb2cc80108931ab99c1f13c65bbf144315788d505389cf1329ae065afa4a",
+        "candidate_sha256": "139adb2cc80108931ab99c1f13c65bbf144315788d505389cf1329ae065afa4a",
+        "equal": true
+      },
+      "scenes/aws_house/layout_r0_yellow_v1.json": {
+        "previous_sha256": "a701a5e7efba8533441ad881bb0f88b367b47e78e8e8649c84612ef3392fb7eb",
+        "candidate_sha256": "a701a5e7efba8533441ad881bb0f88b367b47e78e8e8649c84612ef3392fb7eb",
+        "equal": true
+      }
+    },
+    "detector_parameter_comparison": {
+      "model": true,
+      "device": true,
+      "image_size": true,
+      "threshold": true,
+      "iou_threshold": true
+    },
+    "camera": {
+      "height_m": 1.0,
+      "pitch_rad": 0.25
+    },
+    "observation_wait_parameters": {
+      "dwell_sim_seconds": 4.0,
+      "extra_sim_seconds": 4.0
+    }
+  },
+  "sensor_validation_receipt": {
+    "declared_duration_wall_seconds": 10,
+    "duration_source": "Operator run context; sensors.json does not itself contain a wall-duration field.",
+    "sensor_reliability": "reliable",
+    "passed": true,
+    "topic_message_counts": {
+      "/clock": 3449,
+      "/odom": 455,
+      "/rgbd/depth_image": 76,
+      "/scan": 50,
+      "/rgbd/camera_info": 77,
+      "/rgbd/image": 76
+    },
+    "topic_sim_hz": {
+      "/clock": 382.00753379127644,
+      "/odom": 50.0000000000004,
+      "/rgbd/depth_image": 7.999146757679007,
+      "/scan": 5.000000000000139,
+      "/rgbd/camera_info": 8.0,
+      "/rgbd/image": 7.999146757679007
+    },
+    "depth_valid_fraction": 1.0,
+    "rgb_dimensions": [
+      640,
+      480
+    ],
+    "depth_dimensions": [
+      640,
+      480
+    ],
+    "tf": {
+      "odom->base_footprint": {
+        "xyz": [
+          -8.258788529527358,
+          0.8544207536166146,
+          0.0
+        ],
+        "xyzw": [
+          0.0026024824799898696,
+          -0.0011525489050816591,
+          0.9143432383149832,
+          0.40493004490113177
+        ]
+      },
+      "base_footprint->base_scan": {
+        "xyz": [
+          -0.064,
+          0.0,
+          0.121
+        ],
+        "xyzw": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      },
+      "base_link->camera_optical_frame": {
+        "xyz": [
+          0.069,
+          -0.047,
+          1.0
+        ],
+        "xyzw": [
+          -0.5584362003072785,
+          0.5584362003094919,
+          -0.43376146692205075,
+          0.43376146691920076
+        ]
+      }
+    },
+    "motion_test_performed": false,
+    "boundary": "Sensor message/TF validation with image conversion is a separate receipt; it did not test detector accuracy or full robot task completion."
+  },
+  "engineering_receipts": {
+    "source_tests": {
+      "passed": 63,
+      "skipped": 2,
+      "elapsed_seconds": 5.01,
+      "receipt_summary": "63 passed, 2 skipped",
+      "skipped_cases": [
+        "test_delayed_old_id_is_ignored_until_new_result_and_json_is_unchanged",
+        "test_only_replayed_old_id_times_out_and_cancels_instead_of_passing"
+      ],
+      "skipped_identity_basis": "Operator-confirmed opt-in ROS client tests; tests/test_search_client_ros.py requires SEMANTIC_RUN_ROS_CLIENT_TESTS=1. The compact pytest receipt contains aggregate counts only.",
+      "skip_accounting": "The two skipped tests are not counted as executed or passed in this 63-pass run.",
+      "separate_execution_evidence": {
+        "path": "docs/evidence/client_freshness_20261117.json",
+        "status": "passed",
+        "ros_domain_id": 69,
+        "passed_case_ids": [
+          "old_id_then_new_id",
+          "only_old_id_times_out_and_cancels"
+        ],
+        "boundary": "Earlier domain-69 tests used synthetic messages on dedicated topics and verify client freshness/cancellation only; no new execution is claimed here."
+      }
+    },
+    "build": {
+      "packages_finished": 2,
+      "packages": [
+        "yolo_msgs",
+        "semantic_search"
+      ],
+      "elapsed_seconds": 1.43,
+      "receipt_summary": "Summary: 2 packages finished [1.43s]",
+      "stderr": "semantic_search emitted a pkg_resources invalid-version deprecation warning; retained in build.log."
+    }
+  },
+  "checks": {
+    "named_detector_and_search_inputs_reliable": true,
+    "four_expected_named_subscriptions": true,
+    "joint_headers_120_of_120": true,
+    "read_only_observer_finished": true,
+    "sensor_receipt_passed": true,
+    "source_tests_63_passed_2_skipped": true,
+    "two_packages_built": true,
+    "separate_prior_client_ros_evidence_passed": true,
+    "original_best_effort_default_preserved": true,
+    "explicit_candidate_reliable_parameters": true,
+    "original_model_navigation_rooms_layout_hashes_unchanged": true,
+    "detector_model_device_resolution_thresholds_unchanged": true
+  },
+  "task_matrix_boundary": {
+    "path": "results/development/20261117_reliable/repeat_matrix/report.json",
+    "result_included": false,
+    "status_at_request": "running",
+    "statement": "This receipt does not claim that the 45 cases have finished or passed. Read their independently completed matrix and artifact audit when available."
+  },
+  "limitations": [
+    "This is a newly joined reliable observer on an explicitly changed runtime, not a controlled crossover or a measurement of search ApproximateTimeSynchronizer callbacks.",
+    "Named endpoint checks only use actual matching node names. Unknown endpoint names are preserved and never assigned to detector or search by assumption.",
+    "Adding a RELIABLE observer may affect shared writer traffic; other observer overlap is recorded where node names are available.",
+    "Headers and receive times are recorded without image conversion, task command publication or runtime changes.",
+    "An improved 20-second window cannot establish a CPU/DDS root cause or guarantee the following 45 robot tasks.",
+    "A RELIABLE observer can affect shared writer traffic and this runtime was restarted; the window is not a randomized or fully isolated crossover experiment.",
+    "The 120/120 joint match is an offline timestamp-set check, not 120 proven search synchronizer callbacks or a detector recall measurement.",
+    "Stable window metrics use arrivals after five seconds and counterpart timestamps from the full capture; capture boundaries can censor pairs.",
+    "Neither this improved window nor bounded extra observation wait establishes a CPU/DDS root cause or retroactively changes the earlier failed task.",
+    "Default BEST_EFFORT remains unchanged; this is evidence for the explicitly selected RELIABLE candidate, not a claim that legacy scene defaults were switched or validated."
+  ]
+}

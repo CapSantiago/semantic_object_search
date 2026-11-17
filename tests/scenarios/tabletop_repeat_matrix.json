@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "description": "Nine fixed tabletop cases, five runs each; expected counts apply to the single white/yellow cup and mustard bottle fixture. Launch and declare the runtime separately.",
+  "repeats": 5,
+  "cases": [
+    {"id": "kitchen_find_cup", "command": "去厨房找杯子", "evaluation": {"status": "found", "count": 1}},
+    {"id": "kitchen_count_cup", "command": {"mode": "count", "room": "kitchen", "category": "cup"}, "evaluation": {"status": "completed", "count": 1}},
+    {"id": "kitchen_count_bottle", "command": "去厨房统计瓶子", "evaluation": {"status": "completed", "count": 1}},
+    {"id": "living_find_cup", "command": "去客厅找杯子", "evaluation": {"status": "found", "count": 1}},
+    {"id": "living_count_cup", "command": {"mode": "count", "room": "living", "category": "cup"}, "evaluation": {"status": "completed", "count": 1}},
+    {"id": "living_count_bottle", "command": "去客厅统计瓶子", "evaluation": {"status": "completed", "count": 1}},
+    {"id": "bedroom_find_cup", "command": "去卧室找杯子", "evaluation": {"status": "found", "count": 1}},
+    {"id": "bedroom_count_cup", "command": {"mode": "count", "room": "bedroom", "category": "cup"}, "evaluation": {"status": "completed", "count": 1}},
+    {"id": "bedroom_count_bottle", "command": "去卧室统计瓶子", "evaluation": {"status": "completed", "count": 1}}
+  ]
+}

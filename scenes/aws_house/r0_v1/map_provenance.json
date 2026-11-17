@@ -1,0 +1,9 @@
+{
+  "role": "copied archived scan-plane reference map; not a new SLAM map",
+  "source": "maps/aws_house/house.yaml",
+  "reason": "Original furniture unchanged; all six added targets are above scan plane. Must validate AMCL/Nav2 before accepting reuse.",
+  "sha256": {
+    "scenes/aws_house/r0_v1/maps/house.pgm": "fd3b7f0c4924354c084b802e3110ef0d845ccb47a71799cc018ce9b64c0eaa53",
+    "scenes/aws_house/r0_v1/maps/house.yaml": "0dac305d71af1e771b54ff9093b28a8948707fbdefa96b7ea12910c4607d3b5e"
+  }
+}

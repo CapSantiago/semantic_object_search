@@ -1,0 +1,11 @@
+{
+  "date": "2026-11-16",
+  "method": "Exact tree and unsigned commit reconstructed from local uploaded archive + authenticated GitHub Git-data metadata",
+  "commit": "edd2895bcc496a90b8360861dff51d746bafd661",
+  "tree": "ef519fc67515ca7549f4a5256480eb8e70e97f6e",
+  "remote_main_verified": "edd2895bcc496a90b8360861dff51d746bafd661",
+  "remote_modified": false,
+  "shallow": true,
+  "missing_older_history": "Parent a96312424eea4121497e7c471fdd1acc1c9b1fc2 is beyond shallow boundary; fetch --unshallow with normal authentication when needed",
+  "archive_sha256": "dd8cb9264dd62d64f85c0d348674adf6dee39acc15b0cc580878e77294390946"
+}

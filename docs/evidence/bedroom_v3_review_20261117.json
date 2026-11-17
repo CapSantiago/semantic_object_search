@@ -1,0 +1,1375 @@
+{
+  "schema_version": 1,
+  "generated_utc": "2026-11-17T04:34:16.890774+00:00",
+  "purpose": "Offline evidence review of the completed bedroom v3 warm-repeat batch; no perception or search decision input.",
+  "project_root": "/home/willmatic/桌面/semantic_object_search",
+  "batch": {
+    "status": "passed",
+    "planned_runs": 15,
+    "completed_runs": 15,
+    "passed_runs": 15,
+    "startup": {
+      "first": "warm",
+      "subsequent": "warm",
+      "note": "Fresh simulator at batch start; preliminary v3 cup count passed, search restarted to enable arrival TF records. No further stack reset or robot teleportation.",
+      "source": "operator_declaration",
+      "stack_restarted_by_runner": false
+    },
+    "environment": {
+      "ROS_DOMAIN_ID": "66",
+      "IGN_PARTITION": "semantic_20261117_bedroom",
+      "RMW_IMPLEMENTATION": null
+    }
+  },
+  "summary": {
+    "cases": {
+      "bedroom_count_bottle": {
+        "runs": 5,
+        "passed": 5,
+        "valid_projections_total_range": {
+          "min": 10,
+          "max": 15
+        },
+        "valid_projections_by_view": [
+          [
+            5,
+            9
+          ],
+          [
+            11,
+            4
+          ],
+          [
+            8,
+            2
+          ],
+          [
+            7,
+            4
+          ],
+          [
+            5,
+            8
+          ]
+        ],
+        "elapsed_seconds_range": {
+          "min": 11.338,
+          "max": 11.62
+        }
+      },
+      "bedroom_count_cup": {
+        "runs": 5,
+        "passed": 5,
+        "valid_projections_total_range": {
+          "min": 6,
+          "max": 16
+        },
+        "valid_projections_by_view": [
+          [
+            8,
+            3
+          ],
+          [
+            5,
+            2
+          ],
+          [
+            8,
+            7
+          ],
+          [
+            2,
+            4
+          ],
+          [
+            6,
+            10
+          ]
+        ],
+        "elapsed_seconds_range": {
+          "min": 9.7,
+          "max": 11.6
+        }
+      },
+      "bedroom_find_cup": {
+        "runs": 5,
+        "passed": 5,
+        "valid_projections_total_range": {
+          "min": 2,
+          "max": 2
+        },
+        "valid_projections_by_view": [
+          [
+            2,
+            0
+          ],
+          [
+            2,
+            0
+          ],
+          [
+            2,
+            0
+          ],
+          [
+            2,
+            0
+          ],
+          [
+            2,
+            0
+          ]
+        ],
+        "elapsed_seconds_range": {
+          "min": 0.534,
+          "max": 2.278
+        }
+      }
+    },
+    "arrival_samples": 25,
+    "arrival_xy_error_m": {
+      "min": 0.160726,
+      "max": 0.16168
+    },
+    "arrival_abs_yaw_error_rad": {
+      "min": 0.095132,
+      "max": 0.098857
+    },
+    "arrival_tf_age_ms": {
+      "min": 0.0,
+      "max": 18.0
+    },
+    "arrival_by_view": {
+      "0": {
+        "samples": 15,
+        "xy_error_m": {
+          "min": 0.160726,
+          "max": 0.160782
+        },
+        "yaw_error_rad": {
+          "min": 0.095132,
+          "max": 0.098857
+        },
+        "actual_x_m": {
+          "min": -8.145896,
+          "max": -8.145821
+        },
+        "actual_y_m": {
+          "min": 0.854301,
+          "max": 0.854419
+        },
+        "actual_yaw_rad": {
+          "min": 2.195132,
+          "max": 2.198857
+        }
+      },
+      "1": {
+        "samples": 10,
+        "xy_error_m": {
+          "min": 0.161628,
+          "max": 0.16168
+        },
+        "yaw_error_rad": {
+          "min": -0.098682,
+          "max": -0.095614
+        },
+        "actual_x_m": {
+          "min": -8.145229,
+          "max": -8.145151
+        },
+        "actual_y_m": {
+          "min": 0.853416,
+          "max": 0.853518
+        },
+        "actual_yaw_rad": {
+          "min": 2.301318,
+          "max": 2.304386
+        }
+      }
+    },
+    "actual_between_view_yaw_change_rad": {
+      "min": 0.10408,
+      "max": 0.108291
+    },
+    "configured_between_view_yaw_change_rad": 0.3,
+    "navigation": {
+      "goal_succeeded": 25,
+      "goal_failed": 0,
+      "spin_starts": 0,
+      "backup_starts": 0,
+      "wait_starts": 0,
+      "progress_failures": 0,
+      "controller_patience_exceeded": 0,
+      "obstacle_rejection_messages": 0,
+      "costmap_clear_requests": 0,
+      "control_rate_misses": 0
+    },
+    "all_full_room_coverage_verified_false": true,
+    "path_endpoints": {
+      "captured_messages": 24,
+      "frame_id": "map",
+      "capture_stamp_seconds_range": {
+        "min": 306.302,
+        "max": 385.032
+      },
+      "requested_xy": [
+        -8.3,
+        0.9
+      ],
+      "captured_common_endpoint_xy": [
+        -8.25,
+        0.9
+      ],
+      "all_captured_endpoint_xy_equal_within_1um": true,
+      "endpoint_displacement_from_request_m": 0.05,
+      "arrival_distance_to_common_captured_endpoint_m": {
+        "min": 0.113677,
+        "max": 0.114697
+      },
+      "arrival_samples_with_recent_matching_endpoint": 12,
+      "directly_matched_arrival_distance_to_endpoint_m": {
+        "min": 0.113677,
+        "max": 0.114684
+      },
+      "configured_xy_goal_tolerance_m": 0.12,
+      "all_compared_arrival_distances_below_xy_goal_tolerance": true
+    }
+  },
+  "method": [
+    "Arrival XY error is Euclidean distance between the requested view and recorded arrival_map_pose; yaw uses quaternion-to-yaw and wrapped actual-minus-requested angle.",
+    "TF age is arrival_sim_seconds minus arrival_transform_stamp_ns. It measures recorded lookup freshness, not localization accuracy.",
+    "Navigation counts include timestamped lines within each trial command-sent to client-end interval. No-valid-trajectory messages are not treated as independent recovery episodes.",
+    "Per-view valid projections were independently checked against each source observations.json.",
+    "The navigation SHA covers the observed file prefix because the active log can append after this review.",
+    "A directly matched path sample is the latest captured endpoint preceding arrival TF by no more than 2 seconds, with endpoint yaw matching the requested view. Earlier arrivals are compared only to the common XY seen in all 24 captured path samples."
+  ],
+  "limitations": [
+    "All 15 trials are warm repetitions after a preliminary cup-count trial. They do not establish 15 cold starts or repeated entry from another room.",
+    "The preliminary trial lacks arrival TF and is excluded from the arrival statistics.",
+    "All 24 captured path endpoints are approximately (-8.25,0.9), 0.05 m east of the requested (-8.3,0.9). Recorded arrivals are 0.113677–0.114697 m from that endpoint, within the configured 0.12 m XY goal tolerance. Twelve arrivals have directly matched recent path samples; earlier arrivals have only the common-endpoint comparison. The roughly 0.16 m error relative to the request is not evidence that the controller violated its tolerance.",
+    "The two configured views share XY. Their measured heading separation is only about 0.11 rad after goal acceptance tolerances; this is not verified spatial coverage.",
+    "No recovery was observed within these trial windows. The changed view geometry and fresh batch are evidence of improvement for this fixture, not proof of a unique root cause or general collision safety.",
+    "No full-room coverage, map-boundary change, G0 certification, ground-truth perception input, or planner/controller/weight change is claimed."
+  ],
+  "sources": {
+    "report": {
+      "path": "results/development/20261117_bedroom/repeat_matrix/report.json",
+      "sha256": "1e410b850de20bf4197d31c756f94ac8253467e6c4ff5b2d53dfe0237f38cf4a",
+      "bytes": 154632
+    },
+    "navigation_observed_prefix": {
+      "path": "results/development/20261117_bedroom/navigation.log",
+      "sha256": "ea979e8b1d0c1416a9662b18be833203dcabc0bb4dae6797c787a9c8e6c84ee5",
+      "bytes": 42465,
+      "lines": 408,
+      "trial_first_line": 279,
+      "trial_last_line": 398,
+      "may_append_after_review": true
+    },
+    "code_and_config": [
+      {
+        "path": "src/semantic_search/semantic_search/search_node.py",
+        "sha256": "ab76d45dd92cb4eae0f2c4dc75607d02dd9034727a522b6692db925a10f3ac6b",
+        "bytes": 18137
+      },
+      {
+        "path": "scripts/run_search.py",
+        "sha256": "e5c317bdc873af1891447e16baa0a0854487c3a1797332f1009db0c17f33af4b",
+        "bytes": 7779
+      },
+      {
+        "path": "scripts/run_search_matrix.py",
+        "sha256": "80785af7fb0b8a3d48c066d6103b2f941f038db038f204de23de74d2d869b8fb",
+        "bytes": 13465
+      },
+      {
+        "path": "src/semantic_search/config/rooms_aws_house_v3.json",
+        "sha256": "139adb2cc80108931ab99c1f13c65bbf144315788d505389cf1329ae065afa4a",
+        "bytes": 3677
+      },
+      {
+        "path": "src/semantic_search/config/nav2_depth.yaml",
+        "sha256": "544105fe17ba2d3478556d45b7e198b179e36eb45738774e112117c5d71488b8",
+        "bytes": 10481
+      },
+      {
+        "path": "scenes/aws_house/layout_r0_yellow_v1.json",
+        "sha256": "a701a5e7efba8533441ad881bb0f88b367b47e78e8e8649c84612ef3392fb7eb",
+        "bytes": 5206
+      },
+      {
+        "path": "yolov8n-seg.pt",
+        "sha256": "a7cd8f929e1903d78a12a48efecab430209f18dc46cb96c3599a5980c63c423c",
+        "bytes": 7071756
+      }
+    ],
+    "plan_endpoints": {
+      "path": "results/development/20261117_bedroom/plan_endpoints.json",
+      "sha256": "d318a480ad9188b203378ffd7cf0d060696fb4dbcd6873e88a1a7f89fd8afa67",
+      "bytes": 6795
+    }
+  },
+  "runs": [
+    {
+      "case": "bedroom_find_cup",
+      "repeat": 1,
+      "task_id": "70649a8a-76d9-40fc-9d6c-ab61936b74d5",
+      "passed": true,
+      "status": "found",
+      "count": 1,
+      "elapsed_seconds": 2.278,
+      "elapsed_wall_seconds": 2.2885036910000736,
+      "tf_failures": 0,
+      "invalid_target_depth": 0,
+      "valid_projections_by_view": [
+        2,
+        0
+      ],
+      "synchronized_messages_by_view": [
+        2,
+        0
+      ],
+      "arrival_xy_error_m": [
+        0.160764
+      ],
+      "arrival_yaw_error_rad": [
+        0.09669
+      ],
+      "arrival_tf_age_ms": [
+        12.0
+      ],
+      "arrival_plan_completed": false,
+      "observation_plan_completed": false,
+      "full_room_coverage_verified": false,
+      "navigation": {
+        "goal_succeeded": 1,
+        "goal_failed": 0,
+        "spin_starts": 0,
+        "backup_starts": 0,
+        "wait_starts": 0,
+        "progress_failures": 0,
+        "controller_patience_exceeded": 0,
+        "obstacle_rejection_messages": 0,
+        "costmap_clear_requests": 0,
+        "control_rate_misses": 0
+      },
+      "sources": {
+        "result": {
+          "path": "results/development/20261117_bedroom/repeat_matrix/001_bedroom_find_cup_01/result.json",
+          "sha256": "8e38fff426882d44a4e0406cde371013af6314142c111cc7246b9027c44f57f9",
+          "bytes": 2546
+        },
+        "observations": {
+          "path": "results/development/20261117_bedroom/tasks/20261117T043006_522345Z/observations.json",
+          "sha256": "ec18a5743725ad9ad3792a13b7d6f5f5c00e70a54280cd3df9232a6b9372cf3f",
+          "bytes": 536
+        }
+      },
+      "plan_endpoint_comparison": [
+        {
+          "index": 0,
+          "distance_to_captured_common_endpoint_m": 0.113703,
+          "recent_matching_endpoint": null
+        }
+      ]
+    },
+    {
+      "case": "bedroom_find_cup",
+      "repeat": 2,
+      "task_id": "ba182338-f591-407a-a71e-758758cc7f40",
+      "passed": true,
+      "status": "found",
+      "count": 1,
+      "elapsed_seconds": 1.486,
+      "elapsed_wall_seconds": 1.4887185640000098,
+      "tf_failures": 0,
+      "invalid_target_depth": 0,
+      "valid_projections_by_view": [
+        2,
+        0
+      ],
+      "synchronized_messages_by_view": [
+        2,
+        0
+      ],
+      "arrival_xy_error_m": [
+        0.160782
+      ],
+      "arrival_yaw_error_rad": [
+        0.095941
+      ],
+      "arrival_tf_age_ms": [
+        6.0
+      ],
+      "arrival_plan_completed": false,
+      "observation_plan_completed": false,
+      "full_room_coverage_verified": false,
+      "navigation": {
+        "goal_succeeded": 1,
+        "goal_failed": 0,
+        "spin_starts": 0,
+        "backup_starts": 0,
+        "wait_starts": 0,
+        "progress_failures": 0,
+        "controller_patience_exceeded": 0,
+        "obstacle_rejection_messages": 0,
+        "costmap_clear_requests": 0,
+        "control_rate_misses": 0
+      },
+      "sources": {
+        "result": {
+          "path": "results/development/20261117_bedroom/repeat_matrix/002_bedroom_find_cup_02/result.json",
+          "sha256": "e7a74e50aba83863cd4e476b9f630241571f78db56163f01ed8f7e59e658da72",
+          "bytes": 2546
+        },
+        "observations": {
+          "path": "results/development/20261117_bedroom/tasks/20261117T043010_789571Z/observations.json",
+          "sha256": "1d69c2cb9aca5af91189801375e6dbe70bce3f5b527ea91875c7484c2fca05a6",
+          "bytes": 536
+        }
+      },
+      "plan_endpoint_comparison": [
+        {
+          "index": 0,
+          "distance_to_captured_common_endpoint_m": 0.113723,
+          "recent_matching_endpoint": null
+        }
+      ]
+    },
+    {
+      "case": "bedroom_find_cup",
+      "repeat": 3,
+      "task_id": "060301e6-17c1-4373-b2a3-4f3599f8b25a",
+      "passed": true,
+      "status": "found",
+      "count": 1,
+      "elapsed_seconds": 1.678,
+      "elapsed_wall_seconds": 1.6829131890000326,
+      "tf_failures": 0,
+      "invalid_target_depth": 0,
+      "valid_projections_by_view": [
+        2,
+        0
+      ],
+      "synchronized_messages_by_view": [
+        2,
+        0
+      ],
+      "arrival_xy_error_m": [
+        0.160782
+      ],
+      "arrival_yaw_error_rad": [
+        0.095941
+      ],
+      "arrival_tf_age_ms": [
+        6.0
+      ],
+      "arrival_plan_completed": false,
+      "observation_plan_completed": false,
+      "full_room_coverage_verified": false,
+      "navigation": {
+        "goal_succeeded": 1,
+        "goal_failed": 0,
+        "spin_starts": 0,
+        "backup_starts": 0,
+        "wait_starts": 0,
+        "progress_failures": 0,
+        "controller_patience_exceeded": 0,
+        "obstacle_rejection_messages": 0,
+        "costmap_clear_requests": 0,
+        "control_rate_misses": 0
+      },
+      "sources": {
+        "result": {
+          "path": "results/development/20261117_bedroom/repeat_matrix/003_bedroom_find_cup_03/result.json",
+          "sha256": "35ac5e256c77cff9cf727b40aeffb3dc04ff496db5b1d62c1a306ec27c00416e",
+          "bytes": 2546
+        },
+        "observations": {
+          "path": "results/development/20261117_bedroom/tasks/20261117T043015_786943Z/observations.json",
+          "sha256": "46970cc9d90deb6d2d3d64fc711578f395fb4345bff1697e65e0240f3371e8fb",
+          "bytes": 536
+        }
+      },
+      "plan_endpoint_comparison": [
+        {
+          "index": 0,
+          "distance_to_captured_common_endpoint_m": 0.113723,
+          "recent_matching_endpoint": null
+        }
+      ]
+    },
+    {
+      "case": "bedroom_find_cup",
+      "repeat": 4,
+      "task_id": "a29d1ef6-038f-44e0-aa8a-0874fdc6153f",
+      "passed": true,
+      "status": "found",
+      "count": 1,
+      "elapsed_seconds": 0.534,
+      "elapsed_wall_seconds": 0.538845705999961,
+      "tf_failures": 0,
+      "invalid_target_depth": 0,
+      "valid_projections_by_view": [
+        2,
+        0
+      ],
+      "synchronized_messages_by_view": [
+        2,
+        0
+      ],
+      "arrival_xy_error_m": [
+        0.160782
+      ],
+      "arrival_yaw_error_rad": [
+        0.095941
+      ],
+      "arrival_tf_age_ms": [
+        4.0
+      ],
+      "arrival_plan_completed": false,
+      "observation_plan_completed": false,
+      "full_room_coverage_verified": false,
+      "navigation": {
+        "goal_succeeded": 1,
+        "goal_failed": 0,
+        "spin_starts": 0,
+        "backup_starts": 0,
+        "wait_starts": 0,
+        "progress_failures": 0,
+        "controller_patience_exceeded": 0,
+        "obstacle_rejection_messages": 0,
+        "costmap_clear_requests": 0,
+        "control_rate_misses": 0
+      },
+      "sources": {
+        "result": {
+          "path": "results/development/20261117_bedroom/repeat_matrix/004_bedroom_find_cup_04/result.json",
+          "sha256": "c3c8e56f85b38eb85b4634b76bec2eda6aa599754dd6319cf7933c4a9b078f2a",
+          "bytes": 2545
+        },
+        "observations": {
+          "path": "results/development/20261117_bedroom/tasks/20261117T043018_782217Z/observations.json",
+          "sha256": "b2eac7d79d64a44abde818b24e52e7800f197230fe25e3a6d6392a7ee84f0765",
+          "bytes": 536
+        }
+      },
+      "plan_endpoint_comparison": [
+        {
+          "index": 0,
+          "distance_to_captured_common_endpoint_m": 0.113723,
+          "recent_matching_endpoint": null
+        }
+      ]
+    },
+    {
+      "case": "bedroom_find_cup",
+      "repeat": 5,
+      "task_id": "b8948326-6edc-403e-8af9-61850bc013a0",
+      "passed": true,
+      "status": "found",
+      "count": 1,
+      "elapsed_seconds": 1.342,
+      "elapsed_wall_seconds": 1.3466481519999434,
+      "tf_failures": 0,
+      "invalid_target_depth": 0,
+      "valid_projections_by_view": [
+        2,
+        0
+      ],
+      "synchronized_messages_by_view": [
+        2,
+        0
+      ],
+      "arrival_xy_error_m": [
+        0.160782
+      ],
+      "arrival_yaw_error_rad": [
+        0.095941
+      ],
+      "arrival_tf_age_ms": [
+        4.0
+      ],
+      "arrival_plan_completed": false,
+      "observation_plan_completed": false,
+      "full_room_coverage_verified": false,
+      "navigation": {
+        "goal_succeeded": 1,
+        "goal_failed": 0,
+        "spin_starts": 0,
+        "backup_starts": 0,
+        "wait_starts": 0,
+        "progress_failures": 0,
+        "controller_patience_exceeded": 0,
+        "obstacle_rejection_messages": 0,
+        "costmap_clear_requests": 0,
+        "control_rate_misses": 0
+      },
+      "sources": {
+        "result": {
+          "path": "results/development/20261117_bedroom/repeat_matrix/005_bedroom_find_cup_05/result.json",
+          "sha256": "95c115e58ce82cdeca7801ca152df62a14a29bcad16b29f55a2e9577ee446cf3",
+          "bytes": 2546
+        },
+        "observations": {
+          "path": "results/development/20261117_bedroom/tasks/20261117T043022_577199Z/observations.json",
+          "sha256": "2e8af02cc65c5cc56d4e92b6f95768bee6b5757f9922dabe9f0d54ced30d483b",
+          "bytes": 536
+        }
+      },
+      "plan_endpoint_comparison": [
+        {
+          "index": 0,
+          "distance_to_captured_common_endpoint_m": 0.113723,
+          "recent_matching_endpoint": null
+        }
+      ]
+    },
+    {
+      "case": "bedroom_count_cup",
+      "repeat": 1,
+      "task_id": "defd9d8a-0136-4905-8c42-e0a04c98cef1",
+      "passed": true,
+      "status": "completed",
+      "count": 1,
+      "elapsed_seconds": 9.7,
+      "elapsed_wall_seconds": 9.72891193800001,
+      "tf_failures": 0,
+      "invalid_target_depth": 0,
+      "valid_projections_by_view": [
+        8,
+        3
+      ],
+      "synchronized_messages_by_view": [
+        8,
+        3
+      ],
+      "arrival_xy_error_m": [
+        0.160782,
+        0.16168
+      ],
+      "arrival_yaw_error_rad": [
+        0.095941,
+        -0.097038
+      ],
+      "arrival_tf_age_ms": [
+        4.0,
+        4.0
+      ],
+      "arrival_plan_completed": true,
+      "observation_plan_completed": true,
+      "full_room_coverage_verified": false,
+      "navigation": {
+        "goal_succeeded": 2,
+        "goal_failed": 0,
+        "spin_starts": 0,
+        "backup_starts": 0,
+        "wait_starts": 0,
+        "progress_failures": 0,
+        "controller_patience_exceeded": 0,
+        "obstacle_rejection_messages": 0,
+        "costmap_clear_requests": 0,
+        "control_rate_misses": 0
+      },
+      "sources": {
+        "result": {
+          "path": "results/development/20261117_bedroom/repeat_matrix/006_bedroom_count_cup_01/result.json",
+          "sha256": "2774e891c82d22d27873c76ea079ea6264d081c0675600f23fec828a17207701",
+          "bytes": 2985
+        },
+        "observations": {
+          "path": "results/development/20261117_bedroom/tasks/20261117T043034_740036Z/observations.json",
+          "sha256": "a20fb0ef87be117f16f7db58a5ddf8d899fa911bbb8b23001cc0c2842ea93679",
+          "bytes": 3002
+        }
+      },
+      "plan_endpoint_comparison": [
+        {
+          "index": 0,
+          "distance_to_captured_common_endpoint_m": 0.113723,
+          "recent_matching_endpoint": null
+        },
+        {
+          "index": 1,
+          "distance_to_captured_common_endpoint_m": 0.114697,
+          "recent_matching_endpoint": null
+        }
+      ]
+    },
+    {
+      "case": "bedroom_count_cup",
+      "repeat": 2,
+      "task_id": "99be5efc-2755-43cd-9743-07d3768b8f27",
+      "passed": true,
+      "status": "completed",
+      "count": 1,
+      "elapsed_seconds": 11.6,
+      "elapsed_wall_seconds": 11.60118429900001,
+      "tf_failures": 0,
+      "invalid_target_depth": 0,
+      "valid_projections_by_view": [
+        5,
+        2
+      ],
+      "synchronized_messages_by_view": [
+        5,
+        2
+      ],
+      "arrival_xy_error_m": [
+        0.160776,
+        0.16166
+      ],
+      "arrival_yaw_error_rad": [
+        0.09569,
+        -0.096019
+      ],
+      "arrival_tf_age_ms": [
+        4.0,
+        2.0
+      ],
+      "arrival_plan_completed": true,
+      "observation_plan_completed": true,
+      "full_room_coverage_verified": false,
+      "navigation": {
+        "goal_succeeded": 2,
+        "goal_failed": 0,
+        "spin_starts": 0,
+        "backup_starts": 0,
+        "wait_starts": 0,
+        "progress_failures": 0,
+        "controller_patience_exceeded": 0,
+        "obstacle_rejection_messages": 0,
+        "costmap_clear_requests": 0,
+        "control_rate_misses": 0
+      },
+      "sources": {
+        "result": {
+          "path": "results/development/20261117_bedroom/repeat_matrix/007_bedroom_count_cup_02/result.json",
+          "sha256": "27419b5b7f4a737306e3f31a6478e2d40f58832b22070b0d88b3d35179b1bf03",
+          "bytes": 2983
+        },
+        "observations": {
+          "path": "results/development/20261117_bedroom/tasks/20261117T043049_742957Z/observations.json",
+          "sha256": "6f0deb3f2694d2d5c1f818238b7edbeeed471094021dcd666de29778d409aa85",
+          "bytes": 1915
+        }
+      },
+      "plan_endpoint_comparison": [
+        {
+          "index": 0,
+          "distance_to_captured_common_endpoint_m": 0.113718,
+          "recent_matching_endpoint": null
+        },
+        {
+          "index": 1,
+          "distance_to_captured_common_endpoint_m": 0.114677,
+          "recent_matching_endpoint": null
+        }
+      ]
+    },
+    {
+      "case": "bedroom_count_cup",
+      "repeat": 3,
+      "task_id": "c80a3bbe-60ca-48c5-97a7-703e3ead1db6",
+      "passed": true,
+      "status": "completed",
+      "count": 1,
+      "elapsed_seconds": 11.52,
+      "elapsed_wall_seconds": 11.529758455999968,
+      "tf_failures": 0,
+      "invalid_target_depth": 0,
+      "valid_projections_by_view": [
+        8,
+        7
+      ],
+      "synchronized_messages_by_view": [
+        8,
+        7
+      ],
+      "arrival_xy_error_m": [
+        0.160756,
+        0.161635
+      ],
+      "arrival_yaw_error_rad": [
+        0.095943,
+        -0.098682
+      ],
+      "arrival_tf_age_ms": [
+        2.0,
+        0.0
+      ],
+      "arrival_plan_completed": true,
+      "observation_plan_completed": true,
+      "full_room_coverage_verified": false,
+      "navigation": {
+        "goal_succeeded": 2,
+        "goal_failed": 0,
+        "spin_starts": 0,
+        "backup_starts": 0,
+        "wait_starts": 0,
+        "progress_failures": 0,
+        "controller_patience_exceeded": 0,
+        "obstacle_rejection_messages": 0,
+        "costmap_clear_requests": 0,
+        "control_rate_misses": 0
+      },
+      "sources": {
+        "result": {
+          "path": "results/development/20261117_bedroom/repeat_matrix/008_bedroom_count_cup_03/result.json",
+          "sha256": "14d28697fcadfa16b45c33f0cb3441c29e14d2b4afcdc07878bf51cae77ef519",
+          "bytes": 2988
+        },
+        "observations": {
+          "path": "results/development/20261117_bedroom/tasks/20261117T043103_754136Z/observations.json",
+          "sha256": "25db3484e2c9b4ede742f33fa905ab6fc330911bc39246494e2d889f5dd8ddb8",
+          "bytes": 4125
+        }
+      },
+      "plan_endpoint_comparison": [
+        {
+          "index": 0,
+          "distance_to_captured_common_endpoint_m": 0.113698,
+          "recent_matching_endpoint": null
+        },
+        {
+          "index": 1,
+          "distance_to_captured_common_endpoint_m": 0.114653,
+          "recent_matching_endpoint": null
+        }
+      ]
+    },
+    {
+      "case": "bedroom_count_cup",
+      "repeat": 4,
+      "task_id": "f1d64ae7-1ffc-4172-93ea-9a54e50dd129",
+      "passed": true,
+      "status": "completed",
+      "count": 1,
+      "elapsed_seconds": 11.34,
+      "elapsed_wall_seconds": 11.354882589999988,
+      "tf_failures": 0,
+      "invalid_target_depth": 0,
+      "valid_projections_by_view": [
+        2,
+        4
+      ],
+      "synchronized_messages_by_view": [
+        2,
+        4
+      ],
+      "arrival_xy_error_m": [
+        0.16075,
+        0.161668
+      ],
+      "arrival_yaw_error_rad": [
+        0.096463,
+        -0.096752
+      ],
+      "arrival_tf_age_ms": [
+        12.0,
+        2.0
+      ],
+      "arrival_plan_completed": true,
+      "observation_plan_completed": true,
+      "full_room_coverage_verified": false,
+      "navigation": {
+        "goal_succeeded": 2,
+        "goal_failed": 0,
+        "spin_starts": 0,
+        "backup_starts": 0,
+        "wait_starts": 0,
+        "progress_failures": 0,
+        "controller_patience_exceeded": 0,
+        "obstacle_rejection_messages": 0,
+        "costmap_clear_requests": 0,
+        "control_rate_misses": 0
+      },
+      "sources": {
+        "result": {
+          "path": "results/development/20261117_bedroom/repeat_matrix/009_bedroom_count_cup_04/result.json",
+          "sha256": "3f83012fe0e07788457fc5e83bfdaf4e61aa89123f14acd491dddd913bac5d51",
+          "bytes": 2984
+        },
+        "observations": {
+          "path": "results/development/20261117_bedroom/tasks/20261117T043117_580888Z/observations.json",
+          "sha256": "ec9d17d3cd26a54fe9fd95eb2cb5b2a6d987d62a7a1389e15bb9bb6c28abbd27",
+          "bytes": 1644
+        }
+      },
+      "plan_endpoint_comparison": [
+        {
+          "index": 0,
+          "distance_to_captured_common_endpoint_m": 0.113693,
+          "recent_matching_endpoint": null
+        },
+        {
+          "index": 1,
+          "distance_to_captured_common_endpoint_m": 0.11469,
+          "recent_matching_endpoint": null
+        }
+      ]
+    },
+    {
+      "case": "bedroom_count_cup",
+      "repeat": 5,
+      "task_id": "302e965e-14b7-4d31-9ae0-9627bb3171b1",
+      "passed": true,
+      "status": "completed",
+      "count": 1,
+      "elapsed_seconds": 11.502,
+      "elapsed_wall_seconds": 11.521330379999995,
+      "tf_failures": 0,
+      "invalid_target_depth": 0,
+      "valid_projections_by_view": [
+        6,
+        10
+      ],
+      "synchronized_messages_by_view": [
+        6,
+        10
+      ],
+      "arrival_xy_error_m": [
+        0.160747,
+        0.161661
+      ],
+      "arrival_yaw_error_rad": [
+        0.095487,
+        -0.097306
+      ],
+      "arrival_tf_age_ms": [
+        2.0,
+        18.0
+      ],
+      "arrival_plan_completed": true,
+      "observation_plan_completed": true,
+      "full_room_coverage_verified": false,
+      "navigation": {
+        "goal_succeeded": 2,
+        "goal_failed": 0,
+        "spin_starts": 0,
+        "backup_starts": 0,
+        "wait_starts": 0,
+        "progress_failures": 0,
+        "controller_patience_exceeded": 0,
+        "obstacle_rejection_messages": 0,
+        "costmap_clear_requests": 0,
+        "control_rate_misses": 0
+      },
+      "sources": {
+        "result": {
+          "path": "results/development/20261117_bedroom/repeat_matrix/010_bedroom_count_cup_05/result.json",
+          "sha256": "9ed36bfdd3fd5c9ce782d90fabcaadca9cad0543a142fe28f07f744afd2dc187",
+          "bytes": 2990
+        },
+        "observations": {
+          "path": "results/development/20261117_bedroom/tasks/20261117T043131_603308Z/observations.json",
+          "sha256": "9170b9cc7ffaa738d46653c45ca4bb108ef05b86c24bed789dce918206cf009d",
+          "bytes": 4406
+        }
+      },
+      "plan_endpoint_comparison": [
+        {
+          "index": 0,
+          "distance_to_captured_common_endpoint_m": 0.113693,
+          "recent_matching_endpoint": {
+            "plan_stamp_ns": 307332000000,
+            "age_before_arrival_seconds": 0.628
+          }
+        },
+        {
+          "index": 1,
+          "distance_to_captured_common_endpoint_m": 0.114684,
+          "recent_matching_endpoint": {
+            "plan_stamp_ns": 313032000000,
+            "age_before_arrival_seconds": 0.608
+          }
+        }
+      ]
+    },
+    {
+      "case": "bedroom_count_bottle",
+      "repeat": 1,
+      "task_id": "cad94cb6-4590-4313-be66-49c54edf14e3",
+      "passed": true,
+      "status": "completed",
+      "count": 1,
+      "elapsed_seconds": 11.62,
+      "elapsed_wall_seconds": 11.620693641999992,
+      "tf_failures": 0,
+      "invalid_target_depth": 0,
+      "valid_projections_by_view": [
+        5,
+        9
+      ],
+      "synchronized_messages_by_view": [
+        5,
+        9
+      ],
+      "arrival_xy_error_m": [
+        0.16074,
+        0.16164
+      ],
+      "arrival_yaw_error_rad": [
+        0.095132,
+        -0.097065
+      ],
+      "arrival_tf_age_ms": [
+        2.0,
+        18.0
+      ],
+      "arrival_plan_completed": true,
+      "observation_plan_completed": true,
+      "full_room_coverage_verified": false,
+      "navigation": {
+        "goal_succeeded": 2,
+        "goal_failed": 0,
+        "spin_starts": 0,
+        "backup_starts": 0,
+        "wait_starts": 0,
+        "progress_failures": 0,
+        "controller_patience_exceeded": 0,
+        "obstacle_rejection_messages": 0,
+        "costmap_clear_requests": 0,
+        "control_rate_misses": 0
+      },
+      "sources": {
+        "result": {
+          "path": "results/development/20261117_bedroom/repeat_matrix/011_bedroom_count_bottle_01/result.json",
+          "sha256": "658dae5d5f71ddfd9ead0d2be82fe7c75e08ff2489db72bf30091f3fb12b309b",
+          "bytes": 2947
+        },
+        "observations": {
+          "path": "results/development/20261117_bedroom/tasks/20261117T043146_008880Z/observations.json",
+          "sha256": "c980cac65867b7394c26a0f136e2f89dffc2bb515220a9cb1b539cdd5d442ade",
+          "bytes": 3845
+        }
+      },
+      "plan_endpoint_comparison": [
+        {
+          "index": 0,
+          "distance_to_captured_common_endpoint_m": 0.113687,
+          "recent_matching_endpoint": {
+            "plan_stamp_ns": 321612000000,
+            "age_before_arrival_seconds": 0.628
+          }
+        },
+        {
+          "index": 1,
+          "distance_to_captured_common_endpoint_m": 0.114663,
+          "recent_matching_endpoint": {
+            "plan_stamp_ns": 327428000000,
+            "age_before_arrival_seconds": 0.612
+          }
+        }
+      ]
+    },
+    {
+      "case": "bedroom_count_bottle",
+      "repeat": 2,
+      "task_id": "cb43dcb8-802b-4b79-a7ae-442d92ff9fc5",
+      "passed": true,
+      "status": "completed",
+      "count": 1,
+      "elapsed_seconds": 11.338,
+      "elapsed_wall_seconds": 11.342286360999992,
+      "tf_failures": 0,
+      "invalid_target_depth": 0,
+      "valid_projections_by_view": [
+        11,
+        4
+      ],
+      "synchronized_messages_by_view": [
+        11,
+        4
+      ],
+      "arrival_xy_error_m": [
+        0.160753,
+        0.16163
+      ],
+      "arrival_yaw_error_rad": [
+        0.098857,
+        -0.097063
+      ],
+      "arrival_tf_age_ms": [
+        18.0,
+        6.0
+      ],
+      "arrival_plan_completed": true,
+      "observation_plan_completed": true,
+      "full_room_coverage_verified": false,
+      "navigation": {
+        "goal_succeeded": 2,
+        "goal_failed": 0,
+        "spin_starts": 0,
+        "backup_starts": 0,
+        "wait_starts": 0,
+        "progress_failures": 0,
+        "controller_patience_exceeded": 0,
+        "obstacle_rejection_messages": 0,
+        "costmap_clear_requests": 0,
+        "control_rate_misses": 0
+      },
+      "sources": {
+        "result": {
+          "path": "results/development/20261117_bedroom/repeat_matrix/012_bedroom_count_bottle_02/result.json",
+          "sha256": "5064b5a44de581ed060de999490a7ede40388078805a0eafe761a5c1ea899dba",
+          "bytes": 2952
+        },
+        "observations": {
+          "path": "results/development/20261117_bedroom/tasks/20261117T043159_818947Z/observations.json",
+          "sha256": "a4c3662f5d0d505a06cbf08355d0f3c89edee206dfa74b6ca7d083403b2507b4",
+          "bytes": 4124
+        }
+      },
+      "plan_endpoint_comparison": [
+        {
+          "index": 0,
+          "distance_to_captured_common_endpoint_m": 0.113703,
+          "recent_matching_endpoint": {
+            "plan_stamp_ns": 335698000000,
+            "age_before_arrival_seconds": 0.562
+          }
+        },
+        {
+          "index": 1,
+          "distance_to_captured_common_endpoint_m": 0.114654,
+          "recent_matching_endpoint": {
+            "plan_stamp_ns": 341436000000,
+            "age_before_arrival_seconds": 0.524
+          }
+        }
+      ]
+    },
+    {
+      "case": "bedroom_count_bottle",
+      "repeat": 3,
+      "task_id": "b0fa14d2-0da7-4e41-aa38-6685330feb69",
+      "passed": true,
+      "status": "completed",
+      "count": 1,
+      "elapsed_seconds": 11.52,
+      "elapsed_wall_seconds": 11.522136441000043,
+      "tf_failures": 0,
+      "invalid_target_depth": 0,
+      "valid_projections_by_view": [
+        8,
+        2
+      ],
+      "synchronized_messages_by_view": [
+        8,
+        2
+      ],
+      "arrival_xy_error_m": [
+        0.160728,
+        0.161629
+      ],
+      "arrival_yaw_error_rad": [
+        0.095879,
+        -0.096581
+      ],
+      "arrival_tf_age_ms": [
+        18.0,
+        12.0
+      ],
+      "arrival_plan_completed": true,
+      "observation_plan_completed": true,
+      "full_room_coverage_verified": false,
+      "navigation": {
+        "goal_succeeded": 2,
+        "goal_failed": 0,
+        "spin_starts": 0,
+        "backup_starts": 0,
+        "wait_starts": 0,
+        "progress_failures": 0,
+        "controller_patience_exceeded": 0,
+        "obstacle_rejection_messages": 0,
+        "costmap_clear_requests": 0,
+        "control_rate_misses": 0
+      },
+      "sources": {
+        "result": {
+          "path": "results/development/20261117_bedroom/repeat_matrix/013_bedroom_count_bottle_03/result.json",
+          "sha256": "02a15594408be334a90218850d15e9b27383cc25b61839d92c474c2656f5be18",
+          "bytes": 2941
+        },
+        "observations": {
+          "path": "results/development/20261117_bedroom/tasks/20261117T043213_821263Z/observations.json",
+          "sha256": "a36b37adbc872d5c64f1e5199b9e7cf2f711f9505befd00a9ab0e274d2631f0b",
+          "bytes": 2738
+        }
+      },
+      "plan_endpoint_comparison": [
+        {
+          "index": 0,
+          "distance_to_captured_common_endpoint_m": 0.113677,
+          "recent_matching_endpoint": {
+            "plan_stamp_ns": 349508000000,
+            "age_before_arrival_seconds": 0.612
+          }
+        },
+        {
+          "index": 1,
+          "distance_to_captured_common_endpoint_m": 0.114655,
+          "recent_matching_endpoint": {
+            "plan_stamp_ns": 355232000000,
+            "age_before_arrival_seconds": 0.568
+          }
+        }
+      ]
+    },
+    {
+      "case": "bedroom_count_bottle",
+      "repeat": 4,
+      "task_id": "87890e42-9283-4530-8018-ccdf80d3eaf3",
+      "passed": true,
+      "status": "completed",
+      "count": 1,
+      "elapsed_seconds": 11.386,
+      "elapsed_wall_seconds": 11.389094728000032,
+      "tf_failures": 0,
+      "invalid_target_depth": 0,
+      "valid_projections_by_view": [
+        7,
+        4
+      ],
+      "synchronized_messages_by_view": [
+        7,
+        4
+      ],
+      "arrival_xy_error_m": [
+        0.160726,
+        0.161647
+      ],
+      "arrival_yaw_error_rad": [
+        0.096361,
+        -0.096738
+      ],
+      "arrival_tf_age_ms": [
+        18.0,
+        0.0
+      ],
+      "arrival_plan_completed": true,
+      "observation_plan_completed": true,
+      "full_room_coverage_verified": false,
+      "navigation": {
+        "goal_succeeded": 2,
+        "goal_failed": 0,
+        "spin_starts": 0,
+        "backup_starts": 0,
+        "wait_starts": 0,
+        "progress_failures": 0,
+        "controller_patience_exceeded": 0,
+        "obstacle_rejection_messages": 0,
+        "costmap_clear_requests": 0,
+        "control_rate_misses": 0
+      },
+      "sources": {
+        "result": {
+          "path": "results/development/20261117_bedroom/repeat_matrix/014_bedroom_count_bottle_04/result.json",
+          "sha256": "64d86a758a165f02ffc38d5dd91e38e544e139fab6e6c561d7587dbde40fe29a",
+          "bytes": 2946
+        },
+        "observations": {
+          "path": "results/development/20261117_bedroom/tasks/20261117T043228_632973Z/observations.json",
+          "sha256": "75daec2265f351d7de608b075906461cbb69d1fb69302d4d0db72650d937b03f",
+          "bytes": 3008
+        }
+      },
+      "plan_endpoint_comparison": [
+        {
+          "index": 0,
+          "distance_to_captured_common_endpoint_m": 0.113678,
+          "recent_matching_endpoint": {
+            "plan_stamp_ns": 364438000000,
+            "age_before_arrival_seconds": 0.622
+          }
+        },
+        {
+          "index": 1,
+          "distance_to_captured_common_endpoint_m": 0.114677,
+          "recent_matching_endpoint": {
+            "plan_stamp_ns": 370232000000,
+            "age_before_arrival_seconds": 0.528
+          }
+        }
+      ]
+    },
+    {
+      "case": "bedroom_count_bottle",
+      "repeat": 5,
+      "task_id": "526bb602-4734-4dd9-80be-2a1a843a8468",
+      "passed": true,
+      "status": "completed",
+      "count": 1,
+      "elapsed_seconds": 11.598,
+      "elapsed_wall_seconds": 11.60722686400004,
+      "tf_failures": 0,
+      "invalid_target_depth": 0,
+      "valid_projections_by_view": [
+        5,
+        8
+      ],
+      "synchronized_messages_by_view": [
+        5,
+        8
+      ],
+      "arrival_xy_error_m": [
+        0.160744,
+        0.161628
+      ],
+      "arrival_yaw_error_rad": [
+        0.096304,
+        -0.095614
+      ],
+      "arrival_tf_age_ms": [
+        0.0,
+        2.0
+      ],
+      "arrival_plan_completed": true,
+      "observation_plan_completed": true,
+      "full_room_coverage_verified": false,
+      "navigation": {
+        "goal_succeeded": 2,
+        "goal_failed": 0,
+        "spin_starts": 0,
+        "backup_starts": 0,
+        "wait_starts": 0,
+        "progress_failures": 0,
+        "controller_patience_exceeded": 0,
+        "obstacle_rejection_messages": 0,
+        "costmap_clear_requests": 0,
+        "control_rate_misses": 0
+      },
+      "sources": {
+        "result": {
+          "path": "results/development/20261117_bedroom/repeat_matrix/015_bedroom_count_bottle_05/result.json",
+          "sha256": "74f91f04d9cc8587b416d53576e5d56af38cddf0b92bbc9c6fee6b04f960db92",
+          "bytes": 2938
+        },
+        "observations": {
+          "path": "results/development/20261117_bedroom/tasks/20261117T043243_646394Z/observations.json",
+          "sha256": "26b01793f1ba4ccd000692b55808c70abf39c5d9d7018cf14f358f4dc8db1642",
+          "bytes": 3565
+        }
+      },
+      "plan_endpoint_comparison": [
+        {
+          "index": 0,
+          "distance_to_captured_common_endpoint_m": 0.1137,
+          "recent_matching_endpoint": {
+            "plan_stamp_ns": 379234000000,
+            "age_before_arrival_seconds": 0.626
+          }
+        },
+        {
+          "index": 1,
+          "distance_to_captured_common_endpoint_m": 0.114657,
+          "recent_matching_endpoint": {
+            "plan_stamp_ns": 385032000000,
+            "age_before_arrival_seconds": 0.628
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -2,7 +2,7 @@
 
 默认演示场景，基于固定版本 AWS Small House，保留 87 个家具和建筑实例。原测试场景独立保留为 `baseline`。
 
-- 操作与验收：[docs/AWS_HOUSE.md](../../docs/AWS_HOUSE.md)。
+- 操作与验收：[docs/AWS_HOUSE.md](../../docs/maintained/AWS_HOUSE.md)。
 - 来源、提交、许可和适配范围：`source.json`；上游原件 `third_party/aws_small_house/`。
 - 实例世界坐标：`ground_truth.json`，仅用于评估，搜索节点不读取。
 - Nav2 建图巡游：`mapping_route.json`。
