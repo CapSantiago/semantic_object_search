@@ -1,0 +1,241 @@
+{
+  "date": "2026-11-18",
+  "milestone": "P4a/G1",
+  "automated_validation": "passed",
+  "human_microphone": "deferred by user",
+  "session": "results/sessions/20261118T091428_030550Z_2de556e7",
+  "config": {
+    "domain": 67,
+    "headless": true,
+    "layout": "scenes/aws_house/layout_r0_yellow_v1.json",
+    "rooms": "src/semantic_search/config/rooms_aws_house_v4.json",
+    "navigation": "src/semantic_search/config/nav2_depth.yaml",
+    "detector": {
+      "device": "cuda:0",
+      "python_env": ".venv-gpu",
+      "image_size": 640,
+      "confidence": 0.35,
+      "iou": 0.3,
+      "half": false
+    }
+  },
+  "source_sha256": {
+    "scripts/robot_console.py": "bb810651a51322b003997328de1743fec7c5bfce93ef97e92a60279c81877cd2",
+    "scripts/robot_runtime.py": "d4ef330ad4dfe8d2b9fa303a89b20effa1ac971f367327908afe416c06c92595",
+    "scripts/robot_monitor.py": "b32fd04745c7bc9232fc81dfe00f55643f63a74f6a11159da46e3be6f05dd66c",
+    "scripts/run_mapping_motion.py": "d53d35816c435e745602d1ea3129e60950ca02b01521022814971b5eb5aaf1e8",
+    "scripts/save_map.sh": "72af53994c0dbf808c88057529f7a413f1a5cbac5d990e342a9d1c41bc9eef40",
+    "src/semantic_search/semantic_search/mapping_control.py": "0e7eee13cfc2a0c73a29c192193b17b308e79ef7d61088413257ed19c05bc5ac",
+    "src/semantic_search/semantic_search/mapping_motion.py": "a077fc51d7fcf679f0fbe41f9f885f6117d46cb9c547ca0deed3201f46e0507c",
+    "ui/index.html": "38c898cdb5091c223a6e69525284319b9a39a31007a9feeee8a4332bbf50aa0c",
+    "ui/app.js": "1e0cc9e4e856fa1b918141883656cf8e9a402f23438bf148f77c63fa1b4bdc15",
+    "ui/style.css": "4a34300554bb6a53a31191d1defe6ffb21253159b07f5f26df8d89fd054598a5"
+  },
+  "browser_motion": {
+    "synthesized_input": "eSpeak NG synthesized Mandarin, recorded by Firefox MediaRecorder",
+    "transcript": "请向前走",
+    "forward_displacement_m": 0.1798,
+    "arrow_down": "completed"
+  },
+  "motion": {
+    "directions_and_speed_steps": "passed",
+    "busy_switch_rejected": true,
+    "max_pulse_wall_seconds": 1.5,
+    "speed_range_m_s": [
+      0.06,
+      0.18
+    ],
+    "keyboard_repetition_timeout": "passed",
+    "direct_cancel": "canceled",
+    "detour_cancel": {
+      "result": {
+        "request_id": "76cff3af33e44596993bfd6909a716ad",
+        "command": "detour",
+        "source": "console",
+        "status": "canceled",
+        "message": "已停车，请重新下达指令。",
+        "speed_m_s": 0.12
+      },
+      "zero_velocity_samples": 10
+    },
+    "known_cells_before_and_after_exploration": [
+      1384,
+      22646
+    ],
+    "obstacle_cases": [
+      {
+        "command": "forward",
+        "status": "blocked",
+        "net_displacement_m": 0.0,
+        "obstacle_distance_m": 0.359,
+        "peak_linear_m_s": 0.0,
+        "request_id": "eb87e672fa834c3ea286e68a0c1deb61"
+      },
+      {
+        "command": "detour",
+        "status": "completed",
+        "net_displacement_m": 0.9996,
+        "peak_linear_m_s": 0.12,
+        "request_id": "f8d03bbaa3e34d83b6c58580da521077"
+      },
+      {
+        "command": "backward",
+        "status": "blocked",
+        "net_displacement_m": 0.0,
+        "obstacle_distance_m": 0.352,
+        "peak_linear_m_s": 0.0,
+        "request_id": "9b5c59f320e8407180e21f5b292a69e0"
+      },
+      {
+        "command": "forward",
+        "status": "blocked",
+        "net_displacement_m": 0.0,
+        "obstacle_distance_m": 0.355,
+        "peak_linear_m_s": 0.0,
+        "request_id": "9055cb762e2844219c554128b043ec27"
+      },
+      {
+        "command": "detour",
+        "status": "rejected",
+        "net_displacement_m": 0.0,
+        "peak_linear_m_s": 0.0,
+        "request_id": "053c92c5baaa46c693835a9cc4b272e9"
+      }
+    ]
+  },
+  "publishers_after_switch": {
+    "mapping": {
+      "/map": [
+        "/slam_toolbox"
+      ],
+      "/cmd_vel": [
+        "/mapping_motion"
+      ]
+    },
+    "navigation": {
+      "/map": [
+        "/map_server"
+      ],
+      "/cmd_vel": [
+        "/behavior_server",
+        "/behavior_server",
+        "/behavior_server",
+        "/behavior_server",
+        "/behavior_server",
+        "/velocity_smoother"
+      ]
+    }
+  },
+  "map_reload": {
+    "width": 374,
+    "height": 223,
+    "resolution_m": 0.05,
+    "compared_cells": 83402,
+    "unknown_cells": 51801,
+    "every_cell_equal": true,
+    "folder": "results/sessions/20261118T091428_030550Z_2de556e7/requests/26e5e0fa0c3f4a5090347cf59c865c11",
+    "baseline_map_preserved": true,
+    "baseline_map_sha256": {
+      "maps/aws_house/house.pgm": "fd3b7f0c4924354c084b802e3110ef0d845ccb47a71799cc018ce9b64c0eaa53",
+      "maps/aws_house/house.yaml": "0dac305d71af1e771b54ff9093b28a8948707fbdefa96b7ea12910c4607d3b5e"
+    }
+  },
+  "navigation_regression": [
+    {
+      "mode": "find",
+      "result": "found",
+      "count": 1,
+      "object_position_map_m": [
+        6.2888,
+        0.965,
+        0.8602
+      ],
+      "visited_views": 1,
+      "expected_views": 10,
+      "artifacts": [
+        "results/sessions/20261118T091428_030550Z_2de556e7/requests/cc82450fbe2a4ebda0f89534e2b2332a/client_result.json",
+        "results/sessions/20261118T091428_030550Z_2de556e7/tasks/20261118T091902_884811Z/result.json",
+        "results/sessions/20261118T091428_030550Z_2de556e7/tasks/20261118T091902_884811Z/observations.json",
+        "results/sessions/20261118T091428_030550Z_2de556e7/tasks/20261118T091902_884811Z/semantic_map.svg"
+      ]
+    },
+    {
+      "mode": "count",
+      "result": "completed",
+      "count": 1,
+      "object_position_map_m": [
+        6.3294,
+        0.9467,
+        0.8589
+      ],
+      "visited_views": 10,
+      "expected_views": 10,
+      "artifacts": [
+        "results/sessions/20261118T091428_030550Z_2de556e7/requests/dbc967fbf3fb49ab836399479da7122b/client_result.json",
+        "results/sessions/20261118T091428_030550Z_2de556e7/tasks/20261118T092041_616678Z/result.json",
+        "results/sessions/20261118T091428_030550Z_2de556e7/tasks/20261118T092041_616678Z/observations.json",
+        "results/sessions/20261118T091428_030550Z_2de556e7/tasks/20261118T092041_616678Z/semantic_map.svg"
+      ]
+    }
+  ],
+  "engineering": {
+    "engineering_passed": 158,
+    "engineering_opt_in_skipped": 7,
+    "isolated_ros_passed": 7
+  },
+  "cleanup": {
+    "shutdown_receipts": [
+      "results/sessions/20261118T061411_635301Z_406acd34/shutdown.json",
+      "results/sessions/20261118T085359_503988Z_0c680beb/shutdown.json",
+      "results/sessions/20261118T090500_857776Z_e2f64a65/shutdown.json",
+      "results/sessions/20261118T091428_030550Z_2de556e7/shutdown.json"
+    ],
+    "remaining_session_processes": 0,
+    "console_port_released": 8766,
+    "domain_checks": {
+      "66": {
+        "returncode": 0,
+        "nodes": [],
+        "stderr": ""
+      },
+      "67": {
+        "returncode": 0,
+        "nodes": [],
+        "stderr": ""
+      },
+      "69": {
+        "returncode": 0,
+        "nodes": [],
+        "stderr": ""
+      }
+    }
+  },
+  "evidence_paths": {
+    "voice": "results/development/p4a_g1/browser_motion_report.json",
+    "motion": "results/development/p4a_g1/mapping_acceptance_report.json",
+    "save_reload_and_navigation": "results/development/p4a_g1/mapping_resume_report.json",
+    "navigation_ui": "results/development/p4a_g1/navigation_ui_report.json",
+    "engineering_tests": "results/development/p4a_g1/engineering_tests.log",
+    "isolated_ros_tests": "results/development/p4a_g1/isolated_ros_tests.log",
+    "empty_domains": "results/development/p4a_g1/cleanup_domains.json"
+  },
+  "earlier_attempts": [
+    {
+      "report": "results/development/p4a_g1/mapping_report.json",
+      "outcome": "detour rejected before side corridor explored"
+    },
+    {
+      "report": "results/development/p4a_g1/mapping_final_report.json",
+      "outcome": "task submission returned HTTP 409 during initial readiness"
+    },
+    {
+      "report": "results/development/p4a_g1/mapping_retry_report.json",
+      "outcome": "initial return-to-navigation readiness incorrectly rejected six valid Nav2 velocity endpoints"
+    },
+    {
+      "report": "results/development/p4a_g1/mapping_acceptance_report.json",
+      "log": "results/development/p4a_g1/acceptance_reload.log",
+      "outcome": "final motion checks passed; independent map_server configure response timed out, resumed after confirming DDS discovery and lifecycle state"
+    }
+  ]
+}

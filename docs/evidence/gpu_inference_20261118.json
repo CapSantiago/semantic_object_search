@@ -1,0 +1,918 @@
+{
+  "date_local": "2026-11-18",
+  "status": "passed",
+  "device": "cuda:0",
+  "hardware": "RTX4060 Laptop 8GB",
+  "baseline_cpu_environment_preserved": true,
+  "benchmark": {
+    "torch": "2.14.1+cu130",
+    "torchvision": "0.29.1+cu130",
+    "cuda_build": "13.0",
+    "weights_sha256": "a7cd8f929e1903d78a12a48efecab430209f18dc46cb96c3599a5980c63c423c",
+    "images": [
+      "results/development/p123_acceptance/captures/005/rgb.png",
+      "results/development/p123_acceptance/captures/008/rgb.png",
+      "results/development/p123_acceptance/captures/010/rgb.png",
+      "results/development/p123_acceptance/captures/012/rgb.png",
+      "results/development/p123_acceptance/captures/015/rgb.png",
+      "results/development/p123_acceptance/captures/017/rgb.png"
+    ],
+    "configuration": {
+      "imgsz": 640,
+      "conf": 0.35,
+      "iou": 0.3,
+      "half": false
+    },
+    "devices": {
+      "cpu": {
+        "actual_device": "cpu",
+        "samples": 60,
+        "median_ms": 16.947417499977746,
+        "p95_ms": 17.764783200209422,
+        "mean_ms": 16.93202424996798,
+        "detections": [
+          {
+            "boxes": [
+              [
+                201.22564697265625,
+                115.09173583984375,
+                345.52508544921875,
+                397.9283447265625
+              ],
+              [
+                0.28841400146484375,
+                377.81805419921875,
+                73.32060241699219,
+                479.59869384765625
+              ],
+              [
+                105.05839538574219,
+                117.88114166259766,
+                128.68011474609375,
+                166.46737670898438
+              ],
+              [
+                62.38433074951172,
+                143.9640350341797,
+                94.62699127197266,
+                175.6021270751953
+              ],
+              [
+                0.272003173828125,
+                154.1661376953125,
+                216.34796142578125,
+                424.6768798828125
+              ]
+            ],
+            "classes": [
+              56.0,
+              41.0,
+              39.0,
+              41.0,
+              60.0
+            ],
+            "scores": [
+              0.9502511620521545,
+              0.7307413816452026,
+              0.5606024861335754,
+              0.4453146755695343,
+              0.3774296045303345
+            ],
+            "mask_polygon_points": [
+              277,
+              25,
+              31,
+              33,
+              236
+            ]
+          },
+          {
+            "boxes": [
+              [
+                360.2535400390625,
+                128.62332153320312,
+                390.950439453125,
+                209.85684204101562
+              ],
+              [
+                55.84625244140625,
+                177.1268310546875,
+                533.1993408203125,
+                477.54010009765625
+              ],
+              [
+                491.9725341796875,
+                286.21856689453125,
+                639.3355712890625,
+                479.49420166015625
+              ],
+              [
+                280.78826904296875,
+                173.48895263671875,
+                331.12506103515625,
+                228.30035400390625
+              ]
+            ],
+            "classes": [
+              39.0,
+              60.0,
+              57.0,
+              41.0
+            ],
+            "scores": [
+              0.8113538026809692,
+              0.6231468319892883,
+              0.614849865436554,
+              0.5227330327033997
+            ],
+            "mask_polygon_points": [
+              47,
+              855,
+              125,
+              50
+            ]
+          },
+          {
+            "boxes": [],
+            "classes": [],
+            "scores": [],
+            "mask_polygon_points": []
+          },
+          {
+            "boxes": [
+              [
+                177.30279541015625,
+                288.24310302734375,
+                553.5079956054688,
+                479.2769775390625
+              ],
+              [
+                301.45574951171875,
+                268.8052673339844,
+                334.34674072265625,
+                308.9065246582031
+              ],
+              [
+                301.09716796875,
+                360.0106201171875,
+                392.4512939453125,
+                390.8133544921875
+              ],
+              [
+                282.693359375,
+                276.7464904785156,
+                312.9154052734375,
+                351.4692687988281
+              ]
+            ],
+            "classes": [
+              60.0,
+              41.0,
+              67.0,
+              39.0
+            ],
+            "scores": [
+              0.5214516520500183,
+              0.48973795771598816,
+              0.4434789717197418,
+              0.40010184049606323
+            ],
+            "mask_polygon_points": [
+              379,
+              38,
+              33,
+              53
+            ]
+          },
+          {
+            "boxes": [
+              [
+                0.282501220703125,
+                125.25224304199219,
+                169.8729248046875,
+                457.55169677734375
+              ]
+            ],
+            "classes": [
+              56.0
+            ],
+            "scores": [
+              0.7085400223731995
+            ],
+            "mask_polygon_points": [
+              287
+            ]
+          },
+          {
+            "boxes": [
+              [
+                217.57568359375,
+                133.75921630859375,
+                260.52008056640625,
+                180.0023193359375
+              ],
+              [
+                341.8934631347656,
+                97.949951171875,
+                383.2647399902344,
+                183.81216430664062
+              ]
+            ],
+            "classes": [
+              41.0,
+              39.0
+            ],
+            "scores": [
+              0.8164641261100769,
+              0.7377102375030518
+            ],
+            "mask_polygon_points": [
+              42,
+              71
+            ]
+          }
+        ]
+      },
+      "cuda:0": {
+        "actual_device": "cuda:0",
+        "samples": 60,
+        "median_ms": 4.41141050009719,
+        "p95_ms": 5.421008850225917,
+        "mean_ms": 4.390449216680281,
+        "detections": [
+          {
+            "boxes": [
+              [
+                201.22193908691406,
+                115.09063720703125,
+                345.5252685546875,
+                397.92889404296875
+              ],
+              [
+                0.29048919677734375,
+                377.8197021484375,
+                73.31729125976562,
+                479.5982666015625
+              ],
+              [
+                105.0565185546875,
+                117.8802261352539,
+                128.68142700195312,
+                166.46664428710938
+              ],
+              [
+                62.384498596191406,
+                143.96353149414062,
+                94.62694549560547,
+                175.602294921875
+              ],
+              [
+                0.274169921875,
+                154.1590576171875,
+                216.34469604492188,
+                424.672607421875
+              ]
+            ],
+            "classes": [
+              56.0,
+              41.0,
+              39.0,
+              41.0,
+              60.0
+            ],
+            "scores": [
+              0.9502732157707214,
+              0.7305071353912354,
+              0.5607824325561523,
+              0.44495171308517456,
+              0.3783451318740845
+            ],
+            "mask_polygon_points": [
+              277,
+              25,
+              31,
+              33,
+              236
+            ]
+          },
+          {
+            "boxes": [
+              [
+                360.25323486328125,
+                128.6217803955078,
+                390.95159912109375,
+                209.85865783691406
+              ],
+              [
+                55.86546325683594,
+                177.1426239013672,
+                533.1837158203125,
+                477.53228759765625
+              ],
+              [
+                491.96832275390625,
+                286.22052001953125,
+                639.3372192382812,
+                479.49432373046875
+              ],
+              [
+                280.7874450683594,
+                173.4922637939453,
+                331.1208190917969,
+                228.30149841308594
+              ]
+            ],
+            "classes": [
+              39.0,
+              60.0,
+              57.0,
+              41.0
+            ],
+            "scores": [
+              0.8114069104194641,
+              0.6235495209693909,
+              0.6150174140930176,
+              0.5225595831871033
+            ],
+            "mask_polygon_points": [
+              47,
+              847,
+              125,
+              50
+            ]
+          },
+          {
+            "boxes": [],
+            "classes": [],
+            "scores": [],
+            "mask_polygon_points": []
+          },
+          {
+            "boxes": [
+              [
+                177.30047607421875,
+                288.2471923828125,
+                553.5159301757812,
+                479.2760009765625
+              ],
+              [
+                301.45819091796875,
+                268.80450439453125,
+                334.34527587890625,
+                308.90509033203125
+              ],
+              [
+                301.0955810546875,
+                360.0115051269531,
+                392.44921875,
+                390.8119812011719
+              ],
+              [
+                282.69476318359375,
+                276.74578857421875,
+                312.91082763671875,
+                351.46978759765625
+              ]
+            ],
+            "classes": [
+              60.0,
+              41.0,
+              67.0,
+              39.0
+            ],
+            "scores": [
+              0.5224232077598572,
+              0.49001970887184143,
+              0.44230592250823975,
+              0.40100470185279846
+            ],
+            "mask_polygon_points": [
+              379,
+              38,
+              36,
+              53
+            ]
+          },
+          {
+            "boxes": [
+              [
+                0.28350830078125,
+                125.20451354980469,
+                169.868896484375,
+                457.55926513671875
+              ]
+            ],
+            "classes": [
+              56.0
+            ],
+            "scores": [
+              0.70806884765625
+            ],
+            "mask_polygon_points": [
+              286
+            ]
+          },
+          {
+            "boxes": [
+              [
+                217.5750732421875,
+                133.75816345214844,
+                260.51995849609375,
+                180.0025177001953
+              ],
+              [
+                341.893310546875,
+                97.95028686523438,
+                383.2674560546875,
+                183.8128662109375
+              ]
+            ],
+            "classes": [
+              41.0,
+              39.0
+            ],
+            "scores": [
+              0.8170000314712524,
+              0.7373536229133606
+            ],
+            "mask_polygon_points": [
+              42,
+              71
+            ]
+          }
+        ],
+        "name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+        "peak_allocated_bytes": 99194368,
+        "peak_reserved_bytes": 130023424
+      }
+    },
+    "comparison": [
+      {
+        "image": "results/development/p123_acceptance/captures/005/rgb.png",
+        "cpu_count": 5,
+        "gpu_count": 5,
+        "pairs": [
+          {
+            "box_iou": 0.9999672097110717,
+            "score_delta": 2.205371856689453e-05,
+            "mask_iou": 1.0
+          },
+          {
+            "box_iou": 0.9999058594727414,
+            "score_delta": 0.00023424625396728516,
+            "mask_iou": 1.0
+          },
+          {
+            "box_iou": 0.9998311008963682,
+            "score_delta": 0.0001799464225769043,
+            "mask_iou": 1.0
+          },
+          {
+            "box_iou": 0.9999721544186086,
+            "score_delta": 0.0003629624843597412,
+            "mask_iou": 1.0
+          },
+          {
+            "box_iou": 0.9999328958525386,
+            "score_delta": 0.00091552734375,
+            "mask_iou": 0.9999116451669906
+          }
+        ],
+        "passed": true
+      },
+      {
+        "image": "results/development/p123_acceptance/captures/008/rgb.png",
+        "cpu_count": 4,
+        "gpu_count": 4,
+        "pairs": [
+          {
+            "box_iou": 0.9999109618694856,
+            "score_delta": 5.310773849487305e-05,
+            "mask_iou": 1.0
+          },
+          {
+            "box_iou": 0.9998484524490846,
+            "score_delta": 0.00040268898010253906,
+            "mask_iou": 0.9994557887513901
+          },
+          {
+            "box_iou": 0.99994950394587,
+            "score_delta": 0.00016754865646362305,
+            "mask_iou": 1.0
+          },
+          {
+            "box_iou": 0.9998180847678673,
+            "score_delta": 0.00017344951629638672,
+            "mask_iou": 1.0
+          }
+        ],
+        "passed": true
+      },
+      {
+        "image": "results/development/p123_acceptance/captures/010/rgb.png",
+        "cpu_count": 0,
+        "gpu_count": 0,
+        "pairs": [],
+        "passed": true
+      },
+      {
+        "image": "results/development/p123_acceptance/captures/012/rgb.png",
+        "cpu_count": 4,
+        "gpu_count": 4,
+        "pairs": [
+          {
+            "box_iou": 0.9999462276084422,
+            "score_delta": 0.0009715557098388672,
+            "mask_iou": 0.999980672220182
+          },
+          {
+            "box_iou": 0.9998264533495501,
+            "score_delta": 0.0002817511558532715,
+            "mask_iou": 0.999009900990099
+          },
+          {
+            "box_iou": 0.9998866030015148,
+            "score_delta": 0.0011730492115020752,
+            "mask_iou": 0.9996006389776357
+          },
+          {
+            "box_iou": 0.9997857536821654,
+            "score_delta": 0.0009028613567352295,
+            "mask_iou": 1.0
+          }
+        ],
+        "passed": true
+      },
+      {
+        "image": "results/development/p123_acceptance/captures/015/rgb.png",
+        "cpu_count": 1,
+        "gpu_count": 1,
+        "pairs": [
+          {
+            "box_iou": 0.9998039363321077,
+            "score_delta": 0.0004711747169494629,
+            "mask_iou": 0.9996757840132044
+          }
+        ],
+        "passed": true
+      },
+      {
+        "image": "results/development/p123_acceptance/captures/017/rgb.png",
+        "cpu_count": 2,
+        "gpu_count": 2,
+        "pairs": [
+          {
+            "box_iou": 0.9999558889365884,
+            "score_delta": 0.0005359053611755371,
+            "mask_iou": 1.0
+          },
+          {
+            "box_iou": 0.9999185823382137,
+            "score_delta": 0.0003566145896911621,
+            "mask_iou": 1.0
+          }
+        ],
+        "passed": true
+      }
+    ],
+    "comparison_passed": true,
+    "median_speedup": 3.841723072383395
+  },
+  "original_cpu": {
+    "torch": "2.14.1+cpu",
+    "torchvision": "0.29.2+cpu",
+    "cuda_build": null,
+    "weights_sha256": "a7cd8f929e1903d78a12a48efecab430209f18dc46cb96c3599a5980c63c423c",
+    "images": [
+      "results/development/p123_acceptance/captures/005/rgb.png",
+      "results/development/p123_acceptance/captures/008/rgb.png",
+      "results/development/p123_acceptance/captures/010/rgb.png",
+      "results/development/p123_acceptance/captures/012/rgb.png",
+      "results/development/p123_acceptance/captures/015/rgb.png",
+      "results/development/p123_acceptance/captures/017/rgb.png"
+    ],
+    "configuration": {
+      "imgsz": 640,
+      "conf": 0.35,
+      "iou": 0.3,
+      "half": false
+    },
+    "devices": {
+      "cpu": {
+        "actual_device": "cpu",
+        "samples": 60,
+        "median_ms": 18.81839099996796,
+        "p95_ms": 21.20626530022491,
+        "mean_ms": 19.311647816683337,
+        "detections": [
+          {
+            "boxes": [
+              [
+                201.22564697265625,
+                115.09173583984375,
+                345.52508544921875,
+                397.9283447265625
+              ],
+              [
+                0.28841400146484375,
+                377.81805419921875,
+                73.32060241699219,
+                479.59869384765625
+              ],
+              [
+                105.05839538574219,
+                117.88114166259766,
+                128.68011474609375,
+                166.46737670898438
+              ],
+              [
+                62.38433074951172,
+                143.9640350341797,
+                94.62699127197266,
+                175.6021270751953
+              ],
+              [
+                0.272003173828125,
+                154.1661376953125,
+                216.34796142578125,
+                424.6768798828125
+              ]
+            ],
+            "classes": [
+              56.0,
+              41.0,
+              39.0,
+              41.0,
+              60.0
+            ],
+            "scores": [
+              0.9502511620521545,
+              0.7307413816452026,
+              0.5606024861335754,
+              0.4453146755695343,
+              0.3774296045303345
+            ],
+            "mask_polygon_points": [
+              277,
+              25,
+              31,
+              33,
+              236
+            ]
+          },
+          {
+            "boxes": [
+              [
+                360.2535400390625,
+                128.62332153320312,
+                390.950439453125,
+                209.85684204101562
+              ],
+              [
+                55.84625244140625,
+                177.1268310546875,
+                533.1993408203125,
+                477.54010009765625
+              ],
+              [
+                491.9725341796875,
+                286.21856689453125,
+                639.3355712890625,
+                479.49420166015625
+              ],
+              [
+                280.78826904296875,
+                173.48895263671875,
+                331.12506103515625,
+                228.30035400390625
+              ]
+            ],
+            "classes": [
+              39.0,
+              60.0,
+              57.0,
+              41.0
+            ],
+            "scores": [
+              0.8113538026809692,
+              0.6231468319892883,
+              0.614849865436554,
+              0.5227330327033997
+            ],
+            "mask_polygon_points": [
+              47,
+              855,
+              125,
+              50
+            ]
+          },
+          {
+            "boxes": [],
+            "classes": [],
+            "scores": [],
+            "mask_polygon_points": []
+          },
+          {
+            "boxes": [
+              [
+                177.30279541015625,
+                288.24310302734375,
+                553.5079956054688,
+                479.2769775390625
+              ],
+              [
+                301.45574951171875,
+                268.8052673339844,
+                334.34674072265625,
+                308.9065246582031
+              ],
+              [
+                301.09716796875,
+                360.0106201171875,
+                392.4512939453125,
+                390.8133544921875
+              ],
+              [
+                282.693359375,
+                276.7464904785156,
+                312.9154052734375,
+                351.4692687988281
+              ]
+            ],
+            "classes": [
+              60.0,
+              41.0,
+              67.0,
+              39.0
+            ],
+            "scores": [
+              0.5214516520500183,
+              0.48973795771598816,
+              0.4434789717197418,
+              0.40010184049606323
+            ],
+            "mask_polygon_points": [
+              379,
+              38,
+              33,
+              53
+            ]
+          },
+          {
+            "boxes": [
+              [
+                0.282501220703125,
+                125.25224304199219,
+                169.8729248046875,
+                457.55169677734375
+              ]
+            ],
+            "classes": [
+              56.0
+            ],
+            "scores": [
+              0.7085400223731995
+            ],
+            "mask_polygon_points": [
+              287
+            ]
+          },
+          {
+            "boxes": [
+              [
+                217.57568359375,
+                133.75921630859375,
+                260.52008056640625,
+                180.0023193359375
+              ],
+              [
+                341.8934631347656,
+                97.949951171875,
+                383.2647399902344,
+                183.81216430664062
+              ]
+            ],
+            "classes": [
+              41.0,
+              39.0
+            ],
+            "scores": [
+              0.8164641261100769,
+              0.7377102375030518
+            ],
+            "mask_polygon_points": [
+              42,
+              71
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "live": {
+    "report": {
+      "path": "results/development/gpu_20261118/live_report.json",
+      "sha256": "f2065e67e3d7c35fa641f8d879f0692fdb54b78c64b242b724526a7b0b846d35"
+    },
+    "audit": {
+      "path": "results/development/gpu_20261118/live_audit.json",
+      "sha256": "393253103450c73e540b999eba23353277ce48eb08560d2513e8861e1851c0cd"
+    },
+    "session": "/home/willmatic/桌面/semantic_object_search/results/sessions/20261117T163809_101029Z_fff57dc0",
+    "passed_cases": 2,
+    "counts": {
+      "cup": 1,
+      "chair": 4
+    },
+    "gpu_process": [
+      {
+        "pid": 21736,
+        "process": "/home/willmatic/桌面/semantic_object_search/.venv-gpu/bin/python",
+        "gpu_memory_mib": 268
+      }
+    ],
+    "sensors": {
+      "path": "results/development/gpu_20261118/sensors/sensors.json",
+      "sha256": "96d21d0aa5f11e5d8de1d573ff9213964b4e7ea2a512b93d9a4ffdc31d0ce3a0"
+    },
+    "detection_stream": {
+      "path": "results/development/gpu_20261118/detection_stream.json",
+      "sha256": "1d12d50862678945944bfc43c2b136196d4b1a0ccdadcccad604c9103eeb8991"
+    }
+  },
+  "versions": {
+    "path": "results/development/gpu_20261118/gpu_freeze.txt",
+    "sha256": "38a77cfe1ad415af88e5e7cb22cca1d06917541c44f327d7756f4b254ae2d454"
+  },
+  "tests": {
+    "project_passed": 151,
+    "ros_skipped": 7,
+    "runtime_console_passed": 64
+  },
+  "sources": [
+    {
+      "path": "scripts/prepare_gpu.sh",
+      "sha256": "b20572bf740d3b6b0c106a4e46a7d9af86d680f26c408f72bab3d402a4e6d18d"
+    },
+    {
+      "path": "scripts/development_detector.sh",
+      "sha256": "c331b395978c12d66d9f32ab7519ff268b600e6e4ab2aa2beb72631a24139fea"
+    },
+    {
+      "path": "scripts/robot_runtime.py",
+      "sha256": "ba9290f7fe30e92f1560b35233fb95e46222f8b8835be09e92fa9e42f2a98f06"
+    },
+    {
+      "path": "scripts/robot_console.py",
+      "sha256": "81900a5391dd377cf0d56a0044fc1f3819cdc6eaaa088eb1fe67064d70031796"
+    },
+    {
+      "path": "src/semantic_search/semantic_search/detector.py",
+      "sha256": "d75a34c7df89cf952a63506a8a8e5b9f5a036e9f090f8a1ce27dcf1011582f33"
+    },
+    {
+      "path": "requirements-vision-ubuntu-gpu.txt",
+      "sha256": "9ba60c32c3f9fd8512b01e8930e051b09024accb2aabe7bbee001181d6f5a202"
+    },
+    {
+      "path": "requirements-vision-ubuntu-cpu.txt",
+      "sha256": "deae4f3df448eb25dcab0f897c9379d235f72a514699da568def95913ec07013"
+    }
+  ],
+  "image_fingerprints": [
+    {
+      "path": "results/development/p123_acceptance/captures/005/rgb.png",
+      "sha256": "28641ae69cf6051a83cf1e3342ecc838d209a0b427d1d0827b388c913d092661"
+    },
+    {
+      "path": "results/development/p123_acceptance/captures/008/rgb.png",
+      "sha256": "a9b6afae195f1ff619d2b65a67cc0e05065aaa0abc6938f75ffbca5a0fef50ed"
+    },
+    {
+      "path": "results/development/p123_acceptance/captures/010/rgb.png",
+      "sha256": "50c7609bb696d7114404a782dc22770374c9bd6621cd780fa9d6449e33fa235c"
+    },
+    {
+      "path": "results/development/p123_acceptance/captures/012/rgb.png",
+      "sha256": "b486aacf693e934ccc4643a9a0e3149e51a4dd362fb5417ad39c08d470de9201"
+    },
+    {
+      "path": "results/development/p123_acceptance/captures/015/rgb.png",
+      "sha256": "9ca3cfb10bb6f269b220b3a30e56d8470b1703e78e24364ba33d00e84a2fc8a8"
+    },
+    {
+      "path": "results/development/p123_acceptance/captures/017/rgb.png",
+      "sha256": "2374337bef8bed69f897ab995cfde2d2433a003aed2ede6bfd618a68ea36bf3b"
+    }
+  ],
+  "limitations": [
+    "Six saved views, not exhaustive equivalence for every possible image.",
+    "Latency includes YOLO prediction/output conversion; excludes disk I/O, navigation and ROS transport.",
+    "GPU smoke tests do not replace the100-case acceptance. CPU33 cases remain separate."
+  ],
+  "official_sources": [
+    "https://pytorch.org/get-started/locally/",
+    "https://docs.nvidia.com/cuda/archive/13.0.0/cuda-toolkit-release-notes/"
+  ],
+  "next": "User authorized continuation of P1–P3; current GPU session retained for coverage validation."
+}

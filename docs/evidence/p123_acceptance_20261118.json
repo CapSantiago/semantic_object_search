@@ -1,0 +1,1263 @@
+{
+  "schema_version": 1,
+  "date_local": "2026-11-18",
+  "status": "stopped_at_user_request_acceptance_incomplete",
+  "scope": "P1–P3 closure plus added-layout coverage probe; no new experiments after current batches ended",
+  "milestones": {
+    "P1": "complete",
+    "P2": "incomplete",
+    "P3": "incomplete"
+  },
+  "configuration": {
+    "ros": "Humble",
+    "gazebo": "Fortress",
+    "navigation": "NavFn Dijkstra + DWB with depth obstacle input",
+    "model": "YOLOv8n-seg",
+    "device": "cpu",
+    "image_size": 640,
+    "confidence": 0.35,
+    "iou": 0.3,
+    "camera_height_m": 1.0,
+    "camera_pitch_rad": 0.25,
+    "sensor_reliability": "reliable",
+    "reject_clipped_detections": true,
+    "validate_object_size": true
+  },
+  "gpu": {
+    "hardware": "RTX 4060 Laptop",
+    "memory_mib": 8188,
+    "driver": "580.178.04",
+    "torch": "2.14.1+cpu",
+    "cuda_available_in_visual_env": false,
+    "configuration_changed": false
+  },
+  "p1": {
+    "navigation_goals": 21,
+    "passed": 21,
+    "max_xy_m": 0.119176,
+    "max_yaw_rad": 0.0985966,
+    "evidence": {
+      "path": "results/development/p123_acceptance/connections_navigation.json",
+      "sha256": "e857a4e030551eac86f3d4c6eeb45ee59d6704722bdf8a8bb667822c15738532"
+    }
+  },
+  "formal": {
+    "planned": 100,
+    "validated_completed": 33,
+    "remaining_successes": 67,
+    "grouping": [
+      5,
+      25,
+      3
+    ],
+    "continuous_run": false,
+    "audit": {
+      "path": "results/development/p123_acceptance/completed33_audit.json",
+      "sha256": "00cfa3dbb839316fcb18050c7eed4df33d2de3024a0fb38bccf6adf9e3c6c556"
+    },
+    "per_case": [
+      {
+        "case": "kitchen_find_cup",
+        "planned": 5,
+        "validated": 5,
+        "remaining": 0
+      },
+      {
+        "case": "kitchen_count_cup",
+        "planned": 5,
+        "validated": 5,
+        "remaining": 0
+      },
+      {
+        "case": "kitchen_count_bottle",
+        "planned": 5,
+        "validated": 5,
+        "remaining": 0
+      },
+      {
+        "case": "kitchen_count_chair",
+        "planned": 5,
+        "validated": 5,
+        "remaining": 0
+      },
+      {
+        "case": "living_find_cup",
+        "planned": 5,
+        "validated": 5,
+        "remaining": 0
+      },
+      {
+        "case": "living_count_cup",
+        "planned": 5,
+        "validated": 5,
+        "remaining": 0
+      },
+      {
+        "case": "living_count_bottle",
+        "planned": 5,
+        "validated": 3,
+        "remaining": 2
+      },
+      {
+        "case": "living_count_chair",
+        "planned": 5,
+        "validated": 0,
+        "remaining": 5
+      },
+      {
+        "case": "bedroom_find_cup",
+        "planned": 5,
+        "validated": 0,
+        "remaining": 5
+      },
+      {
+        "case": "bedroom_count_cup",
+        "planned": 5,
+        "validated": 0,
+        "remaining": 5
+      },
+      {
+        "case": "bedroom_count_bottle",
+        "planned": 5,
+        "validated": 0,
+        "remaining": 5
+      },
+      {
+        "case": "bedroom_count_chair",
+        "planned": 5,
+        "validated": 0,
+        "remaining": 5
+      },
+      {
+        "case": "gym_find_chair",
+        "planned": 5,
+        "validated": 0,
+        "remaining": 5
+      },
+      {
+        "case": "gym_count_chair",
+        "planned": 5,
+        "validated": 0,
+        "remaining": 5
+      },
+      {
+        "case": "gym_find_empty_cup",
+        "planned": 5,
+        "validated": 0,
+        "remaining": 5
+      },
+      {
+        "case": "gym_count_empty_cup",
+        "planned": 5,
+        "validated": 0,
+        "remaining": 5
+      },
+      {
+        "case": "utility_find_chair",
+        "planned": 5,
+        "validated": 0,
+        "remaining": 5
+      },
+      {
+        "case": "utility_count_chair",
+        "planned": 5,
+        "validated": 0,
+        "remaining": 5
+      },
+      {
+        "case": "utility_find_empty_cup",
+        "planned": 5,
+        "validated": 0,
+        "remaining": 5
+      },
+      {
+        "case": "utility_count_empty_cup",
+        "planned": 5,
+        "validated": 0,
+        "remaining": 5
+      }
+    ],
+    "source_subsets": [
+      {
+        "path": "results/development/p123_acceptance/formal_kitchen_chair_v2/report.json",
+        "sha256": "1e12f0cfce0b4d1f7f5503e03fc4492af0d28c0276034a50e74eabf3980367a0"
+      },
+      {
+        "path": "results/development/p123_acceptance/completed25_subset.json",
+        "sha256": "5b7bf68db65c9fb5d38d9b31bdc7012f0bfec92f52e7e91f5023f9ea15eac773"
+      },
+      {
+        "path": "results/development/p123_acceptance/completed3_subset.json",
+        "sha256": "5b0154c4e2f2cda2f139ea8371416c0182c38543419d8859e110c4326ed8ee9e"
+      }
+    ],
+    "latest_interruption": {
+      "report": {
+        "path": "results/development/p123_acceptance/formal_remaining70_retry/aws_house/matrix_results/report.json",
+        "sha256": "9ebba2f60889bc4bb675b4864d09444929fe339c94883896c4ef29782b565293"
+      },
+      "driver_exit_code": 143,
+      "completed": 3,
+      "canceled": 1,
+      "unexecuted": 66,
+      "signal_sender": "unknown; no restart after stop request"
+    }
+  },
+  "faults": {
+    "status": "passed",
+    "passed": 45,
+    "total": 45,
+    "restored": true,
+    "per_kind": {
+      "neighbor": 5,
+      "unreachable": 5,
+      "tf_failure": 5,
+      "tf_recovery": 5,
+      "sensor_outage": 5,
+      "sensor_recovery": 5,
+      "cancel": 5,
+      "depth_failure": 5,
+      "depth_recovery": 5
+    },
+    "depth_fixture": {
+      "corrupt": false,
+      "invalid_frames": 383,
+      "valid_frames": 182,
+      "errors": [],
+      "child_stopped": true,
+      "relay_stopped": true
+    },
+    "evidence": {
+      "path": "results/development/p123_acceptance/fault_recovery/report.json",
+      "sha256": "6b6c4b281d109a50c7ba953a578b083bfd23076d93c1c2e391a17b358fd07697"
+    }
+  },
+  "occlusion": {
+    "status": "passed",
+    "passed": 12,
+    "total": 12,
+    "restored": true,
+    "evidence": {
+      "path": "results/development/p123_acceptance/occlusion_retry/report.json",
+      "sha256": "a24a0f0b10f3cb6f8bcf82f58bee4db97ccb8b517551d8203045ebfcc11143da"
+    }
+  },
+  "fault_artifacts": {
+    "passed": 57,
+    "total": 57,
+    "evidence": {
+      "path": "results/development/p123_acceptance/fault_artifact_audit.json",
+      "sha256": "60fd1e6cc7b0555ecb870edc131edd6dd29520ff93a04a2c5670c717f9f882d2"
+    }
+  },
+  "compatibility": {
+    "v3_remaining": {
+      "passed": 20,
+      "total": 20,
+      "evidence": {
+        "path": "results/development/p123_acceptance/v3_remaining20/audit.json",
+        "sha256": "12b0e0a14ffba701695f3e7dfdebf7e21a365ec10c8024daeb6538384af49877"
+      }
+    },
+    "baseline": "Original baseline find1/count2 passed",
+    "old_aws": "Initial count3/expected4 failed; independent retry find1/count4 passed, not proof of flawless stability",
+    "old_aws_retry": {
+      "path": "results/development/p123_acceptance/legacy_aws_retry/aws_house/matrix_results/report.json",
+      "sha256": "dab968840ab4e6d6c2040ff2a754c3df4ee6cd447fd101e0a944661e53d049fd"
+    }
+  },
+  "coverage": {
+    "captures": 37,
+    "planned_capture_entries": 61,
+    "missing_capture_entries": 24,
+    "full_room_coverage_verified": false,
+    "evidence": {
+      "path": "results/development/p123_acceptance/visibility_coverage_available.json",
+      "sha256": "007b7c13b13471397fe5f89ebc6dc9455e9292304275b9dfb69cf31ed11cc57e"
+    },
+    "figure": "docs/evidence/p123_coverage_20261118.png",
+    "routes": {
+      "kitchen": {
+        "chair": {
+          "captures": 15,
+          "complete": true,
+          "missing_poses": [],
+          "height_planes": [
+            {
+              "height_m": 0.15,
+              "samples": 911,
+              "visible": 716,
+              "fraction": 0.7859495060373216
+            },
+            {
+              "height_m": 0.45,
+              "samples": 911,
+              "visible": 740,
+              "fraction": 0.8122941822173436
+            },
+            {
+              "height_m": 0.85,
+              "samples": 911,
+              "visible": 777,
+              "fraction": 0.8529088913282108
+            }
+          ]
+        },
+        "cup": {
+          "captures": 10,
+          "complete": true,
+          "missing_poses": [],
+          "height_planes": [
+            {
+              "height_m": 0.15,
+              "samples": 911,
+              "visible": 552,
+              "fraction": 0.605927552140505
+            },
+            {
+              "height_m": 0.45,
+              "samples": 911,
+              "visible": 568,
+              "fraction": 0.6234906695938529
+            },
+            {
+              "height_m": 0.85,
+              "samples": 911,
+              "visible": 729,
+              "fraction": 0.8002195389681669
+            }
+          ]
+        },
+        "bottle": {
+          "captures": 10,
+          "complete": true,
+          "missing_poses": [],
+          "height_planes": [
+            {
+              "height_m": 0.15,
+              "samples": 911,
+              "visible": 552,
+              "fraction": 0.605927552140505
+            },
+            {
+              "height_m": 0.45,
+              "samples": 911,
+              "visible": 568,
+              "fraction": 0.6234906695938529
+            },
+            {
+              "height_m": 0.85,
+              "samples": 911,
+              "visible": 729,
+              "fraction": 0.8002195389681669
+            }
+          ]
+        }
+      },
+      "living": {
+        "chair": {
+          "captures": 11,
+          "complete": true,
+          "missing_poses": [],
+          "height_planes": [
+            {
+              "height_m": 0.15,
+              "samples": 1152,
+              "visible": 456,
+              "fraction": 0.3958333333333333
+            },
+            {
+              "height_m": 0.45,
+              "samples": 1152,
+              "visible": 592,
+              "fraction": 0.5138888888888888
+            },
+            {
+              "height_m": 0.85,
+              "samples": 1152,
+              "visible": 492,
+              "fraction": 0.4270833333333333
+            }
+          ]
+        },
+        "cup": {
+          "captures": 10,
+          "complete": true,
+          "missing_poses": [],
+          "height_planes": [
+            {
+              "height_m": 0.15,
+              "samples": 1152,
+              "visible": 456,
+              "fraction": 0.3958333333333333
+            },
+            {
+              "height_m": 0.45,
+              "samples": 1152,
+              "visible": 592,
+              "fraction": 0.5138888888888888
+            },
+            {
+              "height_m": 0.85,
+              "samples": 1152,
+              "visible": 492,
+              "fraction": 0.4270833333333333
+            }
+          ]
+        },
+        "bottle": {
+          "captures": 10,
+          "complete": true,
+          "missing_poses": [],
+          "height_planes": [
+            {
+              "height_m": 0.15,
+              "samples": 1152,
+              "visible": 456,
+              "fraction": 0.3958333333333333
+            },
+            {
+              "height_m": 0.45,
+              "samples": 1152,
+              "visible": 592,
+              "fraction": 0.5138888888888888
+            },
+            {
+              "height_m": 0.85,
+              "samples": 1152,
+              "visible": 492,
+              "fraction": 0.4270833333333333
+            }
+          ]
+        }
+      },
+      "bedroom": {
+        "chair": {
+          "captures": 3,
+          "complete": false,
+          "missing_poses": [
+            [
+              -4.0,
+              0.0,
+              -3.14159265
+            ],
+            [
+              -4.0,
+              0.0,
+              -2.35619449
+            ],
+            [
+              -4.0,
+              0.0,
+              -1.57079633
+            ],
+            [
+              -4.0,
+              0.0,
+              -0.78539816
+            ],
+            [
+              -4.0,
+              0.0,
+              0.0
+            ],
+            [
+              -4.0,
+              0.0,
+              0.78539816
+            ],
+            [
+              -4.0,
+              0.0,
+              1.57079633
+            ],
+            [
+              -4.0,
+              0.0,
+              2.35619449
+            ]
+          ],
+          "height_planes": [
+            {
+              "height_m": 0.15,
+              "samples": 782,
+              "visible": 225,
+              "fraction": 0.2877237851662404
+            },
+            {
+              "height_m": 0.45,
+              "samples": 782,
+              "visible": 224,
+              "fraction": 0.2864450127877238
+            },
+            {
+              "height_m": 0.85,
+              "samples": 782,
+              "visible": 311,
+              "fraction": 0.3976982097186701
+            }
+          ]
+        },
+        "cup": {
+          "captures": 2,
+          "complete": false,
+          "missing_poses": [
+            [
+              -4.0,
+              0.0,
+              -3.14159265
+            ],
+            [
+              -4.0,
+              0.0,
+              -2.35619449
+            ],
+            [
+              -4.0,
+              0.0,
+              -1.57079633
+            ],
+            [
+              -4.0,
+              0.0,
+              -0.78539816
+            ],
+            [
+              -4.0,
+              0.0,
+              0.0
+            ],
+            [
+              -4.0,
+              0.0,
+              0.78539816
+            ],
+            [
+              -4.0,
+              0.0,
+              1.57079633
+            ],
+            [
+              -4.0,
+              0.0,
+              2.35619449
+            ]
+          ],
+          "height_planes": [
+            {
+              "height_m": 0.15,
+              "samples": 782,
+              "visible": 17,
+              "fraction": 0.021739130434782608
+            },
+            {
+              "height_m": 0.45,
+              "samples": 782,
+              "visible": 16,
+              "fraction": 0.020460358056265986
+            },
+            {
+              "height_m": 0.85,
+              "samples": 782,
+              "visible": 46,
+              "fraction": 0.058823529411764705
+            }
+          ]
+        },
+        "bottle": {
+          "captures": 2,
+          "complete": false,
+          "missing_poses": [
+            [
+              -4.0,
+              0.0,
+              -3.14159265
+            ],
+            [
+              -4.0,
+              0.0,
+              -2.35619449
+            ],
+            [
+              -4.0,
+              0.0,
+              -1.57079633
+            ],
+            [
+              -4.0,
+              0.0,
+              -0.78539816
+            ],
+            [
+              -4.0,
+              0.0,
+              0.0
+            ],
+            [
+              -4.0,
+              0.0,
+              0.78539816
+            ],
+            [
+              -4.0,
+              0.0,
+              1.57079633
+            ],
+            [
+              -4.0,
+              0.0,
+              2.35619449
+            ]
+          ],
+          "height_planes": [
+            {
+              "height_m": 0.15,
+              "samples": 782,
+              "visible": 17,
+              "fraction": 0.021739130434782608
+            },
+            {
+              "height_m": 0.45,
+              "samples": 782,
+              "visible": 16,
+              "fraction": 0.020460358056265986
+            },
+            {
+              "height_m": 0.85,
+              "samples": 782,
+              "visible": 46,
+              "fraction": 0.058823529411764705
+            }
+          ]
+        }
+      },
+      "utility": {
+        "chair": {
+          "captures": 2,
+          "complete": false,
+          "missing_poses": [
+            [
+              -6.0,
+              -2.6,
+              -3.14159265
+            ],
+            [
+              -6.0,
+              -2.6,
+              -2.35619449
+            ],
+            [
+              -6.0,
+              -2.6,
+              -1.57079633
+            ],
+            [
+              -6.0,
+              -2.6,
+              -0.78539816
+            ],
+            [
+              -6.0,
+              -2.6,
+              0.0
+            ],
+            [
+              -6.0,
+              -2.6,
+              0.78539816
+            ],
+            [
+              -6.0,
+              -2.6,
+              1.57079633
+            ],
+            [
+              -6.0,
+              -2.6,
+              2.35619449
+            ]
+          ],
+          "height_planes": [
+            {
+              "height_m": 0.15,
+              "samples": 680,
+              "visible": 124,
+              "fraction": 0.18235294117647058
+            },
+            {
+              "height_m": 0.45,
+              "samples": 680,
+              "visible": 156,
+              "fraction": 0.22941176470588234
+            },
+            {
+              "height_m": 0.85,
+              "samples": 680,
+              "visible": 180,
+              "fraction": 0.2647058823529412
+            }
+          ]
+        },
+        "cup": {
+          "captures": 2,
+          "complete": false,
+          "missing_poses": [
+            [
+              -6.0,
+              -2.6,
+              -3.14159265
+            ],
+            [
+              -6.0,
+              -2.6,
+              -2.35619449
+            ],
+            [
+              -6.0,
+              -2.6,
+              -1.57079633
+            ],
+            [
+              -6.0,
+              -2.6,
+              -0.78539816
+            ],
+            [
+              -6.0,
+              -2.6,
+              0.0
+            ],
+            [
+              -6.0,
+              -2.6,
+              0.78539816
+            ],
+            [
+              -6.0,
+              -2.6,
+              1.57079633
+            ],
+            [
+              -6.0,
+              -2.6,
+              2.35619449
+            ]
+          ],
+          "height_planes": [
+            {
+              "height_m": 0.15,
+              "samples": 680,
+              "visible": 124,
+              "fraction": 0.18235294117647058
+            },
+            {
+              "height_m": 0.45,
+              "samples": 680,
+              "visible": 156,
+              "fraction": 0.22941176470588234
+            },
+            {
+              "height_m": 0.85,
+              "samples": 680,
+              "visible": 180,
+              "fraction": 0.2647058823529412
+            }
+          ]
+        },
+        "bottle": {
+          "captures": 2,
+          "complete": false,
+          "missing_poses": [
+            [
+              -6.0,
+              -2.6,
+              -3.14159265
+            ],
+            [
+              -6.0,
+              -2.6,
+              -2.35619449
+            ],
+            [
+              -6.0,
+              -2.6,
+              -1.57079633
+            ],
+            [
+              -6.0,
+              -2.6,
+              -0.78539816
+            ],
+            [
+              -6.0,
+              -2.6,
+              0.0
+            ],
+            [
+              -6.0,
+              -2.6,
+              0.78539816
+            ],
+            [
+              -6.0,
+              -2.6,
+              1.57079633
+            ],
+            [
+              -6.0,
+              -2.6,
+              2.35619449
+            ]
+          ],
+          "height_planes": [
+            {
+              "height_m": 0.15,
+              "samples": 680,
+              "visible": 124,
+              "fraction": 0.18235294117647058
+            },
+            {
+              "height_m": 0.45,
+              "samples": 680,
+              "visible": 156,
+              "fraction": 0.22941176470588234
+            },
+            {
+              "height_m": 0.85,
+              "samples": 680,
+              "visible": 180,
+              "fraction": 0.2647058823529412
+            }
+          ]
+        }
+      },
+      "gym": {
+        "chair": {
+          "captures": 3,
+          "complete": false,
+          "missing_poses": [
+            [
+              0.0,
+              1.2,
+              -3.14159265
+            ],
+            [
+              0.0,
+              1.2,
+              -2.35619449
+            ],
+            [
+              0.0,
+              1.2,
+              -1.57079633
+            ],
+            [
+              0.0,
+              1.2,
+              -0.78539816
+            ],
+            [
+              0.0,
+              1.2,
+              0.0
+            ],
+            [
+              0.0,
+              1.2,
+              0.78539816
+            ],
+            [
+              0.0,
+              1.2,
+              1.57079633
+            ],
+            [
+              0.0,
+              1.2,
+              2.35619449
+            ]
+          ],
+          "height_planes": [
+            {
+              "height_m": 0.15,
+              "samples": 781,
+              "visible": 303,
+              "fraction": 0.3879641485275288
+            },
+            {
+              "height_m": 0.45,
+              "samples": 781,
+              "visible": 333,
+              "fraction": 0.4263764404609475
+            },
+            {
+              "height_m": 0.85,
+              "samples": 781,
+              "visible": 350,
+              "fraction": 0.44814340588988477
+            }
+          ]
+        },
+        "cup": {
+          "captures": 3,
+          "complete": false,
+          "missing_poses": [
+            [
+              0.0,
+              1.2,
+              -3.14159265
+            ],
+            [
+              0.0,
+              1.2,
+              -2.35619449
+            ],
+            [
+              0.0,
+              1.2,
+              -1.57079633
+            ],
+            [
+              0.0,
+              1.2,
+              -0.78539816
+            ],
+            [
+              0.0,
+              1.2,
+              0.0
+            ],
+            [
+              0.0,
+              1.2,
+              0.78539816
+            ],
+            [
+              0.0,
+              1.2,
+              1.57079633
+            ],
+            [
+              0.0,
+              1.2,
+              2.35619449
+            ]
+          ],
+          "height_planes": [
+            {
+              "height_m": 0.15,
+              "samples": 781,
+              "visible": 303,
+              "fraction": 0.3879641485275288
+            },
+            {
+              "height_m": 0.45,
+              "samples": 781,
+              "visible": 333,
+              "fraction": 0.4263764404609475
+            },
+            {
+              "height_m": 0.85,
+              "samples": 781,
+              "visible": 350,
+              "fraction": 0.44814340588988477
+            }
+          ]
+        },
+        "bottle": {
+          "captures": 3,
+          "complete": false,
+          "missing_poses": [
+            [
+              0.0,
+              1.2,
+              -3.14159265
+            ],
+            [
+              0.0,
+              1.2,
+              -2.35619449
+            ],
+            [
+              0.0,
+              1.2,
+              -1.57079633
+            ],
+            [
+              0.0,
+              1.2,
+              -0.78539816
+            ],
+            [
+              0.0,
+              1.2,
+              0.0
+            ],
+            [
+              0.0,
+              1.2,
+              0.78539816
+            ],
+            [
+              0.0,
+              1.2,
+              1.57079633
+            ],
+            [
+              0.0,
+              1.2,
+              2.35619449
+            ]
+          ],
+          "height_planes": [
+            {
+              "height_m": 0.15,
+              "samples": 781,
+              "visible": 303,
+              "fraction": 0.3879641485275288
+            },
+            {
+              "height_m": 0.45,
+              "samples": 781,
+              "visible": 333,
+              "fraction": 0.4263764404609475
+            },
+            {
+              "height_m": 0.85,
+              "samples": 781,
+              "visible": 350,
+              "fraction": 0.44814340588988477
+            }
+          ]
+        }
+      }
+    },
+    "limitation": "Only measured depth visibility of sampled height planes; includes furniture footprints, not detection success or proof of absence."
+  },
+  "placement": {
+    "layout": "scenes/aws_house/layout_coverage_v1.json",
+    "objects": {
+      "cup": 9,
+      "bottle": 7,
+      "chair": 10,
+      "bowl": 1,
+      "book": 1
+    },
+    "total_objects": 28,
+    "planned_tasks": 15,
+    "completed_passed": 2,
+    "canceled": 1,
+    "unexecuted": 12,
+    "status": "interrupted",
+    "driver_exit_code": 143,
+    "cases": [
+      {
+        "case": "kitchen_count_cup",
+        "status": "completed",
+        "count": 2,
+        "passed": true
+      },
+      {
+        "case": "kitchen_count_bottle",
+        "status": "completed",
+        "count": 1,
+        "passed": true
+      },
+      {
+        "case": "kitchen_count_chair",
+        "status": "canceled",
+        "count": 4,
+        "passed": false
+      }
+    ],
+    "evidence": {
+      "path": "results/development/p123_acceptance/placement_coverage/aws_house/matrix_results/report.json",
+      "sha256": "dd24b15c525a6f992986c663958a59ac1ad1e10ffb3cc2b5f682490da57ea1ef"
+    },
+    "completed_audit": {
+      "path": "results/development/p123_acceptance/placement_coverage/completed2_audit.json",
+      "sha256": "539859cda78781c225987f99eccd65a8f52743a2275b84aff044ff2d125cbee9"
+    },
+    "captured_frames": 15,
+    "offline_inspection": {
+      "path": "results/development/p123_acceptance/placement_coverage/frame_inspection.json",
+      "sha256": "ebe211f98219dfc471a1ef62b1be6f410bbdb4687dbbb3b8b1c9fdabfe3b23c8"
+    },
+    "candidates": "Bowl visible in inspected kitchen side image but not detected at current threshold in captured samples; book and other-room placements remain unvalidated. Neither class enabled for commands.",
+    "layout_metadata_after_execution": "status/validation_note updated after run; object poses and assets unchanged; original fingerprint retained in raw matrix report"
+  },
+  "tests": {
+    "project": {
+      "passed": 149,
+      "skipped_ros": 7,
+      "command": "source scripts/env.sh; PYTHONPATH=scripts:src/semantic_search:$PYTHONPATH .venv/bin/python -m pytest tests -q",
+      "evidence_type": "Observed tool output; isolated ROS receipts below"
+    },
+    "isolated_ros": {
+      "passed": 7,
+      "domain": 69,
+      "evidence": [
+        {
+          "path": "results/development/p123_acceptance/client_discovery_fix_retry/test_command_subscriber_created_after_three_seconds_still_succeeds_ebf5cq03/test_evidence.json",
+          "sha256": "7796ba9aeef38bffbada3268c4002c5cb8e16b37f5a0649f9e0e395632dbd837"
+        },
+        {
+          "path": "results/development/p123_acceptance/client_discovery_fix_retry/test_delayed_old_id_is_ignored_until_new_result_and_json_is_unchanged_czirlqqi/test_evidence.json",
+          "sha256": "dc400bba252f9947392f5a8ce5e702293764c85fd08966924a96e810a0b84703"
+        },
+        {
+          "path": "results/development/p123_acceptance/client_discovery_fix_retry/test_missing_command_subscriber_exits_without_sending_a_task_231wx5nm/test_evidence.json",
+          "sha256": "3aefb281e1cf4650427a459f7d2d0630a6bf8250c7a51221a0fda8be0191b2d7"
+        },
+        {
+          "path": "results/development/p123_acceptance/client_discovery_fix_retry/test_only_replayed_old_id_times_out_and_cancels_instead_of_passing_hfkekejr/test_evidence.json",
+          "sha256": "7905b01f2c5f946e182897ae4dd3a5a1f3a0d6988a8802de8105d601782ac5a2"
+        },
+        {
+          "path": "results/development/p123_acceptance/client_discovery_fix_retry/test_passive_observer_alone_does_not_receive_task_or_cancel_ii4emx8w/test_evidence.json",
+          "sha256": "e82ff9e1541aad11eb254854a3ac78445fec2f24e99c5135d72d5d0d241daa09"
+        },
+        {
+          "path": "results/development/p123_acceptance/client_discovery_fix_retry/test_passive_observer_does_not_replace_delayed_search_server_hic521zi/test_evidence.json",
+          "sha256": "a563164c929002cbebe0d3bcdd40b915d9bd4b0c6bcd73e7017a5df5313ed4b4"
+        },
+        {
+          "path": "results/development/p123_acceptance/client_discovery_fix_retry/test_signal_during_discovery_exits_without_command_or_cancel_pjahvwjx/test_evidence.json",
+          "sha256": "b027a930007b0d64f245abc143260469539752b4f333ba78b4afe7a8c2271712"
+        }
+      ]
+    }
+  },
+  "ui": {
+    "evidence": {
+      "path": "results/development/p123_acceptance/ui/report.json",
+      "sha256": "db63603fe18775385e2e12db67228fdfa4b1bb54f8cb14fb5819e135e59d2757"
+    },
+    "scope": "Read-only desktop and390px viewport; earlier UI task/cancel checks retained; no extra final UI batch after stop request"
+  },
+  "cleanup": [
+    {
+      "path": "results/sessions/20261117T154823_480004Z_bbbd81d1/shutdown.json",
+      "sha256": "0c488ac93364b099020fb4a29403c0516208f80d9c2e1c84bf83fed0444a4203"
+    },
+    {
+      "path": "results/development/p123_acceptance/formal_remaining70_retry/aws_house/shutdown.json",
+      "sha256": "f09edd67353880e619784d307ffb686c2c6216a083e06179e495dee61d0f45b7"
+    },
+    {
+      "path": "results/development/p123_acceptance/placement_coverage/aws_house/shutdown.json",
+      "sha256": "879f31880a141dee617a9ce35de375d868d3fae99bd1d87eb42a5cbd0c3c92ac"
+    }
+  ],
+  "failures_preserved": [
+    "results/development/p123_acceptance/new_zones_smoke",
+    "results/development/p123_acceptance/expanded_smoke",
+    "results/development/p123_acceptance/expanded_smoke_size",
+    "results/development/p123_acceptance/formal_kitchen_chair",
+    "results/development/p123_acceptance/occlusion",
+    "results/development/p123_acceptance/formal_cold95",
+    "results/development/p123_acceptance/formal_remaining70",
+    "results/development/p123_acceptance/formal_remaining70_retry",
+    "results/development/p123_acceptance/placement_coverage",
+    "results/development/p123_acceptance/client_discovery_fix",
+    "results/development/p123_acceptance/sweep_captures_failed_json"
+  ],
+  "next_after_user_resumes": [
+    "Investigate termination signal provenance before long unattended batches.",
+    "Finish67 outstanding baseline formal successes and full baseline RGB-D view capture.",
+    "Complete additional-layout placements in other rooms; diagnose misses without using truth in perception.",
+    "Then close P2/P3 and continue existing P4 plan."
+  ],
+  "source_fingerprints": [
+    {
+      "path": "src/semantic_search/config/rooms_aws_house_v4.json",
+      "sha256": "bdf3556a362a1e989f38edb4e0a81fa3ffd0192d015cf5fa6a3f535806233272"
+    },
+    {
+      "path": "src/semantic_search/config/nav2_depth.yaml",
+      "sha256": "544105fe17ba2d3478556d45b7e198b179e36eb45738774e112117c5d71488b8"
+    },
+    {
+      "path": "scenes/aws_house/layout_r0_yellow_v1.json",
+      "sha256": "a701a5e7efba8533441ad881bb0f88b367b47e78e8e8649c84612ef3392fb7eb"
+    },
+    {
+      "path": "scenes/aws_house/layout_coverage_v1.json",
+      "sha256": "8ae55f736a6ae4bdbc963a42de4b2c38a73b18174f60c6eb7ae1880194259718"
+    },
+    {
+      "path": "scenes/aws_house/spatial_v4.json",
+      "sha256": "3a145ec56cf5762fd265f1c59ebfc0c0f4cefd7d17fac76fe9431ef646debaf6"
+    },
+    {
+      "path": "yolov8n-seg.pt",
+      "sha256": "a7cd8f929e1903d78a12a48efecab430209f18dc46cb96c3599a5980c63c423c"
+    },
+    {
+      "path": "src/semantic_search/semantic_search/depth.py",
+      "sha256": "222f8833127740470cc4c52820826ab9c690a6cd61f87149c2020be820939a15"
+    },
+    {
+      "path": "src/semantic_search/semantic_search/search_node.py",
+      "sha256": "1144dfed0a43bf9275281ce03154193a6778dcc7ddf17d9f664a2ce2eba2c9c9"
+    },
+    {
+      "path": "src/semantic_search/semantic_search/development.py",
+      "sha256": "4007525a57d4aabae30de45c971a0ff5db7dd2770781a3a315a84e480f7b7741"
+    },
+    {
+      "path": "src/semantic_search/semantic_search/visibility.py",
+      "sha256": "76135118eed28c9a630d429e5a4da983f9a0fad16f9dbfb0757ababb7cc2c276"
+    },
+    {
+      "path": "src/semantic_search/semantic_search/semantic_map.py",
+      "sha256": "bc622cd105b44416251010ae791e48601f7d41cdc5b866b0e0f2c0c39f2c4f34"
+    },
+    {
+      "path": "src/semantic_search/semantic_search/detector.py",
+      "sha256": "ddac1900956b1f61d26e422c741e9df9683f93349e7ba0d6b470fa1b32148c0d"
+    },
+    {
+      "path": "scripts/run_search.py",
+      "sha256": "86f167134497c940b7e4d6cdf99d257921ecd46bd802af15c51d7e6f82080ca2"
+    },
+    {
+      "path": "scripts/robot_runtime.py",
+      "sha256": "072d8045c0acf805f9a99d0e6b4d359adec066fdd55009ed7e30cca57c31e043"
+    },
+    {
+      "path": "scripts/robot_console.py",
+      "sha256": "b451b997f758a83459517b9c169f22a50090ceef0ec8a1193346fc11bfe27cca"
+    },
+    {
+      "path": "scripts/validation/audit_search_results.py",
+      "sha256": "557a73e9fffe0de2df25b1efce05be3a93ff70d336b9208b1b261de7b311b9bd"
+    },
+    {
+      "path": "scripts/validation/visibility_coverage.py",
+      "sha256": "db0a45ec48ed1ee059e34f29d358e367e06f4e9cad411de900747cb21975170d"
+    },
+    {
+      "path": "scripts/validation/fault_recovery.py",
+      "sha256": "9d602db3eebf753a2c2eb316445668a7e460a9ca304275d506059725e60f5b4d"
+    },
+    {
+      "path": "scripts/validation/occlusion_recovery.py",
+      "sha256": "06884c0656db492b67744ce2a471c7270513b427200945e2cf5447f58cfdb2ca"
+    },
+    {
+      "path": "scripts/validation/capture_observation_views.py",
+      "sha256": "a72a3cc21e9bece76c9671c6e08ae015f9fd9cc0047a4f5082be2b13f5ae1344"
+    }
+  ],
+  "cleanup_domain_checks": {
+    "domains": [
+      66,
+      67,
+      68
+    ],
+    "method": "ros2 node list --no-daemon --spin-time 2 after source env",
+    "all_empty": true,
+    "observation": "Observed command output; each exit0 and empty stdout"
+  }
+}

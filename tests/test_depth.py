@@ -52,3 +52,23 @@ class DepthTests(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+def test_truncated_instance_requires_another_complete_view():
+    from semantic_search.depth import truncated_box
+    # The utility-room ball was clipped at both the left and bottom edges.
+    assert truncated_box(98.19,394.53,194.20,170.09,640,480)
+    assert not truncated_box(280.34,263.38,133.15,212.66,640,480)
+    assert truncated_box(320,240,float('nan'),30,640,480)
+    assert truncated_box(639,240,10,30,640,480)
+
+
+def test_size_prior_rejects_cup_shaped_bin_but_accepts_supported_small_objects():
+    from semantic_search.depth import compatible_size, instance_geometry
+    assert not compatible_size('cup',[.246,.201,.202])
+    assert compatible_size('cup',[.12,.09,.10])
+    assert compatible_size('bottle',[.10,.08,.30])
+    assert not compatible_size('cup',[.05,.05,float('nan')])
+    image=np.ones((100,100),dtype=np.float32)
+    geometry=instance_geometry(image,[(20,20),(80,20),(80,80),(20,80)],
+        [100.,0.,50.,0.,100.,50.,0.,0.,1.],[1.,2.,0.],[0.,0.,0.,1.])
+    np.testing.assert_allclose(geometry[0],[1,2,1],atol=.01)
+    assert geometry[1][0]>.4 and geometry[1][1]>.4

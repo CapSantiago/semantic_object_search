@@ -24,12 +24,15 @@ def parse_command(text, rooms):
             task = json.loads(text)
         except json.JSONDecodeError as error:
             raise ValueError('任务 JSON 格式错误。') from error
-        if not isinstance(task, dict) or set(task) - {'mode', 'room', 'category'}:
-            raise ValueError('任务 JSON 只接受 mode、room、category 字段。')
+        if not isinstance(task, dict) or set(task) - {'mode', 'room', 'category', 'request_id'}:
+            raise ValueError('任务 JSON 只接受 mode、room、category 和可选的 request_id 字段。')
+        if 'request_id' in task and (not isinstance(task['request_id'], str)
+                or not re.fullmatch(r'[A-Za-z0-9_-]{8,80}', task['request_id'])):
+            raise ValueError('任务 request_id 格式无效。')
         mode = task.get('mode')
         if mode == 'cancel':
-            if set(task) != {'mode'}:
-                raise ValueError('取消任务 JSON 只接受 mode 字段。')
+            if set(task) - {'mode', 'request_id'}:
+                raise ValueError('取消任务 JSON 只接受 mode 和可选的 request_id 字段。')
             return 'cancel', None, None
         if mode not in ('find', 'count'):
             raise ValueError('任务 mode 必须为 find、count 或 cancel。')

@@ -134,8 +134,12 @@ class SearchClientRosTests(unittest.TestCase):
         self.assertTrue(detail['cancellation_sent'])
         self.assertTrue(detail['cancellation_observed'])
 
-    def discovery_exercise(self, create_subscriber, interrupt=False):
+    def discovery_exercise(self, create_subscriber, interrupt=False, spectator=False):
         self.node.destroy_subscription(self.command_subscription)
+        if spectator:
+            observer=self.ros.create_node('passive_command_observer_'+uuid4().hex[:8])
+            observer.create_subscription(self.String,self.topic+'/command',lambda msg:None,10)
+            self.addCleanup(observer.destroy_node)
         output, diagnostics = self.folder/'result.json', self.folder/'diagnostics.json'
         command = '去厨房找杯子'
         discovery_timeout = 4 if create_subscriber or interrupt else .7
@@ -188,7 +192,11 @@ class SearchClientRosTests(unittest.TestCase):
             self.assertFalse(detail['command_sent'])
             self.assertFalse(detail['cancellation_sent'])
             self.assertEqual(detail['outcome'], 'interrupted_before_command' if interrupt else 'discovery_timeout')
-            self.assertEqual(detail['command_subscribers_before_publish'], 0)
+            if spectator:
+                self.assertGreaterEqual(detail['command_subscribers_before_publish'],1)
+                self.assertEqual(detail['serving_nodes_before_publish'],[])
+            else:
+                self.assertEqual(detail['command_subscribers_before_publish'], 0)
             if not interrupt:
                 self.assertGreaterEqual(detail['discovery_wait_wall_seconds'], discovery_timeout)
                 self.assertLess(detail['discovery_wait_wall_seconds'], discovery_timeout + .3)
@@ -209,6 +217,12 @@ class SearchClientRosTests(unittest.TestCase):
 
     def test_signal_during_discovery_exits_without_command_or_cancel(self):
         self.discovery_exercise(create_subscriber=False, interrupt=True)
+
+    def test_passive_observer_does_not_replace_delayed_search_server(self):
+        self.discovery_exercise(create_subscriber=True, spectator=True)
+
+    def test_passive_observer_alone_does_not_receive_task_or_cancel(self):
+        self.discovery_exercise(create_subscriber=False, spectator=True)
 
 
 if __name__ == '__main__':

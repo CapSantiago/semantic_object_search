@@ -1,15 +1,23 @@
 #!/usr/bin/env bash
 # Run explicitly; preparing this file does not start ROS.
-# Usage: bash /tmp/semantic_legacy_regression_20261117.sh [project-root]
+# Usage: bash scripts/validation/legacy_regression.sh [project-root] [new-output] [all|baseline|aws_house]
 # Stops on a failed stage, preserves its evidence, and cleans only owned children.
 set -eo pipefail
 set +m
 legacy_project="${1:-/home/willmatic/桌面/semantic_object_search}"
 cd -- "$legacy_project"
 legacy_project="$PWD"
-legacy_output="$legacy_project/results/development/legacy_20261117"
+legacy_output="${2:-$legacy_project/results/development/legacy_20261117}"
+legacy_selection="${3:-all}"
+case "$legacy_selection" in
+    all) legacy_specs=(baseline:67:2 aws_house:68:4) ;;
+    baseline) legacy_specs=(baseline:67:2) ;;
+    aws_house) legacy_specs=(aws_house:68:4) ;;
+    *) echo 'Expected all, baseline or aws_house' >&2; exit 2 ;;
+esac
 legacy_script="$(readlink -f -- "${BASH_SOURCE[0]}")"
-for legacy_scene in baseline aws_house; do
+for legacy_spec in "${legacy_specs[@]}"; do
+    legacy_scene="${legacy_spec%%:*}"
     [[ ! -e "$legacy_output/$legacy_scene" ]] || {
         echo "Refusing to overwrite evidence: $legacy_output/$legacy_scene" >&2; exit 2;
     }
@@ -139,7 +147,7 @@ PY
 }
 
 mkdir -p -- "$legacy_output"
-for legacy_spec in baseline:67:2 aws_house:68:4; do
+for legacy_spec in "${legacy_specs[@]}"; do
     IFS=: read -r legacy_scene legacy_domain legacy_expected <<< "$legacy_spec"
     legacy_run="$legacy_output/$legacy_scene"
     mkdir -- "$legacy_run"
@@ -236,4 +244,4 @@ PY
     trap - INT TERM
     echo "Finished $legacy_scene; cleanup verified; evidence: $legacy_run"
 done
-echo "Both original-scene regressions passed: $legacy_output"
+echo "Selected original-scene regressions passed: $legacy_output"

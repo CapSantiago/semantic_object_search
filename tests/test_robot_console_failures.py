@@ -94,7 +94,7 @@ class ConsoleTests(unittest.TestCase):
     def test_request_write_failure_is_terminal_and_never_launches(self):
         with patch.object(module,'write_json',side_effect=OSError('disk full')):
             with self.assertRaises(module.ApiError):
-                self.console._start_job('example1','search','find','find')
+                self.console.submit(dict(request_id='example1', command='去厨房找杯子'))
         self.assertEqual(self.console.job['state'],'failed')
         self.assertFalse(self.console.snapshot()['busy'])
         self.assertFalse(self.console.uncertain)
@@ -104,7 +104,7 @@ class ConsoleTests(unittest.TestCase):
     def test_launch_exception_closes_session_and_blocks_new_tasks(self):
         self.runtime.fail_start=True
         with self.assertRaises(module.ApiError):
-            self.console._start_job('example1','search','find','find')
+            self.console.submit(dict(request_id='example1', command='去厨房找杯子'))
         self.assertTrue(self.runtime.closed)
         self.assertTrue(self.console.uncertain)
         self.assertEqual(self.console.job['state'],'failed')
@@ -113,14 +113,14 @@ class ConsoleTests(unittest.TestCase):
     def test_watcher_launch_failure_also_cleans_up_started_process(self):
         with patch.object(module.threading.Thread,'start',side_effect=RuntimeError('no threads')):
             with self.assertRaises(module.ApiError):
-                self.console._start_job('example1','search','find','find')
+                self.console.submit(dict(request_id='example1', command='去厨房找杯子'))
         self.assertTrue(self.runtime.closed)
         self.assertTrue(self.console.uncertain)
         self.assertIsNotNone(self.runtime.process.poll())
 
     def test_uppercase_request_id_has_valid_internal_process_name(self):
         with patch.object(module.threading,'Thread') as thread:
-            self.console._start_job('TEST1234','search','find','find')
+            self.console.submit(dict(request_id='TEST1234', command='去厨房找杯子'))
         self.assertRegex(self.runtime.started[0],r'^request_[a-f0-9]{32}$')
         self.assertIn('TEST1234',self.console.watchers)
         thread.return_value.start.assert_called_once()

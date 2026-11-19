@@ -27,7 +27,7 @@ from visualization_msgs.msg import Marker, MarkerArray
 from yolo_msgs.msg import DetectionArray
 
 from .semantic_map import LandmarkMap, parse_command, write_results
-from .depth import foreground_depth, instance_centroid
+from .depth import foreground_depth, instance_geometry, compatible_size, truncated_box
 from .rooms import belongs_to, validate_rooms, observation_views, observation_status, observation_coverage
 from .sensor_qos import declare_sensor_qos
 
@@ -49,6 +49,8 @@ class Search(Node):
             raise ValueError(validation.reason)
         self.add_on_set_parameters_callback(self.validate_observation_parameters)
         self.declare_parameter('min_score', 0.35)
+        self.declare_parameter('reject_clipped_detections', False)
+        self.declare_parameter('validate_object_size', False)
         self.declare_parameter('optical_frame', 'camera_optical_frame')
         self.declare_parameter('depth_topic', '/rgbd/depth_image')
         self.declare_parameter('camera_info_topic', '/rgbd/camera_info')
@@ -64,10 +66,12 @@ class Search(Node):
         self.task = None
         self.goal = None
         self.phase = 'idle'
+        self.request_id = None
         self.canceled = False
         qos = QoSProfile(depth=1, durability=DurabilityPolicy.TRANSIENT_LOCAL)
         self.markers = self.create_publisher(MarkerArray, '/search/markers', qos)
         self.results = self.create_publisher(String, '/search/result', qos)
+        self.progress = self.create_publisher(String, '/search/progress', 10)
         self.create_subscription(OccupancyGrid, '/map', self.set_map, qos)
         self.create_subscription(String, '/search/command', self.on_command, 10)
 
@@ -104,14 +108,18 @@ class Search(Node):
                 self.rooms = json.loads(Path(self.param('rooms_file')).read_text(encoding='utf-8'))
                 validate_rooms(self.rooms)
             mode, room, category = parse_command(msg.data, self.rooms)
+            request_id = json.loads(msg.data).get('request_id') if msg.data.lstrip().startswith('{') else None
         except (OSError, ValueError) as error:
             self.get_logger().warning(str(error))
             return
         if mode == 'cancel':
+            if request_id is not None and request_id != self.request_id:
+                return
             if self.task and self.phase == 'observing':
                 self.finish('canceled')
             elif self.task and not self.canceled:
                 self.canceled = True
+                self.publish_progress('canceling')
                 if self.goal:
                     self.goal.cancel_goal_async()
             return
@@ -123,6 +131,7 @@ class Search(Node):
             return
 
         self.task = (mode, room, category)
+        self.request_id = request_id
         self.task_id = str(uuid4())
         self.command_text = msg.data
         self.canceled = False
@@ -149,6 +158,16 @@ class Search(Node):
         self.get_logger().info(f'开始任务 {mode}: {category} in {room}')
         self.next_view()
 
+    def publish_progress(self, stage, *, status=None, save_status=None):
+        mode, room, category = self.task
+        event = dict(version=1, request_id=self.request_id, task_id=self.task_id,
+                     kind='search', stage=stage, status=status, save_status=save_status,
+                     mode=mode, room=room, category=category, count=len(self.landmarks.confirmed),
+                     viewpoint_index=self.view+1 if self.view < len(self.views) else None,
+                     viewpoints_total=len(self.views), viewpoints_visited=self.visited,
+                     viewpoints_failed=len(self.failed_views))
+        self.progress.publish(String(data=json.dumps(event, ensure_ascii=False)))
+
     def next_view(self):
         if self.view == len(self.views):
             status = observation_status(self.task[0], self.frames, bool(self.landmarks.confirmed),
@@ -161,11 +180,12 @@ class Search(Node):
         goal = NavigateToPose.Goal()
         goal.pose.header.frame_id = 'map'
         goal.pose.header.stamp = self.get_clock().now().to_msg()
-        goal.pose.pose.position.x = x
-        goal.pose.pose.position.y = y
+        goal.pose.pose.position.x = float(x)
+        goal.pose.pose.position.y = float(y)
         goal.pose.pose.orientation.z = sin(yaw / 2)
         goal.pose.pose.orientation.w = cos(yaw / 2)
         self.phase = 'navigating'
+        self.publish_progress('navigating')
         self.nav.send_goal_async(goal).add_done_callback(self.on_goal)
 
     def on_goal(self, future):
@@ -227,6 +247,7 @@ class Search(Node):
                 diagnostics['arrival_transform_stamp_ns'] = Time.from_msg(arrival.header.stamp).nanoseconds
             except TransformException as error:
                 diagnostics['arrival_pose_error'] = str(error)
+            self.publish_progress('observing')
 
     def tick(self):
         if self.phase != 'observing':
@@ -240,10 +261,13 @@ class Search(Node):
             diagnostics['extra_wait_started'] = True
         if diagnostics['extra_wait_started']:
             diagnostics['extra_wait_seconds'] = max(0.0, elapsed-self.observe_dwell_seconds)
+        was_waiting = diagnostics['waiting_for_sensor_data']
         diagnostics['waiting_for_sensor_data'] = (
             not diagnostics['synchronized_frames'] and
             elapsed < self.observe_dwell_seconds+self.observe_extra_seconds)
         if diagnostics['waiting_for_sensor_data']:
+            if not was_waiting:
+                self.publish_progress('waiting_for_data')
             return
         self.view += 1
         self.next_view()
@@ -285,6 +309,16 @@ class Search(Node):
         mode, room, category = self.task
         targets = [det for det in detections.detections
                    if det.class_name.lower() == category and det.score >= self.param('min_score')]
+        if self.param('reject_clipped_detections') is True:
+            complete=[]
+            for det in targets:
+                box=det.bbox
+                if truncated_box(box.center.position.x,box.center.position.y,box.size.x,box.size.y,
+                                 depth.width,depth.height):
+                    diagnostics['clipped_detections']=diagnostics.get('clipped_detections',0)+1
+                else:
+                    complete.append(det)
+            targets=complete
         if not targets:
             return
         try:
@@ -317,12 +351,16 @@ class Search(Node):
                 polygon = [(p.x, p.y) for p in target.mask.data]
             if polygon is not None:
                 t, q = transform.transform.translation, transform.transform.rotation
-                mapped = instance_centroid(image, polygon, info.k,
+                geometry = instance_geometry(image, polygon, info.k,
                     [t.x, t.y, t.z], [q.x, q.y, q.z, q.w], scale)
+                mapped = geometry[0] if geometry is not None else None
                 if mapped is None:
                     self.record_observation('invalid_target_depth')
                     continue
                 self.record_observation('valid_projections')
+                if self.param('validate_object_size') is True and not compatible_size(category,geometry[1]):
+                    diagnostics['size_rejected_detections']=diagnostics.get('size_rejected_detections',0)+1
+                    continue
                 if belongs_to(self.rooms, room, mapped[0], mapped[1]):
                     points.append(mapped)
                 continue
@@ -342,6 +380,7 @@ class Search(Node):
             self.record_observation('valid_projections')
             if belongs_to(self.rooms, room, mapped.x, mapped.y):
                 points.append((mapped.x, mapped.y, mapped.z))
+        before = len(self.landmarks.confirmed)
         point_ids = self.landmarks.observe(points)
         self.observations.append(dict(viewpoint=self.view, stamp_ns=stamp.nanoseconds,
                                       detections=len(targets), points=points,
@@ -349,6 +388,8 @@ class Search(Node):
                                       confirmed_ids=[item.id for item in self.landmarks.confirmed]))
         if mode == 'find' and self.landmarks.confirmed:
             self.finish('found')
+        elif len(self.landmarks.confirmed) != before:
+            self.publish_progress('observing')
 
     def publish_markers(self, objects):
         clear = Marker()
@@ -397,8 +438,11 @@ class Search(Node):
                       elapsed_seconds=(self.get_clock().now().nanoseconds-self.started)/1e9,
                       elapsed_wall_seconds=monotonic()-self.started_wall)
         result['coverage'] = observation_coverage(self.viewpoint_diagnostics)
-        self.task = self.goal = None
-        self.phase = 'idle'
+        result['clipped_detections'] = sum(v.get('clipped_detections',0) for v in self.viewpoint_diagnostics)
+        result['size_rejected_detections'] = sum(v.get('size_rejected_detections',0) for v in self.viewpoint_diagnostics)
+        if self.request_id is not None:
+            result['request_id'] = self.request_id
+        self.publish_progress('saving', status=status, save_status='pending')
         self.publish_markers(objects)
         self.results.publish(String(data=json.dumps(result, ensure_ascii=False)))
         if status == 'found':
@@ -410,13 +454,20 @@ class Search(Node):
             self.get_logger().info('未找到指定物品。')
         self.get_logger().info(json.dumps(result, ensure_ascii=False))
         folder = datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S_%fZ')
+        save_status = 'failed'
         try:
             destination = Path(self.param('output_dir')) / folder
             write_results(destination, result, self.grid)
             (destination / 'observations.json').write_text(
                 json.dumps(self.observations, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+            save_status = 'saved' if self.grid is not None else 'partial'
         except OSError as error:
             self.get_logger().error(f'保存搜索结果失败：{error}')
+        finally:
+            self.publish_progress('finished', status=status, save_status=save_status)
+            self.task = self.goal = None
+            self.request_id = None
+            self.phase = 'idle'
 
 
 def main():

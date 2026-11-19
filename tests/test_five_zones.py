@@ -26,7 +26,7 @@ def test_shared_boundary_has_exactly_one_owner():
     assert room_at(r,0,1+1e-5)=='gym'
     assert room_at(r,0,0)=='living'
 
-def test_new_aliases_and_unchanged_tabletop_routes():
+def test_new_aliases_and_tabletop_views_precede_room_sweeps():
     old,new=rooms(3),rooms(4)
     for alias in ('健身区','运动区','健身房'):
         assert parse_command('去'+alias+'统计瓶子',new)==('count','gym','bottle')
@@ -34,7 +34,29 @@ def test_new_aliases_and_unchanged_tabletop_routes():
     assert parse_command('去餐区找杯子',new)==('find','kitchen','cup')
     for room in ('kitchen','living','bedroom'):
         for category in ('cup','bottle'):
-            assert observation_views(old[room],category)==observation_views(new[room],category)
+            prior=observation_views(old[room],category)
+            current=observation_views(new[room],category)
+            if room=='bedroom':
+                # Measured navigation calibration may move the tabletop pair;
+                # retain two distinct headings at one reachable room position.
+                tabletop=current[:-8]
+                assert len(tabletop)==2
+                assert tabletop[0][:2]==tabletop[1][:2]
+                assert tabletop[0][2]!=tabletop[1][2]
+                assert all(room_at(new,*pose[:2])==room for pose in tabletop)
+            else:
+                assert current[:len(prior)]==prior
+            assert len(current)==len(prior)+8
+
+def test_every_room_has_overlapping_full_circle_observation():
+    import math
+    for room in rooms(4).values():
+        for category in ('chair','cup','bottle'):
+            sweep=observation_views(room,category)[-8:]
+            assert all(p[:2]==room['coverage_scan']['center'] for p in sweep)
+            yaws=sorted(p[2] for p in sweep)
+            gaps=[b-a for a,b in zip(yaws,yaws[1:])]+[yaws[0]+2*math.pi-yaws[-1]]
+            assert max(gaps)<math.radians(46)
 
 def test_labels_and_gym_views_are_owned_by_their_region():
     r=rooms(4)

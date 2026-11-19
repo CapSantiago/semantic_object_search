@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Download versioned Fuel assets to a staging library, without launching Gazebo."""
+import argparse
 import hashlib
 import json
 from pathlib import Path
@@ -28,10 +29,27 @@ def fetch(url):
 
 
 def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--layout',type=Path,help='restore only already locked assets required by this layout')
+    args = parser.parse_args()
     requested = json.loads((ROOT/'resources/asset_requests.json').read_text())['assets']
     manifest_path = ROOT/'resources/assets.lock.json'
     old = json.loads(manifest_path.read_text()) if manifest_path.exists() else {'assets': []}
     locked = {item['id']: item for item in old['assets']}
+    if args.layout:
+        layout = json.loads(args.layout.read_text())
+        wanted = set()
+        for target in layout['targets']:
+            asset_id = target['asset']
+            asset = layout.get('assets',{}).get(asset_id,{})
+            directory = asset.get('directory','third_party/target_assets/'+asset_id)
+            if directory == 'third_party/target_assets/'+asset_id:
+                if asset_id not in locked:
+                    raise ValueError('Asset is missing from the lock: '+asset_id)
+                wanted.add(asset_id)
+            elif not (ROOT/directory/'model.sdf').is_file():
+                raise FileNotFoundError(ROOT/directory/'model.sdf')
+        requested = [locked[asset_id] for asset_id in sorted(wanted)]
     archive_dir = ROOT/'downloads/archives'
     archive_dir.mkdir(parents=True, exist_ok=True)
     library = ROOT/'third_party/target_assets'
@@ -72,9 +90,16 @@ def main():
                 shutil.copytree(models[0].parent, destination)
         model = destination/'model.sdf'
         ET.parse(model)
+        model_digest = sha256(model)
+        if previous and model_digest != previous['model_sdf_sha256']:
+            raise RuntimeError('Model checksum differs from lock: '+item['id'])
+        if args.layout:
+            (destination/'SOURCE.json').write_text(json.dumps(previous,ensure_ascii=False,indent=2)+'\n')
+            print(f"  version={version}, sha256={digest[:16]}, {archive.stat().st_size} bytes",flush=True)
+            continue
         record = dict(item, version=version, archive_url=url, sha256=digest,
                       archive=str(archive.relative_to(ROOT)), directory=str(destination.relative_to(ROOT)),
-                      model_sdf_sha256=sha256(model), metadata=metadata,
+                      model_sdf_sha256=model_digest, metadata=metadata,
                       status='downloaded_not_scene_validated', active_scene_modified=False)
         (destination/'SOURCE.json').write_text(json.dumps(record,ensure_ascii=False,indent=2)+'\n')
         results.append(record)

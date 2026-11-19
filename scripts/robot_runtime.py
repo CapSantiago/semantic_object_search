@@ -20,8 +20,9 @@ import time
 from uuid import uuid4
 
 
-COMPONENTS = ('simulation', 'navigation', 'detector', 'search', 'rviz')
+COMPONENTS = ('simulation', 'navigation', 'detector', 'search', 'rviz', 'slam', 'motion')
 OWNER_VARIABLE = 'SEMANTIC_RUNTIME_OWNER'
+ROLE_VARIABLE = 'SEMANTIC_RUNTIME_ROLE'
 
 
 def _save(path, value):
@@ -31,13 +32,14 @@ def _save(path, value):
     temporary.replace(path)
 
 
-def _identity(pid, marker):
+def _identity(pid, marker, role=None):
     """Return a matching live process identity, without exposing its environment."""
     path = Path('/proc') / str(pid)
     try:
         if path.stat().st_uid != os.getuid():
             return None
-        if marker not in (path / 'environ').read_bytes().split(b'\0'):
+        environment = (path / 'environ').read_bytes().split(b'\0')
+        if marker not in environment or role is not None and role not in environment:
             return None
         # Everything after the final ')' begins at /proc stat field 3.
         fields = (path / 'stat').read_text().rpartition(')')[2].split()
@@ -48,24 +50,24 @@ def _identity(pid, marker):
         return None
 
 
-def _owned(marker):
+def _owned(marker, role=None):
     rows = []
     for path in Path('/proc').iterdir():
         if path.name.isdigit():
-            row = _identity(int(path.name), marker)
+            row = _identity(int(path.name), marker, role)
             if row is not None:
                 rows.append(row)
     return rows
 
 
-def _signal(identity, marker, sig):
+def _signal(identity, marker, sig, role=None):
     """Pin the process first, then verify its identity before sending a signal."""
     try:
         descriptor = os.pidfd_open(identity['pid'])
     except (ProcessLookupError, PermissionError):
         return False
     try:
-        current = _identity(identity['pid'], marker)
+        current = _identity(identity['pid'], marker, role)
         if current is None or current['start_ticks'] != identity['start_ticks']:
             return False
         signal.pidfd_send_signal(descriptor, sig)
@@ -84,7 +86,10 @@ class Runtime:
     """
 
     def __init__(self, root, domain=66, headless=False, session_dir=None, env=None,
-                 check_dependencies=True):
+                 check_dependencies=True, rooms_file=None, layout_file=None, device='cuda:0'):
+        if device not in ('cpu', 'cuda:0'):
+            raise ValueError('device必须为cpu或cuda:0')
+        self.device = device
         if type(domain) is not int or not 0 <= domain <= 232:
             raise ValueError('ROS domain must be an integer from 0 to 232')
         if not hasattr(os, 'pidfd_open') or not hasattr(signal, 'pidfd_send_signal'):
@@ -123,6 +128,7 @@ class Runtime:
                             IGN_PARTITION='semantic_session_' + self.token,
                             PYTHONUNBUFFERED='1')
             self.env[OWNER_VARIABLE] = self.token
+            self.env['SEMANTIC_DETECTOR_DEVICE'] = device
             # env.sh preserves these explicit selectors. Do not inherit a
             # workstation's remote discovery configuration into the console.
             for key in ('ROS_DISCOVERY_SERVER', 'FASTRTPS_DEFAULT_PROFILES_FILE',
@@ -134,15 +140,44 @@ class Runtime:
                                rooms='src/semantic_search/config/rooms_aws_house_v4.json',
                                navigation='src/semantic_search/config/nav2_depth.yaml',
                                sensor_reliability='reliable', model='yolov8n-seg.pt',
+                               reject_clipped_detections=True,
+                               validate_object_size=True,
                                camera_height=1.0, camera_pitch=0.25,
-                               detector=dict(device='cpu', image_size=640, confidence=.35, iou=.30))
+                               detector=dict(device=device, python_env='.venv-gpu' if device=='cuda:0' else '.venv',
+                                             image_size=640, confidence=.35, iou=.30, half=False))
+            # Explicit startup-only selectors make historical and new fixtures
+            # reproducible without changing the daily defaults or live state.
+            for key, supplied in (('rooms', rooms_file), ('layout', layout_file)):
+                if supplied is None:
+                    continue
+                path = (self.root / supplied).resolve()
+                if not path.is_file() or not path.is_relative_to(self.root):
+                    raise ValueError(f'{key}必须是项目内已存在的JSON文件')
+                data = json.loads(path.read_text())
+                if key == 'rooms':
+                    from semantic_search.rooms import validate_rooms
+                    validate_rooms(data)
+                elif not isinstance(data, dict) or not isinstance(data.get('targets'), list):
+                    raise ValueError('layout缺少targets列表')
+                self.config[key] = str(path.relative_to(self.root))
             fingerprints = {}
             for name in (self.config['layout'], self.config['rooms'], self.config['navigation'],
                          self.config['model'], 'src/semantic_search/semantic_search/search_node.py',
                          'src/semantic_search/semantic_search/detector.py',
                          'src/semantic_search/semantic_search/sensor_qos.py',
+                         'src/semantic_search/semantic_search/depth.py',
+                         'src/semantic_search/semantic_search/rooms.py',
+                         'src/semantic_search/semantic_search/semantic_map.py',
+                         'src/semantic_search/semantic_search/mapping_control.py',
+                         'src/semantic_search/semantic_search/mapping_motion.py',
+                         'src/semantic_search/semantic_search/cleaning.py', 'scenes/aws_house/spatial_v4.json',
+                         'src/semantic_search/config/navigate_cleaning_lane.xml',
                          'scripts/start_robot.sh', 'scripts/robot_console.py',
+                         'scripts/initialize_sim_amcl.py',
                          'scripts/robot_runtime.py', 'scripts/robot_monitor.py',
+                         'scripts/run_mapping_motion.py','scripts/run_cleaning.py','scripts/save_map.sh',
+                         'scripts/development_detector.sh',
+                         'requirements-vision-ubuntu-gpu.txt' if device=='cuda:0' else 'requirements-vision-ubuntu-cpu.txt',
                          'ui/index.html', 'ui/app.js', 'ui/style.css'):
                 path = self.root / name
                 if path.is_file():
@@ -169,10 +204,13 @@ class Runtime:
                     'scenes/aws_house/layout_r0_yellow_v1.json',
                     'src/semantic_search/config/rooms_aws_house_v4.json',
                     'src/semantic_search/config/nav2_depth.yaml', 'scenes/aws_house/r0_v1/maps/house.yaml')
+        if self.device=='cuda:0':
+            required += ('.venv-gpu/bin/python',)
         missing = [name for name in required if not (self.root / name).is_file()]
         if missing:
             raise RuntimeError('运行资源缺失：' + ', '.join(missing)
-                               + '。请按部署说明准备资源，并执行 bash scripts/build.sh')
+                               + '。请按部署说明准备资源，并执行 bash scripts/build.sh'
+                               + ('；GPU环境使用 bash scripts/prepare_gpu.sh 安装，或加 --device cpu' if self.device=='cuda:0' else ''))
 
     def _acquire_lock(self, path):
         path.parent.mkdir(parents=True, exist_ok=True)
@@ -201,14 +239,20 @@ class Runtime:
                     'layout_file:=' + paths['layout'], 'evidence_dir:=' + str(self.session_dir / 'scene')]
         if name == 'navigation':
             return ['bash', str(self.root / 'scripts/development_navigation.sh')]
+        if name == 'slam':
+            return ['bash', str(self.root / 'scripts/mapping.sh'), 'scene:=aws_house']
+        if name == 'motion':
+            return ['/usr/bin/python3', '-m', 'semantic_search.mapping_motion']
         if name == 'detector':
             return ['bash', str(self.root / 'scripts/development_detector.sh'),
-                    '-p', 'sensor_reliability:=reliable']
+                    '-p', 'sensor_reliability:=reliable', '-p', 'device:='+self.device]
         if name == 'search':
             return ['bash', str(self.root / 'scripts/development_search.sh'),
                     '-p', 'rooms_file:=' + str(self.root / paths['rooms']),
                     '-p', 'scene_id:=' + paths['scene_id'],
                     '-p', 'output_dir:=' + str(self.task_output_dir),
+                    '-p', 'reject_clipped_detections:=true',
+                    '-p', 'validate_object_size:=true',
                     '-p', 'sensor_reliability:=reliable']
         if name == 'rviz':
             if self.headless:
@@ -217,9 +261,9 @@ class Runtime:
         raise ValueError('Unknown robot component: ' + str(name))
 
     def start_component(self, name):
-        return self.start_process(name, self.command(name))
+        return self.start_process(name, self.command(name), restart=True)
 
-    def start_process(self, name, argv):
+    def start_process(self, name, argv, *, restart=False):
         """Register a trusted argv child, including a task client or checker."""
         if not re.fullmatch(r'[a-z][a-z0-9_-]{0,95}', name):
             raise ValueError('Invalid process name')
@@ -228,17 +272,24 @@ class Runtime:
         with self._mutex:
             if self._closed:
                 raise RuntimeError('Robot runtime is already closed')
-            if name in self._processes:
+            old = self._processes.get(name)
+            if old is not None and (not restart or old['process'].poll() is None
+                                    or _owned(self.marker,old['role'])):
                 raise RuntimeError('Process name already used in this session: ' + name)
-            path = self.logs_dir / (name + '.log')
+            generation = 1 if old is None else old['generation']+1
+            label = name if generation==1 else f'{name}_{generation}'
+            role = f'{ROLE_VARIABLE}={label}'.encode()
+            path = self.logs_dir / (label + '.log')
             with path.open('xb') as output:
-                process = subprocess.Popen(list(argv), cwd=self.root, env=self.env,
+                process = subprocess.Popen(list(argv), cwd=self.root,
+                                           env={**self.env,ROLE_VARIABLE:label},
                                            stdin=subprocess.DEVNULL, stdout=output,
                                            stderr=subprocess.STDOUT, start_new_session=True,
                                            close_fds=True)
             # A child may finish immediately; retain it and its exit code either way.
             row = dict(process=process, argv=list(argv), log=path,
-                       identity=_identity(process.pid, self.marker), started_wall=time.time())
+                       identity=_identity(process.pid, self.marker), started_wall=time.time(),
+                       generation=generation,role=role)
             self._processes[name] = row
             # /proc/environ may briefly lag exec immediately after Popen. Keep
             # the first verified identity so later cancellation stays pinned to
@@ -261,6 +312,27 @@ class Runtime:
                     pass  # Preserve the original registration error.
                 raise
             return process
+
+    def stop_component(self, name):
+        """Reap only the current generation of one component."""
+        with self._mutex:
+            row = self._processes.get(name)
+            if row is None:
+                return
+            role = row['role']
+            for sig,grace in ((signal.SIGINT,4.),(signal.SIGTERM,2.),(signal.SIGKILL,1.)):
+                owned = _owned(self.marker,role)
+                if not owned:
+                    break
+                for identity in owned:
+                    _signal(identity,self.marker,sig,role)
+                deadline = time.monotonic()+grace
+                while _owned(self.marker,role) and time.monotonic()<deadline:
+                    row['process'].poll()
+                    time.sleep(.05)
+            row['process'].poll()
+            if _owned(self.marker,role) or row['process'].returncode is None:
+                raise RuntimeError(f'无法确认 {name} 已退出')
 
     def _write_processes(self):
         _save(self.session_dir / 'processes.json', {

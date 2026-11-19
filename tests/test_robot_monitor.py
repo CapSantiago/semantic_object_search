@@ -61,6 +61,25 @@ class MonitorStoreTests(unittest.TestCase):
         self.assertFalse(actual['perception_ready'])
         self.assertFalse(actual['topics']['/rgbd/depth_image']['fresh'])
 
+    def test_ready_after_mode_switch_depends_on_control_publishers(self):
+        self.complete()
+        nav = {'/map': ['/map_server'],
+               '/cmd_vel': ['/behavior_server'] * 5 + ['/velocity_smoother']}
+        self.store.receive_graph(['/amcl'], {'/map': 1, '/cmd_vel': 6}, 1, nav)
+        self.assertTrue(self.store.snapshot()['navigation_control_ready'])
+        mixed = {**nav, '/cmd_vel': nav['/cmd_vel'] + ['/mapping_motion']}
+        self.store.receive_graph(['/amcl'], {'/map': 1, '/cmd_vel': 7}, 1, mixed)
+        self.assertFalse(self.store.snapshot()['navigation_control_ready'])
+
+        slam = {'/map': ['/slam_toolbox'], '/cmd_vel': ['/mapping_motion']}
+        self.store.receive_map({'available': True})
+        self.store.receive_mapping_motion('{"status":"idle"}')
+        self.store.receive_graph(['/slam_toolbox', '/mapping_motion'], {'/map': 1, '/cmd_vel': 1}, 0, slam)
+        self.assertTrue(self.store.snapshot()['mapping_ready'])
+        wrong_owner = {**slam, '/cmd_vel': ['/velocity_smoother']}
+        self.store.receive_graph(['/slam_toolbox', '/mapping_motion'], {'/map': 1, '/cmd_vel': 1}, 0, wrong_owner)
+        self.assertFalse(self.store.snapshot()['mapping_ready'])
+
     def test_stale_pose_lifecycle_and_clock_reset_fail_closed(self):
         self.complete()
         self.wall = 6

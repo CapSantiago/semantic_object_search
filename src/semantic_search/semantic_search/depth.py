@@ -6,7 +6,36 @@ import cv2
 from scipy.spatial.transform import Rotation
 
 
+def truncated_box(center_x, center_y, width, height, image_width, image_height, margin=2.):
+    """A clipped instance is insufficient for reliable map-object confirmation."""
+    if not all(isfinite(v) for v in (center_x,center_y,width,height,image_width,image_height)):
+        return True
+    return (width<=0 or height<=0 or center_x-width/2<=margin or center_y-height/2<=margin
+            or center_x+width/2>=image_width-margin or center_y+height/2>=image_height-margin)
+
+
 def instance_centroid(image, polygon, k, translation, quaternion, scale=1.0):
+    geometry = instance_geometry(image, polygon, k, translation, quaternion, scale)
+    return geometry[0] if geometry is not None else None
+
+
+def compatible_size(category, extent):
+    """Conservative bounds for the supported small cups/bottles, in metres.
+
+    These are class-size priors, not fixture coordinates or simulator truth.
+    The horizontal AABB diagonal uses conservative room for heading variation;
+    it remains a visible-surface estimate, not the object's exact dimensions.
+    """
+    limits = {'cup': (.25, .30), 'bottle': (.35, .60)}
+    if category not in limits:
+        return True
+    if len(extent)!=3 or not all(isfinite(v) and v>=0 for v in extent):
+        return False
+    horizontal, height = limits[category]
+    return float(np.hypot(extent[0],extent[1]))<=horizontal and extent[2]<=height
+
+
+def instance_geometry(image, polygon, k, translation, quaternion, scale=1.0):
     """Estimate a map-frame centre from the visible instance's 3-D extent.
 
     Unlike a single surface sample, this uses both seat/back and side surfaces.
@@ -35,7 +64,9 @@ def instance_centroid(image, polygon, k, translation, quaternion, scale=1.0):
     points = points[(points[:, 2] > .08) & (points[:, 2] < 2.)]
     if len(points) < 20:
         return None
-    return tuple(float(value) for value in np.quantile(points, [.1, .9], axis=0).mean(axis=0))
+    bounds=np.quantile(points, [.1, .9], axis=0)
+    return (tuple(float(value) for value in bounds.mean(axis=0)),
+            tuple(float(value) for value in bounds[1]-bounds[0]))
 
 
 def foreground_depth(image, center_x, center_y, width, height, scale=1.0, polygon=None):

@@ -1,6 +1,6 @@
 {
   "version": "aws_house_spatial_v4_five_zones",
-  "status": "candidate_pending_validation",
+  "status": "static_and_connection_navigation_validated",
   "frame_id": "map",
   "coordinate_unit": "m",
   "rooms_file": "src/semantic_search/config/rooms_aws_house_v4.json",
@@ -14,7 +14,7 @@
     0,
     0
   ],
-  "home_role": "candidate_initial_pose_not_a_verified_charger",
+  "home_role": "validated_navigation_initial_pose_not_a_charger",
   "boundary_rule": "lexicographically first room ID; outside polygons is unassigned",
   "connections": [
     {
@@ -123,5 +123,17 @@
       1.0
     ],
     "physical_obstacle": false
+  },
+  "navigation_validation": {
+    "evidence": "results/development/p123_acceptance/connections_navigation.json",
+    "route_sha256": "0e27357a51b961dc8c254a416a215f17f998305c6ee92d67b4f1f4fc9b3dee7e",
+    "checks": {
+      "all_goals_succeeded": true,
+      "pose_errors_within_nav2_tolerances": true,
+      "fresh_tf": true
+    },
+    "visited": 21,
+    "max_position_error_m": 0.11917614016389043,
+    "max_yaw_error_rad": 0.09859658319765821
   }
 }

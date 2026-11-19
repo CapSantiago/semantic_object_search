@@ -93,7 +93,9 @@ def prepare_obj(path, asset_folder, cache_dir):
 def add_targets(world, root, layout, cache_dir):
     truth = []
     for target in layout['targets']:
-        folder = root/'third_party/target_assets'/target['asset']
+        asset = layout.get('assets', {}).get(target['asset'], {})
+        folder = (root/asset.get('directory', 'third_party/target_assets/'+target['asset'])).resolve()
+        folder.relative_to(root.resolve())
         model = deepcopy(ET.parse(folder/'model.sdf').getroot().find('model'))
         model.set('name', target['id'])
         for tag in ('pose', 'static'):

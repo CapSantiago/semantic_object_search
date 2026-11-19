@@ -1,0 +1,200 @@
+{
+  "date": "2026-11-19",
+  "milestone": "P4b/G2 return and docking",
+  "status": "passed",
+  "grid_and_navigation_config": {
+    "layout": "scenes/aws_house/layout_r0_yellow_v1.json",
+    "rooms": "src/semantic_search/config/rooms_aws_house_v4.json",
+    "navigation": "src/semantic_search/config/nav2_depth.yaml"
+  },
+  "test_timeout_seconds": 135,
+  "production_timeout_seconds": 720,
+  "scope": "Same scene short run for return and docking; full room coverage remains open",
+  "session": "results/sessions/20261119T121019_791655Z_f7d3d22f",
+  "source_sha256": {
+    "scripts/run_cleaning.py": "3c234925cc303f50f2fa355e50207ed55f5a065b76d5a143169af88c7eb389b4",
+    "scripts/robot_console.py": "7465d0007e03a519339eafd7dfb76086b6eebc5838e7901d24ff716f18e3a4b6",
+    "scripts/initialize_sim_amcl.py": "4407e4d2d108234f923e8c03a08fd457feb1544a67611678616c1d5ec5fe70bc",
+    "src/semantic_search/semantic_search/cleaning.py": "cd37abd35c0ef18b65641661ba5e3b4d140546ae3a15ebb8426dbd9a697d441b",
+    "src/semantic_search/config/navigate_cleaning_lane.xml": "163f53170e7f0db02a00bb787db59d0a2932194e8ea6c813550ec2b28ddb37ee"
+  },
+  "request_id": "dock_after_short_gym_01",
+  "result": {
+    "request_id": "dock_after_short_gym_01",
+    "room": "gym",
+    "stage": "returning",
+    "frame_id": "map",
+    "goals_total": 46,
+    "goals_finished": 4,
+    "blocked_lanes": 0,
+    "coverage": {
+      "floor_cells": 12469,
+      "eligible_cells": 11156,
+      "covered_cells": 1530,
+      "uncovered_cells": 9626,
+      "excluded_floor_cells": 1313,
+      "coverage_fraction": 0.13714593044101828,
+      "covered_area_m2": 3.825,
+      "repeated_area_m2": 1.2225,
+      "repeated_coverage_fraction": 0.04383291502330584
+    },
+    "return_state": "simulated_charging",
+    "status": "partial",
+    "message": "清扫覆盖低于目标，已返回起点并进入模拟充电。",
+    "elapsed_seconds": 109.82,
+    "coverage_target": 0.85,
+    "sweep_width_m": 0.5,
+    "lane_spacing_m": 0.35,
+    "center_clearance_m": 0.32,
+    "distance_m": 16.892,
+    "initial_pose": [
+      -0.0035224994491102075,
+      0.0011875286074378953,
+      0.006482745956371139
+    ],
+    "final_pose": [
+      0.10538533974078733,
+      -0.03800663341765817,
+      -0.09011358848031568
+    ],
+    "return_error": {
+      "position_m": 0.11574584128106748,
+      "yaw_rad": 0.09659633443668682,
+      "stationary_seconds": 0.46
+    },
+    "return_tolerance": {
+      "position_m": 0.15,
+      "yaw_rad": 0.15
+    },
+    "navigation_settled": true
+  },
+  "action_goals": [
+    {
+      "stage": "entering",
+      "target": [
+        0,
+        1.3,
+        1.5707963267948966
+      ],
+      "status": "succeeded",
+      "purpose": "room_entry",
+      "action_status": 4
+    },
+    {
+      "stage": "sweeping",
+      "target": [
+        -2.0849998915940517,
+        1.2950001031905414,
+        0.0
+      ],
+      "status": "succeeded",
+      "action_status": 4
+    },
+    {
+      "stage": "sweeping",
+      "target": [
+        4.765000210478902,
+        1.2950001031905414,
+        0.0
+      ],
+      "status": "succeeded",
+      "action_status": 4
+    },
+    {
+      "stage": "sweeping",
+      "target": [
+        4.765000210478902,
+        1.6450001084059478,
+        3.141592653589793
+      ],
+      "status": "succeeded",
+      "action_status": 4
+    },
+    {
+      "stage": "sweeping",
+      "target": [
+        -2.0849998915940517,
+        1.6450001084059478,
+        3.141592653589793
+      ],
+      "status": "timed_out"
+    },
+    {
+      "stage": "returning",
+      "target": [
+        0,
+        0.7,
+        -1.5707963267948966
+      ],
+      "status": "succeeded",
+      "purpose": "room_exit",
+      "action_status": 4
+    },
+    {
+      "stage": "returning",
+      "target": [
+        -0.0035224994491102075,
+        0.0011875286074378953,
+        0.006482745956371139
+      ],
+      "status": "succeeded",
+      "purpose": "dock",
+      "action_status": 4
+    }
+  ],
+  "browser_display": {
+    "headline": "清扫覆盖低于目标，已返回起点并进入模拟充电。",
+    "coverage": "已扫 3.83 m²，剩余 9626 格。覆盖目标 85%。 模拟充电。",
+    "saved": [
+      "任务请求",
+      "清扫报告",
+      "实际清扫轨迹",
+      "清扫地图 SVG"
+    ]
+  },
+  "artifacts": [
+    "results/sessions/20261119T121019_791655Z_f7d3d22f/requests/dock_after_short_gym_01/clean_result.json",
+    "results/sessions/20261119T121019_791655Z_f7d3d22f/requests/dock_after_short_gym_01/clean_trace.json",
+    "results/sessions/20261119T121019_791655Z_f7d3d22f/requests/dock_after_short_gym_01/clean_map.svg"
+  ],
+  "previous_full_budget_runs": [
+    {
+      "coverage_fraction": 0.4236285406955898,
+      "elapsed_seconds": 683.19,
+      "return_error": {
+        "position_m": 2.126907098609727,
+        "yaw_rad": 0.9233910935040794,
+        "stationary_seconds": 7.4
+      },
+      "report": "results/development/p4b_g2/first_task.json"
+    },
+    {
+      "coverage_fraction": 0.3490498386518465,
+      "elapsed_seconds": 261.14,
+      "return_error": {
+        "position_m": 0.4263412169007872,
+        "yaw_rad": 2.678893148078572,
+        "stationary_seconds": 0.46
+      },
+      "report": "results/development/p4b_g2/staged_task.json"
+    }
+  ],
+  "failed_first_attempt": {
+    "report": "results/development/p4b_docking/report.json",
+    "reason": "Pose freshness timer was not refreshed when the first goal obtained a valid pose."
+  },
+  "cleanup": {
+    "shutdown_receipts": [
+      "results/sessions/20261119T120907_390690Z_2bd1147a/shutdown.json",
+      "results/sessions/20261119T121019_791655Z_f7d3d22f/shutdown.json"
+    ],
+    "test_port_closed": 8766,
+    "ros_domain": 67,
+    "remaining_nodes": []
+  },
+  "tests": {
+    "passed": 167,
+    "opt_in_skipped": 7,
+    "output": "results/development/p4b_docking/engineering_tests.log"
+  }
+}

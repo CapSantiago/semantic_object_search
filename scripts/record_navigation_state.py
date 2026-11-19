@@ -44,7 +44,7 @@ def main():
             now = time.monotonic()
             if now < next_sample: continue
             next_sample = now+.2
-            row = dict(wall_elapsed=now-start,sim_seconds=node.get_clock().now().nanoseconds/1e9,
+            row = dict(wall_elapsed=now-start,wall_unix_seconds=time.time(),sim_seconds=node.get_clock().now().nanoseconds/1e9,
                        **latest)
             try:
                 tf = buffer.lookup_transform('map','base_link',Time())

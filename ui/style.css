@@ -5,3 +5,8 @@
 .region-controls label { display:flex; align-items:center; gap:5px; margin:0; font-size:12px; }
 .region-controls input { width:auto; margin:0; accent-color:#147d76; }
 #region-note { font-size:11px; color:#758795; }
+
+#switch-mode{margin-bottom:12px}
+.motion-pad{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:6px 0}
+#mapping-fields > .button{margin-top:6px}
+#motion-status{line-height:1.5;margin:8px 0;overflow-wrap:anywhere}

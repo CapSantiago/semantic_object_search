@@ -1,0 +1,498 @@
+{
+  "version": "aws_house_coverage_layout_v1",
+  "status": "partially_validated_kitchen_only",
+  "purpose": "scene_design_and_evaluation_only",
+  "frame_id": "world",
+  "coordinate_unit": "m",
+  "measurement_backend": "ignition-common4 MeshManager (Fortress system library)",
+  "surfaces": {
+    "KitchenTable_01_001": {
+      "min": [
+        5.64010278485621,
+        0.5845764737044612,
+        -6e-06
+      ],
+      "max": [
+        7.46527723314339,
+        1.3177695264155318,
+        0.818452984
+      ],
+      "source_sha256": {
+        "third_party/aws_small_house/models/aws_robomaker_residential_KitchenTable_01/meshes/aws_KitchenTable_01_collision.DAE": "2bc587c03b78dcd9515bb2dde969a262bc9299d593c2e41f0e025b113705b949"
+      },
+      "top_z_m": 0.818452984,
+      "method": "world AABB of simulator collision mesh; flat top pending contact check"
+    },
+    "CoffeeTable_01_001": {
+      "min": [
+        0.8518972948801777,
+        -2.069529426953968,
+        0.04198296
+      ],
+      "max": [
+        2.1854422864834717,
+        -1.3881268683739236,
+        0.36574669
+      ],
+      "source_sha256": {
+        "third_party/aws_small_house/models/aws_robomaker_residential_CoffeeTable_01/meshes/aws_CoffeeTable_01_collision.DAE": "96d855fbd04032b9eb55f38ad66cf4d8e989fccc9d889eaa43943a75b6f62385"
+      },
+      "top_z_m": 0.36574669,
+      "method": "world AABB of simulator collision mesh; flat top pending contact check"
+    },
+    "ReadingDesk_01_001": {
+      "min": [
+        -9.258932357554928,
+        1.4795328402527839,
+        -0.00145489
+      ],
+      "max": [
+        -8.721458950130597,
+        2.6363782115293843,
+        0.74365097
+      ],
+      "source_sha256": {
+        "third_party/aws_small_house/models/aws_robomaker_residential_ReadingDesk_01/meshes/aws_ReadingDesk_01_collision.DAE": "2e07ecffd6748046f2ab44b13ec45a88c3a05a91f2d56c481b2d2113820dfe86"
+      },
+      "top_z_m": 0.74365097,
+      "method": "world AABB of simulator collision mesh; flat top pending contact check"
+    }
+  },
+  "assets": {
+    "yellow_mug": {
+      "min": [
+        -0.0685739964247,
+        -0.0556749999523,
+        -1.10000000859e-05
+      ],
+      "max": [
+        0.0682640001178,
+        0.0465160012245,
+        0.104782998562
+      ],
+      "source_sha256": {
+        "third_party/target_assets/yellow_mug/meshes/model.obj": "04e85728c4139d0a43f888c38b1f1d15077169cba7c972211d2b41f21b39600f"
+      },
+      "dimensions_m": [
+        0.1368379965425,
+        0.1021910011768,
+        0.1047939985620859
+      ]
+    },
+    "mustard_bottle": {
+      "min": [
+        -0.063938,
+        -0.056809,
+        -0.003153
+      ],
+      "max": [
+        0.03326,
+        0.009812,
+        0.188148
+      ],
+      "source_sha256": {
+        "third_party/target_assets/mustard_bottle/textured.dae": "44bde2fe3daa7e5b0a94b37f2aa903d80becc09c843f88629bfd0f0950ae7f43"
+      },
+      "dimensions_m": [
+        0.09719799999999999,
+        0.066621,
+        0.191301
+      ]
+    },
+    "extra_chair": {
+      "min": [
+        -0.231139542,
+        -0.241822601,
+        3.1e-08
+      ],
+      "max": [
+        0.231139526,
+        0.241822556,
+        0.916894226
+      ],
+      "source_sha256": {
+        "third_party/aws_small_house/models/aws_robomaker_residential_ChairA_01/meshes/aws_ChairA_01_collision.DAE": "2763098ea4411dc89256ecde2b2df4646520b0b9a5f89a9101750648e09dcba4"
+      },
+      "directory": "third_party/aws_small_house/models/aws_robomaker_residential_ChairA_01"
+    },
+    "book": {
+      "min": [
+        -0.0707660019398,
+        -0.028823999688,
+        3.09999995807e-05
+      ],
+      "max": [
+        0.0697740018368,
+        0.0217289999127,
+        0.210399001837
+      ],
+      "source_sha256": {
+        "third_party/target_assets/book/meshes/model.obj": "a9805cc75b057a169b11da77fd75fce67b381466fd945899b721b4cd5dc76d80"
+      },
+      "directory": "third_party/target_assets/book"
+    },
+    "patterned_bowl": {
+      "min": [
+        -0.056728001684,
+        -0.0574380010366,
+        -2.70000000455e-05
+      ],
+      "max": [
+        0.0567599982023,
+        0.0574599988759,
+        0.0618380010128
+      ],
+      "source_sha256": {
+        "third_party/target_assets/patterned_bowl/meshes/model.obj": "d79dfced85104d9af9706492175ed899ace90c3834e50b93b6909f0c9c070cb4"
+      },
+      "directory": "third_party/target_assets/patterned_bowl"
+    }
+  },
+  "targets": [
+    {
+      "id": "kitchen_yellow_mug",
+      "category": "cup",
+      "asset": "yellow_mug",
+      "room": "kitchen",
+      "support": "KitchenTable_01_001",
+      "support_z_m": 0.818452984,
+      "pose": [
+        6.3999999999999995,
+        0.95,
+        0.8194639840000859,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "kitchen_mustard_bottle",
+      "category": "bottle",
+      "asset": "mustard_bottle",
+      "room": "kitchen",
+      "support": "KitchenTable_01_001",
+      "support_z_m": 0.818452984,
+      "pose": [
+        6.7,
+        0.95,
+        0.822605984,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "living_yellow_mug",
+      "category": "cup",
+      "asset": "yellow_mug",
+      "room": "living",
+      "support": "CoffeeTable_01_001",
+      "support_z_m": 0.36574669,
+      "pose": [
+        1.05,
+        -1.9,
+        0.3667576900000859,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "living_mustard_bottle",
+      "category": "bottle",
+      "asset": "mustard_bottle",
+      "room": "living",
+      "support": "CoffeeTable_01_001",
+      "support_z_m": 0.36574669,
+      "pose": [
+        1.3499999999999999,
+        -1.9,
+        0.36989969,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "bedroom_yellow_mug",
+      "category": "cup",
+      "asset": "yellow_mug",
+      "room": "bedroom",
+      "support": "ReadingDesk_01_001",
+      "support_z_m": 0.74365097,
+      "pose": [
+        -8.98,
+        1.9100000000000001,
+        0.7446619700000859,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "bedroom_mustard_bottle",
+      "category": "bottle",
+      "asset": "mustard_bottle",
+      "room": "bedroom",
+      "support": "ReadingDesk_01_001",
+      "support_z_m": 0.74365097,
+      "pose": [
+        -8.98,
+        2.21,
+        0.74780397,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "coverage_kitchen_cup",
+      "category": "cup",
+      "asset": "yellow_mug",
+      "room": "kitchen",
+      "support": "KitchenTable_01_001",
+      "support_z_m": 0.818452984,
+      "pose": [
+        7.0,
+        1.05,
+        0.8194639840000859,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scenario": "桌面同类多实例"
+    },
+    {
+      "id": "coverage_living_table_cup",
+      "category": "cup",
+      "asset": "yellow_mug",
+      "room": "living",
+      "support": "CoffeeTable_01_001",
+      "support_z_m": 0.36574669,
+      "pose": [
+        1.65,
+        -1.9,
+        0.3667576900000859,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scenario": "桌面同类多实例"
+    },
+    {
+      "id": "coverage_bedroom_table_cup",
+      "category": "cup",
+      "asset": "yellow_mug",
+      "room": "bedroom",
+      "support": "ReadingDesk_01_001",
+      "support_z_m": 0.74365097,
+      "pose": [
+        -8.98,
+        2.45,
+        0.7446619700000859,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scenario": "桌面边缘位置"
+    },
+    {
+      "id": "coverage_living_floor_cup",
+      "category": "cup",
+      "asset": "yellow_mug",
+      "room": "living",
+      "support": "floor",
+      "support_z_m": 0,
+      "pose": [
+        3.0,
+        0.2,
+        0.0010110000000859,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scenario": "地面小目标"
+    },
+    {
+      "id": "coverage_living_floor_bottle",
+      "category": "bottle",
+      "asset": "mustard_bottle",
+      "room": "living",
+      "support": "floor",
+      "support_z_m": 0,
+      "pose": [
+        3.2,
+        -3.5,
+        0.0041530000000000004,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scenario": "茶几后方遮挡候选"
+    },
+    {
+      "id": "coverage_bedroom_floor_bottle",
+      "category": "bottle",
+      "asset": "mustard_bottle",
+      "room": "bedroom",
+      "support": "floor",
+      "support_z_m": 0,
+      "pose": [
+        -4.6,
+        1.5,
+        0.0041530000000000004,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scenario": "床侧地面"
+    },
+    {
+      "id": "coverage_gym_floor_cup",
+      "category": "cup",
+      "asset": "yellow_mug",
+      "room": "gym",
+      "support": "floor",
+      "support_z_m": 0,
+      "pose": [
+        -0.6,
+        2.8,
+        0.0010110000000859,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scenario": "地面近距离"
+    },
+    {
+      "id": "coverage_gym_floor_bottle",
+      "category": "bottle",
+      "asset": "mustard_bottle",
+      "room": "gym",
+      "support": "floor",
+      "support_z_m": 0,
+      "pose": [
+        1.8,
+        3.0,
+        0.0041530000000000004,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scenario": "地面斜向视角"
+    },
+    {
+      "id": "coverage_utility_floor_cup",
+      "category": "cup",
+      "asset": "yellow_mug",
+      "room": "utility",
+      "support": "floor",
+      "support_z_m": 0,
+      "pose": [
+        -7.0,
+        -4.6,
+        0.0010110000000859,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scenario": "球体附近遮挡候选"
+    },
+    {
+      "id": "coverage_utility_floor_bottle",
+      "category": "bottle",
+      "asset": "mustard_bottle",
+      "room": "utility",
+      "support": "floor",
+      "support_z_m": 0,
+      "pose": [
+        -4.0,
+        -4.8,
+        0.0041530000000000004,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scenario": "房间远侧地面"
+    },
+    {
+      "id": "coverage_living_chair",
+      "category": "chair",
+      "asset": "extra_chair",
+      "room": "living",
+      "support": "floor",
+      "support_z_m": 0,
+      "pose": [
+        -1.2,
+        -4.5,
+        0.000999969,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scenario": "沙发后侧观察候选"
+    },
+    {
+      "id": "coverage_utility_chair",
+      "category": "chair",
+      "asset": "extra_chair",
+      "room": "utility",
+      "support": "floor",
+      "support_z_m": 0,
+      "pose": [
+        -4.0,
+        -2.7,
+        0.000999969,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scenario": "新增椅子及通行检查"
+    },
+    {
+      "id": "coverage_kitchen_bowl",
+      "category": "bowl",
+      "asset": "patterned_bowl",
+      "room": "kitchen",
+      "support": "KitchenTable_01_001",
+      "support_z_m": 0.818452984,
+      "pose": [
+        5.95,
+        1.1,
+        0.8194799840000455,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scenario": "候选类别检测"
+    },
+    {
+      "id": "coverage_living_book",
+      "category": "book",
+      "asset": "book",
+      "room": "living",
+      "support": "CoffeeTable_01_001",
+      "support_z_m": 0.36574669,
+      "pose": [
+        2.0,
+        -1.55,
+        0.36671569000041926,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scenario": "候选类别检测"
+    }
+  ],
+  "limitations": [
+    "AABB top is a candidate flat support surface, not a physical contact test.",
+    "Texture appearance and YOLO detectability are unverified.",
+    "Old map is reference only; new layout needs sensor/navigation verification."
+  ],
+  "validation_notes": [
+    "Independent placement test; original layout remains unchanged.",
+    "Expected counts and fixture poses are evaluation-only and never search inputs.",
+    "Book and patterned bowl are detector candidates; search command whitelist remains chair/cup/bottle."
+  ],
+  "validation_note": "Kitchen count cup2/bottle1 passed; chair task canceled, other room tasks unexecuted. See docs/evidence/p123_acceptance_20261118.json. Poses unchanged after execution."
+}

@@ -31,6 +31,14 @@ def viewpoint(index=0, **changes):
 
 @unittest.skipIf(Search is None, 'Source scripts/env.sh to load ROS message types; no ROS node is started')
 class SearchObservationTests(unittest.TestCase):
+    def test_integer_json_coordinates_are_valid_ros_goal_coordinates(self):
+        node=SimpleNamespace(view=0,views=[[0,0,0]],phase='idle',nav=Mock(),on_goal=Mock(), publish_progress=Mock(),
+            get_clock=lambda:SimpleNamespace(now=lambda:SimpleNamespace(to_msg=lambda:TimeMessage())))
+        Search.next_view(node)
+        goal=node.nav.send_goal_async.call_args.args[0]
+        self.assertEqual(goal.pose.pose.position.x,0.)
+        self.assertEqual(goal.pose.pose.position.y,0.)
+
     @staticmethod
     def waiting_node(extra=4., previous_data=True):
         now = SimpleNamespace(nanoseconds=5_000_000_000)
@@ -40,6 +48,7 @@ class SearchObservationTests(unittest.TestCase):
         diagnostics.append(viewpoint(index, reached=True))
         node = SimpleNamespace(
             phase='observing', observe_start=1_000_000_000, observe_dwell_seconds=4.,
+            request_id=None, publish_progress=Mock(),
             observe_extra_seconds=extra, last_stamp=-1, view=index,
             views=[row['pose'] for row in diagnostics], viewpoint_diagnostics=diagnostics,
             get_clock=lambda: SimpleNamespace(now=lambda: now),
@@ -149,7 +158,7 @@ class SearchObservationTests(unittest.TestCase):
         node = SimpleNamespace(view=0, views=[[0., 0., 0.]], visited=0, visited_poses=[],
                                viewpoint_diagnostics=[viewpoint()], canceled=False, goal=None,
                                get_clock=lambda: SimpleNamespace(now=lambda: now),
-                               param=lambda key: 4., next_view=Mock(), tf=Mock())
+                               param=lambda key: 4., next_view=Mock(), tf=Mock(), publish_progress=Mock())
         node.tf.lookup_transform.return_value = SimpleNamespace(
             transform=SimpleNamespace(translation=SimpleNamespace(x=.2, y=.3, z=.1),
                                       rotation=SimpleNamespace(x=0., y=0., z=0., w=1.)),
@@ -175,7 +184,7 @@ class SearchObservationTests(unittest.TestCase):
                                viewpoint_diagnostics=[viewpoint()], canceled=False, goal=None,
                                get_clock=lambda: SimpleNamespace(
                                    now=lambda: SimpleNamespace(nanoseconds=1_000_000_000)), tf=Mock(),
-                               param=lambda key: 4.)
+                               param=lambda key: 4., publish_progress=Mock())
         node.tf.lookup_transform.side_effect = TransformException('No map transform')
         Search.on_navigation(node, SimpleNamespace(result=lambda: SimpleNamespace(status=4)))
         self.assertEqual(node.phase, 'observing')
@@ -276,7 +285,7 @@ class SearchObservationTests(unittest.TestCase):
         with TemporaryDirectory() as output_dir:
             params = dict(scene_id='test', output_dir=output_dir)
             node = SimpleNamespace(task=('count', 'kitchen', 'cup'), phase='observing', view=0,
-                                   landmarks=SimpleNamespace(confirmed=[]),
+                                   landmarks=SimpleNamespace(confirmed=[]), request_id=None, publish_progress=Mock(),
                                    param=params.__getitem__, task_id='test', command_text='test',
                                    visited=1, views=[[0., 0., 0.]], frames=0, tf_failures=0,
                                    invalid_target_depth=0, valid_projection=0,

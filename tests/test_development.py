@@ -12,6 +12,17 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class DevelopmentTests(unittest.TestCase):
+    def test_additional_furniture_reuses_existing_project_asset(self):
+        world=ET.Element('world')
+        directory='third_party/aws_small_house/models/aws_robomaker_residential_ChairA_01'
+        layout=dict(assets={'extra_chair':dict(directory=directory)},targets=[
+            dict(id='validation_chair',asset='extra_chair',category='chair',pose=[-4,-3,0,0,0,0])])
+        with tempfile.TemporaryDirectory() as cache:
+            truth=add_targets(world,ROOT,layout,cache)
+        self.assertEqual(truth,layout['targets'])
+        self.assertEqual(world.find('model').get('name'),'validation_chair')
+        self.assertTrue(all(Path(uri.text).is_file() for uri in world.findall('.//mesh/uri')))
+
     def test_depth_obstacles_keep_original_planning_and_control_algorithms(self):
         config = ROOT/'src/semantic_search/config'
         original = yaml.safe_load((config/'nav2.yaml').read_text())

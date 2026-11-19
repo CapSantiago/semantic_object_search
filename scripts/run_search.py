@@ -33,6 +33,14 @@ def main():
     parser.add_argument('--exclude-task-id', action='append', default=[],
                         help='previous task ID to ignore, including delayed live messages; repeatable')
     args = parser.parse_args()
+    cancel_command = '取消'
+    if args.command.lstrip().startswith('{'):
+        try:
+            request = json.loads(args.command)
+        except ValueError:
+            request = None
+        if isinstance(request, dict) and isinstance(request.get('request_id'), str):
+            cancel_command = json.dumps(dict(mode='cancel', request_id=request['request_id']))
     if (not all(math.isfinite(value) for value in
                 (args.timeout, args.discovery_timeout, args.pose_timeout, args.cancel_wait))
             or args.timeout <= 0 or args.discovery_timeout < 0 or args.pose_timeout < 0 or args.cancel_wait < 0):
@@ -110,10 +118,23 @@ def main():
         # DDS matching can finish after the two-second warmup. This budget is
         # independent of the task timeout, which starts only after publication.
         discovery_start = time.monotonic()
-        while not stopped and not pub.get_subscription_count() and time.monotonic()-discovery_start < args.discovery_timeout:
+        def serving_nodes():
+            # A recorder can subscribe to commands without executing them.
+            # Require the same discovered node to expose both protocol ends.
+            def identities(endpoints):
+                return {(item.node_namespace,item.node_name) for item in endpoints
+                        if item.node_name != '_NODE_NAME_UNKNOWN_'}
+            return sorted(identities(node.get_subscriptions_info_by_topic(args.command_topic)) &
+                          identities(node.get_publishers_info_by_topic(args.result_topic)))
+        def discovered():
+            return bool(pub.get_subscription_count() and node.count_publishers(args.result_topic)
+                        and serving_nodes())
+        while not stopped and not discovered() and time.monotonic()-discovery_start < args.discovery_timeout:
             rclpy.spin_once(node, timeout_sec=.1)
         diagnostic['discovery_wait_wall_seconds'] = time.monotonic()-discovery_start
         diagnostic['command_subscribers_before_publish'] = pub.get_subscription_count()
+        diagnostic['serving_nodes_before_publish'] = serving_nodes()
+        diagnostic['result_publishers_before_publish'] = node.count_publishers(args.result_topic)
         diagnostic['pre_command_task_ids'] = sorted({row['task_id'] for row in received if row.get('task_id')})
         old_ids.update(diagnostic['pre_command_task_ids'])
         received.clear()
@@ -138,9 +159,9 @@ def main():
         if stopped:
             diagnostic['outcome'] = 'interrupted_before_command'
             return 130
-        if not diagnostic['command_subscribers_before_publish']:
+        if not discovered():
             diagnostic['outcome'] = 'discovery_timeout'
-            diagnostic['errors'].append(f'No search command subscriber within {args.discovery_timeout:g}s after preamble')
+            diagnostic['errors'].append(f'No matching command/result search node within {args.discovery_timeout:g}s after preamble')
             print(json.dumps(diagnostic, ensure_ascii=False))
             return 2
         pub.publish(String(data=args.command))
@@ -154,7 +175,7 @@ def main():
                 break
         diagnostic['outcome'] = 'result_received' if result else ('interrupted' if stopped else 'timeout')
         if result is None:
-            pub.publish(String(data='取消'))
+            pub.publish(String(data=cancel_command))
             diagnostic['cancellation_sent'] = True
             deadline = time.monotonic() + args.cancel_wait
             while time.monotonic() < deadline:
@@ -177,7 +198,7 @@ def main():
         # A client-side failure after publishing still requires cancellation.
         if node is not None and diagnostic['command_sent'] and result is None:
             try:
-                pub.publish(String(data='取消'))
+                pub.publish(String(data=cancel_command))
                 diagnostic['cancellation_sent'] = True
                 rclpy.spin_once(node, timeout_sec=.2)
             except Exception as cancel_error:

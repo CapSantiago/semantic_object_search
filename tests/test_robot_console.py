@@ -150,6 +150,63 @@ def test_command_normalization_uses_existing_room_and_object_parser(console):
     assert json.loads(console.normalize(task(mode='count'))[2])['mode'] == 'count'
 
 
+def test_progress_is_visible_only_for_the_matching_request(console):
+    first = console.submit(task())['task']
+    event = dict(request_id=first['id'], task_id='search_001', stage='observing', count=1)
+    console.monitor.values['search_progress'] = event
+    assert console.snapshot()['task']['progress'] == event
+    finish_search(console)
+    next_task = console.submit(task('request_002'))['task']
+    assert 'progress' not in next_task
+
+
+def test_cleaning_shares_request_lock_and_persists_its_own_results(console):
+    request = dict(request_id='clean_room_01', mode='clean', room='gym')
+    submitted = console.submit(request)
+    assert submitted['busy'] and submitted['task']['kind']=='clean'
+    assert '/run_cleaning.py' in console.runtime.calls[-1][1][1]
+    assert console.submit(dict(request_id='clean_room_01',command='去运动区扫地'))['busy']
+    assert len(console.runtime.calls)==1
+    assert_api_error(409, lambda: console.submit(task()))
+    folder = console.job['_folder']
+    put_json(folder/'clean_progress.json',dict(stage='sweeping'))
+    assert console.snapshot()['task']['progress']['stage']=='sweeping'
+    put_json(folder/'clean_result.json',dict(status='completed',navigation_settled=True,coverage={'coverage_fraction':.9}))
+    put_json(folder/'clean_trace.json',[])
+    (folder/'clean_map.svg').write_text('<svg/>')
+    console.runtime.calls[-1][2].returncode = 0
+    console.pending_workers[-1].run()
+    result = console.snapshot()['task']
+    assert result['state']=='completed' and result['save_status']=='saved'
+    assert len(result['artifacts'])==4
+
+
+def test_cleaning_with_unknown_action_state_closes_owned_navigation(console):
+    console.submit(dict(request_id='clean_room_01',mode='clean',room='gym'))
+    put_json(console.job['_folder']/'clean_result.json',dict(status='failed',navigation_settled=False))
+    console.runtime.calls[-1][2].returncode = 1
+    console.pending_workers[-1].run()
+    assert console.snapshot()['control_uncertain']
+    assert console.runtime.closed
+    assert_api_error(409, lambda: console.submit(task()))
+
+
+def test_voice_returns_editable_text_without_sending_a_search(console):
+    console.voice_available = True
+    pending = console.transcribe(b'fixture recording')
+    assert pending['busy'] and pending['task']['kind'] == 'voice'
+    assert_api_error(409, lambda: console.submit(task()))
+    folder = console.job['_folder']
+    assert (folder/'recording.audio').is_file()
+    put_json(folder/'transcript.json', {'text': '去厨房找杯子'})
+    console.runtime.calls[-1][2].returncode = 0
+    console.pending_workers[-1].run()
+    final = console.snapshot()
+    assert final['task']['result']['text'] == '去厨房找杯子'
+    assert final['ready'] and len(console.runtime.calls) == 1
+    assert not (folder/'recording.audio').exists()
+
+
 @pytest.mark.parametrize('payload', [
     None, [], {'request_id': '../unsafe', 'command': '去厨房找杯子'},
     {'request_id': 'request_001', 'command': '停止'},
@@ -176,7 +233,8 @@ def test_single_task_and_retry_idempotency_survive_completion(console):
     assert_api_error(409, lambda: console.submit(task(category='bottle')))
     assert_api_error(409, console.validate)
     saved = json.loads((console.job['_folder'] / 'request.json').read_text())
-    assert json.loads(saved['executed_command']) == dict(mode='find', room='kitchen', category='cup')
+    assert json.loads(saved['executed_command']) == dict(
+        mode='find', room='kitchen', category='cup', request_id='request_001')
     finish_search(console)
     completed = console.submit(task())
     assert completed['task']['state'] == 'completed'

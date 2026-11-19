@@ -1,6 +1,6 @@
 # GitHub 获取与部署
 
-更新：2026-11-17。目标仓库为 `CapSantiago/semantic_object_search`，按用户选择使用私有可见性。上传是否完成以 GitHub 上实际可见的提交为准。本说明中的“已验收”均指现有开发机记录；新机器仍需复核环境和传感器。
+更新于 2026-11-19。项目位于 GitHub 的公开仓库 `CapSantiago/semantic_object_search`。首次部署先走 CPU 路径，确认仿真和视觉工作后可选配 NVIDIA GPU。
 
 ## 仓库内容
 
@@ -12,53 +12,68 @@
 
 ## 首次部署
 
-使用 Ubuntu 22.04、Python 3.10、ROS 2 Humble、Gazebo Fortress。已安装这些系统组件的本机不需要重装。新机器先按 ROS/Gazebo 官方安装文档配置软件源，再核对以下依赖：
+运行环境为 x86-64 的 Ubuntu 22.04、系统 Python 3.10、ROS 2 Humble 和 Gazebo Fortress。首次在新机器部署，先按官方说明配置 ROS 和 Gazebo 的软件源。Gazebo 的 RGB-D 渲染需要可用的 OpenGL 环境。[ROS 2 Humble 安装](https://github.com/ros2/ros2_documentation/blob/humble/source/Installation/Ubuntu-Install-Debs.rst) · [Gazebo Fortress 安装](https://gazebosim.org/docs/fortress/install_ubuntu/)
+
+安装系统包并准备项目。
 
 ```bash
 sudo apt update
-sudo apt install git python3-pip python3-venv python3-colcon-common-extensions \
-  python3-rosdep ignition-fortress ros-humble-ros-gz \
+sudo apt install git build-essential cmake python3-pip python3-venv \
+  python3-colcon-common-extensions python3-numpy python3-scipy python3-opencv \
+  ros-humble-ros-base ros-humble-rosidl-default-generators \
+  ignition-fortress ros-humble-ros-gz-sim ros-humble-ros-gz-bridge \
   ros-humble-navigation2 ros-humble-nav2-bringup ros-humble-slam-toolbox \
-  ros-humble-rviz2 ros-humble-cv-bridge ros-humble-tf2-geometry-msgs \
+  ros-humble-robot-state-publisher ros-humble-rviz2 ros-humble-cv-bridge ros-humble-tf2-geometry-msgs \
   ros-humble-message-filters ros-humble-teleop-twist-keyboard
 git clone https://github.com/CapSantiago/semantic_object_search.git
 cd semantic_object_search
-python3 scripts/prepare_runtime.py
-source scripts/env.sh
-rosdep check --from-paths src third_party/yolo_ros/yolo_msgs --ignore-src --rosdistro humble
-bash scripts/build.sh
-python3 -m venv --without-pip --system-site-packages .venv
-.venv/bin/python -m pip install -r requirements-vision-ubuntu-cpu.txt
+bash scripts/deploy.sh
 ```
 
-私有仓库克隆需要自己的 GitHub Git 认证。`prepare_runtime.py` 只下载和校验数据，不启动仿真或推理；若本地存在其他版本的资源会报错，要求先检查，不覆盖它。当前锁定 PyTorch 为 CPU 版本。下载入口可用性与系统包安装在新机器上需要实际核对；不能以本机准备记录替代新机器验收。
+`deploy.sh` 下载并校验固定版本的资产和权重，准备项目内 CPU 环境，构建 `semantic_search` 和 `yolo_msgs`。脚本可重新执行，已通过校验的资源会复用。每个检出目录使用独立的构建路径，可与另一份检出并存。首次需要联网，准备完成后以 CPU 启动。
 
-已验收运行资源的文件检查：
+```bash
+bash scripts/start_robot.sh --device cpu --headless
+```
+
+在同一台电脑打开 [http://127.0.0.1:8765](http://127.0.0.1:8765)。查看“系统就绪”、雷达和 RGB-D 数据，点击传感器检查，再选择“去厨房找杯子”测试导航与识别。带桌面的机器去掉 `--headless` 可同时打开 Gazebo、RViz 和网页。用启动终端的 `Ctrl+C` 退出。
+
+## GPU 与语音
+
+有匹配 CUDA 13.0 的 NVIDIA GPU 和驱动时，可选配 GPU 推理。
+
+```bash
+bash scripts/prepare_gpu.sh
+bash scripts/start_robot.sh --device cuda:0
+```
+
+GPU 依赖锁在 `requirements-vision-ubuntu-gpu.txt`，安装到 `.venv-gpu`。驱动或 GPU 不满足要求时，继续使用 `--device cpu`。[PyTorch 安装说明](https://pytorch.org/get-started/locally/) · [CUDA 13.0 驱动要求](https://docs.nvidia.com/cuda/archive/13.0.0/cuda-toolkit-release-notes/)
+
+需要网页录音和转写时准备离线语音环境，然后重启控制台。
+
+```bash
+bash scripts/prepare_voice.sh
+```
+
+语音资源在独立 `.venv-voice` 中准备。安装后允许浏览器访问麦克风，核对转写再执行指令。可按 `resources/voice_wheels.lock.json` 准备离线 wheel 和模型缓存，再用 `bash scripts/prepare_voice.sh --offline` 恢复。
+
+## 排查与可选资源
+
+检查核心资源散列。
 
 ```bash
 python3 scripts/prepare_runtime.py --check
 ```
 
-## 启动现有任务
-
-完成部署后，从项目根目录运行：
-
-```bash
-bash scripts/start_robot.sh
-```
-
-自动打开本地UI、Gazebo和RViz；当前使用五区v4、白黄杯布局及可靠传感器订阅。网页选择寻找/统计，终端Ctrl+C退出。可选参数、分终端调试见 [RUNNING.md](RUNNING.md)；原baseline/AWS四区复现见 [AWS_HOUSE.md](AWS_HOUSE.md)。
-
-## 恢复后续准备资源
-
-这些命令仅为资源准备，不表示语音、相机组件或扩展类别已验收：
+复现其他布局和设计参考时再下载对应资源。
 
 ```bash
 python3 scripts/prepare_runtime.py --references
 python3 scripts/prepare_target_assets.py
-bash scripts/prepare_voice.sh
 ```
 
-`--references` 额外取回固定版本的 RealSense 描述与 TurtleBot3 Classic 对照源码，不构建驱动。语音准备在独立 `.venv-voice` 安装软件并恢复 Whisper small 和本地 PortAudio，不录音或推理。它不会自动补齐 `downloads/voice_wheels` 离线缓存；如要核对 `verify_resources.py` 的全部检查项，应先按 `resources/voice_wheels.lock.json` 准备对应 wheel 文件。原机缓存可复制后使用 `bash scripts/prepare_voice.sh --offline`。
+`--references` 恢复 RealSense 描述和 TurtleBot3 Classic 对照源码。可选启动参数、键盘建图及原场景复现见运行指南。现行功能与验收进度以总计划和验证概览为准。[运行指南](RUNNING.md) · [总计划](DEPLOYMENT_PLAN.md) · [验证概览](DEVELOPMENT_VALIDATION.md)
 
-开发按唯一 [总计划](DEPLOYMENT_PLAN.md) 推进：先在当前导航/视觉配置下完成任务三、四/G0，再完成任务一/G1、任务二及集成验收/G2，之后开展导航比较和视觉探索。任务一、二尚待开发，前面的启动命令仍用于当前寻物/计数功能。一键UI和五区配置已有本机验证，具体结论见 [验证概览](DEVELOPMENT_VALIDATION.md)。
+## 干净副本实测
+
+2026-11-19 在开发机用仅含仓库文件的临时副本验证。重新获取了场景、默认布局物品、权重和 CPU 依赖，构建两个 ROS 包并启动网页。10 秒传感器检查通过，厨房找到 1 个杯子，结果已保存。按语音安装步骤重新下载 Whisper，使用合成音频转写成功。补齐旧布局测试资源后，167 项工程测试通过，7 项独立 ROS 用例按开关跳过。目标电脑还需验证自身的图形驱动和 Gazebo 渲染。临时副本及本次验证日志已清理。

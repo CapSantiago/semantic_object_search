@@ -87,6 +87,24 @@ class RuntimeTests(unittest.TestCase):
         runtime = self.make_runtime()
         self.assertNotEqual(runtime.session_dir, existing)
 
+    def test_explicit_fixture_is_used_and_fingerprinted(self):
+        rooms=self.root/'rooms.json'
+        rooms.write_text(json.dumps({'test':dict(aliases=['测试'],bounds=[0,0,2,2],views=[[1,1,0]])}))
+        layout=self.root/'layout.json'
+        layout.write_text(json.dumps(dict(targets=[])))
+        runtime=self.make_runtime(rooms_file='rooms.json',layout_file='layout.json')
+        self.assertIn('rooms_file:='+str(rooms),runtime.command('search'))
+        self.assertIn('layout_file:=layout.json',runtime.command('simulation'))
+        receipt=json.loads((runtime.session_dir/'session.json').read_text())
+        self.assertEqual(receipt['config']['rooms'],'rooms.json')
+        self.assertIn('rooms.json',receipt['source_sha256'])
+
+    def test_invalid_fixture_releases_runtime_locks(self):
+        with self.assertRaises(ValueError):
+            self.make_runtime(rooms_file='../missing.json')
+        runtime=self.make_runtime()
+        self.assertEqual(runtime.config['rooms'],'src/semantic_search/config/rooms_aws_house_v4.json')
+
     def test_current_candidate_arguments_are_explicit(self):
         runtime = self.make_runtime()
         simulation = runtime.command('simulation')
@@ -96,11 +114,25 @@ class RuntimeTests(unittest.TestCase):
                       runtime.command('search'))
         for component in ('search','detector'):
             self.assertIn('sensor_reliability:=reliable', runtime.command(component))
+        self.assertIn('device:=cuda:0',runtime.command('detector'))
+        self.assertEqual(runtime.env['SEMANTIC_DETECTOR_DEVICE'],'cuda:0')
         self.assertIn('output_dir:='+str(runtime.task_output_dir), runtime.command('search'))
         with self.assertRaises(ValueError):
             runtime.command('rviz')
         with self.assertRaises(ValueError):
             runtime.start_process('../escape', [sys.executable, '-c', 'pass'])
+
+    def test_cpu_fallback_is_explicit_and_recorded(self):
+        runtime=self.make_runtime(device='cpu')
+        self.assertIn('device:=cpu',runtime.command('detector'))
+        self.assertEqual(runtime.env['SEMANTIC_DETECTOR_DEVICE'],'cpu')
+        receipt=json.loads((runtime.session_dir/'session.json').read_text())
+        self.assertEqual(receipt['config']['detector']['python_env'],'.venv')
+        self.assertFalse(receipt['config']['detector']['half'])
+
+    def test_invalid_device_cannot_acquire_locks(self):
+        with self.assertRaises(ValueError):self.make_runtime(device='invalid')
+        self.make_runtime(device='cpu')
 
     def test_logs_exit_codes_and_failed_exec_are_preserved(self):
         runtime = self.make_runtime()

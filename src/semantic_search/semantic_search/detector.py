@@ -19,7 +19,12 @@ class Detector(Node):
         self.declare_parameter('image_size', 640)
         sensor_qos = declare_sensor_qos(self)
         from ultralytics import YOLO
+        import torch
         self.model = YOLO(self.get_parameter('model').value)
+        self.model.model.float()
+        self.model.to(self.get_parameter('device').value)
+        self.get_logger().info(f'视觉推理设备：{next(self.model.model.parameters()).device}；FP32；'
+                               f'torch={torch.__version__}，CUDA={torch.version.cuda}')
         self.bridge = CvBridge()
         self.pub = self.create_publisher(DetectionArray, '/yolo/detections', 10)
         self.sub = self.create_subscription(

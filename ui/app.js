@@ -5,7 +5,7 @@
   const labels = {
     starting: '启动中', booting: '启动中', preflight: '启动检查', checking: '启动检查', simulation: '启动仿真',
     waiting_simulation: '等待传感器', navigation: '启动导航', waiting_navigation: '等待定位导航',
-    perception: '启动感知', waiting_perception: '等待视觉数据', ready: '系统就绪',
+    perception: '启动感知', waiting_perception: '等待视觉数据', ready: '系统就绪', switching: '正在切换模式',
     running: '执行中', canceling: '正在停止', completed: '已完成', succeeded: '已完成',
     found: '已找到', passed: '检查通过', partial: '部分完成', failed: '失败', error: '异常',
     canceled: '已取消', stopped: '已停止', stopping: '正在关闭', shutdown: '已关闭',
@@ -13,7 +13,7 @@
     navigation_failed: '导航失败', navigation_rejected: '导航未就绪', timeout: '执行超时',
     idle: '空闲', pending: '等待启动', exited: '已退出', disabled: '未启用',
   };
-  const componentLabels = {simulation: 'Gazebo', navigation: '导航', detector: '视觉检测', search: '搜索服务', rviz: 'RViz'};
+  const componentLabels = {simulation: 'Gazebo', navigation: '导航', detector: '视觉检测', search: '搜索服务', rviz: 'RViz', slam: '实时建图', motion: '运动保护'};
   const categories = {cup: '杯子', bottle: '瓶子', chair: '椅子'};
   const rooms = {};
   let roomSignature = '';
@@ -21,6 +21,9 @@
   let state = null;
   let online = false;
   let mutationPending = false;
+  let recording = null;
+  let lastTranscriptId = null;
+  const canRecord = Boolean(navigator.mediaDevices?.getUserMedia && window.MediaRecorder);
   let selectedHistoryId = null;
   let lastNotice = '';
   let mapData = null;
@@ -56,7 +59,8 @@
   }
   async function api(path, body) {
     const options = {cache: 'no-store', signal: AbortSignal.timeout(12000)};
-    if (body !== undefined) Object.assign(options, {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(body)});
+    if (body instanceof Blob) Object.assign(options, {method: 'POST', headers: {'Content-Type': 'application/octet-stream'}, body});
+    else if (body !== undefined) Object.assign(options, {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(body)});
     const response = await fetch(path, options);
     const value = await response.json();
     if (!response.ok) throw new Error(typeof value.error === 'string' ? value.error : value.message || `请求失败 (${response.status})`);
@@ -79,19 +83,64 @@
     if (typeof command === 'string') {
       try { structured = JSON.parse(command); } catch { return command || '机器人任务'; }
     }
+    if (structured?.mode === 'clean' && rooms[structured.room]) return `清扫${rooms[structured.room]}`;
     if (structured && typeof structured === 'object' && rooms[structured.room] && categories[structured.category] && ['find', 'count'].includes(structured.mode)) {
       return `去${rooms[structured.room]}${structured.mode === 'count' ? '统计' : '寻找'}${categories[structured.category]}`;
     }
     return typeof command === 'string' ? command : '机器人任务';
   }
   function refreshButtons() {
-    const allowed = Boolean(online && state && state.ready && !taskBusy() && !mutationPending);
+    const allowed = Boolean(online && state && state.ready && !taskBusy() && !mutationPending && !recording);
+    const mapping = state?.mode === 'mapping';
+    const motion = state?.telemetry?.mapping_motion;
+    const cleaning = el('mode').value === 'clean';
+    el('search-fields').hidden = mapping;
+    el('mapping-fields').hidden = !mapping;
+    el('category-field').hidden = cleaning;
+    el('switch-mode').disabled = !allowed;
+    text('switch-mode', mapping ? '返回导航' : '进入建图');
+    text('robot-mode', mapping ? '建图模式' : '导航模式');
+    text('map-title', mapping ? '实时建图' : '家庭地图');
+    el('command').placeholder = mapping ? '例如：请前进' :
+      cleaning ? '例如：请去健身区扫地' : '例如：去厨房找杯子';
+    el('save-mapping').disabled = !allowed || motion?.status==='moving';
+    text('motion-status', motion?.message || '');
+    document.querySelector('.region-controls').hidden = mapping;
     el('task-fields').disabled = !allowed;
     el('submit-task').disabled = !allowed;
     text('submit-task', mutationPending ? '正在提交…' : taskBusy() ? '任务执行中' : allowed ? '开始任务' : '等待系统就绪');
     el('cancel-task').disabled = !online || mutationPending;
     el('validate').disabled = !allowed;
-    text('task-help', !online ? '连接已断开，无法提交任务。' : taskBusy() ? '完成或停止当前任务后，可开始下一条。' : allowed ? '支持文字寻物与盘点，每次执行一个任务。' : '正在等待传感器、定位和搜索服务就绪。');
+    el('record-voice').disabled = recording ? !recording.recorder : !allowed || !canRecord || !state?.voice_available;
+    text('record-voice', recording ? recording.recorder ? '结束录音' : '等待麦克风授权…' : '录音转写');
+    text('task-help', recording ? '录音最长 8 秒。说完可提前结束。' : !online ? '连接已断开，无法提交任务。' :
+      taskBusy() ? '完成或停止当前任务后，可开始下一条。' : allowed ?
+        mapping ? '可用箭头键、按钮或语音短时移动。空格停车。' :
+          canRecord && state.voice_available ? '可输入文字或录音，确认指令后开始任务。' : '语音不可用，可输入文字或选择目标。'
+        : '正在等待当前模式就绪。');
+  }
+  function progressLabel(progress) {
+    if (!progress) return '等待搜索节点接收任务。';
+    const position = progress.viewpoint_index ? `观察点 ${progress.viewpoint_index} / ${progress.viewpoints_total}` : '';
+    const room = rooms[progress.room] || progress.room;
+    switch (progress.stage) {
+      case 'navigating': return `正在前往${room}的${position}。`;
+      case 'observing': return `正在${room}扫描（${position}）。`;
+      case 'waiting_for_data': return `正在${room}等待相机与深度数据（${position}）。`;
+      case 'canceling': return '正在取消导航，等待机器人停止。';
+      case 'saving': return '正在保存任务结果和地图。';
+      case 'finished': return '搜索已结束，正在核对结果文件。';
+      default: return '正在执行搜索。';
+    }
+  }
+  function cleaningProgress(progress) {
+    switch (progress?.stage) {
+      case 'entering': return `正在前往${rooms[progress.room] || progress.room}。`;
+      case 'sweeping': return `正在清扫。已处理 ${progress.goals_finished} / ${progress.goals_total} 个路线点。`;
+      case 'supplementing': return '正在补扫遗漏区域。';
+      case 'returning': return '正在返回本次任务的起点。';
+      default: return '正在核对起点、地面和清扫路线。';
+    }
   }
   function healthRow(label, value, tone) {
     const li = document.createElement('li');
@@ -103,11 +152,16 @@
   function renderHealth() {
     const telemetry = state.telemetry || {};
     const list = el('health'); list.replaceChildren();
-    for (const [name, ready] of [['仿真数据', telemetry.simulation_ready], ['定位与导航', telemetry.navigation_ready], ['视觉数据', telemetry.perception_ready]]) {
+    const mapping = state.mode === 'mapping';
+    const checks = mapping ? [['建图与运动保护', telemetry.mapping_ready]] :
+      [['定位与导航', telemetry.navigation_ready], ['视觉数据', telemetry.perception_ready]];
+    for (const [name, ready] of [['仿真数据', telemetry.simulation_ready], ...checks]) {
       list.append(healthRow(name, ready ? '就绪' : '等待数据', ready ? 'good' : 'warn'));
     }
     for (const [name, component] of Object.entries(state.components || {})) {
       if (!Object.hasOwn(componentLabels, name)) continue;
+      if (state.phase === 'ready' && (mapping ? ['navigation', 'search'].includes(name) :
+        ['slam', 'motion'].includes(name))) continue;
       const current = component.state || (component.returncode != null ? 'exited' : component.pid ? 'running' : 'pending');
       list.append(healthRow(componentLabels[name] || name, current === 'running' ? '运行中' : statusLabel(current), current === 'running' ? 'good' : ['failed', 'exited'].includes(current) && component.returncode ? 'bad' : 'neutral'));
     }
@@ -148,20 +202,34 @@
     el('show-current').hidden = !historical;
     const result = task && task.result;
     const validation = task && task.kind === 'validation';
+    const voice = task && task.kind === 'voice';
+    const cleaning = task?.kind === 'clean';
     const current = task ? task.state || 'running' : 'idle';
     badge('task-badge', current);
     text('active-command', task ? taskCommand(task) : '等待你的第一条指令');
     text('elapsed', task ? formatElapsed(task.elapsed_seconds) : '—');
-    text('count', !validation && result && finite(result.count) ? String(result.count) : '—');
-    const key = JSON.stringify([task && task.id, current, result, task && task.error, task && task.save_status, task && task.artifacts, historical]);
+    const progress = task && task.progress;
+    const count = result?.count ?? progress?.count;
+    const cleanCoverage = (result || progress)?.coverage;
+    const fraction = cleanCoverage?.coverage_fraction;
+    text('task-metric', cleaning ? '可清扫区域覆盖率' : '确认数量');
+    text('count', cleaning ? finite(fraction) ? `${(fraction*100).toFixed(1)}%` : '—' :
+      finite(count) ? String(count) : '—');
+    const key = JSON.stringify([task && task.id, current, result, progress, task && task.error, task && task.save_status, task && task.artifacts, historical]);
     if (taskKey === key) return;
     taskKey = key;
     let feedback = '选择房间和物品，系统就绪后即可开始。';
     if (task) {
       if (task.error) feedback = String(task.error);
       else if (current === 'canceling') feedback = '已请求停止，正在等待机器人确认。';
-      else if (busyStates.has(current)) feedback = validation ? '正在检查实际传感器数据和坐标变换。' : '机器人正在执行指令，等待实际搜索结果。';
+      else if (busyStates.has(current)) feedback = validation ? '正在检查实际传感器数据和坐标变换。' :
+        voice ? '正在离线转写录音。' :
+        task.kind === 'motion' ? '正在执行运动指令。' :
+        task.kind === 'map_save' ? '正在保存当前地图。' :
+        cleaning ? cleaningProgress(progress) : progressLabel(progress);
       else if (validation) feedback = result ? result.passed ? '传感器检查通过。详细数据已记录在报告中。' : '传感器检查未通过，请查看报告与日志。' : statusLabel(current);
+      else if (voice) feedback = result?.text ? `识别文本\n${result.text}` : statusLabel(current);
+      else if (task.kind === 'motion' || task.kind === 'map_save' || cleaning) feedback = result?.message || statusLabel(current);
       else if (result) {
         const resultLabel = statusLabel(result.status || current);
         feedback = `${resultLabel}${finite(result.count) ? `，已确认 ${result.count} 个${categories[result.category] || result.category || '目标'}。` : '。'}`;
@@ -171,12 +239,19 @@
       if (historical) feedback += '\n正在查看本次运行中的历史记录。';
     }
     text('task-feedback', feedback);
-    const coverage = result && result.coverage;
+    const coverage = cleaning ? cleanCoverage : result && result.coverage;
     el('coverage').hidden = !coverage;
-    if (coverage) {
+    if (coverage && cleaning) {
+      const target = result?.coverage_target;
+      const returnStatus = {simulated_charging:'模拟充电', return_incomplete:'停靠未达标', returning:'返航中',
+        return_canceled:'已取消返航', not_attempted:'尚未返航'}[(result || progress).return_state];
+      text('coverage', `已扫 ${coverage.covered_area_m2.toFixed(2)} m²，剩余 ${coverage.uncovered_cells} 格。` +
+        (finite(target) ? `覆盖目标 ${Math.round(target*100)}%。` : '') +
+        (returnStatus ? ` ${returnStatus}。` : ''));
+    } else if (coverage) {
       const observed = coverage.viewpoints_observed;
       const total = result.viewpoints_total;
-      text('coverage', `${finite(observed) && finite(total) ? `有效观察位置 ${observed} / ${total}。` : ''}${coverage.full_room_coverage_verified === true ? '房间覆盖已验证。' : '数量来自已完成的有效观察，未确认全房覆盖。'}`);
+      text('coverage', `${finite(observed) && finite(total) ? `已完成观察 ${observed} / ${total}。` : ''}${coverage.full_room_coverage_verified === true ? '房间覆盖已验证。' : '数量来自已完成的有效观察，未确认全房覆盖。'}`);
     }
     const objects = el('objects'); objects.replaceChildren();
     for (const object of !validation && result && Array.isArray(result.objects) ? result.objects : []) {
@@ -240,6 +315,12 @@
     text('phase', statusLabel(state.phase));
     text('session', `会话 ${state.session_id || '—'}`);
     if (state.error && state.error !== lastNotice) announce(String(state.error), true);
+    const task = state.task;
+    if (task?.kind === 'voice' && task.state === 'completed' && task.id !== lastTranscriptId) {
+      lastTranscriptId = task.id;
+      el('command').value = task.result.text;
+      announce('已填写识别文本。请检查或修改文字，再点击开始任务。');
+    }
     renderHealth(); renderTask(); renderHistory(); renderValidation(); refreshButtons(); drawMap();
   }
 
@@ -288,7 +369,7 @@
     }
     if (state && state.rooms_frame_id === mapData.frame_id) {
       const definitions = state.rooms || {};
-      if (el('show-regions').checked) for (const [id, room] of Object.entries(definitions)) {
+      if (state.mode!=='mapping' && el('show-regions').checked) for (const [id, room] of Object.entries(definitions)) {
         if (!Array.isArray(room.polygon) || room.polygon.length < 3) continue;
         const color = /^#[0-9a-f]{6}$/i.test(room.color || '') ? room.color : '#147d76';
         ctx.save(); ctx.beginPath();
@@ -309,16 +390,48 @@
         ctx.restore();
       }
       const room = definitions[el('room').value];
-      if (room && el('show-views').checked) {
+      if (state.mode!=='mapping' && room && el('show-views').checked) {
         const views = (room.category_views || {})[el('category').value] || room.views || [];
+        const positions = new Map();
         views.forEach((view, index) => {
-          const [x,y] = project(view[0],view[1]); const heading = -(view[2]-origin.yaw);
+          const key = `${view[0]},${view[1]}`;
+          if (!positions.has(key)) positions.set(key, []);
+          positions.get(key).push({view,index});
+        });
+        positions.forEach((directions) => {
+          const {view,index} = directions[0];
+          const [x,y] = project(view[0],view[1]);
           ctx.save(); ctx.strokeStyle = '#273e4b'; ctx.fillStyle = '#ffffff'; ctx.lineWidth = 1.5;
           ctx.beginPath(); ctx.arc(x,y,7,0,2*Math.PI); ctx.fill(); ctx.stroke();
-          ctx.beginPath(); ctx.moveTo(x,y); ctx.lineTo(x+17*Math.cos(heading),y+17*Math.sin(heading)); ctx.stroke();
-          ctx.font='bold 11px sans-serif'; ctx.fillStyle='#273e4b'; ctx.fillText(String(index+1),x+9,y-9-index*2); ctx.restore();
+          directions.forEach(({view: pose}) => {
+            const angle = -(pose[2]-origin.yaw);
+            ctx.beginPath(); ctx.moveTo(x,y); ctx.lineTo(x+17*Math.cos(angle),y+17*Math.sin(angle)); ctx.stroke();
+          });
+          ctx.font='bold 11px sans-serif'; ctx.fillStyle='#273e4b';
+          ctx.fillText(directions.length > 1 ? `${directions.length}次观察` : String(index+1),x+9,y-18); ctx.restore();
         });
       }
+    }
+    const task = state && selectedTask();
+    const clean = state?.mode!=='mapping' && task?.kind==='clean' && (task.result || task.progress);
+    if (clean?.frame_id === mapData.frame_id && clean.trace_preview?.length) {
+      ctx.save();
+      ctx.lineWidth = 2.8;
+      ctx.lineCap = 'round';
+      let previous = null;
+      for (const [x,y,stage,connected] of clean.trace_preview) {
+        const point = project(x,y);
+        if (previous && connected) {
+          ctx.beginPath();
+          ctx.strokeStyle = stage === 'returning' ? '#6366a2' :
+            ['sweeping','supplementing'].includes(stage) ? '#16847d' : '#738a98';
+          ctx.moveTo(...previous);
+          ctx.lineTo(...point);
+          ctx.stroke();
+        }
+        previous = point;
+      }
+      ctx.restore();
     }
     const pose = state && state.telemetry && state.telemetry.pose;
     const poseFresh = online && pose && pose.fresh !== false && state.telemetry.pose_fresh !== false;
@@ -331,8 +444,7 @@
       ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.moveTo(7, 0); ctx.lineTo(-3, -4); ctx.lineTo(-3, 4); ctx.closePath(); ctx.fill(); ctx.restore();
       text('pose', `${poseFresh ? '' : '上次位置 · '}x ${pose.x.toFixed(2)} / y ${pose.y.toFixed(2)} m`);
     } else text('pose', '位置等待定位');
-    const task = state && selectedTask();
-    const result = task && task.kind !== 'validation' && task.result;
+    const result = state?.mode!=='mapping' && task && task.kind === 'search' && task.result;
     const objects = result && Array.isArray(result.objects) ? result.objects : [];
     for (const object of objects) {
       if (!finite(object.x) || !finite(object.y)) continue;
@@ -347,7 +459,8 @@
       ctx.fillStyle = '#fff'; ctx.fillRect(x - width / 2, y - 29, width, 18);
       ctx.fillStyle = '#8b601b'; ctx.fillText(label, x, y - 16);
     }
-    text('map-result-context', result ? `${selectedHistoryId ? '历史' : '当前'}任务结果：${objects.length} 个已确认物品标记。机器人图标为最新可用定位。` : '物品标记将在任务结果返回后显示。');
+    text('map-result-context', clean ? '实际轨迹 · 灰色前往房间 · 绿色清扫 · 紫色返航' :
+      result ? `${selectedHistoryId ? '历史' : '当前'}任务结果：${objects.length} 个已确认物品标记。机器人图标为最新可用定位。` : '物品标记将在任务结果返回后显示。');
     el('map-stale').hidden = online && !mapData.stale && !mapUnavailable;
     text('map-stale', !online ? '连接中断 · 显示最后收到的地图' : mapUnavailable ? '地图暂不可用 · 显示最后收到的地图' : '地图数据已过期');
   }
@@ -386,14 +499,99 @@
     } catch (error) { announce(error.message, true); }
     finally { mutationPending = false; refreshButtons(); }
   }
+  function stopRecording(discard = false) {
+    const active = recording;
+    if (!active) return;
+    active.discard ||= discard;
+    clearTimeout(active.timer);
+    if (active.recorder?.state === 'recording') active.recorder.stop();
+    else if (!active.recorder) {
+      recording = null;
+      refreshButtons();
+    }
+  }
+  async function recordVoice() {
+    if (recording) { stopRecording(); return; }
+    if (!canRecord || !state?.voice_available || !state.ready || mutationPending || !online) return;
+    const active = {discard: false};
+    recording = active;
+    refreshButtons();
+    try {
+      active.stream = await navigator.mediaDevices.getUserMedia({audio: true});
+      if (active.discard) { active.stream.getTracks().forEach((track) => track.stop()); return; }
+      const recorder = new MediaRecorder(active.stream, {audioBitsPerSecond: 32000});
+      active.recorder = recorder;
+      const chunks = [];
+      recorder.addEventListener('dataavailable', (event) => chunks.push(event.data));
+      recorder.addEventListener('error', () => {
+        active.discard = true;
+        announce('录音失败，请检查麦克风。', true);
+      });
+      recorder.addEventListener('stop', async () => {
+        clearTimeout(active.timer);
+        active.stream.getTracks().forEach((track) => track.stop());
+        recording = null;
+        if (!active.discard) {
+          const audio = new Blob(chunks);
+          if (audio.size) await mutate('/api/transcribe', audio, '已提交录音，正在离线转写。');
+          else announce('录音为空，请重试。', true);
+        }
+        refreshButtons();
+      }, {once: true});
+      recorder.start();
+      active.timer = setTimeout(() => stopRecording(), 8000);
+      refreshButtons();
+    } catch (error) {
+      active.stream?.getTracks().forEach((track) => track.stop());
+      if (recording === active) {
+        recording = null;
+        announce('无法录音，请检查浏览器权限和麦克风。', true);
+        refreshButtons();
+      }
+    }
+  }
   el('task-form').addEventListener('submit', (event) => {
     event.preventDefault();
-    if (!state || !state.ready || taskBusy() || mutationPending || !online) return;
+    if (!state || !state.ready || taskBusy() || mutationPending || !online || recording) return;
     const command = el('command').value.trim();
-    const body = command ? {command, request_id: requestId()} : {mode: el('mode').value, room: el('room').value, category: el('category').value, request_id: requestId()};
+    if (state.mode==='mapping' && !command) {
+      announce('请输入运动指令，或点击方向按钮。', true);
+      return;
+    }
+    const body = command ? {command, request_id: requestId()} :
+      {mode: el('mode').value, room: el('room').value, request_id: requestId()};
+    if (!command && body.mode !== 'clean') body.category = el('category').value;
     mutate('/api/task', body, '任务已提交，执行状态将在右侧更新。');
   });
-  el('cancel-task').addEventListener('click', () => mutate('/api/cancel', {}, '已提交停止请求，请等待执行状态更新。'));
+  el('mode').addEventListener('change', refreshButtons);
+  el('switch-mode').addEventListener('click', () => {
+    const mode = state?.mode==='mapping' ? 'navigation' : 'mapping';
+    el('command').value = '';
+    mutate('/api/mode', {mode}, '正在切换模式。');
+  });
+  function motionCommand(command) {
+    if (state?.mode==='mapping' && state.ready && online && !recording && !mutationPending) {
+      mutate('/api/task', {command, request_id:requestId()}, '已提交运动指令。');
+    }
+  }
+  document.querySelectorAll('[data-motion]').forEach((button) => {
+    button.addEventListener('click', () => motionCommand(button.dataset.motion));
+  });
+  el('save-mapping').addEventListener('click', () => mutate('/api/mapping/save', {}, '已开始保存地图。'));
+  document.addEventListener('keydown', (event) => {
+    if (state?.mode!=='mapping' || event.repeat || event.altKey || event.ctrlKey || event.metaKey ||
+        ['INPUT','TEXTAREA','SELECT','BUTTON'].includes(event.target.tagName)) return;
+    const command = {ArrowUp:'前进',ArrowDown:'后退',ArrowLeft:'左转',ArrowRight:'右转'}[event.key];
+    if (command) { event.preventDefault(); motionCommand(command); }
+    if (event.code==='Space') { event.preventDefault(); el('cancel-task').click(); }
+  });
+  el('record-voice').addEventListener('click', recordVoice);
+  el('cancel-task').addEventListener('click', () => {
+    if (recording) {
+      stopRecording(true);
+      announce('已取消录音。');
+    } else mutate('/api/cancel', {}, '已提交停止请求，请等待执行状态更新。');
+  });
   el('validate').addEventListener('click', () => mutate('/api/validate', {}, '开始传感器检查，报告将保存在本次会话中。'));
   el('show-current').addEventListener('click', () => { selectedHistoryId = null; taskKey = ''; renderTask(); });
   el('log-component').addEventListener('change', refreshLog);

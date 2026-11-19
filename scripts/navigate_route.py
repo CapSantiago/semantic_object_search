@@ -2,8 +2,10 @@
 """Visit explicit map-frame poses through Nav2, recording actual action results."""
 import argparse
 import json
-from math import atan2, cos, sin
+from math import atan2, cos, sin, hypot
 from pathlib import Path
+import subprocess
+import sys
 import time
 
 from action_msgs.msg import GoalStatus
@@ -14,6 +16,8 @@ from rclpy.node import Node
 from rclpy.parameter import Parameter
 from rclpy.qos import qos_profile_sensor_data
 from nav_msgs.msg import Odometry
+from rclpy.time import Time
+from tf2_ros import Buffer, TransformListener
 
 
 def main():
@@ -23,12 +27,17 @@ def main():
     inputs.add_argument('--pose', nargs=3, type=float)
     parser.add_argument('--output', required=True)
     parser.add_argument('--timeout', type=float, default=180.)
+    parser.add_argument('--captures', type=Path,
+                        help='Save one measured RGB-D/map-TF frame after each successful arrival')
+    parser.add_argument('--sensor-reliability', choices=['best_effort','reliable'], default='best_effort')
     args = parser.parse_args()
     route = json.loads(Path(args.route).read_text()) if args.route else [args.pose]
     rclpy.init()
     node = Node('navigate_validation_route', parameter_overrides=[Parameter('use_sim_time', value=True)])
     client = ActionClient(node, NavigateToPose, '/navigate_to_pose')
-    report = dict(route=route, visited=[], status='running')
+    buffer = Buffer()
+    listener = TransformListener(buffer, node)
+    report = dict(route=route, visited=[], arrivals=[], status='running')
     trace = []
     def odometry(msg):
         stamp = msg.header.stamp.sec+msg.header.stamp.nanosec/1e9
@@ -73,6 +82,28 @@ def main():
             result = wait(active.get_result_async(), args.timeout)
             if result.status != GoalStatus.STATUS_SUCCEEDED:
                 raise RuntimeError(f'Nav2 status {result.status} at {target}')
+            # Record localization independently of action success. Missing TF
+            # remains an explicit measurement failure, never a zero error.
+            arrival = dict(target=target, action_status=result.status)
+            try:
+                transform = buffer.lookup_transform('map', 'base_link', Time())
+                p, q = transform.transform.translation, transform.transform.rotation
+                measured_yaw = atan2(2*(q.w*q.z+q.x*q.y), 1-2*(q.y*q.y+q.z*q.z))
+                stamp = transform.header.stamp
+                arrival.update(map_pose=[p.x,p.y,measured_yaw],
+                    position_error_m=hypot(p.x-target[0],p.y-target[1]),
+                    yaw_error_rad=abs(atan2(sin(measured_yaw-yaw),cos(measured_yaw-yaw))),
+                    tf_age_seconds=(node.get_clock().now().nanoseconds-
+                                    (stamp.sec*1_000_000_000+stamp.nanosec))/1e9)
+            except Exception as error:
+                arrival['measurement_error'] = str(error)
+            report['arrivals'].append(arrival)
+            if args.captures:
+                destination = args.captures / f'{index:03d}'
+                subprocess.run([sys.executable, str(Path(__file__).with_name('capture_rgbd.py')),
+                    str(destination), '--skip-frames', '4', '--timeout', '30',
+                    '--sensor-reliability', args.sensor_reliability], check=True)
+                arrival['capture'] = str(destination.resolve())
             report['visited'].append(target)
             previous = target[:2]
             active = None

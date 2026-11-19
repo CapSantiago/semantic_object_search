@@ -1,0 +1,371 @@
+{
+  "date_local": "2026-11-18",
+  "status": "implemented_simulator_verified_human_microphone_pending",
+  "scope": "P4/G0 runtime search progress, offline speech input, keyboard SLAM and map reload",
+  "audio_input": {
+    "kind": "synthesized Mandarin via Web Audio stream and Firefox MediaRecorder",
+    "firefox": "158.0",
+    "offline_model": "faster-whisper-small CPU INT8",
+    "fixture_generator": "Piper zh_CN-huayan-medium",
+    "fixture_source": "https://huggingface.co/rhasspy/piper-voices/tree/main/zh/zh_CN/huayan/medium",
+    "actual_human_microphone_verified": false,
+    "review_transcript_before_dispatch": true,
+    "silence_rejected": true,
+    "retained_web_recordings": 0
+  },
+  "voice_attempts": [
+    {
+      "transcript": "请去厨房找一个杯子。",
+      "status": "found",
+      "count": 1,
+      "request_id": "6667aafe-27d1-4d4d-b50c-8c84dd890f6c",
+      "task_id": "55c58138-acb3-48e6-b171-28e64a1de600",
+      "objects": [
+        {
+          "id": 1,
+          "x": 6.311874775985837,
+          "y": 0.9559893263795123,
+          "z": 0.859912985385223,
+          "hits": 2
+        }
+      ],
+      "observed_viewpoints": 0,
+      "observed_stages": [
+        "navigating",
+        "observing",
+        "finished"
+      ],
+      "evidence": {
+        "path": "results/development/p4_g0/voice_ui_refined_count_find.json",
+        "sha256": "d64dd0ede790ed3cf8bc96d50bc74380950f6867c30a157b40fff0224eed997a"
+      },
+      "fixture_sha256": "3ea0fb56da53ba8de73d279fb5160a467cb725c0bdd9c17ed3a5e66292e143f2"
+    },
+    {
+      "transcript": "请统计一下厨房里面的椅子。",
+      "status": "completed",
+      "count": 4,
+      "request_id": "f192de7f-497e-4a84-809c-5466665e3990",
+      "task_id": "aaba357b-2e39-4c14-8482-efb4ed94fdf1",
+      "objects": [
+        {
+          "id": 1,
+          "x": 7.0490343531717885,
+          "y": 0.13840953417629098,
+          "z": 0.6041584735389189,
+          "hits": 97
+        },
+        {
+          "id": 2,
+          "x": 6.232796053144301,
+          "y": 0.06209677423996403,
+          "z": 0.614916850594319,
+          "hits": 97
+        },
+        {
+          "id": 3,
+          "x": 6.047441355934117,
+          "y": 1.7198253451841297,
+          "z": 0.5750469818562879,
+          "hits": 32
+        },
+        {
+          "id": 4,
+          "x": 6.941397456685201,
+          "y": 1.6375106566419173,
+          "z": 0.47819395053037145,
+          "hits": 31
+        }
+      ],
+      "observed_viewpoints": 16,
+      "observed_stages": [
+        "navigating",
+        "observing",
+        "finished"
+      ],
+      "evidence": {
+        "path": "results/development/p4_g0/voice_ui_refined_count_find.json",
+        "sha256": "d64dd0ede790ed3cf8bc96d50bc74380950f6867c30a157b40fff0224eed997a"
+      },
+      "fixture_sha256": "91870841e11b70162a2d73f4ed172b623f4aead054ae3e923a61893f6760ea7f"
+    },
+    {
+      "transcript": "请去杂物间找一个杯子。",
+      "status": "canceled",
+      "count": 0,
+      "request_id": "51bdb6f5-1f6f-4ce3-a4f6-5ad02fc73d0f",
+      "task_id": "4b60b590-b377-49d5-b893-2938f53def4e",
+      "objects": [],
+      "observed_viewpoints": 0,
+      "observed_stages": [
+        "navigating",
+        "finished"
+      ],
+      "evidence": {
+        "path": "results/development/p4_g0/voice_ui_cancel_empty.json",
+        "sha256": "0b180884f7045f02060217a929948be6d3bd55d7231de5ef46eddcced418b574"
+      },
+      "fixture_sha256": "f1047c3e34dbe65e50c2d27473efb65a1fc195993dd5097342875ab6f0e3b430"
+    },
+    {
+      "transcript": "请去杂物间找一个杯子。",
+      "status": "not_found",
+      "count": 0,
+      "request_id": "68d40be4-727f-40e7-a886-b9200f2d4c3a",
+      "task_id": "5d453bc5-211d-427b-b842-42d2ad6fd0f2",
+      "objects": [],
+      "observed_viewpoints": 10,
+      "observed_stages": [
+        "navigating",
+        "observing",
+        "finished"
+      ],
+      "evidence": {
+        "path": "results/development/p4_g0/voice_ui_empty.json",
+        "sha256": "f656ffe055df9f3171ce97442978eb49a0c74f090a32f8706bc4ad114fe0df6e"
+      },
+      "fixture_sha256": "f1047c3e34dbe65e50c2d27473efb65a1fc195993dd5097342875ab6f0e3b430"
+    }
+  ],
+  "cancellation": {
+    "evidence": {
+      "path": "results/development/p4_g0/stop_motion_report.json",
+      "sha256": "5b2460b5427f6780927ef4f93694263e64066aa40f1ec2ed2d46335fe16f841c"
+    },
+    "telemetry_delay_seconds": 2,
+    "stationary_samples": 202,
+    "max_linear_m_s": 0.0,
+    "max_angular_rad_s": 0.0
+  },
+  "mapping": {
+    "evidence": {
+      "path": "results/development/p4_g0/keyboard_mapping_retry_report.json",
+      "sha256": "8e557c487a09cd396dad850a6a60ca32e6753fa1befacab295f179b337559a4f"
+    },
+    "known_cells": 5229,
+    "width": 373,
+    "height": 222,
+    "occupied_cells": 189,
+    "known_cells_before": 1415,
+    "mismatch_cells": 0,
+    "odom_distance_m": 0.5239910303189749,
+    "saved_free_threshold": 0.19,
+    "origin_rounding_error_m": [
+      0.0045652859463931605,
+      0.0023870452799590325
+    ],
+    "baseline_files_identical": true
+  },
+  "kitchen": {
+    "complete_cases": 5,
+    "passed": 5,
+    "default_profile_updated": true,
+    "changed_route": "only kitchen chair route changed from 14 to 16 viewpoints",
+    "prior_first_pose": [
+      5.0,
+      -1.5,
+      0.8
+    ],
+    "tested_first_pose": [
+      5.17,
+      -1.47,
+      0.6
+    ],
+    "additional_front_views": [
+      [
+        5.9,
+        -1.52,
+        1.1
+      ],
+      [
+        6.35,
+        -1.86,
+        1.48
+      ]
+    ],
+    "protocol": "One voice count following find after a cold stack start, then independent cold restart for one cold count and three warm repeats",
+    "position_max_m": 0.167754596818185,
+    "arrival_xy_max_m": 0.13825513977485365,
+    "audit": {
+      "path": "results/development/p4_g0/kitchen_refined_five_audit.json",
+      "sha256": "5b6ee88afc69599ebb241a95afb5cfe7dcf14d115ad195c2777f9c260f5bfd2c"
+    },
+    "view_probes": [
+      {
+        "path": "results/development/p4_g0/kitchen_probe_geometry.json",
+        "sha256": "b68261061d96ce6e57b831ad3f9c67e0f6d6b8bba73d6f4d0a2c5d5304039fd5"
+      },
+      {
+        "path": "results/development/p4_g0/kitchen_front_geometry_partial.json",
+        "sha256": "fb092ff072747775192a738ed6ad70ec4dcb735bb056fdaba6e26af540236aa0"
+      },
+      {
+        "path": "results/development/p4_g0/kitchen_front_resume_geometry.json",
+        "sha256": "4101bd731d97abbe425ef4379d5f8ed934386699a93eb2381d2cb584f7ec0858"
+      },
+      {
+        "path": "results/development/p4_g0/kitchen_left_distance_geometry.json",
+        "sha256": "507e193d2105a97b0a648aee7d982f1eb503cb3b9a4985ea39caea1004346bb5"
+      }
+    ]
+  },
+  "limitations": [
+    "Physical microphone and human pronunciation require a separate real-human trial.",
+    "Keyboard validation used a short route and validates the map round trip, not a full new house survey.",
+    "Expanded layout floor bottles in living room and bedroom remain detection limitations."
+  ],
+  "failed_attempts": [
+    {
+      "reason": "Original first kitchen viewpoint produced 5 counts for 4 chairs.",
+      "evidence": {
+        "path": "results/development/p4_g0/voice_ui_initial.json",
+        "sha256": "6a7585547f85e94361d122a7bd62647a1251b218248d912d6eca5899d5c22cd9"
+      },
+      "count": 5
+    },
+    {
+      "reason": "First adjusted viewpoint missed a left-front chair in one of five counts.",
+      "evidence": {
+        "path": "results/development/p4_g0/kitchen_initial_candidate_audit.json",
+        "sha256": "94e5096b418b4e31af2c6b509e7fdcce6fd16808402f2ccf63b32f1bf910a3f8"
+      }
+    },
+    {
+      "reason": "Front pose probe command externally terminated. First three measured frames preserved and remaining two poses replayed.",
+      "continuation": {
+        "path": "results/development/p4_g0/kitchen_front_resume_navigation.json",
+        "sha256": "ec2163abd7b3ce9204db4f9200414cb3fb15ddef9b831eb2d880bb15eb35d7ac"
+      }
+    },
+    {
+      "reason": "Default Nav2 PGM thresholds reloaded unknown cells as free. Fixed through save_map.sh free threshold .19.",
+      "evidence": {
+        "path": "results/development/p4_g0/keyboard_mapping_report.json",
+        "sha256": "7c8dcf4a038c011adeac0db6f0efb1caa979d17d7d3d6c8421c94cd0a2bdf1ab"
+      }
+    },
+    {
+      "reason": "Refined matrix launcher omitted a required CLI option before publishing any task. Corrected and reran in a separate cold stack.",
+      "evidence": {
+        "path": "results/development/p4_g0/refined_kitchen_driver.log",
+        "sha256": "0a7d03f8159fa3a4f3b647becbf012dcd58bd43ef637e7967d74628d50d7a933"
+      }
+    },
+    {
+      "reason": "Test clicked disabled submit during repeated identical transcript. Corrected test wait and empty result subsequently passed.",
+      "evidence": {
+        "path": "results/development/p4_g0/voice_ui_cancel_empty.json",
+        "sha256": "0b180884f7045f02060217a929948be6d3bd55d7231de5ef46eddcced418b574"
+      }
+    }
+  ],
+  "tests": {
+    "engineering": {
+      "passed": 154,
+      "opt_in_skipped": 7,
+      "report": "results/development/p4_g0/final_engineering_tests.log"
+    },
+    "isolated_ros_client": {
+      "passed": 7,
+      "domain": 69,
+      "report": "results/development/p4_g0/ros_client_tests.log"
+    },
+    "selected_profile": {
+      "result": "9 passed in 0.39s",
+      "report": "results/development/p4_g0/final_profile_tests.log"
+    },
+    "syntax": [
+      "node --check ui/app.js",
+      "bash -n scripts/save_map.sh",
+      "git diff --check"
+    ]
+  },
+  "exit_receipts": [
+    {
+      "path": "results/sessions/20261118T042333_849709Z_c492083f/shutdown.json",
+      "sha256": "d6228b0290ff2a10e51894a3d7ff88e9924f8f57796f09a22e77f276553aa237"
+    },
+    {
+      "path": "results/sessions/20261118T044522_590729Z_cf6b620b/shutdown.json",
+      "sha256": "7d5bdfa94a4dc4336ad93fce09448a57f7b08749ffac1b12e461cc70bb14154f"
+    },
+    {
+      "path": "results/sessions/20261118T051248_439342Z_7c2679da/shutdown.json",
+      "sha256": "fea7bf3cc90d89572e91dc0069e985449507ee8c673802dd160066fce6848a91"
+    },
+    {
+      "path": "results/sessions/20261118T052101_174364Z_d5f633b9/shutdown.json",
+      "sha256": "b7ba3b962e81d5379f3afc8d3abefd010d5e7b65afbacda86e69a3e6c8ccff07"
+    },
+    {
+      "path": "results/development/p4_g0/keyboard_mapping/shutdown.json",
+      "sha256": "87d7da30f2f95ab05cc9d27eba63c6cb15c79f962cf1f593cc12a055e59fcec7"
+    },
+    {
+      "path": "results/development/p4_g0/keyboard_mapping_retry/shutdown.json",
+      "sha256": "ad5a03cfa3573aeb5b1def0d78707d8c7e0dc24e07738446420d066a10717573"
+    }
+  ],
+  "clean_domains": [
+    {
+      "domain": 67,
+      "nodes": [],
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "domain": 68,
+      "nodes": [],
+      "stderr": "",
+      "returncode": 0
+    },
+    {
+      "domain": 69,
+      "nodes": [],
+      "stderr": "",
+      "returncode": 0
+    }
+  ],
+  "sources": [
+    {
+      "path": "scripts/robot_console.py",
+      "sha256": "dbb05bc4d3f3a2d8c4d454a487d0d57b9d112708ec6fd01e4bb39db2c026956b"
+    },
+    {
+      "path": "scripts/robot_monitor.py",
+      "sha256": "1f74d967ffc2baf617868d0c20e2f8f4e89967c4775ca5d2dcd6a77f4bb6fb04"
+    },
+    {
+      "path": "scripts/run_search.py",
+      "sha256": "df7ae4135fd4b22d75818042ab09bd3eaf1d73edfc89026292f71261a73dc44f"
+    },
+    {
+      "path": "scripts/save_map.sh",
+      "sha256": "72af53994c0dbf808c88057529f7a413f1a5cbac5d990e342a9d1c41bc9eef40"
+    },
+    {
+      "path": "src/semantic_search/semantic_search/voice.py",
+      "sha256": "b4020addccd44aaa2cb8d21706c7f6493f03915961eecc31fda9b65a3f00c9ac"
+    },
+    {
+      "path": "src/semantic_search/semantic_search/semantic_map.py",
+      "sha256": "fe020c2c43135e8a12e910d6586f111d574ec5a3fced98a258ae5622a09e3546"
+    },
+    {
+      "path": "src/semantic_search/semantic_search/search_node.py",
+      "sha256": "b016c2c98ec7af39073f2a8e3efbcf7d487341ee53f24dbdd0dc25463f6468c2"
+    },
+    {
+      "path": "src/semantic_search/config/rooms_aws_house_v4.json",
+      "sha256": "b1bf2fb5f0f4eea188918eab74cae5b48fee0811cf012006ed689cab53044923"
+    },
+    {
+      "path": "ui/app.js",
+      "sha256": "90f001955fdda76b9d234af84051d82f75f4269a1649018fb6897905a0bace5e"
+    },
+    {
+      "path": "ui/index.html",
+      "sha256": "f136fdbe830f2714b0292f6b121455abe9fdbc542214c6fd4617bae6822ef168"
+    }
+  ]
+}

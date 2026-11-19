@@ -18,19 +18,36 @@
     <div class="workspace">
       <aside class="sidebar">
         <section class="card task-card">
-          <div class="section-head"><h2>下达任务</h2><span class="eyebrow">寻找 · 盘点</span></div>
+          <div class="section-head"><h2>下达任务</h2><span id="robot-mode" class="eyebrow">导航模式</span></div>
+          <button id="switch-mode" class="button secondary" type="button" disabled>进入建图</button>
           <form id="task-form">
             <fieldset id="task-fields">
               <legend class="sr-only">选择目标任务</legend>
+              <div id="search-fields">
               <label for="mode">任务类型</label>
-              <select id="mode" name="mode"><option value="find">寻找一个物品</option><option value="count">统计物品数量</option></select>
-              <div class="form-pair"><div><label for="room">房间</label><select id="room" name="room"><option value="kitchen">厨房</option><option value="living">客厅</option><option value="bedroom">卧室</option><option value="gym">健身区</option><option value="utility">杂物间</option></select></div><div><label for="category">物品</label><select id="category" name="category"><option value="cup">杯子</option><option value="bottle">瓶子</option><option value="chair">椅子</option></select></div></div>
-              <label for="command">或输入中文指令 <span class="optional">选填</span></label>
+              <select id="mode" name="mode"><option value="find">寻找一个物品</option><option value="count">统计物品数量</option><option value="clean">清扫房间</option></select>
+              <div class="form-pair"><div><label for="room">房间</label><select id="room" name="room"><option value="kitchen">厨房</option><option value="living">客厅</option><option value="bedroom">卧室</option><option value="gym">健身区</option><option value="utility">杂物间</option></select></div><div id="category-field"><label for="category">物品</label><select id="category" name="category"><option value="cup">杯子</option><option value="bottle">瓶子</option><option value="chair">椅子</option></select></div></div>
+              </div>
+              <div id="mapping-fields" hidden>
+                <div class="motion-pad">
+                  <button class="button secondary" type="button" data-motion="前进">前进</button>
+                  <button class="button secondary" type="button" data-motion="后退">后退</button>
+                  <button class="button secondary" type="button" data-motion="左转">左转</button>
+                  <button class="button secondary" type="button" data-motion="右转">右转</button>
+                  <button class="button secondary" type="button" data-motion="加速">加速</button>
+                  <button class="button secondary" type="button" data-motion="减速">减速</button>
+                </div>
+                <button id="detour" class="button secondary" type="button" data-motion="绕行">尝试绕行</button>
+                <button id="save-mapping" class="button secondary" type="button">保存地图</button>
+                <p id="motion-status" class="small muted" aria-live="polite"></p>
+              </div>
+              <label for="command">中文指令 <span class="optional">选填</span></label>
               <input id="command" name="command" type="text" maxlength="256" autocomplete="off" placeholder="例如：去厨房找杯子">
               <p class="field-help">填写指令时，以文字内容执行。</p>
               <button id="submit-task" class="button primary" type="submit" disabled>等待系统就绪</button>
             </fieldset>
           </form>
+          <button id="record-voice" class="button secondary" type="button" disabled>录音转写</button>
           <button id="cancel-task" class="button stop" type="button">停止当前任务</button>
           <p id="task-help" class="small muted">就绪后可开始。每次执行一个任务。</p>
         </section>
@@ -44,7 +61,7 @@
         </section>
       </aside>
       <section class="card map-card">
-        <div class="section-head map-heading"><div><h2>家庭地图</h2><p id="map-meta" class="small muted">等待地图数据</p></div><div class="map-tools"><button id="zoom-out" type="button" title="缩小地图" aria-label="缩小地图">−</button><button id="zoom-in" type="button" title="放大地图" aria-label="放大地图">＋</button><button id="fit-map" type="button">适应</button></div></div>
+        <div class="section-head map-heading"><div><h2 id="map-title">家庭地图</h2><p id="map-meta" class="small muted">等待地图数据</p></div><div class="map-tools"><button id="zoom-out" type="button" title="缩小地图" aria-label="缩小地图">−</button><button id="zoom-in" type="button" title="放大地图" aria-label="放大地图">＋</button><button id="fit-map" type="button">适应</button></div></div>
         <div class="region-controls"><label><input id="show-regions" type="checkbox" checked> 区域轮廓</label><label><input id="show-views" type="checkbox"> 所选物品观察点</label><span id="region-note">区域边界可通行，不是墙体</span></div>
         <div id="map-stage" class="map-stage"><canvas id="map" aria-label="占据地图、机器人位置与物品标记"></canvas><div id="map-empty" class="map-empty"><span class="map-empty-icon" aria-hidden="true">⌖</span><strong>地图加载中</strong><p>定位和地图就绪后显示机器人位置。</p></div><div id="map-stale" class="map-stale" hidden>地图数据已过期</div></div>
         <div class="map-footer"><div class="legend"><span><i class="robot-key"></i>机器人</span><span><i class="object-key"></i>已确认物品</span><span><i class="wall-key"></i>障碍</span></div><span id="pose" class="small">位置等待定位</span></div>
@@ -54,7 +71,7 @@
         <section class="card execution-card">
           <div class="section-head"><h2 id="task-title">当前任务</h2><span id="task-badge" class="badge neutral">空闲</span></div>
           <p id="active-command" class="active-command">等待你的第一条指令</p>
-          <div class="task-facts"><div><span>已用时间</span><strong id="elapsed">—</strong></div><div><span>确认数量</span><strong id="count">—</strong></div></div>
+          <div class="task-facts"><div><span>已用时间</span><strong id="elapsed">—</strong></div><div><span id="task-metric">确认数量</span><strong id="count">—</strong></div></div>
           <p id="task-feedback" class="feedback">选择房间和物品，系统就绪后即可开始。</p>
           <div id="coverage" class="coverage" hidden></div>
           <div id="objects" class="objects"></div>
@@ -69,7 +86,7 @@
       <div class="section-head"><div><h2>运行日志</h2><p id="session" class="small muted">本地会话</p></div><div class="log-controls"><label class="sr-only" for="log-component">日志组件</label><select id="log-component"><option value="task">当前任务</option><option value="simulation">Gazebo</option><option value="navigation">导航</option><option value="detector">视觉检测</option><option value="search">搜索</option><option value="rviz">RViz</option></select><button id="refresh-log" class="button secondary compact" type="button">刷新</button></div></div>
       <pre id="log-output" class="log-output">正在读取日志…</pre>
     </section>
-    <footer class="page-footer"><span>当前支持文字寻物与盘点 · 地图坐标单位 m</span><span>关闭网页不停止机器人；结束运行请在启动终端按 Ctrl+C。</span></footer>
+    <footer class="page-footer"><span>地图坐标单位 m</span><span>关闭网页不停止机器人；结束运行请在启动终端按 Ctrl+C。</span></footer>
   </main>
 </body>
 </html>

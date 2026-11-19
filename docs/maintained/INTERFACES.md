@@ -1,6 +1,6 @@
 # 任务输入与结果接口
 
-2026-11-17 更新。语言/语音模块后置；先用文本和结构化任务验证执行层。当前不调用大语言模型，`voice.py` 中的可选 Whisper 适配器尚未验收。
+2026-11-18 更新。网页支持文字、选择目标和离线语音转写，三种输入共用现有房间与类别解析。语音转写后由用户确认并提交任务。
 
 ## 输入
 
@@ -16,7 +16,7 @@
 {"mode":"count","room":"kitchen","category":"chair"}
 ```
 
-结构化格式只接受 `mode`、`room`、`category`。`mode` 为 `find` / `count` / `cancel`；`find` 和 `count` 必须指定当前场景的房间 ID，以及 `chair` / `cup` / `bottle` 中的类别。取消格式为 `{"mode":"cancel"}`。房间 ID 从所选场景的 `rooms_*.json` 读取。非法模式、房间、类别、字段类型或多余字段会被拒绝。
+结构化格式接受 `mode`、`room`、`category` 和可选的 `request_id`。`find` 和 `count` 指定当前场景的房间 ID，以及 `chair` / `cup` / `bottle` 中的类别。取消使用 `{"mode":"cancel"}`，附带 `request_id` 时只取消对应任务。请求 ID 长度为 8–80，仅允许字母、数字、下划线和连字符。房间 ID 从所选场景的 `rooms_*.json` 读取。
 
 可用现有客户端测试接口：
 
@@ -26,7 +26,7 @@ python3 scripts/run_search.py '{"mode":"count","room":"kitchen","category":"chai
   --timeout 480 --output results/aws_house/task_json_latest.json
 ```
 
-客户端以 **VOLATILE** QoS 订阅结果，只接收之后发布的消息，不请求 transient-local 保存的历史结果。连续发送相同命令时，还可重复传入 `--exclude-task-id <已完成任务ID>`，明确忽略延迟到达的已知旧结果并继续等待新 ID。`scripts/run_search_matrix.py` 自动传入本批已收到的任务 ID，并在报告层再次拒绝重复 ID。诊断文件记录 `excluded_task_ids`、`ignored_task_ids` 和 `pre_command_task_ids`；客户端可用 `--diagnostics-output <路径>` 保存它们。文本和 JSON 命令字符串仍原样发布，不追加请求字段，不改变核心输入协议；当前协议仍要求串行执行任务，不能据此保证任意并发发布者之间的请求归属。
+客户端以 **VOLATILE** QoS 订阅之后发布的结果。连续发送相同旧格式命令时，可重复传入 `--exclude-task-id <已完成任务ID>`，忽略延迟到达的已知结果。`scripts/run_search_matrix.py` 自动传入本批的历史任务 ID，并在报告层拒绝重复 ID。可用 `--diagnostics-output <路径>` 保存客户端诊断。网页调用发送带 `request_id` 的原串，结果也回传该 ID。当前协议一次执行一个任务。
 
 重复运行使用 `scripts/run_search_matrix.py`，`--case` 筛选案例、`--limit` 限制执行次数；输出目录必须新建。`--first-start`、`--subsequent-start` 与 `--startup-note` 由操作者显式声明冷热启动情况，脚本不负责重启。每次保存实际结果、启动前 TF/odom、文件哈希与诊断，预期数量只在收到结果后评估。超时或取消停止批次；任务 ID 新旧检查只验证记录归属，不能作为感知准确率、数量正确或物理停车的测试。
 
@@ -74,6 +74,8 @@ python3 scripts/run_search.py '{"mode":"count","room":"kitchen","category":"chai
 
 - `viewpoints` 只列实际成功到达的点，`viewpoint_failures` 记录失败索引、位姿与 Nav2 状态码。单点导航失败后继续尝试其余视点；有失败视点的计数任务返回 `partial`，不冒充完整结果；find 确认对象后仍可提前返回 `found`。
 - `viewpoint_diagnostics` 按配置顺序列出所有视点，包括未到达点。每项包含 `index`、`pose`、`reached`、`navigation_status`、`dwell_completed`，以及该点独立的 `synchronized_messages`、`rejected_sensor_frames`、`synchronized_frames`、`tf_failures`、`invalid_target_depth`、`valid_projections`。消息只在停留阶段计入，排除到达前和重复时间戳；内参、尺寸或编码不合格的同步消息记入 rejected，不能当成有效帧。深度与内参尺寸相等也必须宽高均大于 0，空图不能支持 not_found。旧的任务级统计字段继续保留。
+- `reject_clipped_detections` 控制是否过滤检测框距图像边缘不足2像素的截断目标；一键入口启用，原入口默认关闭。过滤数量记录在任务级和逐视点的 `clipped_detections`，被过滤实例需在其他完整视角重新确认。v4在既有视点后增加45°间隔周向观察，同一位置的不同朝向分别记录；它们不等于不同物理位置或遮挡区域已看清。
+- `validate_object_size` 对有实例掩膜的杯瓶使用RGB-D可见表面尺寸检查；一键入口启用，原入口默认关闭。杯的水平包围盒对角线/高度上限为0.25/0.30m，瓶为0.35/0.60m；不是精确外形尺寸，也不读取场景真值。任务级和逐视点的 `size_rejected_detections` 记录过滤数量；无掩膜的兼容回退路径不执行此项检查。
 - `observation_extra_seconds` 是搜索节点参数，默认 4.0 仿真秒；它和名义 `dwell_seconds` 在启动及运行中设置时均要求有限且非负，extra 设为 0.0 可恢复不补等的行为。仅当某点完成名义停留后仍为 0 有效同步帧时，才继续等至名义时长加此上限；收到有效帧后在下一个计时回调结束该点，不提高最低帧数。有帧但目标深度/TF 失败不触发这项补等，仍按原定位失败规则报告。每次到达冻结本点时长，因此运行中改参数只影响后续视点；长期断流达到上限后仍返回 partial/no_sensor_data，find 确认与取消仍可提前结束。
 - 逐点 `nominal_dwell_seconds`、`extra_wait_limit_seconds` 保存本点使用的时长，`extra_wait_started` 记录是否触发补等，`waiting_for_sensor_data` 表示当前仍在补等，`extra_wait_seconds` 记录实际经过的额外时间。计时器周期为 0.2 仿真秒，到上限后的首个回调退出，实际时长可含回调调度延迟；截止后的迟到帧不再补救过期视点。结果生成时 waiting 字段清为 false，取消时也保留已经经过的补等时间。`dwell_completed` 仍指名义停留已完成，数据完整性单独判断。旧批次结果及其验证结论不回写；节点重启后才加载此行为。
 - `viewpoints` 与逐点 `pose` 仍是请求的导航目标，不是实际停靠坐标。成功到达的诊断新增 `arrival_sim_seconds`；`arrival_map_pose` 保存当时查询的 map→base_link 平移 `xyz` 和四元数 `xyzw`，`arrival_pose_lookup: "latest"` 明确使用 TF 缓冲区最新可用变换，其真实时间保存在 `arrival_transform_stamp_ns`。不能把该变换时间假定为到达时刻；查询失败时位姿/变换时间为 null、`arrival_pose_error` 给出错误，不更改导航成功状态。
@@ -90,7 +92,7 @@ python3 scripts/run_search.py '{"mode":"count","room":"kitchen","category":"chai
 
 ## 客户端就绪等待（2026-11-17）
 
-`run_search.py --discovery-timeout 15` 在位姿/至少2秒预备阶段后，独立等待命令订阅者，单位墙钟秒；0只做即时检查。`--timeout` 从任务发布后开始。未发现返回码2、`outcome=discovery_timeout`；等待中SIGINT/SIGTERM返回130；两者均 `command_sent=false`，不发送取消。诊断保存发现等待耗时及发布前匹配数，初始TF/odom在等待后取最新可用值，仍不保证位姿新鲜度。所有超时必须有限；任务超时正数，其余等待非负。矩阵同名参数原样转发，加入子进程看门狗预算。独立测试收据见 [客户端就绪修复](../evidence/client_discovery_fix_20261117.json)。
+`run_search.py --discovery-timeout 15` 在位姿/至少2秒预备阶段后，独立等待命令订阅与结果发布均已发现的同一服务节点，排除只读指令跟踪器，单位墙钟秒；0只做即时检查。`--timeout` 从任务发布后开始。未发现返回码2、`outcome=discovery_timeout`；等待中SIGINT/SIGTERM返回130；两者均 `command_sent=false`，不发送取消。诊断保存发现等待耗时、发布前匹配数及`serving_nodes_before_publish`/`result_publishers_before_publish`，初始TF/odom在等待后取最新可用值，仍不保证位姿新鲜度。所有超时必须有限；任务超时正数，其余等待非负。矩阵同名参数原样转发，加入子进程看门狗预算。独立测试收据见 [客户端就绪修复](../evidence/client_discovery_fix_20261117.json)。
 
 
 ## 本地网页入口（首版）
@@ -101,19 +103,28 @@ python3 scripts/run_search.py '{"mode":"count","room":"kitchen","category":"chai
 |---|---|
 | `GET /api/state` | 本次会话、组件进程、实际话题新鲜度、定位/导航就绪、当前任务及最近30条历史 |
 | `GET /api/map` | 实际 `/map` 栅格、分辨率、原点/朝向及坐标系 |
-| `POST /api/task` | `request_id`加`mode/room/category`，或加`command`文字；串行执行find/count |
-| `POST /api/cancel` | 空JSON对象，取消当前网页发起的任务 |
+| `POST /api/task` | 导航模式接受 `request_id` 和 `mode/room/category`，或 `mode:"clean"` 与 `room`，或 `command` 文字。建图模式接受 `request_id` 和运动指令 `command` |
+| `POST /api/mode` | 空闲时提交 `{"mode":"mapping"}` 或 `{"mode":"navigation"}`，通过 `/api/state` 查看切换状态 |
+| `POST /api/mapping/save` | 停车后提交空JSON对象，保存当前 SLAM 地图为 YAML/PGM |
+| `POST /api/transcribe` | 发送 `application/octet-stream` 音频，最多 256 KiB。返回转写任务状态，最终通过 `/api/state` 读取 `result.text` |
+| `POST /api/cancel` | 空JSON对象，取消当前任务；建图空闲时也可请求停车 |
 | `POST /api/validate` | 空JSON对象，真实传感器/TF采样，完成后返回报告 |
 | `GET /api/log?component=search` | simulation/navigation/detector/search/rviz/task日志尾部 |
 | `GET /api/artifact?id=…` | 使用状态响应返回的结果链接，只能读取本次会话登记的文件 |
 
-`request_id`用于本次控制台会话内的重复提交保护：相同ID和任务返回原状态，相同ID和不同任务返回409。它不等于搜索节点生成的 `task_id`。串行客户端排除已有任务ID，避免历史结果串入；仍不要从其他终端向同域搜索节点并发发指令。
+`request_id` 用于本次会话内的重复提交保护。相同 ID 和任务返回当前会话状态，避免重复执行。复用 ID 提交不同任务返回 409。搜索节点生成 `task_id`，并在进度和结果里附带网页的 `request_id`。
+
+控制台任务记录包含 `id`、`kind`、`state`、`result`、`error`、`save_status` 和 `artifacts`。搜索、转写、建图运动、地图保存和传感器检查复用这个结构。网页将搜索节点在 `/search/progress` 发布的同请求事件显示在 `task.progress`。进度事件使用 `std_msgs/msg/String` 封装 JSON，包含 `version=1`、`request_id`、`task_id`、`kind`、`stage` 及房间、视点和确认数量。搜索阶段依次由导航、观察、等待数据或保存等实际事件触发。保存完成事件提供任务状态和文件写入结果。
+
+清扫任务 `kind=clean` 串行复用 Nav2。报告包括 `coverage`、实际路径长度、`initial_pose`、`final_pose`、停靠误差及 `return_state`。网页用 `trace_preview` 显示实际轨迹，完整采样在 `clean_trace.json`。导航回执缺失时控制台关闭本次运行并禁用新任务。地图 `clean_map.svg` 绿色表示实测已扫，浅黄色表示可清扫但未覆盖，灰蓝色表示扫幅无法到达的已知地面。
+
+语音文件在本机转写进程结束后清理，任务可以保留转写文本。网页将文字填入可编辑指令框，用户确认后提交当前模式的任务。转写和执行共用单任务互斥和停止。
 
 控制台状态分开表示启动阶段、组件是否存活、ROS数据是否就绪、任务执行状态及文件保存状态。`running`仅表示进程或任务在运行，不能视为完成；物品坐标仍为map米制坐标。传感器或TF过期会阻止新任务，停止按钮保留。没有收到可信任务终态时阻止新任务并提示重启，避免控制权不明时继续执行。
 
 `robot_runtime.py`负责项目/ROS域锁、独立会话目录及进程清理；`robot_monitor.py`只读订阅和生命周期查询。退出仅处理带本次所有权标记的进程，核对UID、启动标识并使用pidfd，包含导航包装脚本另起的进程组。普通浏览器不继承此标记。
 
-本版是搜索/盘点的控制台适配器：尚无跨建图/清扫的统一ROS Action、运动仲裁、任务队列或持久语义记忆。传感器检查也不是四项功能的综合验收。
+建图模式先退出原导航和搜索组件，再启动 SLAM 与 `mapping_motion`。控制台通过 `/mapping/command` 和 `/mapping/result` 关联运动请求，在 `telemetry.mapping_motion` 显示 `/mapping/state` 的反馈。建图时运动节点独占 `/cmd_vel`，读取 `/scan`、`/odom` 和 TF 执行限速、短时运动及障碍保护。终端键盘可将速度话题重映射为 `/mapping/keyboard`，按 `k` 停车并解除连续按键限制。导航恢复时加载默认校准地图。
 
 
 五区配置：一键入口和控制台解析共同读取 `rooms_aws_house_v4.json`。`GET /api/state` 返回 `rooms_file`、`rooms_frame_id` 和 `rooms`；UI直接使用其中的 `display_name`、`color`、`label_position`、`polygon`、`views/category_views`，避免前后端维护两套区域。支持kitchen/living/bedroom/utility/gym；健身区也接受“运动区、健身房”，厨房也接受“餐区、餐厅”。分区不改变导航障碍地图；场景仍保留原家具与通道。

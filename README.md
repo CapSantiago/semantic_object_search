@@ -2,16 +2,17 @@
 
 项目面向Ubuntu 22.04、ROS 2 Humble和Gazebo Fortress，完整目标是任务一至四：语音建图、房间清扫、寻找物品、统计与地图标注。共用家庭场景、地图、导航、视觉和统一UI。
 
-当前已实测仿真、雷达/RGB-D/TF、SLAM、定位导航、文本寻物和去重计数。主线处于P3稳定性与覆盖收尾；已接入本地UI与一键启动，完整语音建图和清扫功能仍按计划开发。后续拓展持久语义地图、主动观察及清扫观察协同。
+当前已实测仿真、雷达/RGB-D/TF、定位导航、寻物和去重计数，P1–P3 基线已验收。网页支持离线语音转写、建图和房间清扫，能显示实际覆盖和轨迹。真人麦克风试用与清扫整机验收继续按总计划推进。四项功能验收后再拓展持久语义地图、主动观察与清扫观察协同。
 
 ## 一键运行
 
+在项目根目录运行。首次部署先按系统依赖清单安装，再执行 `bash scripts/deploy.sh`。[新电脑部署说明](docs/maintained/GITHUB_DEPLOYMENT.md)
+
 ```bash
-cd "/home/willmatic/桌面/semantic_object_search"
-bash scripts/start_robot.sh
+bash scripts/start_robot.sh --device cpu --headless
 ```
 
-自动打开网页、Gazebo和RViz；等待就绪后在网页选择寻找或统计。终端按 `Ctrl+C` 退出。依赖未准备的新机器先看部署说明；可选参数及分终端调试见运行指南。
+网页默认地址为 `http://127.0.0.1:8765`。带桌面的机器去掉 `--headless` 可同时打开 Gazebo 和 RViz。已准备 CUDA 环境的机器可用 `--device cuda:0`。等待网页就绪后选择任务，终端按 `Ctrl+C` 退出。
 
 ## 从这里开始
 

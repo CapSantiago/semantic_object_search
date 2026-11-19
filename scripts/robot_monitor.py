@@ -5,6 +5,7 @@ The monitor owns only its node/context, and never sends a robot command. All
 freshness calculations use monotonic receipt time plus the observed /clock.
 """
 from copy import deepcopy
+import json
 import math
 import os
 import threading
@@ -18,7 +19,7 @@ PERCEPTION_TOPICS = ('/rgbd/image', '/rgbd/depth_image', '/rgbd/camera_info',
                      '/yolo/detections')
 STACK_NODES = {'amcl', 'bt_navigator', 'controller_server', 'planner_server',
                'semantic_search', 'course_detector', 'robot_state_publisher',
-               'fortress_depth_cloud_adapter'}
+               'fortress_depth_cloud_adapter', 'slam_toolbox', 'mapping_motion'}
 
 
 def stamp_seconds(stamp):
@@ -81,7 +82,40 @@ class TelemetryStore:
         self.graph_polls = 0
         self.nodes = []
         self.foreign_publishers = {}
+        self.control_publishers = {}
         self.command_subscribers = 0
+        self.search_progress = None
+        self.mapping_motion = None
+        self.mapping_received = None
+
+    def receive_mapping_motion(self, message):
+        try:
+            value = json.loads(message)
+        except ValueError:
+            return
+        if isinstance(value,dict) and isinstance(value.get('status'),str):
+            with self.lock:
+                self.mapping_motion = value
+                self.mapping_received = self.now()
+
+    def clear_localization(self):
+        with self.lock:
+            self.map = self.map_received = self.pose = self.pose_received = None
+            self.mapping_motion = self.mapping_received = None
+            self.lifecycle.clear()
+
+    def receive_search_progress(self, message):
+        try:
+            event = json.loads(message)
+        except ValueError:
+            return
+        if (isinstance(event, dict) and event.get('version') == 1
+                and isinstance(event.get('request_id'), str)
+                and isinstance(event.get('task_id'), str)
+                and event.get('stage') in ('navigating', 'observing', 'waiting_for_data',
+                                           'canceling', 'saving', 'finished')):
+            with self.lock:
+                self.search_progress = event
 
     def receive(self, topic, stamp):
         now = self.now()
@@ -111,10 +145,11 @@ class TelemetryStore:
         with self.lock:
             self.lifecycle[name] = dict(id=int(state_id), label=label, received=self.now())
 
-    def receive_graph(self, nodes, publishers, subscribers):
+    def receive_graph(self, nodes, publishers, subscribers, control_publishers=None):
         with self.lock:
             self.nodes = sorted(nodes)
             self.foreign_publishers = publishers
+            self.control_publishers = control_publishers or {}
             self.command_subscribers = subscribers
             self.graph_wall = self.now()
             self.graph_polls += 1
@@ -158,6 +193,18 @@ class TelemetryStore:
                                        active=bool(row and row['id'] == 3 and age <= 5))
             navigation_ready = (simulation_ready and pose_fresh
                                 and all(row['active'] for row in lifecycle.values()))
+            map_owners = self.control_publishers.get('/map', [])
+            velocity_owners = self.control_publishers.get('/cmd_vel', [])
+            # Several behaviors expose their own velocity endpoints under a
+            # single Nav2 node. Check their owners, not the endpoint total.
+            navigation_control_ready = (graph_fresh and map_owners == ['/map_server']
+                                        and set(velocity_owners) == {
+                                            '/behavior_server', '/velocity_smoother'})
+            mapping_ready = (simulation_ready and pose_fresh and graph_fresh
+                             and self.map is not None and map_owners == ['/slam_toolbox']
+                             and velocity_owners == ['/mapping_motion']
+                             and '/slam_toolbox' in self.nodes and '/amcl' not in self.nodes
+                             and self.mapping_received is not None and now-self.mapping_received<=1.5)
             perception_ready = (simulation_ready and graph_fresh and self.command_subscribers > 0
                                 and all(topics[name]['fresh'] for name in PERCEPTION_TOPICS))
             foreign_nodes = [name for name in self.nodes if name.rsplit('/', 1)[-1] in STACK_NODES]
@@ -169,6 +216,9 @@ class TelemetryStore:
                         discovery_ready=bool(graph_fresh and self.graph_polls >= 2
                                              and now-self.started_wall >= 2),
                         simulation_ready=simulation_ready, navigation_ready=navigation_ready,
+                        navigation_control_ready=navigation_control_ready,
+                        control_publishers=deepcopy(self.control_publishers),
+                        mapping_ready=mapping_ready,mapping_motion=deepcopy(self.mapping_motion),
                         perception_ready=perception_ready, clock_advancing=clock_advancing,
                         clock_seconds=self.clock_seconds, topics=topics,
                         pose=pose if pose_fresh else None, pose_fresh=pose_fresh,
@@ -176,7 +226,8 @@ class TelemetryStore:
                         lifecycle=lifecycle, command_subscribers=self.command_subscribers,
                         discovered_nodes=list(self.nodes), foreign_stack=foreign,
                         foreign_nodes=foreign_nodes,
-                        foreign_publishers=dict(self.foreign_publishers))
+                        foreign_publishers=dict(self.foreign_publishers),
+                        search_progress=deepcopy(self.search_progress))
 
     def map_snapshot(self):
         with self.lock:
@@ -211,6 +262,9 @@ class Monitor:
     def map_snapshot(self):
         return self.store.map_snapshot()
 
+    def clear_localization(self):
+        self.store.clear_localization()
+
     def foreign_stack_present(self):
         return self.snapshot()['foreign_stack']
 
@@ -236,6 +290,7 @@ class Monitor:
             from rclpy.time import Time
             from rosgraph_msgs.msg import Clock
             from sensor_msgs.msg import CameraInfo, Image, LaserScan, PointCloud2
+            from std_msgs.msg import String
             from semantic_search.sensor_qos import sensor_qos_profile
             from tf2_ros import Buffer, TransformException, TransformListener
             from yolo_msgs.msg import DetectionArray
@@ -272,6 +327,10 @@ class Monitor:
             subscriptions.append(node.create_subscription(
                 OccupancyGrid, '/map', receive_map,
                 QoSProfile(depth=1, durability=DurabilityPolicy.TRANSIENT_LOCAL)))
+            subscriptions.append(node.create_subscription(String, '/search/progress',
+                lambda msg: self.store.receive_search_progress(msg.data), 10))
+            subscriptions.append(node.create_subscription(String, '/mapping/state',
+                lambda msg: self.store.receive_mapping_motion(msg.data), 10))
             services = {name: node.create_client(GetState, '/'+name+'/get_state')
                         for name in ('amcl', 'bt_navigator')}
             pending = {}
@@ -288,7 +347,12 @@ class Monitor:
                     publishers = {topic: node.count_publishers(topic)
                                   for topic in ('/clock', '/odom', '/scan', '/rgbd/image',
                                                 '/yolo/detections', '/search/result')}
-                    self.store.receive_graph(names, publishers, node.count_subscribers('/search/command'))
+                    controls = {topic: [info.node_namespace.rstrip('/')+'/'+info.node_name
+                                        for info in node.get_publishers_info_by_topic(topic)]
+                                for topic in ('/map','/cmd_vel')}
+                    publishers.update({topic: len(owners) for topic, owners in controls.items()})
+                    self.store.receive_graph(names, publishers, node.count_subscribers('/search/command'),
+                                             controls)
                     last_graph = now
                 if now-last_pose >= .2:
                     try:

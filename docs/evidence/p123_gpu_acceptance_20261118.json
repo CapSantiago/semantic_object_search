@@ -1,0 +1,550 @@
+{
+  "schema_version": 1,
+  "date_local": "2026-11-18",
+  "status": "baseline_p123_passed_with_documented_coverage_limits",
+  "milestones": {
+    "P1": "complete",
+    "P2": "complete",
+    "P3": "complete"
+  },
+  "scope": "Fixed yellow-layout text search/count, sensor and navigation acceptance. Voice, cleaning and full course-task acceptance remain P4/G0–G2.",
+  "configuration": {
+    "device": "cuda:0",
+    "precision": "FP32",
+    "model": "YOLOv8n-seg",
+    "image_size": 640,
+    "confidence": 0.35,
+    "iou": 0.3,
+    "camera_height_m": 1.0,
+    "camera_pitch_rad": 0.25,
+    "navigation": "NavFn Dijkstra + DWB, original nav2_depth.yaml",
+    "sensor_reliability": "reliable",
+    "reject_clipped_detections": true,
+    "validate_object_size": true
+  },
+  "gpu": {
+    "path": "docs/evidence/gpu_inference_20261118.json",
+    "sha256": "6e512ec28ea27408cf778176426393316caf93e4dca7de858c14c860d3e00e3b"
+  },
+  "p1": {
+    "navigation_goals": 21,
+    "passed": 21,
+    "max_xy_m": 0.119176,
+    "max_yaw_rad": 0.0985966,
+    "evidence": {
+      "path": "results/development/p123_acceptance/connections_navigation.json",
+      "sha256": "e857a4e030551eac86f3d4c6eeb45ee59d6704722bdf8a8bb667822c15738532"
+    }
+  },
+  "formal": {
+    "total": 100,
+    "passed": 100,
+    "case_groups": {
+      "kitchen_find_cup": 5,
+      "kitchen_count_cup": 5,
+      "kitchen_count_bottle": 5,
+      "kitchen_count_chair": 5,
+      "living_find_cup": 5,
+      "living_count_cup": 5,
+      "living_count_bottle": 5,
+      "living_count_chair": 5,
+      "bedroom_count_chair": 5,
+      "gym_find_empty_cup": 5,
+      "gym_count_empty_cup": 5,
+      "utility_find_chair": 5,
+      "utility_count_chair": 5,
+      "utility_find_empty_cup": 5,
+      "utility_count_empty_cup": 5,
+      "bedroom_find_cup": 5,
+      "bedroom_count_cup": 5,
+      "bedroom_count_bottle": 5,
+      "gym_find_chair": 5,
+      "gym_count_chair": 5
+    },
+    "assembly": "75 unchanged-route cases plus 25 cold-start refined-profile cases; full groups of five, not a single continuous 100-run batch. All original failures preserved.",
+    "audit": {
+      "path": "results/development/p123_gpu/final100_audit.json",
+      "sha256": "c7985e2efda9c94229132da7f182d4d92756d99d57698e708ed7c0acf144e324"
+    },
+    "unchanged": {
+      "path": "results/development/p123_gpu/unchanged75_report.json",
+      "sha256": "d17027d7a3550b89ad1f73f3df92c384fd7dc3f05e5057ec138fd87cb9c10bfd"
+    },
+    "refined": {
+      "path": "results/development/p123_gpu/refined_baseline/aws_house/matrix_results/report.json",
+      "sha256": "12968e7a0d5bf2880962ea969630fdb9fafb3a681922d61eb984d7734bea6810"
+    },
+    "criteria": {
+      "version": 1,
+      "purpose": "evaluation_only_never_runtime_input",
+      "calibration_source": "docs/evidence/tabletop_single_20261116.json",
+      "position_metric": "Map XY to layout mesh AABB centre for cup/bottle; furniture model origin for chair; assumes archived map/world alignment",
+      "position_limits_m": {
+        "cup": 0.2,
+        "bottle": 0.2,
+        "chair": 0.3
+      },
+      "reason": "Prior 9 tabletop cases have 0.047–0.120 m XY offsets to mesh centre; freeze 0.20 m limit before new formal repeats. Chair 0.30 m retains the prior proposed furniture criterion.",
+      "limitations": [
+        "Visible surface estimate is not a grasp centre.",
+        "No recalibration from formal repeat outcomes."
+      ],
+      "navigation_controller_tolerances": {
+        "xy_m": 0.12,
+        "yaw_rad": 0.1
+      },
+      "arrival_audit_limits": {
+        "xy_m": 0.2,
+        "yaw_rad": 0.15
+      },
+      "arrival_calibration": "18 measured view arrivals: max XY 0.1382 m and yaw 0.1106 rad; audit limits include localization/settling, do not change controller settings."
+    },
+    "max_object_xy_m": 0.1915156263281583,
+    "max_arrival_xy_m": 0.1328281703863427,
+    "max_arrival_yaw_rad": 0.12462755187163532,
+    "max_task_wall_seconds": 303.7463327259993
+  },
+  "fault_and_occlusion": {
+    "total": 57,
+    "passed": 57,
+    "audit": {
+      "path": "results/development/p123_gpu/fault_artifact_audit.json",
+      "sha256": "5fc99c9c413cd66a063773ce3c112a9c30e654e2b3ed49f8ac2d0f4cefe8fd56"
+    },
+    "reports": [
+      {
+        "path": "results/development/p123_gpu/occlusion/report.json",
+        "sha256": "81dceedd3493791220e8fbfa378468eb298ee67af7ef326294b84270ae571a21"
+      },
+      {
+        "path": "results/development/p123_gpu/fault_recovery/report.json",
+        "sha256": "3224f4ad35f67d4c75aafaa4323a779a74e0e11aa81258d64eb9c6bdcfdb5a82"
+      }
+    ]
+  },
+  "compatibility": {
+    "v3_remaining": {
+      "passed": 20,
+      "total": 20,
+      "evidence": {
+        "path": "results/development/p123_acceptance/v3_remaining20/audit.json",
+        "sha256": "12b0e0a14ffba701695f3e7dfdebf7e21a365ec10c8024daeb6538384af49877"
+      }
+    },
+    "baseline": "Original baseline find1/count2 passed",
+    "old_aws": "Initial count3/expected4 failed; independent retry find1/count4 passed, not proof of flawless stability",
+    "old_aws_retry": {
+      "path": "results/development/p123_acceptance/legacy_aws_retry/aws_house/matrix_results/report.json",
+      "sha256": "dab968840ab4e6d6c2040ff2a754c3df4ee6cd447fd101e0a944661e53d049fd"
+    }
+  },
+  "coverage": {
+    "baseline": {
+      "capture_references": 65,
+      "all_configured_views_measured": true,
+      "full_room_coverage_verified": false,
+      "height_planes_m": [
+        0.15,
+        0.45,
+        0.85
+      ],
+      "sample_spacing_m": 0.2,
+      "fractions": {
+        "kitchen": {
+          "chair": [
+            0.7859,
+            0.8123,
+            0.8529
+          ],
+          "cup": [
+            0.6059,
+            0.6235,
+            0.8002
+          ],
+          "bottle": [
+            0.6059,
+            0.6235,
+            0.8002
+          ]
+        },
+        "living": {
+          "chair": [
+            0.3958,
+            0.5139,
+            0.4271
+          ],
+          "cup": [
+            0.3958,
+            0.5139,
+            0.4271
+          ],
+          "bottle": [
+            0.3958,
+            0.5139,
+            0.4271
+          ]
+        },
+        "bedroom": {
+          "chair": [
+            0.5716,
+            0.6317,
+            0.8568
+          ],
+          "cup": [
+            0.4668,
+            0.546,
+            0.8056
+          ],
+          "bottle": [
+            0.4668,
+            0.546,
+            0.8056
+          ]
+        },
+        "utility": {
+          "chair": [
+            0.7559,
+            0.8794,
+            0.9603
+          ],
+          "cup": [
+            0.7559,
+            0.8794,
+            0.9603
+          ],
+          "bottle": [
+            0.7559,
+            0.8794,
+            0.9603
+          ]
+        },
+        "gym": {
+          "chair": [
+            0.694,
+            0.7708,
+            0.7887
+          ],
+          "cup": [
+            0.7081,
+            0.7759,
+            0.7887
+          ],
+          "bottle": [
+            0.7081,
+            0.7759,
+            0.7887
+          ]
+        }
+      },
+      "interpretation": "Geometric samples include furniture and occlusion; not detection rate or proof of absence."
+    },
+    "expanded": {
+      "capture_references": 75,
+      "all_configured_views_measured": true,
+      "full_room_coverage_verified": false,
+      "height_planes_m": [
+        0.15,
+        0.45,
+        0.85
+      ],
+      "sample_spacing_m": 0.2,
+      "fractions": {
+        "kitchen": {
+          "chair": [
+            0.7761,
+            0.7914,
+            0.8584
+          ],
+          "cup": [
+            0.5829,
+            0.618,
+            0.7947
+          ],
+          "bottle": [
+            0.5829,
+            0.618,
+            0.7947
+          ]
+        },
+        "living": {
+          "chair": [
+            0.4714,
+            0.5929,
+            0.4948
+          ],
+          "cup": [
+            0.4418,
+            0.5391,
+            0.4931
+          ],
+          "bottle": [
+            0.5573,
+            0.6675,
+            0.5859
+          ]
+        },
+        "bedroom": {
+          "chair": [
+            0.5729,
+            0.6445,
+            0.8645
+          ],
+          "cup": [
+            0.4872,
+            0.5806,
+            0.8261
+          ],
+          "bottle": [
+            0.5051,
+            0.5934,
+            0.8325
+          ]
+        },
+        "utility": {
+          "chair": [
+            0.7029,
+            0.8368,
+            0.95
+          ],
+          "cup": [
+            0.7338,
+            0.8441,
+            0.95
+          ],
+          "bottle": [
+            0.7103,
+            0.8412,
+            0.9515
+          ]
+        },
+        "gym": {
+          "chair": [
+            0.6876,
+            0.7708,
+            0.7823
+          ],
+          "cup": [
+            0.7029,
+            0.7734,
+            0.7823
+          ],
+          "bottle": [
+            0.7401,
+            0.8182,
+            0.8387
+          ]
+        }
+      },
+      "interpretation": "Geometric samples include furniture and occlusion; not detection rate or proof of absence."
+    },
+    "evidence": [
+      {
+        "path": "results/development/p123_gpu/baseline_final_visibility.json",
+        "sha256": "b7723bd702c346ae3233851ec608d5252e6ef543926a8105a2d34d3d084be24e"
+      },
+      {
+        "path": "results/development/p123_gpu/expanded_visibility.json",
+        "sha256": "8b69204af04743fd16bcfafbc2b0c04439b963e28e51f91b637b90d7195ee035"
+      }
+    ],
+    "plot": {
+      "path": "docs/evidence/p123_gpu_coverage_20261118.png",
+      "sha256": "a22fde7a986e3d6396e43175552949c73803a14d57a8a555ce09144d4e6099de"
+    }
+  },
+  "expanded_layout": {
+    "placed_assets": {
+      "cup": 9,
+      "bottle": 7,
+      "chair": 10,
+      "bowl": 1,
+      "book": 1
+    },
+    "first_pass": {
+      "total": 15,
+      "passed": 8,
+      "audit": {
+        "path": "results/development/p123_gpu/placement_probe/audit.json",
+        "sha256": "5f05b00d0bc90d9040c20f561fcb810b11708e88c176b8a7a008aad58026ff04"
+      }
+    },
+    "targeted_recheck": {
+      "total": 7,
+      "passed": 5,
+      "audit": {
+        "path": "results/development/p123_gpu/supplement_count/audit.json",
+        "sha256": "ec766acc04e08b256fc4b9ef5dbef65bf4f6751d0a2b043883874aedcb7bbce7"
+      },
+      "cases": [
+        {
+          "case": "living_count_cup",
+          "count": 3,
+          "passed": true
+        },
+        {
+          "case": "living_count_bottle",
+          "count": 1,
+          "passed": false
+        },
+        {
+          "case": "living_count_chair",
+          "count": 1,
+          "passed": true
+        },
+        {
+          "case": "bedroom_count_bottle",
+          "count": 1,
+          "passed": false
+        },
+        {
+          "case": "gym_count_bottle",
+          "count": 1,
+          "passed": true
+        },
+        {
+          "case": "utility_count_cup",
+          "count": 1,
+          "passed": true
+        },
+        {
+          "case": "utility_count_bottle",
+          "count": 1,
+          "passed": true
+        }
+      ]
+    },
+    "gym_chair_repeats": {
+      "path": "results/development/p123_gpu/gym_refined/audit.json",
+      "sha256": "63e1108ecb6f5dc6362122153c416de87b37841ca3d4633a7fdcb56abb41addb"
+    },
+    "tested_profile": {
+      "path": "results/development/p123_gpu/rooms_coverage_tested.json",
+      "sha256": "7a80f9c33a4882631aed6064e9b66ca210cf7d42f9723fba6b050121822bb91d"
+    },
+    "limitations": [
+      "Living and bedroom each miss one floor mustard bottle.",
+      "Living floor bottle repeatedly classified fire hydrant; no relabeling/threshold relaxation.",
+      "Targeted recheck is one repetition, not full-layout repeated acceptance.",
+      "Book and bowl are not callable categories."
+    ]
+  },
+  "tests": {
+    "command": "source scripts/env.sh; PYTHONPATH=\"$PWD/scripts:$PWD/src/semantic_search:$PYTHONPATH\" python3 -m pytest tests -q",
+    "returncode": 0,
+    "passed": 152,
+    "skipped": 7,
+    "elapsed_seconds": 7.612577676773071,
+    "log": "results/development/p123_gpu/final_tests.log",
+    "prior_invocation": "final_tests_missing_pythonpath.log: collection failed without scripts module path; corrected invocation, no product fix required",
+    "skip_reason": "7 opt-in isolated ROS client tests; independently passed in C012, not repeated here."
+  },
+  "cleanup": [
+    {
+      "path": "results/development/p123_gpu/formal_a_retry/aws_house/shutdown.json",
+      "sha256": "91d87ab17c68da38982190c69f3a6fc829c6dbb960c4bc154f980ee8dae3181e"
+    },
+    {
+      "path": "results/development/p123_gpu/formal_b/aws_house/shutdown.json",
+      "sha256": "67c7e96af59f420efbdc591fa8a3c4cb18aac94ca532c32e2524571dcf997308"
+    },
+    {
+      "path": "results/development/p123_gpu/placement_probe/aws_house/shutdown.json",
+      "sha256": "f69c90658be0df798231a8b8cdc958c8e3322e8466cb76eba0a9b4e038f7040e"
+    },
+    {
+      "path": "results/development/p123_gpu/refined_baseline/aws_house/shutdown.json",
+      "sha256": "0c18679c25c38c8681a552b4897568b94087c677dccaf3a66a2862ea9f82b60a"
+    },
+    {
+      "path": "results/sessions/20261117T175718_684264Z_79372d02/shutdown.json",
+      "sha256": "efc4a1e31ab5d8aafc3cfc9b136afdb71792c7dbf1afec44891a524127a1f203"
+    }
+  ],
+  "domain_checks": {
+    "path": "results/development/p123_gpu/final_domain_checks.json",
+    "sha256": "c06df74e4b7f8e02b83968ebc0ddc4107aeb1fec353fa52ca472ecb48beec6c5"
+  },
+  "failures_preserved": [
+    {
+      "path": "results/development/p123_gpu/formal_a/",
+      "reason": "Serving console stopped; sixth case timed out; five complete cases retained."
+    },
+    {
+      "path": "results/development/p123_gpu/formal_a_retry/superseded.json",
+      "reason": "35 unchanged cases complete; intentional identity-checked stop replaced remaining obsolete bedroom cases."
+    },
+    {
+      "path": "results/development/p123_gpu/formal_b/audit.json",
+      "reason": "46/50 strict pass: one arrival error, two chair undercounts, one chair mislocation."
+    },
+    {
+      "path": "results/development/p123_gpu/placement_probe/audit.json",
+      "reason": "Initial 8/15; all misses retained."
+    },
+    {
+      "path": "results/development/p123_gpu/bottle_chair_navigation.json",
+      "reason": "Utility exit progress failure; connection-guided recovery saved separately."
+    },
+    {
+      "path": "results/development/p123_gpu/motion_check/simple/adoption.json",
+      "reason": "Tool parent exit143; verified route adopted and cleaned; initial signal sender unknown."
+    },
+    {
+      "path": "results/development/p123_gpu/rotation_check/",
+      "reason": "PoseProgressChecker has no demonstrated advantage; not adopted."
+    }
+  ],
+  "source_fingerprints": [
+    {
+      "path": "src/semantic_search/config/rooms_aws_house_v4.json",
+      "sha256": "64b5985901cefac5bdb34a0fd9cae3d1865bd3f659ba349610c0bc2c6127f5a9"
+    },
+    {
+      "path": "src/semantic_search/config/rooms_aws_house_coverage_v1.json",
+      "sha256": "5f8669e61c9fe59188cb14c8471f35bfb24f3e64598609f0edcc055283110ebd"
+    },
+    {
+      "path": "src/semantic_search/config/nav2_depth.yaml",
+      "sha256": "544105fe17ba2d3478556d45b7e198b179e36eb45738774e112117c5d71488b8"
+    },
+    {
+      "path": "src/semantic_search/semantic_search/detector.py",
+      "sha256": "d75a34c7df89cf952a63506a8a8e5b9f5a036e9f090f8a1ce27dcf1011582f33"
+    },
+    {
+      "path": "src/semantic_search/semantic_search/search_node.py",
+      "sha256": "1144dfed0a43bf9275281ce03154193a6778dcc7ddf17d9f664a2ce2eba2c9c9"
+    },
+    {
+      "path": "src/semantic_search/semantic_search/depth.py",
+      "sha256": "222f8833127740470cc4c52820826ab9c690a6cd61f87149c2020be820939a15"
+    },
+    {
+      "path": "scripts/robot_runtime.py",
+      "sha256": "ba9290f7fe30e92f1560b35233fb95e46222f8b8835be09e92fa9e42f2a98f06"
+    },
+    {
+      "path": "scripts/robot_console.py",
+      "sha256": "81900a5391dd377cf0d56a0044fc1f3819cdc6eaaa088eb1fe67064d70031796"
+    },
+    {
+      "path": "scripts/validation/audit_search_results.py",
+      "sha256": "54b1211a81def2be82acd5f7684fbf760dc276ee521fcfa373b642468a292de8"
+    },
+    {
+      "path": "tests/test_five_zones.py",
+      "sha256": "b712e76965695f23ccac6de53b1a235d39c8e6e3248f435e642d2b989ce85e7c"
+    },
+    {
+      "path": "requirements-vision-ubuntu-gpu.txt",
+      "sha256": "9ba60c32c3f9fd8512b01e8930e051b09024accb2aabe7bbee001181d6f5a202"
+    }
+  ],
+  "limitations": [
+    "Fixed layout acceptance does not establish detection of every object at arbitrary positions.",
+    "Map/world alignment is inherited from the archived scene, not independent metrology.",
+    "Historical CPU33/100 and early GPU failures remain separate; no rewriting of unsuccessful runs.",
+    "Original external termination sender remains unknown."
+  ],
+  "next": "P4/G0: unified task-stage feedback and real voice input; then mapping G1 and cleaning/return G2. Not started in this acceptance batch."
+}

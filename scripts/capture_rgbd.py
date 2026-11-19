@@ -11,11 +11,11 @@ from message_filters import ApproximateTimeSynchronizer, Subscriber
 import numpy as np
 import rclpy
 from rclpy.node import Node
-from rclpy.qos import qos_profile_sensor_data
 from rclpy.time import Time
 from sensor_msgs.msg import CameraInfo, Image
 from tf2_ros import Buffer, TransformListener
 from yolo_msgs.msg import DetectionArray
+from semantic_search.sensor_qos import sensor_qos_profile
 
 
 def main():
@@ -28,6 +28,7 @@ def main():
     parser.add_argument('--min-instances', type=int, default=1,
                         help='Minimum simultaneous detections when --category is used')
     parser.add_argument('--timeout', type=float, default=20)
+    parser.add_argument('--sensor-reliability', choices=['best_effort','reliable'], default='best_effort')
     args = parser.parse_args()
     folder = Path(args.output)
     folder.mkdir(parents=True, exist_ok=True)
@@ -61,11 +62,12 @@ def main():
             transform=dict(xyz=[tf.translation.x, tf.translation.y, tf.translation.z],
                 xyzw=[tf.rotation.x, tf.rotation.y, tf.rotation.z, tf.rotation.w])), indent=2)+'\n')
         done.append(True)
-    subs = [Subscriber(node, kind, topic, qos_profile=qos_profile_sensor_data)
+    sensor_qos = sensor_qos_profile(args.sensor_reliability)
+    subs = [Subscriber(node, kind, topic, qos_profile=sensor_qos)
             for kind, topic in [(Image, '/rgbd/image'), (Image, '/rgbd/depth_image'),
                                 (CameraInfo, '/rgbd/camera_info')]]
     if args.category:
-        subs.append(Subscriber(node, DetectionArray, '/yolo/detections', qos_profile=qos_profile_sensor_data))
+        subs.append(Subscriber(node, DetectionArray, '/yolo/detections', qos_profile=sensor_qos))
     sync = ApproximateTimeSynchronizer(subs, queue_size=30, slop=.075)
     sync.registerCallback(capture)
     started = time.monotonic()
