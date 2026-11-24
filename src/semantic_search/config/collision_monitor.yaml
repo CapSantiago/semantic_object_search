@@ -1,0 +1,43 @@
+# Nav2 Humble CollisionMonitor (Apache-2.0), configured for the Waffle rig.
+# Sensor freshness is additionally enforced by velocity_guard after this node.
+collision_monitor:
+  ros__parameters:
+    use_sim_time: true
+    base_frame_id: base_link
+    odom_frame_id: odom
+    cmd_vel_in_topic: /cmd_vel
+    cmd_vel_out_topic: /cmd_vel_collision_filtered
+    transform_tolerance: 0.1
+    source_timeout: 0.4
+    base_shift_correction: true
+    stop_pub_timeout: 2.0
+    polygons: [ImmediateStop, FootprintApproach]
+    ImmediateStop:
+      type: circle
+      radius: 0.27
+      action_type: stop
+      max_points: 0
+      visualize: true
+      polygon_pub_topic: /safety/stop_polygon
+      enabled: true
+    FootprintApproach:
+      type: circle
+      radius: 0.24
+      action_type: approach
+      time_before_collision: 1.0
+      simulation_time_step: 0.05
+      # Humble initial-collision test uses >=; zero blocks an empty scene.
+      max_points: 1
+      visualize: false
+      enabled: true
+    observation_sources: [scan, depth]
+    scan:
+      type: scan
+      topic: /scan
+      enabled: true
+    depth:
+      type: pointcloud
+      topic: /rgbd/obstacles
+      min_height: 0.08
+      max_height: 1.3
+      enabled: true

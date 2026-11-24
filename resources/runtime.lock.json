@@ -65,5 +65,35 @@
     "path": "yolov8n-seg.pt",
     "url": "https://github.com/ultralytics/assets/releases/download/v8.4.0/yolov8n-seg.pt",
     "sha256": "a7cd8f929e1903d78a12a48efecab430209f18dc46cb96c3599a5980c63c423c"
+  },
+  "candidate_vision_models": {
+    "yolov8s-seg.pt": {
+      "path": "yolov8s-seg.pt",
+      "url": "https://github.com/ultralytics/assets/releases/download/v8.4.0/yolov8s-seg.pt",
+      "sha256": "0bac0770b55e5eb5b76a61bc535673288dcec36c2bc0cd25ee0d584c632f3413"
+    },
+    "yolo11m-seg.pt": {
+      "path": "yolo11m-seg.pt",
+      "url": "https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo11m-seg.pt",
+      "sha256": "eb9a06f63e2206c35d68d839b08c362429ebecf933ad54c1ad68b2fd001c17cf"
+    },
+    "yoloe-11s-seg-pf.pt": {
+      "path": "yoloe-11s-seg-pf.pt",
+      "url": "https://github.com/ultralytics/assets/releases/download/v8.4.0/yoloe-11s-seg-pf.pt",
+      "sha256": "292bdf157a9ec7315f34b567cb93467c5043cd1889a1cc18abbfdeb88d7a948d",
+      "usage": "offline_prompt_free_screen_only"
+    },
+    "yoloe-11s-seg.pt": {
+      "path": "yoloe-11s-seg.pt",
+      "url": "https://github.com/ultralytics/assets/releases/download/v8.4.0/yoloe-11s-seg.pt",
+      "sha256": "8e439445c87338b79d9ce21dec109f4621e26df67e94d26ea1a98c1e64dce3e3"
+    }
+  },
+  "vision_prompt_embeddings": {
+    "yoloe-11s-seg.pt": {
+      "path": "resources/ball_prompts_v1.npz",
+      "sha256": "c198c497e1d0a351bbcf832b74d54860534fe9cbf7c0cb27a051f6ee7f0e67e0",
+      "recipe": "resources/vision_prompts_v1.json"
+    }
   }
 }

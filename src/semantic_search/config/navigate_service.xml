@@ -1,0 +1,38 @@
+<!-- Copied from ros-navigation/navigation2 1.1.20 nav2_bt_navigator behavior_trees.
+     Apache-2.0: see NAV2_LICENSE.txt. Project change: retain observed obstacles on recovery, wait for observations instead of unconditional clearing; explicit ordinary goal_checker_id only. -->
+
+<!--
+  This Behavior Tree replans the global path periodically at 1 Hz and it also has
+  recovery actions specific to planning / control as well as general system issues.
+  This will be continuous if a kinematically valid planner is selected.
+-->
+<root main_tree_to_execute="MainTree">
+  <BehaviorTree ID="MainTree">
+    <RecoveryNode number_of_retries="6" name="NavigateRecovery">
+      <PipelineSequence name="NavigateWithReplanning">
+        <RateController hz="1.0">
+          <RecoveryNode number_of_retries="1" name="ComputePathToPose">
+            <ComputePathToPose goal="{goal}" path="{path}" planner_id="GridBased"/>
+            <Wait name="Observe-GlobalCostmap-Context" wait_duration="1.0"/>
+          </RecoveryNode>
+        </RateController>
+        <RecoveryNode number_of_retries="1" name="FollowPath">
+          <FollowPath path="{path}" controller_id="FollowPath" goal_checker_id="general_goal_checker"/>
+          <Wait name="Observe-LocalCostmap-Context" wait_duration="1.0"/>
+        </RecoveryNode>
+      </PipelineSequence>
+      <ReactiveFallback name="RecoveryFallback">
+        <GoalUpdated/>
+        <RoundRobin name="RecoveryActions">
+          <Sequence name="ObserveKeepingObstacles">
+            <Wait name="Observe-LocalCostmap-Subtree" wait_duration="1.0"/>
+            <Wait name="Observe-GlobalCostmap-Subtree" wait_duration="1.0"/>
+          </Sequence>
+          <Spin spin_dist="1.57"/>
+          <Wait wait_duration="5"/>
+          <BackUp backup_dist="0.30" backup_speed="0.05"/>
+        </RoundRobin>
+      </ReactiveFallback>
+    </RecoveryNode>
+  </BehaviorTree>
+</root>

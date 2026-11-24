@@ -12,7 +12,8 @@ import os
 from pathlib import Path
 import re
 import signal
-from subprocess import TimeoutExpired
+import sqlite3
+from subprocess import run, TimeoutExpired
 import sys
 import threading
 import time
@@ -24,6 +25,7 @@ ROOT = Path(__file__).resolve().parents[1]
 TERMINAL = {'completed', 'partial', 'failed', 'canceled'}
 MAX_RECORDING_BYTES = 256 * 1024
 CLEAN_TIMEOUT_SECONDS = 720
+RETURN_TIMEOUT_SECONDS = 240
 
 
 def write_json(path, value):
@@ -55,8 +57,20 @@ class Console:
         self.worker = None
         self.watchers = {}
         self.cancel_timeout = 8.0
+        self.navigation_safety = getattr(runtime,'config',{}).get('navigation_safety',False)
+        self.cleaning_position_goals = getattr(runtime,'config',{}).get('cleaning_position_goals',False)
+        self.cleaning_local_recovery = getattr(runtime,'config',{}).get('cleaning_local_recovery',False)
+        self.cleaning_budget_selection = getattr(runtime,'config',{}).get('cleaning_budget_selection',False)
+        self.charging_station = copy.deepcopy(getattr(runtime,'charging_station',None))
+        self.charging_station_file = getattr(runtime,'charging_station_file',None)
         self.rooms_file = getattr(runtime, 'config', {}).get('rooms', 'src/semantic_search/config/rooms_aws_house_v4.json')
         self.rooms = json.loads((ROOT/self.rooms_file).read_text())
+        from semantic_search.objects import aliases_for
+        self.target_categories = tuple(aliases_for(getattr(runtime,'config',{}).get('target_categories')))
+        from semantic_search.semantic_memory import SemanticMemory
+        root = getattr(runtime, 'root', runtime.session_dir)
+        self.memory = SemanticMemory(root/'results/semantic_memory.sqlite3')
+        self.memory_graph_dir = root/'results/semantic_graphs'
         self.voice_available = all((ROOT/path).is_file() for path in (
             '.venv-voice/bin/python', 'resources/models/faster-whisper-small/model.bin',
             'resources/models/faster-whisper-small/config.json',
@@ -66,6 +80,8 @@ class Console:
     def healthy(self):
         required = ('simulation','slam','motion') if self.mode=='mapping' else (
             'simulation','navigation','detector','search')
+        if self.navigation_safety:
+            required += ('safety',)
         return all(row['state'] == 'running' for name, row in self.runtime.snapshot().items()
                    if name in required)
 
@@ -73,9 +89,12 @@ class Console:
         required = ('mapping_ready',) if self.mode=='mapping' else (
             'simulation_ready','navigation_ready','perception_ready')
         return (self.phase == 'ready' and not self.stopping.is_set() and not self.uncertain
-                and self.healthy() and all(telemetry.get(key,False) for key in required))
+                and self.healthy() and all(telemetry.get(key,False) for key in required)
+                and (not self.navigation_safety or telemetry.get('safety',{}).get('ready',False)))
 
     def snapshot(self):
+        from semantic_search.objects import object_catalog
+        from semantic_search.view_export import VIEWS
         telemetry = self.monitor.snapshot()
         progress = telemetry.pop('search_progress', None)
         with self.lock:
@@ -83,7 +102,8 @@ class Console:
                 if row is None:
                     return None
                 result = {k: copy.deepcopy(v) for k, v in row.items() if not k.startswith('_')}
-                if (row['kind'] == 'search' and row['state'] not in TERMINAL
+                returning=(row.get('return') or {}).get('state')=='running'
+                if (row['kind'] == 'search' and not returning and row['state'] not in TERMINAL
                         and progress and progress['request_id'] == row['id']):
                     result['progress'] = progress
                 if row['kind']=='clean' and row['state'] not in TERMINAL:
@@ -91,6 +111,9 @@ class Console:
                         result['progress'] = json.loads((row['_folder']/'clean_progress.json').read_text())
                     except (OSError, ValueError):
                         pass
+                if (returning or row['kind']=='return') and row['state'] not in TERMINAL:
+                    try:result['progress']=json.loads((row['_folder']/'return_progress.json').read_text())
+                    except (OSError,ValueError):pass
                 result['elapsed_seconds'] = round(row.get('_ended', time.monotonic())-row['_started'], 2)
                 return result
             busy = self.job is not None and self.job['state'] not in TERMINAL
@@ -101,7 +124,155 @@ class Console:
                         task=public(self.job), history=history, validation=public(self.validation),
                         rooms=copy.deepcopy(self.rooms), rooms_frame_id="map", rooms_file=self.rooms_file,
                         output_directory=str(self.runtime.session_dir), control_uncertain=self.uncertain,
-                        voice_available=self.voice_available)
+                        voice_available=self.voice_available, map_export_available=True,
+                        map_export_views=['cost',*VIEWS],
+                        object_catalog=object_catalog(self.target_categories),
+                        charging_station=({k:copy.deepcopy(self.charging_station[k]) for k in
+                            ('id','display_name','frame_id','map_pose','simulation_only')} if self.charging_station else None))
+
+    def memory_snapshot(self, room=None, category=None):
+        from semantic_search.objects import OBJECTS
+        from semantic_search.semantic_memory import map_namespace
+        from semantic_search.scene_graph import GRAPH_ADAPTER_VERSION
+        if room is not None and room not in self.rooms:
+            raise ApiError(400, '未知房间。')
+        if category is not None and category not in OBJECTS:
+            raise ApiError(400, '未知物品类别。')
+        with self.lock:
+            if self.mode == 'mapping':
+                return dict(available=False, message='建图期间暂停显示历史物品位置。', objects=[])
+        grid = self.monitor.map_snapshot()
+        if not grid.get('available'):
+            return dict(available=False, message='等待地图就绪后读取物品记忆。', objects=[])
+        try:
+            namespace = map_namespace(grid, self.rooms)
+            result = self.memory.query(namespace, room=room, category=category)
+            graph_available = False
+            graph_path = self.memory_graph_dir/(namespace+'.json')
+            if graph_path.is_file():
+                try:
+                    metadata = json.loads(graph_path.read_text()).get('metadata', {})
+                    graph_available = (metadata.get('namespace')==namespace
+                                       and metadata.get('source_revision')==result['revision']
+                                       and metadata.get('adapter_version')==GRAPH_ADAPTER_VERSION)
+                except (OSError, ValueError):
+                    pass
+            return dict(available=True, namespace=namespace, frame_id='map', **result,
+                        graph_available=graph_available,
+                        message='显示最后观测位置，当前位置需要现场核验。')
+        except (OSError, ValueError, sqlite3.Error) as error:
+            return dict(available=False, message='物品记忆读取失败：'+str(error), objects=[])
+
+    def export_navigation_map(self):
+        from semantic_search.map_export import export_costmap
+        with self.lock:
+            if self.mode == 'mapping':
+                raise ApiError(409, '请在定位导航模式导出代价地图。')
+            grid = self.monitor.map_snapshot()
+            costs = self.monitor.costmap_snapshot()
+            state = self.snapshot()
+        folder = self.runtime.session_dir/'map_snapshots'/uuid4().hex
+        try:
+            paths = export_costmap(folder, grid, costs, state)
+        except ValueError as error:
+            raise ApiError(409, str(error)) from error
+        with self.lock:
+            artifacts = [self._register(path, name) for path, name in zip(paths,
+                ('导航代价 PNG', '导航代价 SVG', '地图原始数据'))]
+        return dict(session_id=state['session_id'], artifacts=artifacts)
+
+    def export_map(self, data):
+        """Export observed layers, selecting tasks only from this owned session."""
+        from semantic_search.view_export import VIEWS, export_view
+        from semantic_search.semantic_memory import map_namespace
+        if set(data)-{'view','task_id','room','category'}:
+            raise ApiError(400,'未知地图导出字段。')
+        view=data.get('view','cost')
+        if not isinstance(view,str) or view not in {'cost',*VIEWS}:
+            raise ApiError(400,'未知地图导出视图。')
+        if any(k in data and not isinstance(data[k],str)for k in ('room','category')):
+            raise ApiError(400,'房间和类别筛选必须为文字。')
+        if view=='cost':
+            if set(data)-{'view'}:raise ApiError(400,'导航代价只导出当前原生数据。')
+            return self.export_navigation_map()
+        with self.lock:
+            if self.mode=='mapping':raise ApiError(409,'请在定位导航模式导出。')
+            grid=self.monitor.map_snapshot();state=self.snapshot()
+            task_id=data.get('task_id')
+            if task_id is not None and not isinstance(task_id,str):raise ApiError(400,'任务ID无效。')
+            row=self.jobs.get(task_id) if task_id is not None else self.job
+            if task_id is not None and row is None:raise ApiError(404,'本会话没有所选任务。')
+            task=({k:copy.deepcopy(v)for k,v in row.items()if not k.startswith('_')}if row else None)
+            source=Path(row['_folder']).resolve() if row else None
+        memory=graph=cleaning=None
+        filters={k:data[k]for k in ('room','category')if data.get(k)}
+        if filters and view not in ('semantic','relations'):
+            raise ApiError(400,'物品筛选仅用于语义和关系图。')
+        try:
+            if view in ('semantic','relations'):
+                grid['memory_namespace']=map_namespace(grid,self.rooms)
+                memory=self.memory_snapshot(**filters)
+                if view=='relations' and memory.get('graph_available'):
+                    graph=json.loads((self.memory_graph_dir/(memory['namespace']+'.json')).read_text())
+            if view.startswith('clean_'):
+                import numpy as np
+                if (not row or row['kind']!='clean' or row['state'] not in TERMINAL
+                        or not source.is_relative_to(self.runtime.session_dir.resolve())):
+                    raise ValueError('请选择本会话已结束并保存的清扫任务。')
+                with np.load(source/'clean_navigation.npz',allow_pickle=False) as arrays:
+                    keys=[k for k in arrays if k.startswith('covered_')]
+                    if not keys:raise ValueError('缺少实际刷盘快照。')
+                    last=max(keys,key=lambda k:int(k.split('_')[1]))
+                    cleaning={k:arrays[k].tolist()for k in ('static_map','eligible')}
+                    cleaning.update(covered=arrays[last].tolist(),covered_source_key=last,
+                        result=json.loads((source/'clean_result.json').read_text()),
+                        plan=json.loads((source/'clean_plan.json').read_text()),
+                        trace=json.loads((source/'clean_trace.json').read_text()))
+            folder=self.runtime.session_dir/'map_snapshots'/uuid4().hex
+            paths=export_view(folder,view,grid,state,memory=memory,task=task,
+                              cleaning=cleaning,graph=graph,filters=filters)
+        except (OSError,ValueError,KeyError) as error:
+            raise ApiError(409,str(error)) from error
+        with self.lock:
+            artifacts=[self._register(path,VIEWS[view]+' '+suffix)for path,suffix in zip(paths,('PNG','SVG','原始JSON'))]
+        return dict(session_id=state['session_id'],view=view,artifacts=artifacts)
+
+    def _remember_search(self, row, result):
+        from semantic_search.semantic_memory import map_namespace
+        try:
+            grid = self.monitor.map_snapshot()
+            source = row.get('_persisted_result')
+            if not source or not grid.get('available'):
+                return dict(status='unavailable', message='缺少地图或持久化感知结果。')
+            persisted = json.loads(source.read_text())
+            if persisted != result:
+                raise ValueError('持久化结果与本次客户端回执不一致。')
+            # This file is registered only from this session's search output.
+            root = getattr(self.runtime, 'root', self.runtime.session_dir)
+            evidence = str(source.relative_to(root))
+            namespace = map_namespace(grid, self.rooms)
+            receipt = self.memory.ingest(namespace, persisted,
+                observed_at=datetime.now(timezone.utc).isoformat(), evidence=evidence)
+            python = root/'.venv-semantic/bin/python'
+            if python.is_file():
+                try:
+                    env = dict(os.environ)
+                    env['PYTHONPATH'] = str(ROOT/'src/semantic_search')+os.pathsep+env.get('PYTHONPATH','')
+                    exported = run([str(python), '-m', 'semantic_search.scene_graph',
+                        '--database',str(self.memory.path),'--namespace',namespace,
+                        '--rooms',str(ROOT/self.rooms_file),
+                        '--output',str(self.memory_graph_dir/(namespace+'.json'))],
+                        env=env, capture_output=True, text=True, timeout=15)
+                    receipt['graph'] = (dict(status='saved', **json.loads(exported.stdout))
+                        if exported.returncode==0 else dict(status='failed',message=exported.stderr[-800:]))
+                except (OSError, ValueError, TimeoutExpired) as error:
+                    receipt['graph'] = dict(status='failed',message=str(error))
+            else:
+                receipt['graph'] = dict(status='unavailable',message='请运行 bash scripts/prepare_semantic.sh 准备场景图库。')
+            return receipt
+        except Exception as error:
+            # Memory failure must not change a confirmed navigation terminal state.
+            return dict(status='failed', message='物品记忆保存失败：'+str(error))
 
     def wait_ready(self, condition, phase, required=('simulation','navigation','search','detector')):
         if phase != 'switching':
@@ -136,6 +307,10 @@ class Console:
                 raise RuntimeError('当前ROS域已有机器人节点，请先关闭原运行栈，或通过 --domain 选择空闲域。')
             self.runtime.start_component('simulation')
             self.wait_ready(lambda s: s.get('simulation_ready', False), 'simulation')
+            if self.navigation_safety:
+                self.runtime.start_component('safety')
+                self.wait_ready(lambda s:s.get('safety',{}).get('ready',False), 'safety',
+                                required=('simulation','safety'))
             self.runtime.start_component('navigation')
             self.wait_ready(lambda s: s.get('navigation_ready', False), 'navigation')
             self.runtime.start_component('detector')
@@ -208,6 +383,8 @@ class Console:
             with self.lock:
                 if not self.stopping.is_set():
                     self.mode,self.phase = target,'ready'
+                    if target=='navigation' and self.charging_station:
+                        self._start_job(uuid4().hex,'return','建图结束，返回充电处',json.dumps(dict(mode='return')))
         except InterruptedError:
             if not self.stopping.is_set():
                 raise
@@ -231,9 +408,16 @@ class Console:
                 text = payload['command'].strip()
                 if not text or len(text) > 500:
                     raise ValueError('任务文字长度应为1–500字符')
+                if re.fullmatch(r'(?:请)?(?:返回充电处|返回充电站|回到充电处|回充)[。！!\s]*',text):
+                    if not self.charging_station:raise ValueError('当前运行未配置固定充电处。')
+                    return request_id,text,json.dumps(dict(mode='return'),sort_keys=True)
                 room = parse_clean_command(text,self.rooms)
                 if room is not None:
                     return request_id,text,json.dumps(dict(mode='clean',room=room),sort_keys=True)
+            elif payload.get('mode')=='return':
+                if set(payload)!={'mode','request_id'} or not self.charging_station:
+                    raise ValueError('返回充电处需要当前运行的固定充电配置。')
+                return request_id,'返回充电处',json.dumps(dict(mode='return'),sort_keys=True)
             elif payload.get('mode')=='clean':
                 room = payload.get('room')
                 if set(payload)!={'mode','room','request_id'} or not isinstance(room,str) or room not in self.rooms:
@@ -244,7 +428,7 @@ class Console:
                 if set(payload) != {'mode','room','category','request_id'}:
                     raise ValueError('需要mode、room和category')
                 text = json.dumps({k:payload[k] for k in ('mode','room','category')}, ensure_ascii=False)
-            mode, room, category = parse_command(text, self.rooms)
+            mode, room, category = parse_command(text, self.rooms, self.target_categories)
             if mode not in ('find','count'):
                 raise ValueError('停止任务请使用停止按钮')
             canonical = json.dumps(dict(mode=mode,room=room,category=category),ensure_ascii=False,sort_keys=True)
@@ -271,8 +455,8 @@ class Console:
                     return self.cancel()
             else:
                 request_id, text, command = self.normalize(payload)
-                if json.loads(command)['mode']=='clean':
-                    kind = 'clean'
+                mode=json.loads(command)['mode']
+                if mode in ('clean','return'):kind=mode
             if request_id in self.jobs:
                 if self.jobs[request_id]['_signature'] != command:
                     raise ApiError(409, '同一request_id不能用于不同任务。')
@@ -337,8 +521,28 @@ class Console:
                 argv = [sys.executable,str(ROOT/'scripts/run_mapping_motion.py'),command,
                         request_id,str(folder/'motion.json')]
             elif kind == 'clean':
+                room=json.loads(command)['room']
+                supplement=self.rooms[room].get('cleaning_supplement_seconds',0)
+                if (isinstance(supplement,bool) or not isinstance(supplement,(int,float))
+                        or not math.isfinite(supplement) or not 0<=supplement<=180):
+                    raise ValueError('房间补扫预算须为0–180秒。')
+                timeout=CLEAN_TIMEOUT_SECONDS+supplement
+                row['_timeout_seconds']=timeout+12
                 argv = [sys.executable,str(ROOT/'scripts/run_cleaning.py'),json.loads(command)['room'],
-                        str(ROOT/self.rooms_file),str(folder),'--timeout',str(CLEAN_TIMEOUT_SECONDS)]
+                        str(ROOT/self.rooms_file),str(folder),'--timeout',str(timeout)]
+                if supplement:
+                    argv += ['--supplement-seconds',str(supplement)]
+                if self.cleaning_position_goals:
+                    argv.append('--position-goals')
+                if self.cleaning_local_recovery:
+                    argv.append('--local-recovery')
+                if self.cleaning_budget_selection:
+                    argv.append('--budget-selection')
+                if self.charging_station_file:
+                    argv += ['--station-config',str(self.charging_station_file)]
+            elif kind=='return':
+                argv=[sys.executable,str(ROOT/'scripts/run_return.py'),str(self.charging_station_file),
+                      str(folder),'--timeout',str(RETURN_TIMEOUT_SECONDS)]
             elif kind == 'map_save':
                 argv = ['bash',str(ROOT/'scripts/save_map.sh'),'scene:=aws_house',
                         'map_output:='+str(folder/'map')]
@@ -356,7 +560,7 @@ class Console:
             # A start failure may happen after Popen succeeds or a command is
             # already published. Never accept another search in that ambiguity.
             if launch_attempted:
-                self.uncertain = kind in ('search','motion','clean') or self.uncertain
+                self.uncertain = kind in ('search','motion','clean','return') or self.uncertain
                 try:
                     self.runtime.close()
                 except Exception as cleanup_error:
@@ -394,8 +598,14 @@ class Console:
             paths += [(folder/'map.yaml','地图 YAML'),(folder/'map.pgm','地图 PGM')]
         elif row['kind']=='clean':
             paths += [(folder/'clean_result.json','清扫报告'),(folder/'clean_trace.json','实际清扫轨迹')]
+            if result and result.get('route_selection') in ('reachable_remaining_lanes','seeded_route_then_reachable_remaining_lanes','budget_aware_seed_and_remaining'):
+                paths.append((folder/'clean_plan.json','清扫选路记录'))
+                if result.get('navigation_masks_saved'):
+                    paths.append((folder/'clean_navigation.npz','清扫代价图与覆盖快照'))
             if result and result.get('coverage'):
                 paths.append((folder/'clean_map.svg','清扫地图 SVG'))
+        elif row['kind']=='return':
+            paths += [(folder/'return_result.json','返航报告'),(folder/'return_trace.json','实际返航轨迹')]
         else:
             paths += [(folder/'client_result.json','结果JSON'),(folder/'diagnostics.json','客户端诊断'),
                       (folder/'initial_state.json','初始位姿')]
@@ -414,43 +624,88 @@ class Console:
                         break
                     time.sleep(.1)
                 if persisted:
+                    row['_persisted_result'] = persisted/'result.json'
                     paths += [(persisted/'result.json','持久化结果'),(persisted/'observations.json','逐帧观测'),
                               (persisted/'semantic_map.svg','编号地图SVG')]
+                    if 'samples' in (result.get('geometric_coverage') or {}):
+                        paths.append((persisted/'coverage_samples.json','实际可见范围采样'))
                 else:
                     paths += [(folder/'missing_result.json','持久化结果（缺失）')]
         artifacts=[self._register(p,label) for p,label in paths]
         return [a for a in artifacts if a], 'saved' if all(artifacts) else 'partial'
 
+    def _wait_client(self,row,process,limit,started):
+        while process.poll() is None:
+            now=time.monotonic()
+            with self.lock:cancel_started=row.get('_cancel_started')
+            if (now-started>=limit or
+                    cancel_started is not None and now-cancel_started>=self.cancel_timeout):
+                break
+            time.sleep(.1)
+        if process.poll() is None:
+            # User cancellation has its own short deadline, independent of
+            # the normal task's potentially several-minute timeout.
+            with self.lock:already_canceling=row.get('_cancel_started') is not None
+            steps = [(signal.SIGTERM,3), (signal.SIGKILL,3)] if already_canceling else [
+                (signal.SIGINT,self.cancel_timeout), (signal.SIGTERM,3), (signal.SIGKILL,3)]
+            for sig, timeout in steps:
+                self._signal_job(row,sig)
+                try:
+                    process.wait(timeout=timeout)
+                    break
+                except TimeoutExpired:
+                    continue
+            if process.poll() is None:
+                raise RuntimeError('任务客户端在停止期限内未退出；已禁用新任务。')
+
+    def _return_after_search(self,row,primary_state):
+        """Keep one busy task while a separately owned client returns to dock."""
+        folder=row['_folder'];started=time.monotonic()
+        try:
+            with self.lock:
+                if self.stopping.is_set() or row.get('_cancel_started') is not None or row.get('_finalized'):
+                    row['return']=dict(state='skipped_canceled',message='任务已停止，未启动返航。')
+                    return 'canceled',None
+                row['return']=dict(state='running',frame_id='map',
+                    charging_station_id=self.charging_station['id'],
+                    target_pose=list(self.charging_station['map_pose']))
+                row['_process_name']='return_'+hashlib.sha256(row['id'].encode()).hexdigest()[:32]
+                argv=[sys.executable,str(ROOT/'scripts/run_return.py'),str(self.charging_station_file),
+                      str(folder),'--timeout',str(RETURN_TIMEOUT_SECONDS)]
+                process=self.runtime.start_process(row['_process_name'],argv)
+                row['_process']=process
+            self._wait_client(row,process,RETURN_TIMEOUT_SECONDS+12,started)
+            result=json.loads((folder/'return_result.json').read_text())
+            confirmed=result.get('navigation_settled') is True
+            status=result.get('status')
+            with self.lock:
+                row['return']=dict(result,state=status,returncode=process.returncode)
+                canceled=row.get('_cancel_started') is not None or self.stopping.is_set()
+            if not confirmed:
+                raise RuntimeError('返航导航终态或停稳未确认，已停止本次运行。')
+            if canceled or status=='canceled':return 'canceled',None
+            if status=='completed' and result.get('return_state')=='simulated_charging':
+                return primary_state,None
+            return 'partial',result.get('message') or '结果已保存，返航停靠未达标。'
+        except Exception as error:
+            with self.lock:
+                self.uncertain=True
+                row['return']=dict(state='failed',message=str(error))
+            try:self.runtime.close()
+            except Exception as cleanup:error=RuntimeError(str(error)+'；运行关闭失败：'+str(cleanup))
+            return 'failed',str(error)
+
     def _watch_job(self, row):
         process=row['_process']
-        limit={'search':self.task_timeout+50,'clean':CLEAN_TIMEOUT_SECONDS+12,'motion':78}.get(row['kind'],60)
+        limit={'search':self.task_timeout+50,'clean':CLEAN_TIMEOUT_SECONDS+12,
+               'return':RETURN_TIMEOUT_SECONDS+12,'motion':78}.get(row['kind'],60)
+        limit=row.get('_timeout_seconds',limit)
         folder=row['_folder'];result=None;error=None
         try:
-            while process.poll() is None:
-                now=time.monotonic()
-                with self.lock:cancel_started=row.get('_cancel_started')
-                if (now-row['_started']>=limit or
-                        cancel_started is not None and now-cancel_started>=self.cancel_timeout):
-                    break
-                time.sleep(.1)
-            if process.poll() is None:
-                # User cancellation has its own short deadline, independent of
-                # the normal task's potentially several-minute timeout.
-                with self.lock:already_canceling=row.get('_cancel_started') is not None
-                steps = [(signal.SIGTERM,3), (signal.SIGKILL,3)] if already_canceling else [
-                    (signal.SIGINT,self.cancel_timeout), (signal.SIGTERM,3), (signal.SIGKILL,3)]
-                for sig, timeout in steps:
-                    self._signal_job(row,sig)
-                    try:
-                        process.wait(timeout=timeout)
-                        break
-                    except TimeoutExpired:
-                        continue
-                if process.poll() is None:
-                    raise RuntimeError('任务客户端在停止期限内未退出；已禁用新任务。')
+            self._wait_client(row,process,limit,row['_started'])
             filename = {'search':'client_result.json','voice':'transcript.json',
                         'validation':'sensors/sensors.json','motion':'motion.json',
-                        'clean':'clean_result.json'}.get(row['kind'])
+                        'clean':'clean_result.json','return':'return_result.json'}.get(row['kind'])
             result_path = folder/filename if filename else None
             if result_path is not None and result_path.exists():
                 result=json.loads(result_path.read_text())
@@ -492,12 +747,12 @@ class Console:
                     state,result = 'completed',dict(status='completed',message='已保存 YAML 和 PGM 地图。')
                 else:
                     state,error = 'failed','地图保存失败，请检查 SLAM 和任务日志。'
-            elif row['kind']=='clean':
+            elif row['kind'] in ('clean','return'):
                 if result and result.get('navigation_settled') is True and result.get('status') in TERMINAL:
                     state = result['status']
                 else:
                     state = 'failed'
-                    error = '清扫导航终态未确认，已停止本次运行。'
+                    error = '导航终态或停稳未确认，已停止本次运行。'
                     with self.lock:
                         self.uncertain = True
                     self.runtime.close()
@@ -505,12 +760,31 @@ class Console:
                 state='completed' if result and result.get('passed') and process.returncode==0 else ('canceled' if row['state']=='canceling' else 'failed')
                 if state=='failed':error='传感器检查未通过，请查看报告和任务日志。'
             artifacts,save_status=self._finish_artifacts(row,result)
+            if row['kind']=='search' and result:
+                row['memory'] = self._remember_search(row,result)
+            if row['kind']=='search' and self.charging_station and state in ('completed','partial'):
+                source=row.get('_persisted_result')
+                persisted=(source and source.is_file() and json.loads(source.read_text())==result and
+                           all((source.parent/name).is_file() for name in ('observations.json','semantic_map.svg')))
+                if persisted:
+                    with self.lock:
+                        row.update(result=result,artifacts=artifacts,save_status=save_status)
+                    state,return_error=self._return_after_search(row,state)
+                    if return_error:error=(error+'；' if error else '')+return_error
+                    for name,label in [('return_result.json','返航报告'),('return_trace.json','实际返航轨迹')]:
+                        item=self._register(folder/name,label)
+                        if item:artifacts.append(item)
+                        elif (row.get('return') or {}).get('state')!='skipped_canceled':save_status='partial'
+                else:
+                    state='partial'
+                    row['return']=dict(state='skipped_unpersisted',message='结果文件未完整保存，尚未启动返航。')
+            if row['kind']=='return' and result:row['return']=dict(result,state=state)
             if save_status!='saved':error=(error+'；' if error else '')+'部分结果文件尚未保存，请查看搜索日志。'
         except Exception as caught:
             state,error,artifacts,save_status='failed',str(caught),[],'missing'
-            if row['kind'] in ('search','motion','clean'):
+            if row['kind'] in ('search','motion','clean','return'):
                 with self.lock:self.uncertain=True
-            if row['kind']=='clean' and (not isinstance(result,dict) or not result.get('navigation_settled')):
+            if row['kind'] in ('clean','return') and (not isinstance(result,dict) or not result.get('navigation_settled')):
                 try:
                     self.runtime.close()
                 except Exception as cleanup_error:
@@ -525,6 +799,8 @@ class Console:
         with self.lock:
             if row.get('_finalized'):
                 return
+            if row.get('_cancel_started') is not None and state in ('completed','partial'):
+                state='canceled'
             row.update(state=state,result=result,error=error,artifacts=artifacts,save_status=save_status,
                        returncode=process.returncode,_ended=time.monotonic())
             self._save_job(row)
@@ -548,7 +824,7 @@ class Console:
             process=row.get('_process')
             if process is not None and process.poll() is None:
                 with self.lock:
-                    if row['kind'] in ('search','motion','clean'):self.uncertain=True
+                    if row['kind'] in ('search','motion','clean','return'):self.uncertain=True
                     row['error']='未能确认发送'+sig.name+'；将在停止期限内继续清理。'+(detail or '')
         return delivered
 
@@ -645,7 +921,24 @@ def handler_for(console):
                 self.same_origin()
                 url=urlsplit(self.path)
                 if url.path=='/api/state':return self.reply(200,console.snapshot())
-                if url.path=='/api/map':return self.reply(200,console.monitor.map_snapshot())
+                if url.path=='/api/map':
+                    value=console.monitor.map_snapshot()
+                    if value.get('available') and console.mode!='mapping':
+                        from semantic_search.semantic_memory import map_namespace
+                        value['memory_namespace']=map_namespace(value, console.rooms)
+                    return self.reply(200,value)
+                if url.path=='/api/costmap':
+                    return self.reply(200,console.monitor.costmap_snapshot()if console.mode!='mapping'else dict(available=False,fresh=False))
+                if url.path=='/api/memory':
+                    query=parse_qs(url.query)
+                    return self.reply(200,console.memory_snapshot(
+                        room=query.get('room',[None])[0], category=query.get('category',[None])[0]))
+                if url.path=='/api/memory/graph':
+                    memory=console.memory_snapshot()
+                    if not memory.get('graph_available'):
+                        raise ApiError(409,'当前地图的语义图尚未保存，请完成一次实际寻物或盘点。')
+                    path=console.memory_graph_dir/(memory['namespace']+'.json')
+                    return self.send_bytes(200,path.read_bytes(),'application/json; charset=utf-8')
                 if url.path=='/api/log':
                     name=parse_qs(url.query).get('component',['search'])[0]
                     if name not in ('simulation','navigation','detector','search','rviz','task'):
@@ -688,6 +981,7 @@ def handler_for(console):
                 elif self.path=='/api/validate':result=console.validate()
                 elif self.path=='/api/mode':result=console.switch_mode(data)
                 elif self.path=='/api/mapping/save':result=console.save_mapping()
+                elif self.path=='/api/map/export':result=console.export_map(data)
                 else:raise ApiError(404,'路径不存在。')
                 self.reply(200,result)
             except ApiError as error:self.reply(error.status,{'error':str(error)})
@@ -705,6 +999,36 @@ def main():
     parser.add_argument('--task-timeout',type=float,default=480)
     parser.add_argument('--rooms-file',help='验证时显式选择项目内房间JSON，默认五区v4')
     parser.add_argument('--layout-file',help='验证时显式选择项目内布局JSON，默认白黄杯布局')
+    parser.add_argument('--candidate-categories', nargs='+', metavar='CATEGORY',
+                        help='显式启用目录内的候选类别，仅用于开发验证；如 bowl book "cell phone"')
+    parser.add_argument('--camera-height',type=float,default=1.0,help='候选相机高度 m，默认 1.0')
+    parser.add_argument('--camera-pitch',type=float,default=.25,help='候选相机下俯 rad，默认 0.25')
+    parser.add_argument('--camera-resolution',choices=('640x480','1280x960'),default='640x480',
+                        help='原生RGB-D分辨率；高分辨率候选待验收')
+    parser.add_argument('--camera-fov',type=float,default=1.02974,help='候选水平视场 rad，默认1.02974')
+    parser.add_argument('--depth-cloud-source',choices=('native','image'),default='native',
+                        help='image为原云启动校准后复用深度图的显式候选；默认保留native原云')
+    parser.add_argument('--active-observation',action='store_true',help='启用基于实测可见范围的有界补充观察（待验收）')
+    parser.add_argument('--memory-guidance',action=argparse.BooleanOptionalAction,default=False,
+                        help='优先核验历史位置，保留必巡和完整回退；不使用历史数量作为答案')
+    parser.add_argument('--memory-safe-approach',action='store_true',
+                        help='显式试验：由历史位置和观测地图增加核验点；当前未证明提速，默认关闭')
+    parser.add_argument('--image-size',type=int,choices=(640,960,1280),default=640,help='候选推理输入尺寸，默认640')
+    parser.add_argument('--navigation-safety',action='store_true',help='启用官方防碰撞组件和最终速度数据保护（待验收）')
+    parser.add_argument('--body-footprint',action='store_true',help='显式全部碰撞体轮廓候选，完整验收前默认关闭')
+    parser.add_argument('--cleaning-position-goals',action='store_true',help='清扫位置端点实验选项；默认关闭，尚未改善覆盖')
+    parser.add_argument('--cleaning-local-recovery',action='store_true',help='清扫近程恢复实验选项；默认关闭，尚未改善覆盖')
+    parser.add_argument('--cleaning-budget-selection',action='store_true',help='清扫收益调度实验；默认关闭，整房覆盖及回充未通过')
+    parser.add_argument('--no-charging-station',action='store_true',help='历史起点/返航回归时显式关闭固定充电处')
+    parser.add_argument('--precision-docking',action='store_true',help='显式候选：仅停靠采用5cm执行目标，验收仍15cm')
+    parser.add_argument('--model',choices=('yolov8n-seg.pt','yolov8s-seg.pt'),default='yolov8n-seg.pt',
+                        help='显式选择已锁定权重，默认n；s只用于候选对照')
+    parser.add_argument('--ball-model',choices=('yoloe-11s-seg-pf.pt',),
+                        help='显式球类辅助候选，最多2Hz；默认关闭，尚待稳定性验收')
+    parser.add_argument('--auxiliary-model',choices=('yoloe-11s-seg.pt',),
+                        help='显式文本YOLOE辅助候选，加载冻结词嵌入，最多2Hz；默认关闭')
+    parser.add_argument('--auxiliary-categories',nargs='+',choices=('book','sports ball'),
+                        help='辅助补充类别；默认书与球，主模型保留')
     parser.add_argument('--device',choices=('cuda:0','cpu'),default='cuda:0',help='视觉推理设备；默认GPU，cpu使用原环境')
     args=parser.parse_args()
     if not 1024<=args.port<=65535 or not 0<=args.domain<=232:
@@ -718,7 +1042,20 @@ def main():
     for sig in (signal.SIGINT,signal.SIGTERM):signal.signal(sig,lambda *unused:shutdown.set())
     try:
         runtime=Runtime(ROOT,domain=args.domain,headless=args.headless,
-                        rooms_file=args.rooms_file,layout_file=args.layout_file,device=args.device)
+                        rooms_file=args.rooms_file,layout_file=args.layout_file,device=args.device,
+                        candidate_categories=args.candidate_categories,
+                        camera_height=args.camera_height,camera_pitch=args.camera_pitch,
+                        camera_resolution=args.camera_resolution,camera_fov=args.camera_fov,
+                        depth_cloud_source=args.depth_cloud_source,
+                        active_observation=args.active_observation,image_size=args.image_size,
+                        memory_guidance=args.memory_guidance,
+                        memory_safe_approach=args.memory_safe_approach,
+                        navigation_safety=args.navigation_safety,body_footprint=args.body_footprint,model=args.model,ball_model=args.ball_model,
+                        auxiliary_model=args.auxiliary_model,auxiliary_categories=args.auxiliary_categories,
+                        cleaning_position_goals=args.cleaning_position_goals,
+                        cleaning_local_recovery=args.cleaning_local_recovery,
+                        cleaning_budget_selection=args.cleaning_budget_selection,
+                        charging_station=not args.no_charging_station,precision_docking=args.precision_docking)
         # Only ROS selectors belong to the parent. Browser processes must not
         # inherit the ownership token used to clean up this robot's children.
         for key in ('ROS_DOMAIN_ID','SEMANTIC_ROS_DOMAIN_ID','ROS_LOCALHOST_ONLY','IGN_PARTITION'):

@@ -1,0 +1,57 @@
+{
+  "status": "isolated_source_build_runtime_passed_full_dependency_reinstall_incomplete",
+  "date": "2026-11-24",
+  "publication_kind": "ongoing_development_snapshot",
+  "isolated_source_only_export": true,
+  "source_files_fingerprint_sha256": "8bd18794c1cd0bb9d4532062e95188ebd0957ebe06c6e8fb1b15b6e85e395b4d",
+  "source_file_count": 270,
+  "tests": {
+    "developer_passed": 536,
+    "isolated_passed": 536,
+    "skipped": 38,
+    "isolated_seconds": 15.36,
+    "native_passed": 3
+  },
+  "build": {
+    "packages": 3,
+    "seconds": 9.59,
+    "fresh_build_and_install": true
+  },
+  "runtime": {
+    "device": "cpu",
+    "headless": true,
+    "domain": 91,
+    "port": 8871,
+    "ready": true,
+    "navigation_ready": true,
+    "perception_ready": true,
+    "sensor_check_passed": true,
+    "movement_task_sent": false,
+    "shutdown": "stopped",
+    "remaining_owned": []
+  },
+  "resources": {
+    "pinned_cached_resources_reused": true,
+    "physical_resource_directories": true,
+    "existing_cpu_and_semantic_environments_reused_for_smoke": true,
+    "optional_test_assets_included": true
+  },
+  "limitations": [
+    "Official CPU PyTorch 196.2MB download read timed out; retry was stopped because throughput remained too slow for requested quick wrap-up. Full fresh dependency reinstall did not pass.",
+    "Isolated source/build/install and ROS startup were tested on this development host, not another machine or GPU driver.",
+    "Initial test-only cross-root asset symlinks were correctly rejected by safety checks; physical copies used for final passing tests.",
+    "Project acceptance remains incomplete: ball cleaning partial, physical docking after long tasks, memory speed benefit and human microphone remain pending."
+  ],
+  "artifacts_sha256": {
+    "tests.log": "9d8c3e27982cb5e01156df5c7a4fe3f8f1f6a127f42a6ee6f60a6932b2bb65a9",
+    "download_stop.json": "60478511b575d8f4331398a9ac90bb793bfba99cd918ad70cb13b7eeac802e48",
+    "dependency_download_failed.log": "52a452402cdb71377cff293f3a5791795edd4d5a4aedfbdc8522bf9496b02922",
+    "build.log": "688e6f52ed8a9a6eb3eedb6c658d836c4d99deae9f5381df49d2a74d605d18ab",
+    "isolated_tests_fixture_failed.log": "bba1c8aa8dc314d40df3edcb50e3f38da5dde13d40a423b21972c86b2e8c71dc",
+    "isolated_tests.log": "25ba8e992bd862d354e29d22f59230f7a579bb0d3d8621c71f42d11862362d49",
+    "sensors.json": "a55eca12a2892d2e64bf8b93e00f209a9b5d9a74963afd77b3c1cdc3377f371f",
+    "dependency_retry_stopped.log": "d5cf06ac0d5e8b2cd93d87b03231ce23c620ba414d36a20ecc87685a402ee273",
+    "native_tests.log": "c5ddae485716ab43444ad9c79b3244608a4354183e424ab1d011702781aa2fa5",
+    "shutdown.json": "e4161337e7fb9d0d56fac9aeba50c7638e4af6f1465e726ab03bdb09154087e9"
+  }
+}

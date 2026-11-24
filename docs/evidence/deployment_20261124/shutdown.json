@@ -1,0 +1,91 @@
+{
+  "closed_utc": "2026-11-24T07:10:58.164698+00:00",
+  "elapsed_wall_seconds": 4.56227832400009,
+  "status": "stopped",
+  "remaining_owned_processes": [],
+  "signals": [
+    {
+      "name": "search",
+      "pid": 10397,
+      "signal": "SIGINT"
+    },
+    {
+      "name": "detector",
+      "pid": 10396,
+      "signal": "SIGINT"
+    },
+    {
+      "name": "navigation",
+      "pid": 10091,
+      "signal": "SIGINT"
+    },
+    {
+      "name": "simulation",
+      "pid": 9789,
+      "signal": "SIGINT"
+    },
+    {
+      "pid": 9789,
+      "signal": "SIGTERM"
+    },
+    {
+      "pid": 9814,
+      "signal": "SIGTERM"
+    },
+    {
+      "pid": 9815,
+      "signal": "SIGTERM"
+    },
+    {
+      "pid": 9817,
+      "signal": "SIGTERM"
+    },
+    {
+      "pid": 9819,
+      "signal": "SIGTERM"
+    },
+    {
+      "pid": 9821,
+      "signal": "SIGTERM"
+    },
+    {
+      "pid": 9823,
+      "signal": "SIGTERM"
+    },
+    {
+      "pid": 9825,
+      "signal": "SIGTERM"
+    },
+    {
+      "pid": 9827,
+      "signal": "SIGTERM"
+    },
+    {
+      "pid": 10396,
+      "signal": "SIGTERM"
+    },
+    {
+      "pid": 10397,
+      "signal": "SIGTERM"
+    },
+    {
+      "pid": 10443,
+      "signal": "SIGTERM"
+    },
+    {
+      "pid": 10446,
+      "signal": "SIGTERM"
+    },
+    {
+      "pid": 10478,
+      "signal": "SIGTERM"
+    }
+  ],
+  "exit_codes": {
+    "simulation": -15,
+    "navigation": 130,
+    "detector": -15,
+    "search": -15
+  },
+  "ownership": "UID + unique inherited token + start_ticks + pidfd"
+}

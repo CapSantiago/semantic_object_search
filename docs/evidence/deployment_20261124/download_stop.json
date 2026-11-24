@@ -1,0 +1,1 @@
+{"stopped_pids": [7336], "reason": "First official CPU wheel read timed out; retry remained ~2.8MB/196MB after several minutes. User requested quick wrap-up; retain incomplete installation, verify isolated source/build/runtime using existing dependencies instead."}

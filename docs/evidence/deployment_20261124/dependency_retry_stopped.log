@@ -1,0 +1,37 @@
+third_party/tb3_fortress: 115bcc30b0f5dc6bdfb918df64c94b88cf953657
+third_party/yolo_ros: 94d2dd500cb26027ee9c019f4d3a02029ac615cc
+third_party/aws_small_house: ff9631ca6d1db9c1ba656498151464b5ab74aafe
+Pinned runtime resources checked; no functional experiment was run.
+Preparing mustard_bottle
+  version=2, sha256=e3862191a0a9530a, 10534435 bytes
+Preparing yellow_mug
+  version=1, sha256=b2ed3e3d8fc87621, 4658945 bytes
+Looking in indexes: https://pypi.org/simple, https://download.pytorch.org/whl/cpu
+Collecting filelock==4.1.0
+  Using cached filelock-4.1.0-py3-none-any.whl (133 kB)
+Collecting fsspec==2026.9.0
+  Using cached fsspec-2026.9.0-py3-none-any.whl (221 kB)
+Collecting mpmath==1.3.0
+  Using cached mpmath-1.3.0-py3-none-any.whl (536 kB)
+Collecting networkx==3.4.2
+  Using cached networkx-3.4.2-py3-none-any.whl (1.7 MB)
+Collecting numpy==1.26.4
+  Using cached numpy-1.26.4-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (18.2 MB)
+Collecting nvidia-ml-py==13.615.71
+  Using cached nvidia_ml_py-13.615.71-py3-none-any.whl (58 kB)
+Collecting opencv-python==4.11.0.86
+  Using cached opencv_python-4.11.0.86-cp37-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (63.0 MB)
+Collecting polars==2.0.0
+  Using cached polars-2.0.0-py3-none-any.whl (876 kB)
+Collecting polars-runtime-32==2.0.0
+  Using cached polars_runtime_32-2.0.0-cp310-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (54.5 MB)
+Collecting scipy==1.15.3
+  Using cached scipy-1.15.3-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (37.7 MB)
+Collecting setuptools==78.1.0
+  Using cached https://download.pytorch.org/whl/setuptools-78.1.0-py3-none-any.whl (1.3 MB)
+Collecting sympy==1.14.0
+  Using cached sympy-1.14.0-py3-none-any.whl (6.3 MB)
+Collecting torch==2.14.1+cpu
+  Downloading https://download-r2.pytorch.org/whl/cpu/torch-2.14.1%2Bcpu-cp310-cp310-manylinux_2_28_x86_64.whl (196.2 MB)
+     ━                                        6.2/196.2 MB 12.4 kB/s eta 4:15:09
+ERROR: Operation cancelled by user

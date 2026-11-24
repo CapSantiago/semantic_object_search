@@ -4,7 +4,7 @@
 # Stops on a failed stage, preserves its evidence, and cleans only owned children.
 set -eo pipefail
 set +m
-legacy_project="${1:-/home/willmatic/桌面/semantic_object_search}"
+legacy_project="${1:-$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/../.." && pwd -P)}"
 cd -- "$legacy_project"
 legacy_project="$PWD"
 legacy_output="${2:-$legacy_project/results/development/legacy_20261117}"

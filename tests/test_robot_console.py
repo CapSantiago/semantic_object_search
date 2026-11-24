@@ -116,9 +116,10 @@ def put_json(path, value):
     path.write_text(json.dumps(value), encoding='utf-8')
 
 
-def finish_search(console, status='found', code=0, task_id='task_001'):
+def finish_search(console, status='found', code=0, task_id='task_001',extra=None):
     folder = console.job['_folder']
     result = dict(status=status, count=1 if status == 'found' else 0, objects=[])
+    result.update(extra or {})
     if task_id is not None:
         result['task_id'] = task_id
         persisted = console.runtime.session_dir / 'tasks' / task_id
@@ -133,10 +134,110 @@ def finish_search(console, status='found', code=0, task_id='task_001'):
     return result
 
 
+def station_enabled(console,monkeypatch,*,return_status='completed',settled=True,cancel_at_start=False):
+    console.charging_station=dict(id='home_dock',display_name='家庭充电处',frame_id='map',
+                                  map_pose=[-1.8,-4.,0.],simulation_only=True)
+    console.charging_station_file=console.runtime.session_dir/'station.json'
+    original=console.runtime.start_process
+    def start(name,argv):
+        child=original(name,argv)
+        if name.startswith('return_'):
+            folder=console.job['_folder']
+            assert all((console.job['_persisted_result'].parent/p).is_file() for p in
+                       ('result.json','observations.json','semantic_map.svg'))
+            assert console.snapshot()['busy']
+            assert_api_error(409,lambda:console.submit(task(request_id='second_busy_01')))
+            if cancel_at_start:console.cancel()
+            result=dict(status=return_status,navigation_settled=settled,
+                return_state='simulated_charging' if return_status=='completed' else 'return_incomplete',
+                return_error=dict(position_m=.05,yaw_rad=.06,stationary_seconds=.46),message='return '+return_status)
+            put_json(folder/'return_result.json',result);put_json(folder/'return_trace.json',{'goals':[]})
+            child.returncode=0 if return_status=='completed' else 130 if return_status=='canceled' else 1
+        return child
+    monkeypatch.setattr(console.runtime,'start_process',start)
+
+
+@pytest.mark.parametrize('return_status,settled,expected',[
+    ('completed',True,'completed'),('partial',True,'partial'),('failed',False,'failed')])
+def test_search_persists_results_before_return_and_keeps_them_on_return_failure(console,monkeypatch,return_status,settled,expected):
+    station_enabled(console,monkeypatch,return_status=return_status,settled=settled)
+    console.submit(task());result=finish_search(console)
+    public=console.snapshot()['task']
+    assert public['state']==expected and public['result']==result
+    assert public['save_status']=='saved'
+    assert public['memory'] and any(x['name']=='返航报告' for x in public['artifacts'])
+    assert console.runtime.calls[-1][0].startswith('return_')
+    assert json.loads((console.job['_persisted_result']).read_text())==result
+    assert console.uncertain is (not settled)
+    assert console.runtime.closed is (not settled)
+
+
+def test_cancel_while_saving_does_not_launch_return_or_discard_primary_result(console,monkeypatch):
+    station_enabled(console,monkeypatch)
+    def remember(row,result):
+        console.cancel()
+        return {'status':'saved'}
+    monkeypatch.setattr(console,'_remember_search',remember)
+    console.submit(task());result=finish_search(console)
+    public=console.snapshot()['task']
+    assert public['state']=='canceled' and public['result']==result
+    assert public['return']['state']=='skipped_canceled'
+    assert public['save_status']=='saved' and len(console.runtime.calls)==1
+
+
+def test_cancel_at_return_start_targets_the_return_process_and_keeps_result(console,monkeypatch):
+    station_enabled(console,monkeypatch,return_status='canceled',cancel_at_start=True)
+    console.submit(task());result=finish_search(console)
+    public=console.snapshot()['task']
+    assert public['state']=='canceled' and public['result']==result
+    assert console.runtime.signals[-1][0].startswith('return_')
+    assert not console.uncertain
+
+
+def test_missing_persisted_observations_never_starts_automatic_return(console,monkeypatch):
+    station_enabled(console,monkeypatch)
+    original=console._finish_artifacts
+    def finish(row,result):
+        artifacts,status=original(row,result)
+        (row['_persisted_result'].parent/'observations.json').unlink()
+        return artifacts,'partial'
+    monkeypatch.setattr(console,'_finish_artifacts',finish)
+    console.submit(task());result=finish_search(console)
+    public=console.snapshot()['task']
+    assert public['state']=='partial' and public['result']==result
+    assert public['return']['state']=='skipped_unpersisted'
+    assert len(console.runtime.calls)==1
+
+
+def test_explicit_return_command_uses_the_same_managed_client_and_receipt(console):
+    console.charging_station=dict(id='home_dock',display_name='充电处',frame_id='map',
+                                  map_pose=[-1.8,-4.,0.],simulation_only=True)
+    console.charging_station_file=console.runtime.session_dir/'station.json'
+    console.submit({'request_id':'manual_return_01','command':'返回充电处'})
+    assert console.job['kind']=='return'
+    assert console.runtime.calls[-1][1][1].endswith('/run_return.py')
+    folder=console.job['_folder'];result=dict(status='completed',navigation_settled=True,
+        return_state='simulated_charging',message='done')
+    put_json(folder/'return_result.json',result);put_json(folder/'return_trace.json',{'goals':[]})
+    console.runtime.calls[-1][2].returncode=0;console.pending_workers[-1].run()
+    assert console.snapshot()['task']['state']=='completed'
+
+
 def assert_api_error(status, action):
     with pytest.raises(module.ApiError) as caught:
         action()
     assert caught.value.status == status
+
+
+@pytest.mark.parametrize('sample_grid,artifact_exists,expected',[
+    (False,False,'saved'),(True,False,'partial'),(True,True,'saved')])
+def test_early_cancel_requires_coverage_artifact_only_after_grid_creation(console,sample_grid,artifact_exists,expected):
+    console.submit(task())
+    geometry = dict(samples=10) if sample_grid else dict(stop_reason='no_valid_geometry')
+    if artifact_exists:
+        put_json(console.runtime.session_dir/'tasks/task_001/coverage_samples.json',{})
+    finish_search(console,status='canceled',code=130,extra=dict(geometric_coverage=geometry))
+    assert console.snapshot()['task']['save_status']==expected
 
 
 def test_command_normalization_uses_existing_room_and_object_parser(console):
@@ -150,6 +251,68 @@ def test_command_normalization_uses_existing_room_and_object_parser(console):
     assert json.loads(console.normalize(task(mode='count'))[2])['mode'] == 'count'
 
 
+def test_catalog_has_sixteen_targets_but_only_admitted_tasks_are_callable(console):
+    catalog = console.snapshot()['object_catalog']
+    assert len(catalog) == 16
+    assert {item['category'] for item in catalog if item['admitted']} == {'cup', 'bottle', 'chair'}
+    assert_api_error(400, lambda: console.normalize(task(category='bowl')))
+    assert json.loads(console.normalize({'request_id':'request_001','command':'去厨房找马克杯'})[2])['category'] == 'cup'
+
+
+def test_candidate_enablement_does_not_change_admission_or_other_categories(console):
+    console.target_categories = ('cup','bottle','chair','bowl','cell phone')
+    catalog = {row['category']:row for row in console.snapshot()['object_catalog']}
+    assert catalog['bowl']['validation_enabled'] and not catalog['bowl']['admitted']
+    assert not catalog['book']['validation_enabled']
+    assert json.loads(console.normalize(task(category='bowl'))[2])['category'] == 'bowl'
+    assert json.loads(console.normalize({'request_id':'request_001','command':'去厨房找手机'})[2])['category'] == 'cell phone'
+    assert_api_error(400, lambda:console.normalize(task(category='book')))
+
+
+def test_memory_query_is_scoped_to_current_map_and_mode(console):
+    from semantic_search.semantic_memory import map_namespace
+    grid = dict(available=True, frame_id='map', width=2, height=2, resolution=.05,
+                origin=dict(x=0., y=0., yaw=0.), data=[0, 0, -1, 100])
+    console.monitor.map_snapshot = lambda: dict(grid)
+    value = dict(task_id='search-memory', category='cup', room='kitchen', mode='find', status='found',
+                 frame_id='map', coordinate_unit='m', count=1, objects=[dict(id=1,x=0.,y=0.,z=.8,hits=3)])
+    console.memory.ingest(map_namespace(grid, console.rooms), value,
+                         observed_at='2026-11-21T10:00:00+08:00', evidence='tasks/source/result.json')
+    response = console.memory_snapshot(room='kitchen', category='cup')
+    assert response['available'] and response['total'] == 1
+    assert console.memory_snapshot(category='bottle')['total'] == 0
+    assert_api_error(400, lambda: console.memory_snapshot(category='dumbbell'))
+    grid['origin'] = dict(x=1., y=0., yaw=0.)
+    assert console.memory_snapshot()['total'] == 0
+    console.mode = 'mapping'
+    assert not console.memory_snapshot()['available']
+
+
+def test_completed_search_imports_only_matching_persisted_evidence(console):
+    console.monitor.map_snapshot = lambda: dict(available=True, frame_id='map', width=2, height=2,
+        resolution=.05, origin=dict(x=0.,y=0.,yaw=0.), data=[0,0,-1,100])
+    console.submit(task())
+    folder = console.job['_folder']
+    value = dict(task_id='search-memory', category='cup', room='kitchen', mode='find', status='found',
+                 frame_id='map', coordinate_unit='m', count=1, objects=[dict(id=1,x=0.,y=0.,z=.8,hits=3)])
+    source = console.runtime.session_dir/'tasks/search-memory/result.json'
+    put_json(source, value)
+    put_json(source.with_name('observations.json'), [])
+    source.with_name('semantic_map.svg').write_text('<svg/>')
+    put_json(folder/'client_result.json', value)
+    put_json(folder/'diagnostics.json', dict(command_sent=True, errors=[]))
+    put_json(folder/'initial_state.json', {})
+    console.runtime.calls[-1][2].returncode = 0
+    console.pending_workers[-1].run()
+    assert console.job['state'] == 'completed'
+    assert console.job['memory']['status'] == 'saved'
+    assert console.memory_snapshot()['total'] == 1
+    source.write_text('{}')
+    rejected = console._remember_search(console.job, value)
+    assert rejected['status'] == 'failed'
+    assert console.memory_snapshot()['total'] == 1
+
+
 def test_progress_is_visible_only_for_the_matching_request(console):
     first = console.submit(task())['task']
     event = dict(request_id=first['id'], task_id='search_001', stage='observing', count=1)
@@ -160,11 +323,20 @@ def test_progress_is_visible_only_for_the_matching_request(console):
     assert 'progress' not in next_task
 
 
-def test_cleaning_shares_request_lock_and_persists_its_own_results(console):
+@pytest.mark.parametrize('position_goals',[False,True])
+@pytest.mark.parametrize('local_recovery',[False,True])
+@pytest.mark.parametrize('budget_selection',[False,True])
+def test_cleaning_shares_request_lock_and_persists_its_own_results(console,position_goals,local_recovery,budget_selection):
+    console.cleaning_position_goals = position_goals
+    console.cleaning_local_recovery = local_recovery
+    console.cleaning_budget_selection = budget_selection
     request = dict(request_id='clean_room_01', mode='clean', room='gym')
     submitted = console.submit(request)
     assert submitted['busy'] and submitted['task']['kind']=='clean'
     assert '/run_cleaning.py' in console.runtime.calls[-1][1][1]
+    assert ('--position-goals' in console.runtime.calls[-1][1])==position_goals
+    assert ('--local-recovery' in console.runtime.calls[-1][1])==local_recovery
+    assert ('--budget-selection' in console.runtime.calls[-1][1])==budget_selection
     assert console.submit(dict(request_id='clean_room_01',command='去运动区扫地'))['busy']
     assert len(console.runtime.calls)==1
     assert_api_error(409, lambda: console.submit(task()))
@@ -394,6 +566,14 @@ def test_http_serves_state_and_accepts_local_json_task(console):
     assert status == 200 and len(console.runtime.calls) == 1
 
 
+def test_memory_http_contract_waits_for_map_and_rejects_unknown_filters(console):
+    status, _, payload = http_request(console,path='/api/memory')
+    assert status == 200 and not json.loads(payload)['available']
+    assert http_request(console,path='/api/memory?category=dumbbell')[0] == 400
+    assert http_request(console,path='/api/memory/graph')[0] == 409
+    assert http_request(console,path='/api/memory',headers={'Origin':'https://attacker.example'})[0] == 403
+
+
 @pytest.mark.parametrize('body,headers,status', [
     (b'{}', {'Content-Type': 'text/plain'}, 415),
     (b'[]', {}, 400), (b'{invalid', {}, 400),
@@ -439,3 +619,94 @@ def test_room_overlay_uses_the_same_config_as_command_parsing(console):
     assert state['rooms']['gym']['display_name'] == '健身区'
     _, _, command = console.normalize({'request_id':'gym_command_1','command':'去健身区找椅子'})
     assert json.loads(command)['room'] == 'gym'
+
+
+def test_costmap_export_is_read_only_allowlisted_and_rejects_expired_data(console,monkeypatch):
+    grid=dict(available=True,frame_id='map',width=2,height=2,resolution=1.,
+              origin=dict(x=0.,y=0.,yaw=0.),data=[0,0,0,0])
+    costs=dict(grid,source='/global_costmap/costmap',fresh=True,stamp_seconds=10.)
+    monkeypatch.setattr(console.monitor,'map_snapshot',lambda:dict(grid))
+    monkeypatch.setattr(console.monitor,'costmap_snapshot',lambda:dict(costs),raising=False)
+    console.monitor.values['clock_seconds']=10.5
+    status,_,body=http_request(console,method='POST',path='/api/map/export',body=b'{}')
+    assert status==200
+    artifacts=json.loads(body)['artifacts']
+    assert len(artifacts)==3
+    for artifact in artifacts:
+        status,_,payload=http_request(console,path=artifact['url'])
+        assert status==200 and payload
+    assert not console.runtime.calls and console.job is None
+    costs['fresh']=False
+    assert http_request(console,method='POST',path='/api/map/export',body=b'{}')[0]==409
+    assert len(list((console.runtime.session_dir/'map_snapshots').iterdir()))==1
+
+
+def test_shared_view_export_uses_owned_tasks_and_rejects_missing_sources(console,monkeypatch):
+    grid=dict(available=True,frame_id='map',width=2,height=2,resolution=1.,
+              origin=dict(x=0.,y=0.,yaw=0.),data=[0,0,0,0])
+    monkeypatch.setattr(console.monitor,'map_snapshot',lambda:dict(grid))
+    status,_,body=http_request(console,method='POST',path='/api/map/export',body=b'{"view":"rooms"}')
+    assert status==200
+    for artifact in json.loads(body)['artifacts']:
+        assert http_request(console,path=artifact['url'])[0]==200
+    before=list((console.runtime.session_dir/'map_snapshots').iterdir())
+    for request,expected in [(b'{"view":"../../secret"}',400),(b'{"view":[]}',400),
+                             (b'{"view":"rooms","file":"secret"}',400),
+                             (b'{"view":"semantic","room":[]}',400),
+                             (b'{"view":"observations","task_id":"../../old"}',404),
+                             (b'{"view":"observations"}',409),(b'{"view":"clean_coverage"}',409)]:
+        assert http_request(console,method='POST',path='/api/map/export',body=request)[0]==expected
+    assert list((console.runtime.session_dir/'map_snapshots').iterdir())==before
+    assert not console.runtime.calls and console.job is None
+
+
+def test_clean_export_reads_only_owned_persisted_brush_grid_and_retains_partial(console,monkeypatch,tmp_path):
+    import time
+    import numpy as np
+    console.rooms={'utility':dict(bounds=[0,0,2,2],aliases=['杂物间'],display_name='杂物间')}
+    grid=dict(available=True,frame_id='map',width=2,height=2,resolution=1.,origin=dict(x=0.,y=0.,yaw=0.),data=[0]*4)
+    monkeypatch.setattr(console.monitor,'map_snapshot',lambda:dict(grid))
+    source=console.runtime.session_dir/'requests/clean_saved';source.mkdir(parents=True)
+    result=dict(frame_id='map',room='utility',status='partial',coverage=dict(floor_cells=4,eligible_cells=4,covered_cells=1,coverage_fraction=.25))
+    documents={'clean_result.json':result,'clean_plan.json':dict(frame_id='map',origin=[0.,0.,0.],resolution_m=1.),'clean_trace.json':dict(frame_id='map',samples=[])}
+    for name,value in documents.items():(source/name).write_text(json.dumps(value))
+    np.savez(source/'clean_navigation.npz',static_map=np.zeros((2,2),dtype=np.int8),eligible=np.ones((2,2),dtype=bool),covered_001=np.array([[True,False],[False,False]]))
+    raw=(source/'clean_navigation.npz').read_bytes()
+    row=dict(id='clean_saved',kind='clean',state='partial',result=result,_folder=source,_started=time.monotonic(),_ended=time.monotonic())
+    console.jobs[row['id']]=row
+    status,_,body=http_request(console,method='POST',path='/api/map/export',body=b'{"view":"clean_coverage","task_id":"clean_saved"}')
+    assert status==200
+    data=json.loads(http_request(console,path=json.loads(body)['artifacts'][-1]['url'])[2])
+    assert data['cleaning']['result']['status']=='partial'
+    assert data['cleaning']['result']['coverage']['covered_cells']==1
+    assert sum(sum(v)for v in data['cleaning']['covered'])==1
+    assert (source/'clean_navigation.npz').read_bytes()==raw
+    row['_folder']=tmp_path/'outside_session'
+    assert http_request(console,method='POST',path='/api/map/export',body=b'{"view":"clean_coverage","task_id":"clean_saved"}')[0]==409
+    assert not console.runtime.calls
+
+
+@pytest.mark.parametrize('seconds,timeout',[(0,720),(180,900)])
+def test_room_supplement_budget_survives_parent_watchdog(console,seconds,timeout):
+    console.rooms['gym']['cleaning_supplement_seconds']=seconds
+    console.submit(dict(request_id='supplement_budget_01',mode='clean',room='gym'))
+    argv=console.runtime.calls[-1][1]
+    assert float(argv[argv.index('--timeout')+1])==timeout
+    assert ('--supplement-seconds' in argv)==bool(seconds)
+    limits=[]
+    console._wait_client=lambda row,process,limit,started:limits.append(limit)
+    folder=console.job['_folder']
+    put_json(folder/'clean_result.json',dict(status='partial',navigation_settled=True))
+    put_json(folder/'clean_trace.json',[])
+    console.runtime.calls[-1][2].returncode=0
+    console.pending_workers[-1].run()
+    assert limits==[timeout+12]
+    assert console.snapshot()['task']['state']=='partial'
+
+
+@pytest.mark.parametrize('seconds',[True,-1,181,float('nan'),'180'])
+def test_invalid_supplement_budget_never_starts_motion(console,seconds):
+    console.rooms['gym']['cleaning_supplement_seconds']=seconds
+    assert_api_error(500,lambda:console.submit(dict(request_id='supplement_bad_01',mode='clean',room='gym')))
+    assert not console.runtime.calls
+    assert console.snapshot()['task']['state']=='failed'

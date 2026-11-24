@@ -1,0 +1,373 @@
+{
+  "source": "semantic_followup/pair_retry real baseline; original validator incorrectly required all fallback visits after found",
+  "room": {
+    "views": [
+      [
+        0.0,
+        1.2,
+        1.57
+      ],
+      [
+        1.5,
+        4.9,
+        -2.8
+      ],
+      [
+        -1.4,
+        2.6,
+        0.6
+      ],
+      [
+        0.0,
+        1.2,
+        -3.14159265
+      ],
+      [
+        0.0,
+        1.2,
+        -2.35619449
+      ],
+      [
+        0.0,
+        1.2,
+        -1.57079633
+      ],
+      [
+        0.0,
+        1.2,
+        -0.78539816
+      ],
+      [
+        0.0,
+        1.2,
+        0.0
+      ],
+      [
+        0.0,
+        1.2,
+        0.78539816
+      ],
+      [
+        0.0,
+        1.2,
+        1.57079633
+      ],
+      [
+        0.0,
+        1.2,
+        2.35619449
+      ]
+    ]
+  },
+  "result": {
+    "mode": "find",
+    "status": "found",
+    "viewpoints": [
+      [
+        0.0,
+        1.2,
+        1.57
+      ],
+      [
+        1.5,
+        4.9,
+        -2.8
+      ],
+      [
+        -1.4,
+        2.6,
+        0.6
+      ]
+    ],
+    "viewpoint_diagnostics": [
+      {
+        "index": 0,
+        "pose": [
+          0.0,
+          1.2,
+          1.57
+        ],
+        "reached": true,
+        "navigation_status": 4,
+        "dwell_completed": true,
+        "extra_wait_started": false,
+        "waiting_for_sensor_data": false,
+        "extra_wait_seconds": 0.0,
+        "synchronized_messages": 32,
+        "rejected_sensor_frames": 0,
+        "synchronized_frames": 32,
+        "tf_failures": 0,
+        "invalid_target_depth": 0,
+        "valid_projections": 0,
+        "nominal_dwell_seconds": 4.0,
+        "extra_wait_limit_seconds": 4.0,
+        "arrival_sim_seconds": 503.904,
+        "arrival_pose_lookup": "latest",
+        "arrival_map_pose": {
+          "frame_id": "map",
+          "child_frame_id": "base_link",
+          "xyz": [
+            0.041011489476400875,
+            1.3196277132283885,
+            3.6450371525219814e-05
+          ],
+          "xyzw": [
+            0.0014082763542166594,
+            0.0007215466573547485,
+            0.6940857971366774,
+            0.7198905488623077
+          ]
+        },
+        "arrival_transform_stamp_ns": 503900000000,
+        "arrival_pose_error": null
+      },
+      {
+        "index": 1,
+        "pose": [
+          1.5,
+          4.9,
+          -2.8
+        ],
+        "reached": true,
+        "navigation_status": 4,
+        "dwell_completed": true,
+        "extra_wait_started": false,
+        "waiting_for_sensor_data": false,
+        "extra_wait_seconds": 0.0,
+        "synchronized_messages": 31,
+        "rejected_sensor_frames": 0,
+        "synchronized_frames": 31,
+        "tf_failures": 0,
+        "invalid_target_depth": 0,
+        "valid_projections": 0,
+        "nominal_dwell_seconds": 4.0,
+        "extra_wait_limit_seconds": 4.0,
+        "arrival_sim_seconds": 550.14,
+        "arrival_pose_lookup": "latest",
+        "arrival_map_pose": {
+          "frame_id": "map",
+          "child_frame_id": "base_link",
+          "xyz": [
+            1.4443305873818528,
+            4.844545078916826,
+            -8.181679646036832e-06
+          ],
+          "xyzw": [
+            0.0001513666406125405,
+            -0.0004774426224939223,
+            0.9761336321695492,
+            -0.21717016665317002
+          ]
+        },
+        "arrival_transform_stamp_ns": 550140000000,
+        "arrival_pose_error": null
+      },
+      {
+        "index": 2,
+        "pose": [
+          -1.4,
+          2.6,
+          0.6
+        ],
+        "reached": true,
+        "navigation_status": 4,
+        "dwell_completed": false,
+        "extra_wait_started": false,
+        "waiting_for_sensor_data": false,
+        "extra_wait_seconds": 0.0,
+        "synchronized_messages": 2,
+        "rejected_sensor_frames": 0,
+        "synchronized_frames": 2,
+        "tf_failures": 0,
+        "invalid_target_depth": 0,
+        "valid_projections": 2,
+        "nominal_dwell_seconds": 4.0,
+        "extra_wait_limit_seconds": 4.0,
+        "arrival_sim_seconds": 575.24,
+        "arrival_pose_lookup": "latest",
+        "arrival_map_pose": {
+          "frame_id": "map",
+          "child_frame_id": "base_link",
+          "xyz": [
+            -1.3102553000682966,
+            2.5790128639768333,
+            -3.541351704441746e-06
+          ],
+          "xyzw": [
+            -0.00022741863758003858,
+            -9.399542749406166e-05,
+            0.34166786932083704,
+            0.9398207310542699
+          ]
+        },
+        "arrival_transform_stamp_ns": 575240000000,
+        "arrival_pose_error": null
+      },
+      {
+        "index": 3,
+        "pose": [
+          0.0,
+          1.2,
+          -3.14159265
+        ],
+        "reached": false,
+        "navigation_status": null,
+        "dwell_completed": false,
+        "extra_wait_started": false,
+        "waiting_for_sensor_data": false,
+        "extra_wait_seconds": 0.0,
+        "synchronized_messages": 0,
+        "rejected_sensor_frames": 0,
+        "synchronized_frames": 0,
+        "tf_failures": 0,
+        "invalid_target_depth": 0,
+        "valid_projections": 0
+      },
+      {
+        "index": 4,
+        "pose": [
+          0.0,
+          1.2,
+          -2.35619449
+        ],
+        "reached": false,
+        "navigation_status": null,
+        "dwell_completed": false,
+        "extra_wait_started": false,
+        "waiting_for_sensor_data": false,
+        "extra_wait_seconds": 0.0,
+        "synchronized_messages": 0,
+        "rejected_sensor_frames": 0,
+        "synchronized_frames": 0,
+        "tf_failures": 0,
+        "invalid_target_depth": 0,
+        "valid_projections": 0
+      },
+      {
+        "index": 5,
+        "pose": [
+          0.0,
+          1.2,
+          -1.57079633
+        ],
+        "reached": false,
+        "navigation_status": null,
+        "dwell_completed": false,
+        "extra_wait_started": false,
+        "waiting_for_sensor_data": false,
+        "extra_wait_seconds": 0.0,
+        "synchronized_messages": 0,
+        "rejected_sensor_frames": 0,
+        "synchronized_frames": 0,
+        "tf_failures": 0,
+        "invalid_target_depth": 0,
+        "valid_projections": 0
+      },
+      {
+        "index": 6,
+        "pose": [
+          0.0,
+          1.2,
+          -0.78539816
+        ],
+        "reached": false,
+        "navigation_status": null,
+        "dwell_completed": false,
+        "extra_wait_started": false,
+        "waiting_for_sensor_data": false,
+        "extra_wait_seconds": 0.0,
+        "synchronized_messages": 0,
+        "rejected_sensor_frames": 0,
+        "synchronized_frames": 0,
+        "tf_failures": 0,
+        "invalid_target_depth": 0,
+        "valid_projections": 0
+      },
+      {
+        "index": 7,
+        "pose": [
+          0.0,
+          1.2,
+          0.0
+        ],
+        "reached": false,
+        "navigation_status": null,
+        "dwell_completed": false,
+        "extra_wait_started": false,
+        "waiting_for_sensor_data": false,
+        "extra_wait_seconds": 0.0,
+        "synchronized_messages": 0,
+        "rejected_sensor_frames": 0,
+        "synchronized_frames": 0,
+        "tf_failures": 0,
+        "invalid_target_depth": 0,
+        "valid_projections": 0
+      },
+      {
+        "index": 8,
+        "pose": [
+          0.0,
+          1.2,
+          0.78539816
+        ],
+        "reached": false,
+        "navigation_status": null,
+        "dwell_completed": false,
+        "extra_wait_started": false,
+        "waiting_for_sensor_data": false,
+        "extra_wait_seconds": 0.0,
+        "synchronized_messages": 0,
+        "rejected_sensor_frames": 0,
+        "synchronized_frames": 0,
+        "tf_failures": 0,
+        "invalid_target_depth": 0,
+        "valid_projections": 0
+      },
+      {
+        "index": 9,
+        "pose": [
+          0.0,
+          1.2,
+          1.57079633
+        ],
+        "reached": false,
+        "navigation_status": null,
+        "dwell_completed": false,
+        "extra_wait_started": false,
+        "waiting_for_sensor_data": false,
+        "extra_wait_seconds": 0.0,
+        "synchronized_messages": 0,
+        "rejected_sensor_frames": 0,
+        "synchronized_frames": 0,
+        "tf_failures": 0,
+        "invalid_target_depth": 0,
+        "valid_projections": 0
+      },
+      {
+        "index": 10,
+        "pose": [
+          0.0,
+          1.2,
+          2.35619449
+        ],
+        "reached": false,
+        "navigation_status": null,
+        "dwell_completed": false,
+        "extra_wait_started": false,
+        "waiting_for_sensor_data": false,
+        "extra_wait_seconds": 0.0,
+        "synchronized_messages": 0,
+        "rejected_sensor_frames": 0,
+        "synchronized_frames": 0,
+        "tf_failures": 0,
+        "invalid_target_depth": 0,
+        "valid_projections": 0
+      }
+    ],
+    "memory_guidance": {
+      "enabled": false,
+      "used": false,
+      "counts_from_history": false
+    }
+  }
+}

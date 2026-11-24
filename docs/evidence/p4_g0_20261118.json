@@ -367,5 +367,41 @@
       "path": "ui/index.html",
       "sha256": "f136fdbe830f2714b0292f6b121455abe9fdbc542214c6fd4617bae6822ef168"
     }
-  ]
+  ],
+  "functional_preflight_20261122": {
+    "stage": "C036",
+    "date_local": "2026-11-22",
+    "status": "functional_preflight_passed",
+    "scope": "Lowered functional-phase preflight before new kitchen scope; no microphone acceptance.",
+    "session": "results/sessions/20261122T065856_764386Z_264ead9d",
+    "report": "results/development/integration_handoff_20261122/report.json",
+    "artifact_audit": "results/development/integration_handoff_20261122/artifact_audit.json",
+    "semantic_audit": "results/development/integration_handoff_20261122/semantic_audit.json",
+    "shutdown": "results/sessions/20261122T065856_764386Z_264ead9d/shutdown.json",
+    "configuration": "Frozen original yellow/v4/n640; later kitchen geometry and inspection changes require separate C037 validation.",
+    "cleaning_original_status": "partial",
+    "coverage": {
+      "floor_cells": 12469,
+      "eligible_cells": 11156,
+      "covered_cells": 7854,
+      "uncovered_cells": 3302,
+      "excluded_floor_cells": 1313,
+      "coverage_fraction": 0.7040157762638939,
+      "covered_area_m2": 19.635,
+      "repeated_area_m2": 7.455,
+      "repeated_coverage_fraction": 0.26730010756543565
+    },
+    "return_error": {
+      "position_m": 0.10413091578890955,
+      "yaw_rad": 0.09443318173451126,
+      "stationary_seconds": 0.46
+    },
+    "http_artifacts_verified": 34,
+    "microphone": "not_tested",
+    "limitations": [
+      "Single representative case per function. Original cleaning partial retained; no85% or16-category claim.",
+      "Runtime fixed720s budget and docking/parking gates unchanged.",
+      "New kitchen worktop scope is not covered by this baseline preflight."
+    ]
+  }
 }

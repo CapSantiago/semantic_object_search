@@ -1,0 +1,5 @@
+<library path="service_navfn">
+  <class name="service_navfn/CellCenteredNavfn" type="service_navfn::CellCenteredNavfn" base_class_type="nav2_core::GlobalPlanner">
+    <description>Installed NavFn Dijkstra/A* with Costmap2D floor indexing and cell-centred path coordinates.</description>
+  </class>
+</library>

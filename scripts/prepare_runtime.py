@@ -45,8 +45,10 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--references', action='store_true', help='also restore optional design references')
     parser.add_argument('--check', action='store_true', help='check local files only; no network or writes')
-    args = parser.parse_args()
     lock = json.loads((ROOT / 'resources/runtime.lock.json').read_text())
+    parser.add_argument('--model',choices=(lock['vision_model']['path'],*lock.get('candidate_vision_models',{})),default='yolov8n-seg.pt',
+                        help='also prepare a locked candidate model; default keeps the n baseline')
+    args = parser.parse_args()
     for record in lock['repositories']:
         if record['role'] == 'reference' and not args.references:
             continue
@@ -93,6 +95,16 @@ def main():
         download(model['url'], path, model['sha256'])
     if digest(path) != model['sha256']:
         raise RuntimeError('Vision weight differs from lock')
+    if args.model!=model['path']:
+        candidate = lock['candidate_vision_models'][args.model]
+        path = ROOT/candidate['path']
+        if not args.check:
+            download(candidate['url'],path,candidate['sha256'])
+        if digest(path)!=candidate['sha256']:
+            raise RuntimeError('Candidate vision weight differs from lock')
+    prompt=lock.get('vision_prompt_embeddings',{}).get(args.model)
+    if prompt and (not (ROOT/prompt['path']).is_file() or digest(ROOT/prompt['path'])!=prompt['sha256']):
+        raise RuntimeError('Frozen prompt embeddings differ from lock; restore the versioned resource, do not overwrite it')
     for folder, stem in [('baseline', 'course_house'), ('aws_house', 'house')]:
         for extension in ('yaml', 'pgm'):
             archived = ROOT / f'scenes/{folder}/maps/{stem}.{extension}'

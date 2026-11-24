@@ -1,0 +1,132 @@
+{
+  "status": "audited_single_trial",
+  "session": "/home/willmatic/桌面/semantic_object_search/results/sessions/20261124T052056_236752Z_be7bb4a8",
+  "room": "utility",
+  "request_id": "demo_utility_priority_clean_02",
+  "result_status": "partial",
+  "coverage": {
+    "floor_cells": 10363,
+    "eligible_cells": 9336,
+    "covered_cells": 7488,
+    "uncovered_cells": 1848,
+    "excluded_floor_cells": 1027,
+    "coverage_fraction": 0.8020565552699229,
+    "covered_area_m2": 18.72,
+    "repeated_area_m2": 10.925,
+    "repeated_coverage_fraction": 0.4680805484147387
+  },
+  "spatial_coverage": {
+    "basis": "measured_brush_coverage_of_original_stripe_centerlines",
+    "completed": false,
+    "planned_lanes": 23,
+    "covered_lanes": 15,
+    "incomplete_lanes": [
+      {
+        "lane_id": 4,
+        "centerline_cells": 18,
+        "covered_centerline_cells": 14,
+        "completed": false
+      },
+      {
+        "lane_id": 8,
+        "centerline_cells": 65,
+        "covered_centerline_cells": 48,
+        "completed": false
+      },
+      {
+        "lane_id": 9,
+        "centerline_cells": 70,
+        "covered_centerline_cells": 53,
+        "completed": false
+      },
+      {
+        "lane_id": 10,
+        "centerline_cells": 116,
+        "covered_centerline_cells": 114,
+        "completed": false
+      },
+      {
+        "lane_id": 11,
+        "centerline_cells": 9,
+        "covered_centerline_cells": 8,
+        "completed": false
+      },
+      {
+        "lane_id": 15,
+        "centerline_cells": 9,
+        "covered_centerline_cells": 8,
+        "completed": false
+      },
+      {
+        "lane_id": 18,
+        "centerline_cells": 92,
+        "covered_centerline_cells": 71,
+        "completed": false
+      },
+      {
+        "lane_id": 19,
+        "centerline_cells": 90,
+        "covered_centerline_cells": 74,
+        "completed": false
+      }
+    ]
+  },
+  "elapsed_seconds": 847.73,
+  "stop_reason": "cleaning_budget_exhausted",
+  "return_state": "simulated_charging",
+  "return_error": {
+    "position_m": 0.0478759584135387,
+    "yaw_rad": 0.02969426295788873,
+    "stationary_seconds": 0.46
+  },
+  "case_gates": {
+    "coverage_at_least_80": true,
+    "all_original_stripes_brushed": false,
+    "map_docked": true,
+    "settled": true,
+    "no_recorded_body_contact": true,
+    "fresh_sensor_checks": true,
+    "exact_frozen_repaint": true,
+    "ordered_stopped_actions": true,
+    "observers_clean": true
+  },
+  "single_case_passed": false,
+  "protocol": {
+    "accepted_actions": 68,
+    "all_stopped": true,
+    "ordered": true,
+    "min_post_terminal_seconds": 0.4600000000000364
+  },
+  "cloud": {
+    "cloud": {
+      "count": 6721,
+      "max_gap": 0.18760866499997064,
+      "gaps_over_point4": 0,
+      "max_source_age": 0.10199999999997544
+    },
+    "scan": {
+      "count": 4200,
+      "max_gap": 0.26357322499916336,
+      "gaps_over_point4": 0,
+      "max_source_age": 0.06400000000007822
+    },
+    "fresh_checks": 431638,
+    "stale_checks": 0
+  },
+  "contacts": {
+    "nonfloor_contacts": [],
+    "contact_messages": 0,
+    "limitation": "Robot base/mount contact source is event-only; wheels/casters/ground excluded; no moving-fixture calibration yet."
+  },
+  "observer_cleanup": {
+    "cloud": 0,
+    "motion": 0
+  },
+  "source_sha256": "6897f1799367a567a091a92ff1f58d05528775061e0a8a8387d3000949d2d8e0",
+  "limitations": [
+    "One actual trial on this frozen common configuration.",
+    "Daily obstacle cases separately verified, not inferred from this cleaning pass.",
+    "Map dock tolerance does not replace independent physical-world docking accuracy.",
+    "No ground-truth object coordinates enter navigation or brush repaint."
+  ]
+}

@@ -12,7 +12,61 @@ module = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(module)
 
 
+class ObstacleObservationTests(unittest.TestCase):
+    def scan(self,ranges):
+        return N(header=N(frame_id='laser',stamp=N(sec=10,nanosec=0)),ranges=ranges,
+                 angle_min=-math.pi,angle_increment=math.pi/4,range_min=.1,range_max=10.)
+
+    def test_front_and_rear_respect_sensor_transform_and_reverse_motion(self):
+        tf=N(translation=N(x=.1,y=0.),rotation=N(x=0.,y=0.,z=0.,w=1.))
+        scan=self.scan([.5,math.inf,math.inf,math.inf,.6,math.inf,math.inf,math.inf])
+        front=module.scan_obstacles(scan,tf,map_transform=tf)
+        rear=module.scan_obstacles(scan,tf,direction=-1,map_transform=tf)
+        self.assertAlmostEqual(front['nearest']['distance_m'],.7)
+        self.assertAlmostEqual(rear['nearest']['distance_m'],.4)
+        self.assertAlmostEqual(abs(rear['nearest']['bearing_degrees']),180.)
+
+    def test_stale_or_invalid_scan_cannot_present_clearance_or_live_points(self):
+        wall=[0.];observer=module.ObstacleObservation(now=lambda:wall[0]);observer.motion(.2,0.)
+        observer.receive(dict(stamp_seconds=10.,nearest=dict(distance_m=.5),points=[[1.,2.]]))
+        self.assertEqual(observer.snapshot(10.)['state'],'near_moving')
+        wall[0]=.41;observer.motion(.2,0.)
+        value=observer.snapshot(10.1)
+        self.assertFalse(value['fresh']);self.assertIsNone(value['nearest']);self.assertEqual(value['points'],[])
+        tf=N(translation=N(x=0.,y=0.),rotation=N(x=0.,y=0.,z=0.,w=1.))
+        with self.assertRaises(ValueError):module.scan_obstacles(self.scan([math.nan]*8),tf)
+
+    def test_motion_and_sim_clock_expire_independently_of_scan_receipt(self):
+        wall=[0.];observer=module.ObstacleObservation(now=lambda:wall[0]);observer.motion(.2,0.)
+        wall[0]=.5;observer.receive(dict(stamp_seconds=10.,nearest=None,points=[]))
+        self.assertEqual(observer.snapshot(10.)['state'],'stale')
+        observer.motion(0.,0.);self.assertEqual(observer.snapshot(10.)['state'],'stationary')
+        self.assertFalse(observer.snapshot(11.)['fresh'])
+
+
 class MonitorStoreTests(unittest.TestCase):
+    def test_costmap_expiry_omits_stale_cells_and_is_separate_from_static_map(self):
+        self.complete();payload=dict(available=True,width=2,height=1,data=[100,99],stamp_seconds=10.2,frame_id='map')
+        self.store.receive_costmap(payload)
+        self.assertEqual(self.store.costmap_snapshot()['data'],[100,99])
+        self.assertNotIn('costmap',self.store.snapshot())
+        self.wall=3.;self.receive_all(13.)
+        self.assertFalse(self.store.costmap_snapshot()['fresh']);self.assertEqual(self.store.costmap_snapshot()['data'],[])
+        self.store.receive_costmap(payload)
+        self.assertFalse(self.store.costmap_snapshot()['fresh'])
+        self.store.clear_localization();self.assertFalse(self.store.costmap_snapshot()['available'])
+
+    def test_safety_status_expires_independently_of_normal_sensor_readiness(self):
+        self.complete()
+        self.assertFalse(self.store.snapshot()['safety']['ready'])
+        self.store.receive_safety('{"ready":true,"stamp_seconds":10.2,"reasons":[]}')
+        self.assertTrue(self.store.snapshot()['safety']['ready'])
+        self.wall=1.
+        self.receive_all(11.)
+        self.assertFalse(self.store.snapshot()['safety']['ready'])
+        self.store.receive_safety('{"ready":true,"stamp_seconds":2}')
+        self.assertFalse(self.store.snapshot()['safety']['ready'])
+
     def setUp(self):
         self.wall = 0.0
         self.store = module.TelemetryStore(now=lambda: self.wall)

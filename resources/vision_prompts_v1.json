@@ -1,0 +1,78 @@
+{
+  "version": 1,
+  "model": "yoloe-11s-seg.pt",
+  "classes": [
+    "sports ball",
+    "exercise ball",
+    "beach ball",
+    "balloon",
+    "cup",
+    "bottle",
+    "bowl",
+    "book",
+    "apple",
+    "orange",
+    "banana",
+    "cell phone",
+    "vase",
+    "chair",
+    "bed",
+    "couch",
+    "tv",
+    "dining table",
+    "refrigerator"
+  ],
+  "enabled_auxiliary_categories": [
+    "book",
+    "sports ball"
+  ],
+  "embedding_path": "resources/ball_prompts_v1.npz",
+  "embedding_sha256": "c198c497e1d0a351bbcf832b74d54860534fe9cbf7c0cb27a051f6ee7f0e67e0",
+  "ultralytics_version": "8.4.207",
+  "source": {
+    "release_tag": "v8.4.0",
+    "assets": [
+      {
+        "name": "mobileclip_blt.ts",
+        "size": 599764649,
+        "digest": "sha256:a67804d1b0f07b8b9a20c1761ec0847f34660f5fa338ec70e8f3fce68ed95e54",
+        "browser_download_url": "https://github.com/ultralytics/assets/releases/download/v8.4.0/mobileclip_blt.ts"
+      },
+      {
+        "name": "yoloe-11s-seg.pt",
+        "size": 27803986,
+        "digest": "sha256:8e439445c87338b79d9ce21dec109f4621e26df67e94d26ea1a98c1e64dce3e3",
+        "browser_download_url": "https://github.com/ultralytics/assets/releases/download/v8.4.0/yoloe-11s-seg.pt"
+      }
+    ],
+    "clip_commit": "7ffa84b3bfa40c42ecc1c77147a855e69cb2dd40",
+    "clip_repository": "https://github.com/ultralytics/CLIP",
+    "clip_archive_sha256": "ea6799c740f2725175edee0881de9f354086e801dd33d4f43b17d18c8238fb54"
+  },
+  "tokenizer_dependencies": {
+    "ftfy": {
+      "version": "6.3.1",
+      "requires_python": ">=3.9",
+      "sha256": "7c70eb532015cd2f9adb53f101fb6c7945988d023a085d127d1573dc49dd0083",
+      "url": "https://files.pythonhosted.org/packages/ab/6e/81d47999aebc1b155f81eca4477a616a70f238a2549848c38983f3c22a82/ftfy-6.3.1-py3-none-any.whl"
+    },
+    "regex": {
+      "version": "2026.9.29",
+      "requires_python": ">=3.10",
+      "sha256": "4fb41211d2333eb930a51e0546a65999761cf1f572a4da56ef9b8a62966c06f2",
+      "url": "https://files.pythonhosted.org/packages/ec/99/eae371ca63f7ea1f1eac025021527adb57ce3a4b67ff608b896fd31ea447/regex-2026.9.29-cp310-cp310-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl"
+    },
+    "wcwidth": {
+      "version": "0.9.5",
+      "requires_python": ">=3.9",
+      "sha256": "61ffb194ccf2224ff552b46912aa44f1bc841f8ef751b193335b317a286b7c03",
+      "url": "https://files.pythonhosted.org/packages/5a/cb/55c50713af3697d7dc88b99763826e77ac1e5cec515670c9400a6dee980e/wcwidth-0.9.5-cp310-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.whl"
+    },
+    "tqdm": {
+      "version": "4.70.1",
+      "source": "https://pypi.org/pypi/tqdm/json"
+    }
+  },
+  "method": "Official YOLOE set_classes + save_prompt_embeddings; inference uses load_prompt_embeddings, no encoder/tokenizer/network required",
+  "source_replay": "results/development/integrated_expansion_20261122/prompt_replay.json"
+}

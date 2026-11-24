@@ -1,0 +1,41 @@
+{
+  "scope": "Selected original receipts; full sensor data/configuration snapshots stay local; no new acceptance claim",
+  "files": {
+    "living_banana.json": {
+      "local_source": "results/development/demo_two_rooms_20261123/living_banana/audit.json",
+      "sha256": "0d512d11818f6ee48c4efcd9d5afa981db57be6173c95f9a214f5a5413fdeaa1"
+    },
+    "memory_benefit_failed.json": {
+      "local_source": "results/development/demo_two_rooms_20261123/semantic_followup/living_banana/abba2_audit.json",
+      "sha256": "94da0985b63562f96a3e8f0fb748692c90e7a7e0a4101522e7edc6c8bd9ce3fe"
+    },
+    "memory_movement.json": {
+      "local_source": "results/development/demo_two_rooms_20261123/semantic_followup/living_banana/movement_heading_fix/audit.json",
+      "sha256": "e586cc6ca6beaba13c83ac761f17151bcd90ea84c33d3333d32b3c258cd32a27"
+    },
+    "memory_reload.json": {
+      "local_source": "results/development/demo_two_rooms_20261123/semantic_followup/living_banana/movement_heading_fix/independent_update_audit.json",
+      "sha256": "317553fd2436e0c3db8a698b0bcebe9ee34a7e43281da8539e7c34e92c8b947b"
+    },
+    "precision_return.json": {
+      "local_source": "results/development/demo_two_rooms_20261123/semantic_followup/living_banana/heading_fix_audit.json",
+      "sha256": "689ef3e17e261c46fa267cc52850f2a2e29775d5a23ce5623e7b65abf98c2e12"
+    },
+    "cleaning_partial.json": {
+      "local_source": "results/development/demo_two_rooms_20261123/cleaning_followup/ball_trial/local_replan/utility_priority/audit.json",
+      "sha256": "95ba95b522b00290208c2d338df906d349a9d637a9b87573f89a065fa05fd5fe"
+    },
+    "cleaning_world_dock_failed.json": {
+      "local_source": "results/development/demo_two_rooms_20261123/cleaning_followup/ball_trial/local_replan/utility_priority/independent_dock.json",
+      "sha256": "414a7a4ea910e551aa587a33ff056145b6bccc11686166c490b1f6c00f4d4a77"
+    },
+    "mapping_chain_dock_failed.json": {
+      "local_source": "results/development/demo_two_rooms_20261123/mapping_loop/trial/audit.json",
+      "sha256": "a5de1f4cbc1f75233253597243b3a842f7529ad25f61c430f1c4aed8dc3033cf"
+    },
+    "runtime_cleanup.json": {
+      "local_source": "results/development/demo_two_rooms_20261123/semantic_followup/living_banana/publication_runtime_cleanup.json",
+      "sha256": "e6a6868faeffa4b9b3a33ef643b8dd36d015516ad5aaf01c90cc7b07e25e487c"
+    }
+  }
+}

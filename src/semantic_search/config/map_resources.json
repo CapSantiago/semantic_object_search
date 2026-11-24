@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "maps": {
+    "baseline_v1": {
+      "yaml": "maps/baseline/course_house.yaml",
+      "compatible_yaml": [
+        "maps/course_house.yaml",
+        "scenes/baseline/maps/course_house.yaml"
+      ]
+    },
+    "aws_house_v1": {
+      "yaml": "scenes/aws_house/r0_v1/maps/house.yaml",
+      "compatible_yaml": [
+        "maps/aws_house/house.yaml",
+        "scenes/aws_house/maps/house.yaml"
+      ]
+    }
+  }
+}

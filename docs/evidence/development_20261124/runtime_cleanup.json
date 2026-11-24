@@ -1,0 +1,7 @@
+{
+  "session": "20261124T052056_236752Z_be7bb4a8",
+  "console_pid_present": false,
+  "shutdown_receipt_present": false,
+  "remaining_owned": [],
+  "reason": "Console absent after interrupted turn; only exact UID/token/start-ticks identities inspected and cleaned"
+}

@@ -1,8 +1,10 @@
 # AWS 家庭场景部署与运行
 
-最新白黄杯/v3/reliable候选统一按 [RUNNING.md](RUNNING.md) 启动。本文下方用于原AWS椅子场景和baseline回归，不与候选命令混用。
+当前默认白黄杯/v4五区/可靠订阅配置统一按 [RUNNING.md](RUNNING.md) 启动。本文下方用于原AWS椅子场景和baseline回归，不与候选命令混用。
 
-候选保留原激光地图副本，使用独立相机组件和 `nav2_depth.yaml`；当前配置与实验结论见 [交接](HANDOFF.md) 和 [验证概览](DEVELOPMENT_VALIDATION.md)。早期蓝杯/v1、通信域及相机调整过程已移入 [历史场景记录](../archive/validation/AWS_HOUSE_20261117.md)。
+默认使用1m/.25rad相机组件、`nav2_depth.yaml`与GPU n/640；宽视场和导航保护需显式启用。原AWS椅子场景的命令与历史地图保留供回归；当前配置与实验结论见 [交接](HANDOFF.md) 和 [验证概览](DEVELOPMENT_VALIDATION.md)。早期蓝杯/v1、通信域及相机调整过程已移入 [历史场景记录](../archive/validation/AWS_HOUSE_20261117.md)。
+
+本页下方的CPU、房间配置和计数记录仅对应原AWS椅子场景。当前五区、语义图层和任务输出共用底图，见[地图方案](DEPLOYMENT_PLAN.md#地图数据与输出视图)。
 
 ## 原已验收场景
 

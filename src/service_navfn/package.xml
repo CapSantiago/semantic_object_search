@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>service_navfn</name>
+  <version>0.1.0</version>
+  <description>NavFn using the same cell coordinates as the service robot costmap.</description>
+  <maintainer email="course-project@example.com">Course project team</maintainer>
+  <license>Apache-2.0</license>
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <depend>nav2_navfn_planner</depend>
+  <depend>pluginlib</depend>
+  <depend>nav2_costmap_2d</depend>
+  <export><build_type>ament_cmake</build_type></export>
+</package>

@@ -20,7 +20,7 @@ import time
 from uuid import uuid4
 
 
-COMPONENTS = ('simulation', 'navigation', 'detector', 'search', 'rviz', 'slam', 'motion')
+COMPONENTS = ('simulation', 'navigation', 'detector', 'search', 'rviz', 'slam', 'motion', 'safety')
 OWNER_VARIABLE = 'SEMANTIC_RUNTIME_OWNER'
 ROLE_VARIABLE = 'SEMANTIC_RUNTIME_ROLE'
 
@@ -86,18 +86,64 @@ class Runtime:
     """
 
     def __init__(self, root, domain=66, headless=False, session_dir=None, env=None,
-                 check_dependencies=True, rooms_file=None, layout_file=None, device='cuda:0'):
+                 check_dependencies=True, rooms_file=None, layout_file=None, device='cuda:0',
+                 candidate_categories=None, camera_height=1.0, camera_pitch=.25,
+                 active_observation=False, image_size=640, navigation_safety=False,model='yolov8n-seg.pt',
+                 camera_resolution='640x480',camera_fov=1.02974,cleaning_position_goals=False,
+                 cleaning_local_recovery=False, charging_station=True, cleaning_budget_selection=False,
+                 memory_guidance=False,ball_model=None,auxiliary_model=None,auxiliary_categories=None,
+                 body_footprint=False,depth_cloud_source='native',precision_docking=False,memory_safe_approach=False):
+        if depth_cloud_source not in ('native','image'):
+            raise ValueError('导航点云来源必须为native或image。')
+        if (camera_resolution not in ('640x480','1280x960') or type(camera_fov) not in (int,float)
+                or not math.isfinite(camera_fov) or not .8<=camera_fov<=1.6):
+            raise ValueError('相机分辨率支持640x480/1280x960，水平视场0.8–1.6 rad。')
+        if model not in ('yolov8n-seg.pt','yolov8s-seg.pt'):
+            raise ValueError('视觉模型必须为锁定的n或s分割权重。')
+        self.model = model
+        if ball_model not in (None,'yoloe-11s-seg-pf.pt'):
+            raise ValueError('球辅助模型必须使用锁定的YOLOE免提示分割权重。')
+        self.ball_model=ball_model
+        if auxiliary_model not in (None,'yoloe-11s-seg.pt') or (auxiliary_model and ball_model):
+            raise ValueError('辅助模型需显式选择锁定的文本YOLOE，且不能同时选择旧球辅助。')
+        if auxiliary_categories is not None and not auxiliary_model:
+            raise ValueError('辅助类别需要同时指定辅助模型。')
+        scope=(['book','sports ball'] if auxiliary_categories is None else auxiliary_categories) if auxiliary_model else ['sports ball']
+        if not isinstance(scope,(list,tuple)) or not scope or any(c not in ('book','sports ball') for c in scope):
+            raise ValueError('当前辅助候选仅支持书与球。')
+        self.auxiliary_model=auxiliary_model or ball_model
+        self.auxiliary_categories=list(dict.fromkeys(scope)) if self.auxiliary_model else []
+        self.auxiliary_prompts='resources/ball_prompts_v1.npz' if auxiliary_model else None
+        if body_footprint and navigation_safety:
+            raise ValueError('真实轮廓与防碰撞候选尚未组合验证，请分别启用。')
+        self.body_footprint = bool(body_footprint)
+        self.navigation_safety = bool(navigation_safety)
+        self.navigation_file = ('src/semantic_search/config/nav2_safety.yaml' if self.navigation_safety
+                                else 'src/semantic_search/config/nav2_body_footprint.yaml' if self.body_footprint
+                                else 'src/semantic_search/config/nav2_depth.yaml')
+        if type(image_size) is not int or image_size not in (640,960,1280):
+            raise ValueError('视觉输入尺寸必须为640、960或1280。')
+        if (any(type(value) not in (int,float) or not math.isfinite(value)
+                for value in (camera_height,camera_pitch))
+                or not .3 <= camera_height <= 1.3 or not 0 <= camera_pitch <= .6):
+            raise ValueError('相机高度范围为 0.3–1.3 m，俯仰范围为 0–0.6 rad。')
+        from semantic_search.objects import admitted_aliases, validate_categories
+        self.target_categories = validate_categories(list(admitted_aliases())+list(candidate_categories or []))
         if device not in ('cpu', 'cuda:0'):
             raise ValueError('device必须为cpu或cuda:0')
         self.device = device
+        self.charging_station = None
+        self.charging_station_file = None
         if type(domain) is not int or not 0 <= domain <= 232:
             raise ValueError('ROS domain must be an integer from 0 to 232')
         if not hasattr(os, 'pidfd_open') or not hasattr(signal, 'pidfd_send_signal'):
             raise RuntimeError('Linux pidfd support is required for safe process cleanup')
         self.root = Path(root).resolve()
+        self.map_resource = None
         self.domain = domain
         self.headless = bool(headless)
         self.env = dict(os.environ if env is None else env)
+        self.env.pop('SEMANTIC_CHARGING_CONFIG',None)
         self.token = uuid4().hex
         self.marker = (OWNER_VARIABLE + '=' + self.token).encode()
         self._locks = []
@@ -135,16 +181,46 @@ class Runtime:
                         'FASTDDS_DEFAULT_PROFILES_FILE'):
                 self.env.pop(key, None)
             self.config = dict(domain=domain, ign_partition=self.env['IGN_PARTITION'],
+                               target_categories=list(self.target_categories),
+                               candidate_categories=[c for c in self.target_categories if c not in admitted_aliases()],
                                headless=self.headless, scene_id='aws_house_console_' + self.token[:8],
-                               layout='scenes/aws_house/layout_r0_yellow_v1.json',
-                               rooms='src/semantic_search/config/rooms_aws_house_v4.json',
-                               navigation='src/semantic_search/config/nav2_depth.yaml',
-                               sensor_reliability='reliable', model='yolov8n-seg.pt',
+                               layout='scenes/aws_house/layout_service_surfaces_v2.json',
+                               rooms='src/semantic_search/config/rooms_aws_house_v6.json',
+                               navigation=self.navigation_file,
+                               sensor_reliability='reliable', model=model,ball_model=ball_model,
+                               depth_cloud_source=depth_cloud_source,
+                               auxiliary_model=self.auxiliary_model,auxiliary_categories=self.auxiliary_categories,
+                               auxiliary_prompts=self.auxiliary_prompts,
                                reject_clipped_detections=True,
                                validate_object_size=True,
-                               camera_height=1.0, camera_pitch=0.25,
+                               camera_height=float(camera_height), camera_pitch=float(camera_pitch),
+                               camera_resolution=camera_resolution,camera_horizontal_fov=float(camera_fov),
+                               active_observation=bool(active_observation),
+                               memory_guidance=bool(memory_guidance),
+                               memory_safe_approach=bool(memory_safe_approach),
+                               precision_docking=bool(precision_docking),
+                               navigation_safety=bool(navigation_safety),body_footprint=self.body_footprint,
+                               cleaning_position_goals=bool(cleaning_position_goals),
+                               cleaning_local_recovery=bool(cleaning_local_recovery),
+                               cleaning_budget_selection=bool(cleaning_budget_selection),
+                               search=dict(min_hits=2,merge_radius=.30,min_score=.35),
                                detector=dict(device=device, python_env='.venv-gpu' if device=='cuda:0' else '.venv',
-                                             image_size=640, confidence=.35, iou=.30, half=False))
+                                             image_size=image_size, confidence=.35, iou=.30, half=False,
+                                             ball_model=ball_model,ball_max_rate_hz=2. if ball_model else None,
+                                             auxiliary_model=self.auxiliary_model,
+                                             auxiliary_categories=self.auxiliary_categories,
+                                             auxiliary_max_rate_hz=2. if self.auxiliary_model else None))
+            from semantic_search.map_resources import canonical_map_yaml, map_receipt
+            self.config['map_id']='aws_house_v1'
+            self.config['map']=str(canonical_map_yaml(self.root,map_id=self.config['map_id']).relative_to(self.root))
+            self.config['map_resource']=map_receipt(self.map_resource,self.root) if self.map_resource else None
+            station_name=('src/semantic_search/config/charging_station_precision.json' if precision_docking
+                          else 'src/semantic_search/config/charging_station.json')
+            if charging_station and (self.root/station_name).is_file():
+                from semantic_search.docking import load_station
+                self.charging_station=load_station(self.root/station_name,self.root,active_map=self.map_resource)
+            self.config['charging_station']=station_name if self.charging_station else None
+            self.config['charging_station_enabled']=self.charging_station is not None
             # Explicit startup-only selectors make historical and new fixtures
             # reproducible without changing the daily defaults or live state.
             for key, supplied in (('rooms', rooms_file), ('layout', layout_file)):
@@ -157,35 +233,120 @@ class Runtime:
                 if key == 'rooms':
                     from semantic_search.rooms import validate_rooms
                     validate_rooms(data)
+                    if (any(room.get('cleaning_transit_clearance_m',.32)<.32 or
+                            room.get('cleaning_connector_alignment',False) or
+                            room.get('cleaning_turning_radius_m')is not None for room in data.values())
+                            and not self.body_footprint):
+                        raise ValueError('窄区连接候选必须同时显式启用--body-footprint。')
                 elif not isinstance(data, dict) or not isinstance(data.get('targets'), list):
                     raise ValueError('layout缺少targets列表')
                 self.config[key] = str(path.relative_to(self.root))
             fingerprints = {}
+            snapshots = {}
+            source_snapshots = {}
+            frozen_configs = {self.config['layout'],self.config['rooms'],self.config['navigation'],
+                              'src/semantic_search/config/map_resources.json',self.config['map'],
+                              'src/semantic_search/config/navigate_cleaning_lane.xml',
+                              'src/semantic_search/config/navigate_cleaning_connector.xml',
+                              'src/semantic_search/config/navigate_service.xml',
+                              'src/semantic_search/config/navigate_docking.xml',
+                              'src/semantic_search/config/navigate_service_through_poses.xml',
+                              'scenes/aws_house/spatial_v4.json'}
+            if self.navigation_safety:
+                frozen_configs.add('src/semantic_search/config/collision_monitor.yaml')
+            if self.charging_station:
+                frozen_configs.add(station_name)
+            if self.auxiliary_prompts:
+                frozen_configs.update((self.auxiliary_prompts,'resources/vision_prompts_v1.json','resources/runtime.lock.json'))
             for name in (self.config['layout'], self.config['rooms'], self.config['navigation'],
-                         self.config['model'], 'src/semantic_search/semantic_search/search_node.py',
+                         self.config['model'], *([self.auxiliary_model] if self.auxiliary_model else []),
+                         *([self.auxiliary_prompts,'resources/vision_prompts_v1.json','resources/runtime.lock.json'] if self.auxiliary_prompts else []),
+                         'src/semantic_search/semantic_search/search_node.py',
                          'src/semantic_search/semantic_search/detector.py',
+                         'src/semantic_search/semantic_search/ball_geometry.py',
+                         'src/semantic_search/semantic_search/detection_fusion.py',
                          'src/semantic_search/semantic_search/sensor_qos.py',
                          'src/semantic_search/semantic_search/depth.py',
                          'src/semantic_search/semantic_search/rooms.py',
                          'src/semantic_search/semantic_search/semantic_map.py',
+                         'src/semantic_search/semantic_search/map_export.py',
+                         'src/semantic_search/semantic_search/view_export.py',
+                         'src/semantic_search/semantic_search/objects.py',
+                         'src/semantic_search/semantic_search/semantic_memory.py',
+                         'src/semantic_search/semantic_search/memory_guidance.py',
+                         'src/semantic_search/semantic_search/memory_approach.py',
+                         'scripts/validation/memory_guidance_trials.py',
+                         'scripts/validation/target_stability.py',
+                         'src/semantic_search/semantic_search/scene_graph.py', 'requirements-semantic.txt',
+                         'src/semantic_search/semantic_search/active_observation.py',
+                         'src/semantic_search/semantic_search/visibility.py',
+                         'src/semantic_search/semantic_search/velocity_guard.py',
+                         'src/semantic_search/semantic_search/lifecycle_startup.py',
+                         'src/semantic_search/semantic_search/cloud_adapter.py',
+                         'src/semantic_search/semantic_search/cloud_projection.py',
+                         'src/semantic_search/semantic_search/clouds.py',
+                         'src/semantic_search/config/collision_monitor.yaml',
+                         'src/semantic_search/launch/navigation_safety.launch.py',
+                         'src/semantic_search/semantic_search/development.py',
+                         'src/semantic_search/launch/development.launch.py', 'resources/assets.lock.json',
                          'src/semantic_search/semantic_search/mapping_control.py',
                          'src/semantic_search/semantic_search/mapping_motion.py',
-                         'src/semantic_search/semantic_search/cleaning.py', 'scenes/aws_house/spatial_v4.json',
+                         'src/semantic_search/semantic_search/cleaning.py',
+                         'src/semantic_search/semantic_search/cleaning_repairs.py', 'scenes/aws_house/spatial_v4.json',
+                         'src/semantic_search/semantic_search/map_resources.py',
+                         'src/semantic_search/semantic_search/scenes.py',
+                         'src/semantic_search/config/map_resources.json',self.config['map'],
                          'src/semantic_search/config/navigate_cleaning_lane.xml',
+                         'src/semantic_search/config/navigate_cleaning_connector.xml',
+                         'src/semantic_search/config/navigate_service.xml',
+                         'src/semantic_search/config/navigate_docking.xml',
+                         'src/semantic_search/config/navigate_service_through_poses.xml',
+                         'src/semantic_search/launch/navigation.launch.py',
+                         'scripts/development_navigation.sh','scripts/navigation.sh','scripts/save_map.sh',
+                         station_name,
+                         'src/semantic_search/semantic_search/docking.py',
+                         'scripts/navigation_client.py', 'scripts/run_return.py', 'scripts/start_navigation.py',
                          'scripts/start_robot.sh', 'scripts/robot_console.py',
                          'scripts/initialize_sim_amcl.py',
                          'scripts/robot_runtime.py', 'scripts/robot_monitor.py',
+                         'src/service_navfn/src/planner.cpp','src/service_navfn/include/service_navfn/planner.hpp',
+                         'src/service_navfn/src/odom_memory.cpp','src/service_navfn/include/service_navfn/odom_memory.hpp',
+                         'src/service_navfn/obstacle_plugins.xml',
+                         'src/service_navfn/plugins.xml','src/service_navfn/package.xml','src/service_navfn/CMakeLists.txt',
                          'scripts/run_mapping_motion.py','scripts/run_cleaning.py','scripts/save_map.sh',
                          'scripts/development_detector.sh',
                          'requirements-vision-ubuntu-gpu.txt' if device=='cuda:0' else 'requirements-vision-ubuntu-cpu.txt',
                          'ui/index.html', 'ui/app.js', 'ui/style.css'):
                 path = self.root / name
                 if path.is_file():
-                    fingerprints[name] = hashlib.sha256(path.read_bytes()).hexdigest()
+                    contents = path.read_bytes()
+                    fingerprints[name] = hashlib.sha256(contents).hexdigest()
+                    if name in frozen_configs:
+                        destination = self.session_dir/'configuration'/name
+                        destination.parent.mkdir(parents=True,exist_ok=True)
+                        destination.write_bytes(contents)
+                        snapshots[name] = str(destination.relative_to(self.session_dir))
+                    elif path.suffix!='.pt':
+                        destination = self.session_dir/'sources'/name
+                        destination.parent.mkdir(parents=True,exist_ok=True)
+                        destination.write_bytes(contents)
+                        source_snapshots[name] = str(destination.relative_to(self.session_dir))
+            if self.map_resource:
+                name=str(self.map_resource['image'].relative_to(self.root))
+                contents=self.map_resource['image'].read_bytes()
+                fingerprints[name]=hashlib.sha256(contents).hexdigest()
+                destination=self.session_dir/'configuration'/name
+                destination.parent.mkdir(parents=True,exist_ok=True)
+                destination.write_bytes(contents)
+                snapshots[name]=str(destination.relative_to(self.session_dir))
+            if self.charging_station:
+                self.charging_station_file=self.session_dir/snapshots[station_name]
+                self.env['SEMANTIC_CHARGING_CONFIG']=str(self.charging_station_file)
             _save(self.session_dir / 'session.json', dict(
                 started_utc=datetime.now(timezone.utc).isoformat(), pid=os.getpid(),
                 root=str(self.root), session_dir=str(self.session_dir), config=self.config,
-                source_sha256=fingerprints,
+                source_sha256=fingerprints, configuration_snapshots=snapshots,
+                source_snapshots=source_snapshots,
                 note='Process running is not a sensor/localization/navigation readiness claim.'))
         except BaseException as error:
             try:
@@ -198,19 +359,39 @@ class Runtime:
             raise
 
     def _check_dependencies(self):
+        from semantic_search.map_resources import canonical_map_yaml, resolve_map
+        map_name=str(canonical_map_yaml(self.root,map_id='aws_house_v1').relative_to(self.root))
         required = ('scripts/development.sh', 'scripts/development_navigation.sh',
                     'scripts/development_detector.sh', 'scripts/development_search.sh',
-                    'scripts/rviz.sh', 'install/setup.bash', '.venv/bin/python', 'yolov8n-seg.pt',
-                    'scenes/aws_house/layout_r0_yellow_v1.json',
-                    'src/semantic_search/config/rooms_aws_house_v4.json',
-                    'src/semantic_search/config/nav2_depth.yaml', 'scenes/aws_house/r0_v1/maps/house.yaml')
+                    'scripts/rviz.sh', 'install/setup.bash', '.venv/bin/python', self.model,
+                    'scenes/aws_house/layout_service_surfaces_v2.json',
+                    'src/semantic_search/config/rooms_aws_house_v6.json',
+                    self.navigation_file,map_name,'src/semantic_search/config/map_resources.json')
+        if self.navigation_safety:
+            required += ('src/semantic_search/config/collision_monitor.yaml',
+                         'src/semantic_search/launch/navigation_safety.launch.py')
         if self.device=='cuda:0':
             required += ('.venv-gpu/bin/python',)
+        if self.auxiliary_model:
+            required += (self.auxiliary_model,'resources/runtime.lock.json')
+        if self.auxiliary_prompts:
+            required += (self.auxiliary_prompts,'resources/vision_prompts_v1.json')
         missing = [name for name in required if not (self.root / name).is_file()]
         if missing:
             raise RuntimeError('运行资源缺失：' + ', '.join(missing)
                                + '。请按部署说明准备资源，并执行 bash scripts/build.sh'
                                + ('；GPU环境使用 bash scripts/prepare_gpu.sh 安装，或加 --device cpu' if self.device=='cuda:0' else ''))
+        if self.auxiliary_model:
+            lock=json.loads((self.root/'resources/runtime.lock.json').read_text())
+            expected=lock['candidate_vision_models'][self.auxiliary_model]['sha256']
+            if hashlib.sha256((self.root/self.auxiliary_model).read_bytes()).hexdigest()!=expected:
+                raise RuntimeError('辅助权重与资源锁不一致。')
+            if self.auxiliary_prompts:
+                spec=lock['vision_prompt_embeddings'][self.auxiliary_model]
+                if (spec['path']!=self.auxiliary_prompts or
+                        hashlib.sha256((self.root/self.auxiliary_prompts).read_bytes()).hexdigest()!=spec['sha256']):
+                    raise RuntimeError('辅助提示嵌入与资源锁不一致。')
+        self.map_resource=resolve_map(self.root,map_id='aws_house_v1')
 
     def _acquire_lock(self, path):
         path.parent.mkdir(parents=True, exist_ok=True)
@@ -236,20 +417,50 @@ class Runtime:
         if name == 'simulation':
             return ['bash', str(self.root / 'scripts/development.sh'),
                     'gui:=' + ('false' if self.headless else 'true'),
-                    'layout_file:=' + paths['layout'], 'evidence_dir:=' + str(self.session_dir / 'scene')]
+                    'layout_file:=' + paths['layout'],
+                    'depth_cloud_source:='+paths.get('depth_cloud_source','native'),
+                    'camera_height:='+str(paths['camera_height']), 'camera_pitch:='+str(paths['camera_pitch']),
+                    'image_width:='+paths['camera_resolution'].split('x')[0],
+                    'image_height:='+paths['camera_resolution'].split('x')[1],
+                    'camera_hfov:='+str(paths['camera_horizontal_fov']),
+                    'velocity_topic:='+('/cmd_vel_safe' if paths['navigation_safety'] else '/cmd_vel'),
+                    'charging_file:='+(str(self.charging_station_file) if self.charging_station_file else ''),
+                    'evidence_dir:=' + str(self.session_dir / 'scene')]
+        if name == 'safety':
+            return ['ros2','launch','semantic_search','navigation_safety.launch.py']
         if name == 'navigation':
-            return ['bash', str(self.root / 'scripts/development_navigation.sh')]
+            return ['bash', str(self.root / 'scripts/development_navigation.sh'),
+                    'map:='+str(self.root/paths['map']),
+                    'params_file:='+str(self.root/paths['navigation'])]
         if name == 'slam':
             return ['bash', str(self.root / 'scripts/mapping.sh'), 'scene:=aws_house']
         if name == 'motion':
             return ['/usr/bin/python3', '-m', 'semantic_search.mapping_motion']
         if name == 'detector':
-            return ['bash', str(self.root / 'scripts/development_detector.sh'),
-                    '-p', 'sensor_reliability:=reliable', '-p', 'device:='+self.device]
+            command=['bash', str(self.root / 'scripts/development_detector.sh'),
+                    '-p', 'sensor_reliability:=reliable', '-p', 'device:='+self.device,
+                    '-p', 'image_size:='+str(paths['detector']['image_size']),
+                    '-p', 'model:='+str(self.root/paths['model'])]
+            if self.auxiliary_model:
+                parameter='ball_model' if self.ball_model else 'auxiliary_model'
+                command+=['-p',parameter+':='+str(self.root/self.auxiliary_model),
+                          '-p','auxiliary_categories:='+json.dumps(self.auxiliary_categories)]
+            if self.auxiliary_prompts:
+                command+=['-p','auxiliary_prompts:='+str(self.root/self.auxiliary_prompts)]
+            return command
         if name == 'search':
             return ['bash', str(self.root / 'scripts/development_search.sh'),
                     '-p', 'rooms_file:=' + str(self.root / paths['rooms']),
                     '-p', 'scene_id:=' + paths['scene_id'],
+                    '-p', 'target_categories:=' + json.dumps(paths['target_categories']),
+                    '-p', 'active_observation:='+str(paths['active_observation']).lower(),
+                    '-p', 'memory_guidance:='+str(paths['memory_guidance']).lower(),
+                    '-p', 'memory_safe_approach:='+str(paths['memory_safe_approach']).lower(),
+                    '-p', 'memory_database:='+str(self.root/'results/semantic_memory.sqlite3'),
+                    '-p', 'memory_horizontal_fov:='+str(paths['camera_horizontal_fov']),
+                    '-p', 'min_hits:='+str(paths['search']['min_hits']),
+                    '-p', 'merge_radius:='+str(paths['search']['merge_radius']),
+                    '-p', 'min_score:='+str(paths['search']['min_score']),
                     '-p', 'output_dir:=' + str(self.task_output_dir),
                     '-p', 'reject_clipped_detections:=true',
                     '-p', 'validate_object_size:=true',
@@ -342,7 +553,8 @@ class Runtime:
 
     def snapshot(self):
         with self._mutex:
-            values = {name: dict(state='disabled' if self.headless and name == 'rviz' else 'not_started',
+            values = {name: dict(state='disabled' if (self.headless and name == 'rviz'
+                                 or name == 'safety' and not self.config['navigation_safety']) else 'not_started',
                                  pid=None, returncode=None, log=None) for name in COMPONENTS}
             for name, row in self._processes.items():
                 code = row['process'].poll()

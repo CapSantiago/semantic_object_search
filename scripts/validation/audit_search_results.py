@@ -10,6 +10,8 @@ import sys
 import xml.etree.ElementTree as ET
 
 from scipy.optimize import linear_sum_assignment
+from scipy.spatial.transform import Rotation
+import numpy as np
 
 ROOT=Path(__file__).resolve().parents[2]
 sys.path.insert(0,str(ROOT/'src/semantic_search'))
@@ -17,6 +19,14 @@ from semantic_search.rooms import room_at, observation_views
 
 
 def read(path):return json.loads(Path(path).read_text())
+
+
+def target_reference(target, assets):
+    """Evaluation only: rotate the asset-local centre into world coordinates."""
+    asset = assets[target['asset']]
+    center = (np.asarray(asset['min'])+np.asarray(asset['max']))/2
+    center = Rotation.from_euler('xyz',target['pose'][3:]).apply(center)+target['pose'][:3]
+    return dict(id=target['id'],category=target['category'],room=target['room'],xy=center[:2].tolist())
 
 
 def audit_arrivals(views, limits):
@@ -56,11 +66,7 @@ def main():
     args=p.parse_args();rooms=read(args.rooms);layout=read(args.layout);criteria=read(args.criteria)
     truth=[]
     for t in layout['targets']:
-        a=layout['assets'][t['asset']]
-        if any(abs(v)>1e-9 for v in t['pose'][3:]):
-            raise ValueError('Rotate asset bounds before auditing nonzero-angle fixtures')
-        truth.append(dict(id=t['id'],category=t['category'],room=t['room'],
-            xy=[t['pose'][i]+(a['min'][i]+a['max'][i])/2 for i in (0,1)]))
+        truth.append(target_reference(t,layout['assets']))
     for t in read(args.furniture)['instances']:
         if t['name'].startswith('Chair'):
             truth.append(dict(id=t['name'],category='chair',room=room_at(rooms,*t['pose'][:2]),xy=t['pose'][:2]))

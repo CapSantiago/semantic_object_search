@@ -1,0 +1,2193 @@
+{
+  "stage": "C022",
+  "status": "failed_acceptance",
+  "session": "20261120T181716_570344Z_024d36b6",
+  "request_id": "d053621083fa450893ff404fcc126d85",
+  "result": "results/sessions/20261120T181716_570344Z_024d36b6/requests/d053621083fa450893ff404fcc126d85/clean_result.json",
+  "trace": "results/sessions/20261120T181716_570344Z_024d36b6/requests/d053621083fa450893ff404fcc126d85/clean_trace.json",
+  "map": "results/sessions/20261120T181716_570344Z_024d36b6/requests/d053621083fa450893ff404fcc126d85/clean_map.svg",
+  "elapsed_seconds": 276.93,
+  "coverage": {
+    "floor_cells": 12469,
+    "eligible_cells": 11156,
+    "covered_cells": 4035,
+    "uncovered_cells": 7121,
+    "excluded_floor_cells": 1313,
+    "coverage_fraction": 0.36168877733954824,
+    "covered_area_m2": 10.0875,
+    "repeated_area_m2": 5.145,
+    "repeated_coverage_fraction": 0.18447472212262458
+  },
+  "return_state": "return_incomplete",
+  "return_error": {
+    "position_m": 4.222946220464095,
+    "yaw_rad": 0.3797722992391948,
+    "stationary_seconds": 5.22
+  },
+  "recoveries": [
+    {
+      "from_pose": [
+        2.7728455539343497,
+        3.12393830986699,
+        2.6270452285727455
+      ],
+      "target": [
+        3.3418434809702124,
+        2.6439457811164373,
+        0.09764918012852856
+      ],
+      "status": "failed"
+    }
+  ],
+  "goal_statuses": [
+    {
+      "stage": "entering",
+      "purpose": "room_entry",
+      "target": [
+        0,
+        1.3,
+        1.5707963267948966
+      ],
+      "status": "succeeded"
+    },
+    {
+      "stage": "sweeping",
+      "purpose": null,
+      "target": [
+        -2.0849998915940517,
+        1.2950001031905414,
+        0.0
+      ],
+      "status": "succeeded"
+    },
+    {
+      "stage": "sweeping",
+      "purpose": null,
+      "target": [
+        4.765000210478902,
+        1.2950001031905414,
+        0.0
+      ],
+      "status": "succeeded"
+    },
+    {
+      "stage": "sweeping",
+      "purpose": null,
+      "target": [
+        4.765000210478902,
+        1.6450001084059478,
+        3.141592653589793
+      ],
+      "status": "failed"
+    },
+    {
+      "stage": "sweeping",
+      "purpose": null,
+      "target": [
+        -2.0849998915940517,
+        1.6450001084059478,
+        3.141592653589793
+      ],
+      "status": "succeeded"
+    },
+    {
+      "stage": "sweeping",
+      "purpose": null,
+      "target": [
+        -2.0849998915940517,
+        1.9950001136213542,
+        0.0
+      ],
+      "status": "succeeded"
+    },
+    {
+      "stage": "sweeping",
+      "purpose": null,
+      "target": [
+        2.065000170245767,
+        1.9950001136213542,
+        0.0
+      ],
+      "status": "succeeded"
+    },
+    {
+      "stage": "sweeping",
+      "purpose": null,
+      "target": [
+        2.015000169500709,
+        2.3450001188367606,
+        3.141592653589793
+      ],
+      "status": "succeeded"
+    },
+    {
+      "stage": "sweeping",
+      "purpose": null,
+      "target": [
+        -2.0849998915940517,
+        2.3450001188367606,
+        3.141592653589793
+      ],
+      "status": "succeeded"
+    },
+    {
+      "stage": "sweeping",
+      "purpose": null,
+      "target": [
+        -2.0849998915940517,
+        2.695000124052167,
+        0.0
+      ],
+      "status": "succeeded"
+    },
+    {
+      "stage": "sweeping",
+      "purpose": null,
+      "target": [
+        3.3650001896172768,
+        2.695000124052167,
+        0.0
+      ],
+      "status": "succeeded"
+    },
+    {
+      "stage": "sweeping",
+      "purpose": null,
+      "target": [
+        2.1150001709908253,
+        3.0450001292675735,
+        3.141592653589793
+      ],
+      "status": "failed"
+    },
+    {
+      "stage": "sweeping",
+      "purpose": "lane_recovery",
+      "target": [
+        3.3418434809702124,
+        2.6439457811164373,
+        0.09764918012852856
+      ],
+      "status": "timed_out"
+    },
+    {
+      "stage": "returning",
+      "purpose": "room_exit",
+      "target": [
+        0,
+        0.7,
+        -1.5707963267948966
+      ],
+      "status": "failed"
+    },
+    {
+      "stage": "returning",
+      "purpose": "dock",
+      "target": [
+        -0.0037850016522288942,
+        -0.0011459457226462011,
+        0.004974972572278514
+      ],
+      "status": "failed"
+    }
+  ],
+  "findings": [
+    "Bounded normal Nav2 lane recovery did not escape the local trap; coverage and docking did not pass.",
+    "Detailed collision geometry and local/global costmap alignment still require diagnosis."
+  ],
+  "memory_api": {
+    "cold_restart": true,
+    "classification_conflict_categories": [
+      "apple",
+      "orange"
+    ],
+    "graph_adapter_version": 2
+  },
+  "shutdown": "results/sessions/20261120T181716_570344Z_024d36b6/shutdown.json",
+  "followup_candidates": [
+    {
+      "source": "results/development/cleaning_separate_layers/report.json",
+      "session": "20261120T193324_403220Z_29ed8f0e",
+      "navigation": "src/semantic_search/config/nav2_safety.yaml",
+      "status": "partial",
+      "elapsed_seconds": 157.0,
+      "coverage": {
+        "floor_cells": 12469,
+        "eligible_cells": 11156,
+        "covered_cells": 2469,
+        "uncovered_cells": 8687,
+        "excluded_floor_cells": 1313,
+        "coverage_fraction": 0.2213158838293295,
+        "covered_area_m2": 6.1725,
+        "repeated_area_m2": 3.055,
+        "repeated_coverage_fraction": 0.10953746862674794
+      },
+      "return_state": "simulated_charging",
+      "return_error": {
+        "position_m": 0.08209556177204415,
+        "yaw_rad": 0.09329258919895082,
+        "stationary_seconds": 0.46
+      },
+      "finding": "Near lane endpoint abort caused a needless 4.36m reverse recovery with a 20s timeout; coverage failed, return passed. Actual coverage denominator unchanged."
+    },
+    {
+      "source": "results/development/cleaning_partial_lane/report.json",
+      "session": "20261120T194114_918648Z_c697a9fa",
+      "status": "partial",
+      "elapsed_seconds": 350.35,
+      "coverage": {
+        "floor_cells": 12469,
+        "eligible_cells": 11156,
+        "covered_cells": 5490,
+        "uncovered_cells": 5666,
+        "excluded_floor_cells": 1313,
+        "coverage_fraction": 0.4921118680530656,
+        "covered_area_m2": 13.725,
+        "repeated_area_m2": 6.425,
+        "repeated_coverage_fraction": 0.23036930799569738
+      },
+      "return_state": "simulated_charging",
+      "return_error": {
+        "position_m": 0.1067040095537297,
+        "yaw_rad": 0.09580232369488426,
+        "stationary_seconds": 0.46
+      },
+      "finding": "49.21% actual coverage and docking passed. Two recoveries succeeded, but the total-two-recovery quota then ended later lanes; quota removed in next candidate."
+    },
+    {
+      "source": "results/development/cleaning_navigation_margin/report.json",
+      "session": "20261120T195235_048902Z_4acbf213",
+      "status": "partial",
+      "elapsed_seconds": 668.43,
+      "coverage": {
+        "floor_cells": 12469,
+        "eligible_cells": 11156,
+        "covered_cells": 7655,
+        "uncovered_cells": 3501,
+        "excluded_floor_cells": 1313,
+        "coverage_fraction": 0.6861778415202582,
+        "covered_area_m2": 19.1375,
+        "repeated_area_m2": 13.2475,
+        "repeated_coverage_fraction": 0.47499103621369665
+      },
+      "return_state": "simulated_charging",
+      "return_error": {
+        "position_m": 0.14982937936275637,
+        "yaw_rad": 0.002625212107852817,
+        "stationary_seconds": 0.46
+      },
+      "finding": "All46 planned endpoints processed; 6 successful recoveries. 68.62% coverage, docking passed narrowly (.14983m); still below85%. Next work must reduce backtracking and improve supplementary coverage."
+    },
+    {
+      "report": "results/development/cleaning_position_completion/report.json",
+      "session": "20261121T034046_287515Z_af4d49ab",
+      "status": "partial",
+      "coverage": {
+        "floor_cells": 12469,
+        "eligible_cells": 11156,
+        "covered_cells": 7238,
+        "uncovered_cells": 3918,
+        "excluded_floor_cells": 1313,
+        "coverage_fraction": 0.6487988526353532,
+        "covered_area_m2": 18.095,
+        "repeated_area_m2": 12.29,
+        "repeated_coverage_fraction": 0.44065973467192543
+      },
+      "return_error": {
+        "position_m": 0.10376303839079559,
+        "yaw_rad": 0.09767884047772876,
+        "stationary_seconds": 0.46
+      },
+      "return_state": "simulated_charging",
+      "elapsed_seconds": 643.0,
+      "prototype": "position_completion_before_physical_stop_barrier",
+      "goal_statuses": {
+        "succeeded": 16,
+        "position_reached": 24,
+        "failed": 8,
+        "timed_out": 2
+      },
+      "accepted_as_default": false,
+      "conclusion": "Coverage64.88% below85% and did not improve prior68.62%; experimental switch now defaults off; physical-stop barrier added but not yet validated in full cleaning."
+    }
+  ],
+  "live_costmap_assessment": "results/development/cleaning_separate_layers/live_costmap_assessment.json",
+  "rejected_option": "Restricting every center to live cost<60 caps predicted brush reach at81.4%, below85%; not applied.",
+  "post_task_costmap_assessment": "results/development/cleaning_navigation_margin/final_costmap_assessment.json",
+  "stop_barrier": {
+    "stage": "C025",
+    "status": "stop_barrier_subtask_passed",
+    "date_local": "2026-11-21",
+    "scope": "Require a new stopped-odometry interval after each accepted cleaning navigation action before recovery or subsequent goals.",
+    "root_cause": "Timeout cancellation trusted the parent action terminal alone; the position-goal stop timeout was caught by the same handler and converted back to settled=True.",
+    "thresholds": {
+      "stationary_sim_seconds": 0.45,
+      "latest_odom_wall_seconds": 0.4,
+      "stop_wait_wall_seconds": 2.0,
+      "coverage_fraction": 0.85,
+      "return_position_m": 0.15,
+      "return_yaw_rad": 0.15
+    },
+    "before": {
+      "log": "results/development/cleaning_stop_barrier/before.txt",
+      "failed": 6,
+      "passed": 13,
+      "source": "results/development/cleaning_stop_barrier/run_cleaning_before.py",
+      "sha256": "587da912c1bdbcfd3d151f0e0e0888ad3cf2a5d2cd00c1ca1c7640d95151ba5b"
+    },
+    "tests": {
+      "engineering": {
+        "passed": 240,
+        "skipped": 17,
+        "log": "results/development/cleaning_stop_barrier/engineering_tests.txt"
+      },
+      "isolated_ros": {
+        "passed": 6,
+        "domain": 69,
+        "log": "results/development/cleaning_stop_barrier/ros_tests.txt",
+        "note": "These six are included among the full-suite conditional skips; protocol fixture, not physical obstacle acceptance."
+      }
+    },
+    "preserved_validation_errors": [
+      {
+        "log": "results/development/cleaning_stop_barrier/ros_fixture_initial_failure.txt",
+        "cause": "Fixture initialized a custom ROS context but spin_once selected the uninitialized global executor; corrected to an explicit client executor in the same context."
+      },
+      {
+        "session": "20261121T051144_350014Z_5f8e8cbc",
+        "cause": "--task-timeout 135 applies only to search. Cleaning actually used the normal 720-second budget; run was canceled and retained as cancellation regression.",
+        "actual_cleaning_budget_seconds": 720
+      }
+    ],
+    "simulations": [
+      {
+        "session": "20261121T051144_350014Z_5f8e8cbc",
+        "request_id": "clean_stop_barrier_short_01",
+        "status": "canceled",
+        "elapsed_seconds": 150.38,
+        "accepted_goals": 12,
+        "all_stops_confirmed": true,
+        "minimum_stop_wait_seconds": 0.5119999999999987,
+        "next_goals_after_stop": true,
+        "action_statuses": [
+          4,
+          4,
+          4,
+          6,
+          4,
+          4,
+          6,
+          4,
+          4,
+          4,
+          4,
+          5
+        ],
+        "return_state": "not_attempted",
+        "return_error": null,
+        "coverage": {
+          "floor_cells": 12469,
+          "eligible_cells": 11156,
+          "covered_cells": 2833,
+          "uncovered_cells": 8323,
+          "excluded_floor_cells": 1313,
+          "coverage_fraction": 0.2539440659734672,
+          "covered_area_m2": 7.0825,
+          "repeated_area_m2": 2.755,
+          "repeated_coverage_fraction": 0.09878092506274651
+        },
+        "shutdown": "results/sessions/20261121T051144_350014Z_5f8e8cbc/shutdown.json",
+        "remaining_owned_processes": [],
+        "session_record": "results/sessions/20261121T051144_350014Z_5f8e8cbc/session.json",
+        "trace": "results/sessions/20261121T051144_350014Z_5f8e8cbc/requests/clean_stop_barrier_short_01/clean_trace.json",
+        "result": "results/sessions/20261121T051144_350014Z_5f8e8cbc/requests/clean_stop_barrier_short_01/clean_result.json"
+      },
+      {
+        "session": "20261121T051608_569189Z_3e0a7225",
+        "request_id": "clean_stop_barrier_return_01",
+        "status": "partial",
+        "elapsed_seconds": 102.83,
+        "accepted_goals": 7,
+        "all_stops_confirmed": true,
+        "minimum_stop_wait_seconds": 0.47799999999999443,
+        "next_goals_after_stop": true,
+        "action_statuses": [
+          4,
+          4,
+          4,
+          4,
+          5,
+          4,
+          4
+        ],
+        "return_state": "simulated_charging",
+        "return_error": {
+          "position_m": 0.10320553559661019,
+          "yaw_rad": 0.10264880851532748,
+          "stationary_seconds": 0.46
+        },
+        "coverage": {
+          "floor_cells": 12469,
+          "eligible_cells": 11156,
+          "covered_cells": 1475,
+          "uncovered_cells": 9681,
+          "excluded_floor_cells": 1313,
+          "coverage_fraction": 0.1322158479741843,
+          "covered_area_m2": 3.6875,
+          "repeated_area_m2": 1.045,
+          "repeated_coverage_fraction": 0.03746862674793833
+        },
+        "shutdown": "results/sessions/20261121T051608_569189Z_3e0a7225/shutdown.json",
+        "remaining_owned_processes": [],
+        "session_record": "results/sessions/20261121T051608_569189Z_3e0a7225/session.json",
+        "trace": "results/sessions/20261121T051608_569189Z_3e0a7225/requests/clean_stop_barrier_return_01/clean_trace.json",
+        "result": "results/sessions/20261121T051608_569189Z_3e0a7225/requests/clean_stop_barrier_return_01/clean_result.json"
+      }
+    ],
+    "short_budget": {
+      "seconds": 135,
+      "method": "Historical test-only console wrapper: import robot_console as app; app.CLEAN_TIMEOUT_SECONDS=135; app.main()",
+      "product_default_seconds": 720,
+      "product_default_unchanged": true
+    },
+    "source_sha256": {
+      "scripts/run_cleaning.py": "602c9bd150743d5a72bc7cd598e1ec11f1214ba3d6136ac37c773e81d6e783b1",
+      "scripts/robot_console.py": "a17b3a43f675473e416d56e887e53c2e77ae6559fe6d7ca390f8b6e39a8e0385",
+      "tests/test_cleaning.py": "795d473adaa683175c86ea5220383cc91cf71b08611ba247921ff82693a3995c",
+      "tests/test_cleaning_stop_ros.py": "42f4bae9de76f2f87c1acf4238cbb369bd2f02625083c2deadce87447013331a"
+    },
+    "limitations": [
+      "No full-budget coverage improvement measured; best prior coverage remains 68.62%, below 85%.",
+      "Recovery-anchor selection and the observed ~3.8 m retreat remain unchanged.",
+      "Final .30 m navigation configuration has not passed the four daily obstacle cases.",
+      "Position-only cleaning goal experiment remains disabled by default.",
+      "No semantic-memory benefit, new-category admission, human-microphone or clean-clone deployment acceptance added."
+    ]
+  },
+  "local_recovery": {
+    "stage": "C026",
+    "date_local": "2026-11-21",
+    "status": "experiment_not_promoted",
+    "scope": "Recent measured-trace recovery experiment; unchanged coverage and docking acceptance. No coverage benefit established.",
+    "parameters": {
+      "legacy_distance_gate_m": 1.0,
+      "latest_sample_max_age_sim_seconds": 0.6,
+      "latest_sample_max_distance_m": 0.3,
+      "history_limit_sim_seconds": 30.0,
+      "anchor_distance_range_m": [
+        0.4,
+        0.85
+      ],
+      "maximum_retreat_trace_m": 1.5,
+      "attempts_per_failed_goal": 1
+    },
+    "offline_diagnosis": "results/development/cleaning_local_recovery/offline_diagnosis.json",
+    "initial_trial": {
+      "session": "results/sessions/20261121T064200_484229Z_8c80378a",
+      "request_id": "clean_local_recovery_full_01",
+      "budget_seconds": 720,
+      "elapsed_seconds": 183.09,
+      "coverage": {
+        "floor_cells": 12469,
+        "eligible_cells": 11156,
+        "covered_cells": 2898,
+        "uncovered_cells": 8258,
+        "excluded_floor_cells": 1313,
+        "coverage_fraction": 0.25977052707063464,
+        "covered_area_m2": 7.245,
+        "repeated_area_m2": 2.315,
+        "repeated_coverage_fraction": 0.08300466116887774
+      },
+      "return_error": {
+        "position_m": 0.10096674582460781,
+        "yaw_rad": 0.09361008059203989,
+        "stationary_seconds": 0.46
+      },
+      "return_state": "simulated_charging",
+      "audit": "results/development/cleaning_local_recovery/audit.json",
+      "task": "results/development/cleaning_local_recovery/initial_run.json",
+      "finding": "One recent-trace anchor 0.42189 m away selected instead of a 3.65731 m old endpoint. The 14.6368 s distance-derived timeout canceled recovery; measured continuous-TF travel 0.92554 m. Task returned early; 85% not met."
+    },
+    "revised_trial": {
+      "session": "results/sessions/20261121T064725_541761Z_c25bbabc",
+      "request_id": "clean_local_recovery_full_02",
+      "budget_seconds": 720,
+      "elapsed_seconds": 150.28,
+      "coverage": {
+        "floor_cells": 12469,
+        "eligible_cells": 11156,
+        "covered_cells": 1166,
+        "uncovered_cells": 9990,
+        "excluded_floor_cells": 1313,
+        "coverage_fraction": 0.1045177482968806,
+        "covered_area_m2": 2.915,
+        "repeated_area_m2": 0.435,
+        "repeated_coverage_fraction": 0.01559698816780208
+      },
+      "return_error": {
+        "position_m": 0.07153446437793173,
+        "yaw_rad": 0.10381195588496107,
+        "stationary_seconds": 0.46
+      },
+      "return_state": "simulated_charging",
+      "audit": "results/development/cleaning_local_recovery/revised_audit.json",
+      "task": "results/development/cleaning_local_recovery/revised_run.json",
+      "finding": "Retained old endpoint time allowance; however no long recovery occurred, so revised near-anchor budget was not physically exercised. 28 near-zero-displacement previous-arrival actions succeeded while later planning failed repeatedly. Returned early; no benefit claim."
+    },
+    "final_behavior": {
+      "default_enabled": false,
+      "start_option": "--cleaning-local-recovery",
+      "client_option": "--local-recovery",
+      "report_field": "local_recovery_enabled",
+      "note": "Trial snapshots predate the explicit gate and enabled candidate automatically. Final product default retains prior endpoint recovery plus C025 stop barrier. Position-goal experiment and navigation-safety default admission unchanged."
+    },
+    "tests": {
+      "engineering_passed": 264,
+      "engineering_skipped": 17,
+      "engineering_log": "results/development/cleaning_local_recovery/final_engineering_tests.txt",
+      "graph_passed": 3,
+      "graph_log": "results/development/cleaning_local_recovery/graph_tests.txt",
+      "build_packages": 2,
+      "build_log": "results/development/cleaning_local_recovery/final_build.log",
+      "note": "No repeat of C025 isolated ROS protocol tests in this stage; those six remain among conditional skips."
+    },
+    "failures_preserved": [
+      "results/development/cleaning_local_recovery/build_sandbox_failure.log",
+      "results/development/cleaning_local_recovery/memory_before_tests.txt"
+    ],
+    "source_sha256": {
+      "scripts/run_cleaning.py": "d18f1f9b938ba5e0a531999570344eea5c1f9e07a34297f25a369b8c1f56db6a",
+      "scripts/robot_console.py": "43477dbb15a135dcb690253d25feaf8ddbc6d0a285ad294a2f85980381a610a3",
+      "scripts/robot_runtime.py": "9c37f13a05d7cd0025537a60f1bc1e773af68aacb53ec48998d91dd7fb40207a",
+      "src/semantic_search/semantic_search/cleaning.py": "be8743121315c27225048cfbf4c6f02f43f950b1513ae33b474cbb79768fada4",
+      "src/semantic_search/semantic_search/semantic_memory.py": "7b487597661fbce53dc90248780a9c56943bbe7d740f6c1a014c7f39aae9540f",
+      "tests/test_cleaning.py": "ad4ce96a7ddf42b929b7d5f64fa49b6d2c70ae42d832e2e4f98120a8309f3ffd",
+      "tests/test_cleaning_recovery.py": "ca105f64457d80bc23d54104543e82f3213c7d717c89eb75670b059cd00a7b06",
+      "tests/test_robot_console.py": "64f72dce4440bf8c8f9b2e165a326e07dae8c8c0dd1f52a6b46142a1b83ddf9d",
+      "tests/test_robot_runtime.py": "a4431e6e83603a4b2367e2bc190f697397b8d5dadeb6dabef0e66bfceefa48aa",
+      "tests/test_semantic_memory.py": "4d319334eaf746cfd0dece80454e380067bc1264e6424038e76a3a5033f6659a"
+    },
+    "limitations": [
+      "Both 720-second budgets ended early with partial results. No improvement over historical 68.62% or 85% acceptance.",
+      "Historical prediction 90.99% is occupancy-only ideal straight-line coverage, not a real result.",
+      "Final .30 m safety configuration still needs four daily obstacle cases.",
+      "Investigate zero-motion recovery false success and live costmap/robot start before further recovery tuning."
+    ],
+    "default_short_regression": {
+      "session": "results/sessions/20261121T065250_198002Z_4c32a942",
+      "request_id": "clean_default_regression_01",
+      "test_budget_seconds": 135,
+      "product_budget_seconds": 720,
+      "elapsed_seconds": 101.32,
+      "coverage": {
+        "floor_cells": 12469,
+        "eligible_cells": 11156,
+        "covered_cells": 1444,
+        "uncovered_cells": 9712,
+        "excluded_floor_cells": 1313,
+        "coverage_fraction": 0.1294370742201506,
+        "covered_area_m2": 3.61,
+        "repeated_area_m2": 0.725,
+        "repeated_coverage_fraction": 0.02599498027967013
+      },
+      "return_state": "simulated_charging",
+      "return_error": {
+        "position_m": 0.09831761265201905,
+        "yaw_rad": 0.09665313790612552,
+        "stationary_seconds": 0.46
+      },
+      "local_recovery_enabled": false,
+      "accepted_goals": 7,
+      "audit": "results/development/cleaning_local_recovery/default_audit.json",
+      "result": "results/development/cleaning_local_recovery/default_run.json",
+      "shutdown": "results/sessions/20261121T065250_198002Z_4c32a942/shutdown.json",
+      "remaining_owned_processes": []
+    }
+  },
+  "anchor_validation": {
+    "stage": "C027",
+    "date_local": "2026-11-21",
+    "status": "anchor_bookkeeping_fixed_navigation_stall_unresolved",
+    "implementation": "Fresh measured pose must belong to static navigable centers and current live free mask before replacing a recovery anchor. Invalid success keeps prior anchor; a recovery success at invalid pose returns unsafe_arrival. Original Nav2 action status retained.",
+    "diagnostic_session": "results/sessions/20261121T065838_216995Z_65a380b9",
+    "diagnostic_result": "canceled",
+    "diagnostic_reason": "bounded_diagnostic_budget",
+    "live_snapshots": {
+      "report": "results/development/cleaning_stall_diagnosis/report.json",
+      "diagnosis": "results/development/cleaning_stall_diagnosis/diagnosis.json",
+      "failed_goal_count": 3,
+      "failed_global_costs": [
+        54,
+        61,
+        46
+      ],
+      "note": "First diagnostic did not reproduce the historical inscribed-start trap; it was canceled at the 240s budget and fully saved."
+    },
+    "historical_gate_replay": {
+      "status": "passed",
+      "raw_action_status": 4,
+      "target": [
+        -2.0849998915940517,
+        2.3450001188367606,
+        0.0
+      ],
+      "measured_pose": [
+        -2.2063449290871144,
+        2.118417698159036,
+        0.1068586657277705
+      ],
+      "distance_error_m": 0.25702959262382646,
+      "previous_valid_pose": [
+        -1.975153055816302,
+        2.0026350802578663,
+        3.069316944112527
+      ],
+      "selected": [
+        -1.975153055816302,
+        2.0026350802578663,
+        3.069316944112527
+      ],
+      "check": {
+        "accepted": false,
+        "measured_pose": [
+          -2.2063449290871144,
+          2.118417698159036,
+          0.1068586657277705
+        ],
+        "cell": [
+          143,
+          154
+        ],
+        "basis": "fresh_pose_static_centers_and_live_costmap"
+      },
+      "method": "Historical unmodified pose and actual static grid; all-true live mask in isolated replay specifically tests static safety rejection. No historical live-costmap claim, no ROS movement."
+    },
+    "recheck": {
+      "session": "results/sessions/20261121T070354_588365Z_5024b9c0",
+      "request_id": "clean_anchor_recheck_01",
+      "test_budget_seconds": 240,
+      "product_budget_seconds": 720,
+      "elapsed_seconds": 171.18,
+      "coverage": {
+        "floor_cells": 12469,
+        "eligible_cells": 11156,
+        "covered_cells": 2267,
+        "uncovered_cells": 8889,
+        "excluded_floor_cells": 1313,
+        "coverage_fraction": 0.20320903549659375,
+        "covered_area_m2": 5.6675,
+        "repeated_area_m2": 1.845,
+        "repeated_coverage_fraction": 0.06615274291860881
+      },
+      "return_state": "return_incomplete",
+      "return_error": {
+        "position_m": 2.840268634806258,
+        "yaw_rad": 2.315947125653029,
+        "stationary_seconds": 0.46
+      },
+      "task_status": "partial",
+      "audit": "results/development/cleaning_stall_diagnosis/recheck_audit.json",
+      "all_artifacts_saved": true,
+      "accepted_goal_count": 11,
+      "anchor_checks": 6,
+      "accepted_anchors": 5,
+      "rejected_anchors": 1,
+      "rejected_pose": [
+        [
+          -2.196622213064947,
+          1.850659592103859,
+          0.0863466248204957
+        ]
+      ],
+      "limitation": "Unsafe anchor rejection was physically exercised, but cutoff had less than20s remaining, so no lane recovery was attempted. Return failed. This does not establish successful physical escape."
+    },
+    "stuck_snapshot": {
+      "json": "results/development/cleaning_stall_diagnosis/stuck_after_recheck.json",
+      "arrays": "results/development/cleaning_stall_diagnosis/stuck_after_recheck.npz",
+      "global_cost": 99,
+      "local_cost": 89,
+      "static_clearance_m": 0.20000000298023224,
+      "note": "Captured while stationary after task failure; actual map/TF and live costmaps, no simulator truth. Global cost99 is excluded by existing cleaning mask; local89 differs. Drift or localization cause not yet resolved."
+    },
+    "tests": {
+      "cleaning_passed": 31,
+      "log": "results/development/cleaning_stall_diagnosis/anchor_tests.txt",
+      "engineering_passed": 270,
+      "engineering_skipped": 17,
+      "engineering_log": "results/development/cleaning_stall_diagnosis/engineering_tests.txt",
+      "note": "Only scripts/tests changed after C026 two-package build. No new ROS package build required; C025 independent protocol tests not repeated."
+    },
+    "source_sha256": {
+      "scripts/run_cleaning.py": "c77e869d1905d6d5f9b0dfabc6e4ac0db28ebb675b0b6f0a117275c2964bd927",
+      "tests/test_cleaning.py": "e040939f7f7c92e75f23ae0157b9e20ed9a9462cdf5ed4b5d79b4b6f029883cf",
+      "results/development/cleaning_stall_diagnosis/capture.py": "c3baf94fd34521a5577c4bce053c5e35dda0ebed0b6584b7feff4a411a29e819"
+    },
+    "evidence_sha256": {
+      "results/development/cleaning_stall_diagnosis/failure_00.json": "febcd9bb5fbd20eff4aba705a3adb865fe50184f53246b058c1871e921d8dd5b",
+      "results/development/cleaning_stall_diagnosis/failure_00.npz": "017ffdba8f6ae42d85ff1ba9c85c4d9b28143623e2fcbdaa3a8cd955ab487f0c",
+      "results/development/cleaning_stall_diagnosis/failure_01.json": "c60cde57287744bbecf301d5c18a2a6f5f58f6ec1b449a6f9418985dcf3cb642",
+      "results/development/cleaning_stall_diagnosis/failure_01.npz": "474b377a2592ae080c1c0600edfb7f05b90abd4a2092cba2d0fa7d18afc6dae9",
+      "results/development/cleaning_stall_diagnosis/failure_02.json": "55d3db3db9ba8dea62d22c771dfed7e1b87955f319357df516dca074de6279bd",
+      "results/development/cleaning_stall_diagnosis/failure_02.npz": "89bf8f8789690217376ace79f6f860ad4caed112fdb9464f6c78f450375a500d",
+      "results/development/cleaning_stall_diagnosis/failure_03.json": "d5515dc3bb7375da1bcde6adfca70fa04e391b6de03f94c82835aab9c306e37a",
+      "results/development/cleaning_stall_diagnosis/failure_03.npz": "e156df53003cfc19de1c6b3789a54490e4ba4c16d48d5e2868754fdf7233e7b2"
+    },
+    "cleanup": {
+      "diagnostic_shutdown": "results/sessions/20261121T065838_216995Z_65a380b9/shutdown.json",
+      "recheck_shutdown": "results/sessions/20261121T070354_588365Z_5024b9c0/shutdown.json",
+      "remaining_owned_processes": []
+    },
+    "limitations": [
+      "Coverage remains below85%; historical best68.62% unchanged.",
+      "Return failed in recheck; earlier passed returns not extrapolated to this run.",
+      "Final four daily obstacle cases, perception16 classes and physical memory updates still pending.",
+      "Goal-checker and local/global map differences require further controlled diagnosis."
+    ]
+  },
+  "local_static_layer": {
+    "stage": "C028",
+    "status": "candidate_not_promoted_configuration_restored",
+    "session": "results/sessions/20261121T071346_472492Z_ec915a13",
+    "request_id": "clean_local_static_01",
+    "test_budget_seconds": 240,
+    "product_budget_seconds": 720,
+    "elapsed_seconds": 171.45,
+    "coverage": {
+      "floor_cells": 12469,
+      "eligible_cells": 11156,
+      "covered_cells": 2154,
+      "uncovered_cells": 9002,
+      "excluded_floor_cells": 1313,
+      "coverage_fraction": 0.19307995697382574,
+      "covered_area_m2": 5.385,
+      "repeated_area_m2": 2.2075,
+      "repeated_coverage_fraction": 0.07915023305844389
+    },
+    "return_state": "return_incomplete",
+    "return_error": {
+      "position_m": 2.829936511951542,
+      "yaw_rad": 0.6222960766564172,
+      "stationary_seconds": 0.46
+    },
+    "recoveries": [
+      {
+        "from_pose": [
+          -2.1248453563792697,
+          1.866205426564362,
+          0.44756411701590815
+        ],
+        "target": [
+          -1.9695167265349989,
+          1.6265833310470488,
+          3.046289429879576
+        ],
+        "status": "failed",
+        "source": "previous_arrival",
+        "previous_arrival": [
+          -1.9695167265349989,
+          1.6265833310470488,
+          3.046289429879576
+        ],
+        "previous_arrival_distance_m": 0.2855621331854188,
+        "timeout_seconds": 13.784763332408868,
+        "selected_distance_m": 0.2855621331854188,
+        "trace_start_index": 874,
+        "elapsed_wall_seconds": 14.279886493000049,
+        "measured_travel_m": 0.004206782044498425,
+        "trace_end_index": 993
+      }
+    ],
+    "audit": "results/development/local_static_layer/audit.json",
+    "actual_parameters": "results/development/local_static_layer/actual_parameters.json",
+    "load_log": "results/development/local_static_layer/static_layer_load.log",
+    "configuration_tests": {
+      "passed": 28,
+      "log": "results/development/local_static_layer/configuration_tests.txt"
+    },
+    "previous_configuration": "results/development/local_static_layer/nav2_safety_before.yaml",
+    "configuration_restored_sha256": "4c64b070e3fb7602c28e156cdc91726f36751c38834cc1c920f6c09fdd1051b5",
+    "shutdown": "results/sessions/20261121T071346_472492Z_ec915a13/shutdown.json",
+    "remaining_owned_processes": [],
+    "validation_tool_issue": "rclpy.parameter_client unavailable in local Humble; switched read-only check to GetParameters service.",
+    "limitation": "One-line static layer activation verified but did not solve stall or return; no coverage benefit, original candidate restored. Goal-checker/TF and data mismatch unresolved."
+  },
+  "transit_budget": {
+    "stage": "C030",
+    "date_local": "2026-11-21",
+    "status": "entry_and_return_budget_verified_full_coverage_failed_stopped_by_user",
+    "session": "results/sessions/20261121T091504_795614Z_d88cce53",
+    "original_request": "e3d58ab2-1660-4a02-b0ba-385ff7342e8d",
+    "retry_request": "clean_bedroom_transit_fix_01",
+    "original_diagnosis": "results/development/cleaning_transit_budget/original_failure.json",
+    "original_consistency_audit": "results/development/cleaning_transit_budget/original_audit.json",
+    "original_eligible_cells": 7975,
+    "changes": [
+      "Distance-based 40-180s entry/transit and at-least-50s dock wall budgets; normal lane budget remains 40s.",
+      "Reserve return time from the room geometry to the measured task start, within the original whole-task deadline.",
+      "Inspect actual position/yaw even when Nav2 reports success and attempt existing near-start approach/alignment correction when out of tolerance.",
+      "Report requested/effective action budgets, return reserve, and distinguish entry timeout in failure messages."
+    ],
+    "engineering_tests": {
+      "passed": 274,
+      "skipped": 17,
+      "log": "results/development/cleaning_transit_budget/engineering_tests.txt",
+      "before_regression_failures": 2,
+      "before_log": "results/development/cleaning_transit_budget/before_tests.txt"
+    },
+    "build": {
+      "packages_passed": 2,
+      "log": "results/development/cleaning_transit_budget/build.log"
+    },
+    "report": "results/development/cleaning_transit_budget/report.json",
+    "live_source_scope": "Console/Gazebo/Nav2 remain running with original boot metadata. New cleaning child uses explicit per-request repaired snapshots; boot hashes were not rewritten.",
+    "request_source_receipt": "results/sessions/20261121T091504_795614Z_d88cce53/requests/clean_bedroom_transit_fix_01/validation_sources.json",
+    "files": {
+      "results/development/cleaning_transit_budget/original_failure.json": "f79a5d72e4f8e91953c564ffb4913c4ad781306bc2ce2d2720d6e9432b6c7374",
+      "results/development/cleaning_transit_budget/original_audit.json": "fc8c66ae821a4bf2072f23864851a08fe8dcc8f73560dcecded03541bcc90bc7",
+      "results/development/cleaning_transit_budget/audit.json": "92bd6cd266a06083e8297f0f731015954ebfb054efaf24aac628683896a23d82",
+      "results/development/cleaning_transit_budget/report.json": "1e47264673bd2e6efee9c083cf5d85e318a4134d447a94dece0425832fc85456",
+      "results/development/cleaning_transit_budget/diagnosis.json": "f92a2c2c22f30fa1859d0beae53d35eeff43a879aca5e44499c7d169b04831eb",
+      "results/development/cleaning_transit_budget/diagnose.py": "7ac3a6b54fdaad73e2c7056861db55b83ab39465f69f5beb49a6b1cb7d4b2fd1",
+      "results/development/cleaning_transit_budget/engineering_tests.txt": "34d3777ba3a0d52b1f14a562581331a7ca52359332aac76e840c90bd15646a34",
+      "results/development/cleaning_transit_budget/build.log": "526e583526f896c5d4e290dee5b2a9a17aadce68c0a3dc9f1c6475bfee0476d3",
+      "results/development/cleaning_transit_budget/user_stop.json": "2fd104287c94a3403d573d18cf9b433191bc262f1e9fb91bb93edec35c1e6a32",
+      "results/development/cleaning_transit_budget/external_stop_check.json": "78fcf9046481c62dbea5f845d58e82f9ed490737d2113ce1227b2fe8e0776126",
+      "results/sessions/20261121T091504_795614Z_d88cce53/requests/clean_bedroom_transit_fix_01/validation_sources.json": "ee62cdfec0d31dcef33a2d1d850e90b51a051ee162b4c904cd4095f09bf47746",
+      "docs/evidence/charging_location_candidate_20261121.png": "13e558fa9e10c5542c3b910ae4a685755271587505bfd8ec5a66dc2dd3f4b926",
+      "results/development/cleaning_local_recovery/audit_run.py": "8b077652aa00435e07f56197d52fce8281dabdfd8904254603e366497db6f19d"
+    },
+    "limitations": [
+      "Full cleaning still partial: 32.71%, below 85%. Nine abnormal goals consumed 192.774s; final recovery timeout terminates remaining lanes/supplements before the cleaning cutoff.",
+      "First dock target already met actual tolerance. Newly added successful-action-but-out-of-tolerance correction is unit-regression tested, not triggered in this live retry.",
+      "No synchronized velocity/filter/guard-state or CPU/GPU timing series; 78 depth source-age warnings alone do not quantify actual stop count or prove GPU saturation.",
+      "Fixed charging/spawn/common return is a new explicit user requirement, not implemented. The (-1.8,-4.0) living-room candidate only passed static clearance/connectivity checks.",
+      "The polling driver exited143 with unknown sender; the robot request independently continued and finished, and the whole runtime later stopped normally at the user request.",
+      "All real execution remains stopped; four daily obstacle cases, full coverage, category admission and microphone gates remain open."
+    ],
+    "retry": {
+      "request_id": "clean_bedroom_transit_fix_01",
+      "status": "partial",
+      "elapsed_seconds": 411.44,
+      "console_elapsed_seconds": 412.54,
+      "coverage": {
+        "floor_cells": 11919,
+        "eligible_cells": 7975,
+        "covered_cells": 2609,
+        "uncovered_cells": 5366,
+        "excluded_floor_cells": 3944,
+        "coverage_fraction": 0.3271473354231975,
+        "covered_area_m2": 6.5225,
+        "repeated_area_m2": 4.4875,
+        "repeated_coverage_fraction": 0.22507836990595612
+      },
+      "return_state": "simulated_charging",
+      "return_error": {
+        "position_m": 0.06478217150784035,
+        "yaw_rad": 0.09483544116714537,
+        "stationary_seconds": 0.46
+      },
+      "return_reserve_seconds": 210.0,
+      "accepted_goals_stopped": 17,
+      "audit": "results/development/cleaning_transit_budget/audit.json",
+      "source_scope": "Two repaired request-level source snapshots plus original session boot snapshots for unchanged source/configuration.",
+      "entry_goal": {
+        "stage": "entering",
+        "target": [
+          -2.9,
+          -0.5,
+          3.141592653589793
+        ],
+        "status": "succeeded",
+        "stop_confirmed": true,
+        "timeout_seconds": 131.1036964685136,
+        "started_seconds": 5.022,
+        "purpose": "room_entry",
+        "effective_timeout_seconds": 131.1036964685136,
+        "action_status": 4,
+        "measured_pose": [
+          -2.8272217851402375,
+          -0.4199369210708302,
+          -3.0456963716651133
+        ],
+        "terminal_seconds": 66.634,
+        "finished_seconds": 67.158,
+        "recovery_anchor_check": {
+          "accepted": true,
+          "measured_pose": [
+            -2.8272217851402375,
+            -0.4199369210708302,
+            -3.0456963716651133
+          ],
+          "cell": [
+            130,
+            104
+          ],
+          "basis": "fresh_pose_static_centers_and_live_costmap"
+        }
+      },
+      "dock_goal": {
+        "stage": "returning",
+        "target": [
+          8.650535892896752,
+          2.1519363463204084,
+          -0.5050647898660142
+        ],
+        "status": "succeeded",
+        "stop_confirmed": true,
+        "timeout_seconds": 144.24432209272095,
+        "started_seconds": 352.751,
+        "purpose": "dock",
+        "effective_timeout_seconds": 144.24432209272095,
+        "action_status": 4,
+        "measured_pose": [
+          8.599349478370714,
+          2.1122289073040244,
+          -0.41022934869886885
+        ],
+        "terminal_seconds": 410.963,
+        "finished_seconds": 411.44
+      }
+    },
+    "diagnosis": "results/development/cleaning_transit_budget/diagnosis.json",
+    "diagnostic_tool": "results/development/cleaning_transit_budget/diagnose.py",
+    "charging_location_candidate": "docs/evidence/charging_location_candidate_20261121.png",
+    "user_stop": {
+      "receipt": "results/development/cleaning_transit_budget/user_stop.json",
+      "external_check": "results/development/cleaning_transit_budget/external_stop_check.json",
+      "remaining_owned_processes": [],
+      "port_8767_released": true
+    },
+    "poll_driver_exit": {
+      "exec_session_id": 7381,
+      "reported_exit_code": 143,
+      "sender": "unknown",
+      "scope": "Only the validation polling driver exited. The same Console/Nav2 cleaning request was independently observed still running, then returning. No shutdown was requested."
+    },
+    "unchanged_original_failed_source_hashes_verified": true,
+    "tests_source_sha256": "53c8c2bbf5041a6449ac29e4e0a1301969ebb5cd9a3742694c1e44d329945b53"
+  },
+  "service_motion": {
+    "stage": "C031",
+    "date_local": "2026-11-21",
+    "status": "stage_closed_validated_with_coverage_unfinished",
+    "scope": "Prioritize fixed charging/spawn/common return, effective speed/fluency, and navigation/cleaning termination.",
+    "sources_before": "results/development/service_motion_20261121/sources_before.json",
+    "phase1_comparison": "results/development/service_motion_20261121/comparison_phase1.json",
+    "phase1_same_configuration": {
+      "model": "yolov8s-seg.pt",
+      "image_size": 1280,
+      "camera": "1280x960/8Hz",
+      "gui": true,
+      "old_spawn": [
+        0,
+        0,
+        0
+      ],
+      "max_velocity_mps": 0.26
+    },
+    "phase1_result": {
+      "filtered_to_safe_zero_seconds_before": 20.738459631005753,
+      "filtered_to_safe_zero_seconds_after": 0.3024603930007288,
+      "zero_duty_before": 0.29705736749098116,
+      "zero_duty_after": 0.0036440588629302563,
+      "stale_correlated_zero_seconds_before": 15.792324016001658,
+      "stale_correlated_zero_seconds_after": 0.0,
+      "odom_requested_linear_speed_p50_before": 0.029198675844646055,
+      "odom_requested_linear_speed_p50_after": 0.24631588239857657,
+      "missing_safe_output_seconds_both_runs": 0.0,
+      "observer_source": "results/development/service_motion_20261121/phase1_motion_profile.py"
+    },
+    "startup_failure": {
+      "session": "results/sessions/20261121T101642_719472Z_97a9c23d",
+      "reason": "Non-ASCII installed BT path corrupted by Humble YAML escaping; fixed to existing ASCII checkout alias. No navigation task executed.",
+      "shutdown_status": "stopped",
+      "remaining_owned": []
+    },
+    "first_tests": {
+      "engineering_passed": 296,
+      "engineering_skipped": 20,
+      "engineering_log": "results/development/service_motion_20261121/engineering_tests.log",
+      "shared_ros_stop_protocol_passed": 9,
+      "protocol_log": "results/development/service_motion_20261121/shared_stop_protocol.log",
+      "charging_contract_subset_log": "results/development/service_motion_20261121/charging_contract_tests.log",
+      "build_log": "results/development/service_motion_20261121/build_integrated.log"
+    },
+    "integrated_session": "results/sessions/20261121T104248_762055Z_65a5e6d5",
+    "integrated_report": "results/development/service_motion_20261121/services_report.json",
+    "integrated_map": "results/development/service_motion_20261121/integrated_map_snapshot.json",
+    "integrated_motion": "results/development/service_motion_20261121/integrated_motion",
+    "station_config": "src/semantic_search/config/charging_station.json",
+    "boot_pose": {
+      "x": -1.8117784506278727,
+      "y": -4.0002718026907065,
+      "yaw": -0.002333516187628651,
+      "frame_id": "map",
+      "stamp_seconds": 145.48
+    },
+    "boot_pose_matches_station": true,
+    "bridge_qos_actual": "results/development/service_motion_20261121/bridge_qos_check.json",
+    "ui_check": "results/development/service_motion_20261121/ui_check.json",
+    "ui_image": "docs/evidence/charging_station_ui_20261121.png",
+    "fixed_station_and_common_return": "Implemented; normal searches persist original results before serial dock return; clean keeps actual start distinct from fixed target; cancel stops and skips automatic return.",
+    "bt_attribution_comment_change_after_boot": {
+      "canonical_xml_matches": {
+        "src/semantic_search/config/navigate_service.xml": true,
+        "src/semantic_search/config/navigate_service_through_poses.xml": true
+      },
+      "note": "Only copied-tree Apache attribution comments and a license file were added after boot; behavior trees are structurally identical. Immutable boot snapshots retained."
+    },
+    "limitations": [
+      "One short-run before/after pair; baseline ended early79.45s, after run intentionally canceled91.44s; not a matched-route completion-time claim.",
+      "Latest full gym66.31%<85%;6 lanes skipped by live mask, submitted reference union only65%. Five-region and mapping returns passed. Endpoint progress stalls and live-mask regeneration remain unresolved.",
+      "No new object-category admission, microphone or four-daily-obstacle acceptance claim.",
+      "Original85% target, brush0.50m, map denominators, docking0.15m/0.15rad/.45s and velocity0.26m/s remain unchanged.",
+      "UI initial disposable-profile check failed because Snap cannot see host /tmp; preserved logs, workspace-profile retry passed and its temporary profile was removed."
+    ],
+    "integrated_failure": {
+      "request": "dock_gym_full_01",
+      "elapsed_core_seconds": 188.07,
+      "covered_cells": 2269,
+      "eligible_cells": 11156,
+      "coverage_fraction": 0.20338831122266046,
+      "dock_position_error_m": 5.819402,
+      "robot_map_pose": [
+        -2.2058036,
+        1.805236,
+        1.1466966
+      ],
+      "evidence": "results/development/service_motion_20261121/integrated_motion",
+      "guard_stale_gate_count": 0,
+      "global_robot_cell": 99,
+      "local_robot_cell_range": [
+        81,
+        85
+      ],
+      "note": "Four room search/count returns, two cancels and manual return passed. Full gym cleaning and fifth-room return failed. Preserve live stopped scene; root diagnosis continues."
+    },
+    "map_frame_candidate": {
+      "session": "results/sessions/20261121T111204_380087Z_90bfec9a",
+      "report": "results/development/service_motion_20261121/map_frame_candidate/report.json",
+      "before_sources": "results/development/service_motion_20261121/map_frame_candidate/sources_before.json",
+      "official_audit": "results/development/service_motion_20261121/navigation_completion_audit.json",
+      "runtime_parameters": "results/development/service_motion_20261121/map_frame_candidate/runtime_parameters.json",
+      "engineering_passed": 300,
+      "engineering_skipped": 20,
+      "tests_log": "results/development/service_motion_20261121/map_frame_candidate/tests.log",
+      "build_log": "results/development/service_motion_20261121/map_frame_candidate/build.log",
+      "status": "still_trapped_ui_canceled_saved_and_stopped",
+      "note": "Added local/static map alignment did not prevent inward lane-transition arc. .05m produced additional endpoint hesitation. Agent canceled after failures to fix; not a full-budget/coverage pass. Original driver failure retained.",
+      "audit": "results/development/service_motion_20261121/map_frame_candidate/audit.json",
+      "audit_passed": true,
+      "shutdown_status": "stopped",
+      "remaining_owned": []
+    },
+    "rotation_candidate": {
+      "session": "results/sessions/20261121T112120_508060Z_dbc6333f",
+      "report": "results/development/service_motion_20261121/rotation_candidate/report.json",
+      "runtime_parameters": "results/development/service_motion_20261121/rotation_candidate/runtime_parameters.json",
+      "sources_before": "results/development/service_motion_20261121/rotation_candidate/sources_before.json",
+      "tests_log": "results/development/service_motion_20261121/rotation_candidate/tests.log",
+      "build_log": "results/development/service_motion_20261121/rotation_candidate/build.log",
+      "engineering_passed": 301,
+      "engineering_skipped": 20,
+      "status": "coverage_failed_docking_passed_stopped",
+      "note": "3 client timeouts, no Nav2 abort; bounded replan resumed with6.156m odom. Original wall transition not a matched-path regression;85% failed. Other batch cases not executed.",
+      "coverage_fraction": 0.47875582646109716,
+      "elapsed_core_seconds": 631.99,
+      "dock_position_error_m": 0.12031191968364977,
+      "dock_yaw_error_rad": 0.08500983287891994,
+      "dock_stationary_seconds": 0.46,
+      "audit": "results/development/service_motion_20261121/rotation_candidate/audit.json",
+      "audit_passed": true,
+      "shutdown_status": "stopped",
+      "remaining_owned": [],
+      "lane_plans": "results/development/service_motion_20261121/rotation_candidate/lane_plans.json"
+    },
+    "lane_reference_candidate": {
+      "status": "coverage_failed_five_region_returns_and_mapping_passed",
+      "evidence": "results/development/service_motion_20261121/lane_reference_candidate",
+      "sources_before": "results/development/service_motion_20261121/lane_reference_candidate/sources_before.json",
+      "engineering_passed": 305,
+      "engineering_skipped": 29,
+      "stop_protocol_passed": 18,
+      "note": "Dense lane reference to native FollowPath using same collision checked CleaningPath+DWB; NavFn retained for connectors/transit/return. Shared cancellation/stop code, safe replan before old-anchor recovery; no eligibility/coverage/gate reduction.",
+      "session": "results/sessions/20261121T114132_861536Z_4757d1c6",
+      "report": "results/development/service_motion_20261121/lane_reference_candidate/report.json",
+      "build_log": "results/development/service_motion_20261121/lane_reference_candidate/build.log",
+      "tests_log": "results/development/service_motion_20261121/lane_reference_candidate/tests_final.log",
+      "stop_protocol_log": "results/development/service_motion_20261121/lane_reference_candidate/stop_protocol.log",
+      "coverage_fraction": 0.6631409107206884,
+      "covered_cells": 7398,
+      "eligible_cells": 11156,
+      "elapsed_core_seconds": 613.73,
+      "cleaning_stop_reason": "cleaning_budget_exhausted",
+      "dock_error": {
+        "position_m": 0.07109423387181665,
+        "yaw_rad": 0.11751842584478948,
+        "stationary_seconds": 0.46
+      },
+      "blocked_lanes": 6,
+      "reference_union_fraction": 0.6499641448547867,
+      "reference_coverage_audit": "results/development/service_motion_20261121/lane_reference_candidate/reference_coverage_audit.json",
+      "audit": "results/development/service_motion_20261121/lane_reference_candidate/audit.json",
+      "audit_passed": true,
+      "old_anchor_recoveries": 0,
+      "replan_resumed_odom_m": 3.1448796625185693,
+      "return_audit": "results/development/service_motion_20261121/service_return_audit.json",
+      "chair_count_audit": "results/development/service_motion_20261121/lane_reference_candidate/chair_count_audit.json",
+      "shutdown_status": "stopped",
+      "remaining_owned": [],
+      "review": "results/development/service_motion_20261121/lane_reference_candidate/review.json",
+      "endpoint_stall_audit": "results/development/service_motion_20261121/lane_reference_candidate/endpoint_stall_audit.json"
+    },
+    "mapping_return": {
+      "status": "passed",
+      "report": "results/development/service_motion_20261121/mapping_return.json",
+      "actual_odom_displacement_m": 0.34902105243816506,
+      "baseline_map_preserved": true,
+      "return_error": {
+        "position_m": 0.08964232677812423,
+        "yaw_rad": 0.09480109062757346,
+        "stationary_seconds": 0.46
+      }
+    },
+    "final_checks": {
+      "status": "passed_with_corrected_offline_evaluator",
+      "session": "results/sessions/20261121T121613_680499Z_60b3ddbf",
+      "report": "results/development/service_motion_20261121/final_checks/smoke_default.json",
+      "source_delta": "results/development/service_motion_20261121/final_checks/final_fix.json",
+      "engineering_passed": 312,
+      "engineering_skipped": 29,
+      "engineering_log": "results/development/service_motion_20261121/final_checks/engineering.log",
+      "stop_protocol_passed": 18,
+      "stop_protocol_log": "results/development/service_motion_20261121/final_checks/stop_protocol.log",
+      "build_log": "results/development/service_motion_20261121/final_checks/build.log",
+      "note": "Full run used immutable pre-fix source snapshots. Final source snapshot/current hashes all match in the default cold audit. Initial verification tool looked for completeness flags at the wrong level; original executed script/report retained, corrected offline audit reads result.coverage without altering robot results.",
+      "corrected_audit": "results/development/service_motion_20261121/final_checks/smoke_default_audit.json",
+      "evaluator_correction": "results/development/service_motion_20261121/final_checks/evaluator_correction.json",
+      "raw_report_status": "failed_quantity_or_location_due_to_top_level_flag_lookup",
+      "default_count": 4,
+      "expected_count": 4,
+      "max_chair_xy_error_m": 0.13606133265748638,
+      "cancel_independent_odom_samples": 24,
+      "cancel_stationary_seconds": 0.4600000000000364,
+      "shutdown_status": "stopped",
+      "remaining_owned": [],
+      "host_cleanup": "results/development/service_motion_20261121/final_checks/host_cleanup.json"
+    },
+    "next_step": "Under the sole deployment plan, capture skipped-lane live masks and regenerate reachable uncovered paths; retain11156 denominator,85% target,720s total and docking gates. Interleave multi-view furniture association diagnostics."
+  },
+  "reachable_remaining_lanes": {
+    "stage": "C032",
+    "status": "in_progress_coverage_unfinished",
+    "scope": "Actual reachable remaining-floor selection, current raw mask snapshots and safe stripe reference repair. No object truth in runtime.",
+    "evidence_directory": "results/development/cleaning_remaining_20261121",
+    "gates": {
+      "coverage_fraction": 0.85,
+      "eligible_cells": 11156,
+      "sweep_width_m": 0.5,
+      "lane_spacing_m": 0.35,
+      "return_position_m": 0.15,
+      "return_yaw_rad": 0.15,
+      "stationary_seconds": 0.45
+    },
+    "runs": [
+      {
+        "session": "/home/willmatic/桌面/semantic_object_search/results/sessions/20261121T141206_892826Z_f1440a98",
+        "request_id": "remaining_gym_full_01",
+        "status": "partial",
+        "coverage": {
+          "floor_cells": 12469,
+          "eligible_cells": 11156,
+          "covered_cells": 5456,
+          "uncovered_cells": 5700,
+          "excluded_floor_cells": 1313,
+          "coverage_fraction": 0.48906418070993185,
+          "covered_area_m2": 13.64,
+          "repeated_area_m2": 5.4175,
+          "repeated_coverage_fraction": 0.19424524919325922
+        },
+        "cleaning_stop_reason": "navigation_recovery_failed",
+        "return_state": "simulated_charging",
+        "return_error": {
+          "position_m": 0.11011075010713625,
+          "yaw_rad": 0.09715742584297968,
+          "stationary_seconds": 0.46
+        },
+        "elapsed_seconds": 475.44,
+        "save_status": "saved",
+        "evidence_consistency_passed": true,
+        "acceptance": {
+          "coverage_met": false,
+          "docking_met": true,
+          "task_completed": false
+        },
+        "report": "results/development/cleaning_remaining_20261121/report.json",
+        "audit": "results/development/cleaning_remaining_20261121/audit.json"
+      },
+      {
+        "session": "/home/willmatic/桌面/semantic_object_search/results/sessions/20261121T142526_436859Z_4625dbb0",
+        "request_id": "remaining_gym_full_02",
+        "status": "partial",
+        "coverage": {
+          "floor_cells": 12469,
+          "eligible_cells": 11156,
+          "covered_cells": 3475,
+          "uncovered_cells": 7681,
+          "excluded_floor_cells": 1313,
+          "coverage_fraction": 0.31149157404087485,
+          "covered_area_m2": 8.6875,
+          "repeated_area_m2": 0.94,
+          "repeated_coverage_fraction": 0.03370383650053783
+        },
+        "cleaning_stop_reason": "navigation_recovery_failed",
+        "return_state": "return_incomplete",
+        "return_error": {
+          "position_m": 7.9093464508328575,
+          "yaw_rad": 1.4800576066885185,
+          "stationary_seconds": 0.46
+        },
+        "elapsed_seconds": 266.62,
+        "save_status": "saved",
+        "evidence_consistency_passed": true,
+        "acceptance": {
+          "coverage_met": false,
+          "docking_met": false,
+          "task_completed": false
+        },
+        "report": "results/development/cleaning_remaining_20261121/reference_recheck/report.json",
+        "audit": "results/development/cleaning_remaining_20261121/reference_recheck/audit.json"
+      }
+    ],
+    "engineering": {
+      "passed": 320,
+      "skipped": 29,
+      "protocol_passed": 18,
+      "build_packages_passed": 2,
+      "files": [
+        "results/development/cleaning_remaining_20261121/tests_final.txt",
+        "results/development/cleaning_remaining_20261121/stop_protocol.txt",
+        "results/development/cleaning_remaining_20261121/build.txt"
+      ]
+    },
+    "frozen_mask_replay": "results/development/cleaning_remaining_20261121/reference_replay_fixed.json",
+    "mask_figure": "docs/evidence/cleaning_reference_masks_20261121.png",
+    "limitations": [
+      "Both high-resolution safety candidate runs failed coverage; second run also failed docking.",
+      "The second frozen reference repair passed geometry audit, but a later actual lateral deviation reached an inflated blocked cell.",
+      "Default n/640 / .22m / original layout is being tested separately; configurations are not a causal A/B pair.",
+      "Current selection masks may change as the camera observes new obstacles; hypothetical gains never grant physical coverage."
+    ]
+  },
+  "remaining_coverage": {
+    "stage": "C032",
+    "status": "closed_validated_with_coverage_unfinished",
+    "selected_session": "results/sessions/20261121T150203_555569Z_e8e7fcea",
+    "selected_result_directory": "results/development/cleaning_remaining_20261121/tracking_margin",
+    "cases": [
+      {
+        "evidence_directory": "results/development/cleaning_remaining_20261121",
+        "session": "results/sessions/20261121T141206_892826Z_f1440a98",
+        "request_id": "remaining_gym_full_01",
+        "status": "partial",
+        "core_seconds": 475.44,
+        "coverage": {
+          "floor_cells": 12469,
+          "eligible_cells": 11156,
+          "covered_cells": 5456,
+          "uncovered_cells": 5700,
+          "excluded_floor_cells": 1313,
+          "coverage_fraction": 0.48906418070993185,
+          "covered_area_m2": 13.64,
+          "repeated_area_m2": 5.4175,
+          "repeated_coverage_fraction": 0.19424524919325922
+        },
+        "cleaning_stop_reason": "navigation_recovery_failed",
+        "return_state": "simulated_charging",
+        "return_error": {
+          "position_m": 0.11011075010713625,
+          "yaw_rad": 0.09715742584297968,
+          "stationary_seconds": 0.46
+        },
+        "audit_passed": true,
+        "acceptance_passed": false,
+        "config": {
+          "model": "yolov8s-seg.pt",
+          "layout": "results/development/semantic_phone_move/layout_moved.json",
+          "rooms": "src/semantic_search/config/rooms_aws_house_objects_v1.json",
+          "navigation": "src/semantic_search/config/nav2_safety.yaml",
+          "camera_height": 1.2,
+          "camera_pitch": 0.15,
+          "camera_resolution": "1280x960",
+          "navigation_safety": true
+        },
+        "selected": false,
+        "audit": "results/development/cleaning_remaining_20261121/audit.json",
+        "evidence_audit_passed": true
+      },
+      {
+        "evidence_directory": "results/development/cleaning_remaining_20261121/reference_recheck",
+        "session": "results/sessions/20261121T142526_436859Z_4625dbb0",
+        "request_id": "remaining_gym_full_02",
+        "status": "partial",
+        "core_seconds": 266.62,
+        "coverage": {
+          "floor_cells": 12469,
+          "eligible_cells": 11156,
+          "covered_cells": 3475,
+          "uncovered_cells": 7681,
+          "excluded_floor_cells": 1313,
+          "coverage_fraction": 0.31149157404087485,
+          "covered_area_m2": 8.6875,
+          "repeated_area_m2": 0.94,
+          "repeated_coverage_fraction": 0.03370383650053783
+        },
+        "cleaning_stop_reason": "navigation_recovery_failed",
+        "return_state": "return_incomplete",
+        "return_error": {
+          "position_m": 7.9093464508328575,
+          "yaw_rad": 1.4800576066885185,
+          "stationary_seconds": 0.46
+        },
+        "audit_passed": true,
+        "acceptance_passed": false,
+        "config": {
+          "model": "yolov8s-seg.pt",
+          "layout": "results/development/semantic_phone_move/layout_moved.json",
+          "rooms": "src/semantic_search/config/rooms_aws_house_objects_v1.json",
+          "navigation": "src/semantic_search/config/nav2_safety.yaml",
+          "camera_height": 1.2,
+          "camera_pitch": 0.15,
+          "camera_resolution": "1280x960",
+          "navigation_safety": true
+        },
+        "selected": false,
+        "audit": "results/development/cleaning_remaining_20261121/reference_recheck/audit.json",
+        "evidence_audit_passed": true
+      },
+      {
+        "evidence_directory": "results/development/cleaning_remaining_20261121/default_full",
+        "session": "results/sessions/20261121T143438_238138Z_01ff9e66",
+        "request_id": "remaining_default_gym_full_01",
+        "status": "partial",
+        "core_seconds": 600.1,
+        "coverage": {
+          "floor_cells": 12469,
+          "eligible_cells": 11156,
+          "covered_cells": 7427,
+          "uncovered_cells": 3729,
+          "excluded_floor_cells": 1313,
+          "coverage_fraction": 0.6657404087486555,
+          "covered_area_m2": 18.5675,
+          "repeated_area_m2": 5.8025,
+          "repeated_coverage_fraction": 0.2080494801003944
+        },
+        "cleaning_stop_reason": "navigation_recovery_failed",
+        "return_state": "simulated_charging",
+        "return_error": {
+          "position_m": 0.08226399005486788,
+          "yaw_rad": 0.09469978520003897,
+          "stationary_seconds": 0.46
+        },
+        "audit_passed": true,
+        "acceptance_passed": false,
+        "config": {
+          "model": "yolov8n-seg.pt",
+          "layout": "scenes/aws_house/layout_r0_yellow_v1.json",
+          "rooms": "src/semantic_search/config/rooms_aws_house_v4.json",
+          "navigation": "src/semantic_search/config/nav2_depth.yaml",
+          "camera_height": 1.0,
+          "camera_pitch": 0.25,
+          "camera_resolution": "640x480",
+          "navigation_safety": false
+        },
+        "selected": false,
+        "audit": "results/development/cleaning_remaining_20261121/default_full/audit.json",
+        "evidence_audit_passed": true
+      },
+      {
+        "evidence_directory": "results/development/cleaning_remaining_20261121/route_recheck",
+        "session": "results/sessions/20261121T145122_641782Z_c9fb4fda",
+        "request_id": "remaining_route_gym_full_01",
+        "status": "partial",
+        "core_seconds": 297.98,
+        "coverage": {
+          "floor_cells": 12469,
+          "eligible_cells": 11156,
+          "covered_cells": 3474,
+          "uncovered_cells": 7682,
+          "excluded_floor_cells": 1313,
+          "coverage_fraction": 0.3114019361778415,
+          "covered_area_m2": 8.685,
+          "repeated_area_m2": 3.445,
+          "repeated_coverage_fraction": 0.1235209752599498
+        },
+        "cleaning_stop_reason": "navigation_recovery_failed",
+        "return_state": "return_incomplete",
+        "return_error": {
+          "position_m": 6.450208614340028,
+          "yaw_rad": 1.6431435107393895,
+          "stationary_seconds": 0.46
+        },
+        "audit_passed": true,
+        "acceptance_passed": false,
+        "config": {
+          "model": "yolov8n-seg.pt",
+          "layout": "scenes/aws_house/layout_r0_yellow_v1.json",
+          "rooms": "src/semantic_search/config/rooms_aws_house_v4.json",
+          "navigation": "src/semantic_search/config/nav2_depth.yaml",
+          "camera_height": 1.0,
+          "camera_pitch": 0.25,
+          "camera_resolution": "640x480",
+          "navigation_safety": false
+        },
+        "selected": false,
+        "audit": "results/development/cleaning_remaining_20261121/route_recheck/audit.json",
+        "evidence_audit_passed": true
+      },
+      {
+        "evidence_directory": "results/development/cleaning_remaining_20261121/tracking_margin",
+        "session": "results/sessions/20261121T150203_555569Z_e8e7fcea",
+        "request_id": "remaining_margin_gym_full_01",
+        "status": "partial",
+        "core_seconds": 606.71,
+        "coverage": {
+          "floor_cells": 12469,
+          "eligible_cells": 11156,
+          "covered_cells": 8122,
+          "uncovered_cells": 3034,
+          "excluded_floor_cells": 1313,
+          "coverage_fraction": 0.7280387235568304,
+          "covered_area_m2": 20.305,
+          "repeated_area_m2": 7.7125,
+          "repeated_coverage_fraction": 0.2765328074578702
+        },
+        "cleaning_stop_reason": "navigation_recovery_failed",
+        "return_state": "simulated_charging",
+        "return_error": {
+          "position_m": 0.12042572203868343,
+          "yaw_rad": 0.09489465340779127,
+          "stationary_seconds": 0.46
+        },
+        "audit_passed": true,
+        "acceptance_passed": false,
+        "config": {
+          "model": "yolov8n-seg.pt",
+          "layout": "scenes/aws_house/layout_r0_yellow_v1.json",
+          "rooms": "src/semantic_search/config/rooms_aws_house_v4.json",
+          "navigation": "src/semantic_search/config/nav2_depth.yaml",
+          "camera_height": 1.0,
+          "camera_pitch": 0.25,
+          "camera_resolution": "640x480",
+          "navigation_safety": false
+        },
+        "selected": true,
+        "audit": "results/development/cleaning_remaining_20261121/tracking_margin/audit.json",
+        "evidence_audit_passed": true
+      },
+      {
+        "evidence_directory": "results/development/cleaning_remaining_20261121/connector_recheck",
+        "session": "results/sessions/20261121T151753_477501Z_d84e25cb",
+        "request_id": "remaining_connector_gym_full_01",
+        "status": "partial",
+        "core_seconds": 511.75,
+        "coverage": {
+          "floor_cells": 12469,
+          "eligible_cells": 11156,
+          "covered_cells": 5263,
+          "uncovered_cells": 5893,
+          "excluded_floor_cells": 1313,
+          "coverage_fraction": 0.47176407314449625,
+          "covered_area_m2": 13.1575,
+          "repeated_area_m2": 4.6975,
+          "repeated_coverage_fraction": 0.1684295446396558
+        },
+        "cleaning_stop_reason": "navigation_recovery_failed",
+        "return_state": "return_incomplete",
+        "return_error": {
+          "position_m": 9.873438251320396,
+          "yaw_rad": 1.8446434494901842,
+          "stationary_seconds": 0.46
+        },
+        "audit_passed": true,
+        "acceptance_passed": false,
+        "config": {
+          "model": "yolov8n-seg.pt",
+          "layout": "scenes/aws_house/layout_r0_yellow_v1.json",
+          "rooms": "src/semantic_search/config/rooms_aws_house_v4.json",
+          "navigation": "src/semantic_search/config/nav2_depth.yaml",
+          "camera_height": 1.0,
+          "camera_pitch": 0.25,
+          "camera_resolution": "640x480",
+          "navigation_safety": false
+        },
+        "selected": false,
+        "audit": "results/development/cleaning_remaining_20261121/connector_recheck/audit.json",
+        "evidence_audit_passed": true
+      }
+    ],
+    "selected_movement_source_comparison": "results/development/cleaning_remaining_20261121/final_source_comparison.json",
+    "reporting_only_patch": "results/development/cleaning_remaining_20261121/final_reporting.patch",
+    "constraints": {
+      "coverage_target": 0.85,
+      "eligible_cells": 11156,
+      "brush_width_m": 0.5,
+      "lane_spacing_m": 0.35,
+      "task_budget_seconds": 720,
+      "position_dock_m": 0.15,
+      "yaw_dock_rad": 0.15,
+      "fresh_stationary_seconds": 0.45
+    },
+    "engineering": {
+      "passed": 325,
+      "skipped": 29,
+      "tests": "results/development/cleaning_remaining_20261121/tests_selected_final.txt",
+      "stop_protocol_passed": 18,
+      "stop_protocol": "results/development/cleaning_remaining_20261121/stop_protocol.txt",
+      "build": "results/development/cleaning_remaining_20261121/build_selected_final.txt"
+    },
+    "limitations": [
+      "All six complete-room trials failed 85%; selected default profile single run is 8122/11156=72.80% with docking passed.",
+      "High-resolution s/1280/.30m safety candidate is distinct from default n/640/.22m/original-layout trials and remains unaccepted.",
+      "Selected full run made 17 seed-segment attempts against 25 original planned stripes; no remaining-floor or ten-point supplement phase was reached.",
+      "Selected full run entered return with 13.7522s of its cleaning window left after recovery could not be started; original result reason is preserved.",
+      "Final movement helpers/library/BT/client match selected full-run snapshots; only stop-cause/residual-budget reporting differs and is covered by a separate final cold cancellation/return run.",
+      "All failures, source snapshots, map data and raw counts are retained. No gain claim for semantic perception or new category admission."
+    ],
+    "selected_coverage_fraction": 0.7280387235568304,
+    "highest_covered_cells": 8122,
+    "final_cold_session": "results/sessions/20261121T152957_627641Z_7def673d",
+    "final_cold_regression": "results/development/cleaning_remaining_20261121/final_smoke/cancel_return.json",
+    "final_canceled_audit": "results/development/cleaning_remaining_20261121/final_smoke/cancel_audit.json",
+    "cleanup": "results/development/cleaning_remaining_20261121/cleanup.json",
+    "final_independent_stationary_samples": 43,
+    "final_independent_stationary_span_seconds": 0.8400000000000034,
+    "final_manual_return_error": {
+      "position_m": 0.09821569770537643,
+      "yaw_rad": 0.0970761898309019,
+      "stationary_seconds": 0.46
+    },
+    "all_owned_sessions_stopped": true,
+    "git_head": "737aadb",
+    "documentation_validation": {
+      "local_links_checked": 151,
+      "missing_local_links": 0,
+      "changed_file_whitespace_check": "passed"
+    },
+    "frozen_mask_replay_final": "results/development/cleaning_remaining_20261121/reference_replay_final.json",
+    "frozen_mask_replay_initial": "results/development/cleaning_remaining_20261121/reference_replay_fixed.json",
+    "selected_seed_attempts": 17,
+    "selected_unique_original_seed_ids": 15,
+    "selected_initial_seed_count": 25
+  },
+  "budget_selection": {
+    "stage": "C033",
+    "date_local": "2026-11-22",
+    "git_head": "737aadb",
+    "scope": "One budget-selection candidate full run, failure diagnosis and default-policy cold regression.",
+    "status": "candidate_failed_default_restored",
+    "policy_default": "seeded_route_then_reachable_remaining_lanes",
+    "candidate_activation": "The frozen full-run source enabled budget scheduling unconditionally. Explicit opt-in was added after this failure.",
+    "candidate_flag": "--cleaning-budget-selection",
+    "candidate_default_enabled": false,
+    "thresholds": {
+      "coverage": 0.85,
+      "eligible_cells": 11156,
+      "brush_width_m": 0.5,
+      "nominal_lane_spacing_m": 0.35,
+      "max_linear_mps": 0.26,
+      "product_budget_seconds": 720,
+      "return_position_m": 0.15,
+      "return_yaw_rad": 0.15,
+      "fresh_stationary_seconds": 0.45
+    },
+    "full_run": {
+      "session": "results/sessions/20261121T165308_993555Z_e6b3c717",
+      "request": "budget_gym_full_01",
+      "report": "results/development/cleaning_budget_20261122/run01/report.json",
+      "audit": "results/development/cleaning_budget_20261122/run01/audit.json",
+      "elapsed_seconds": 490.52,
+      "coverage": {
+        "floor_cells": 12469,
+        "eligible_cells": 11156,
+        "covered_cells": 7845,
+        "uncovered_cells": 3311,
+        "excluded_floor_cells": 1313,
+        "coverage_fraction": 0.7032090354965937,
+        "covered_area_m2": 19.6125,
+        "repeated_area_m2": 5.715,
+        "repeated_coverage_fraction": 0.20491215489422732
+      },
+      "return_state": "return_incomplete",
+      "return_error": {
+        "position_m": 7.654436617141901,
+        "yaw_rad": 0.30301642847793053,
+        "stationary_seconds": 0.46
+      },
+      "stop_reason": "navigation_recovery_failed",
+      "cleaning_time_remaining_seconds": 117.57112506883641,
+      "coverage_passed": false,
+      "docking_passed": false,
+      "accepted_as_default": false,
+      "attempts": 10,
+      "source_counts": {
+        "seeded_route": 2,
+        "budget_seed": 8,
+        "remaining_floor": 0
+      }
+    },
+    "failure": "results/development/cleaning_budget_20261122/connector_failure.json",
+    "figure": "docs/evidence/cleaning_connector_failure_20261122.png",
+    "default_replay": "results/development/cleaning_budget_20261122/default_policy_replay.json",
+    "cold_regression": {
+      "session": "results/sessions/20261121T170511_563869Z_d7ab8726",
+      "report": "results/development/cleaning_budget_20261122/final_smoke/cancel_return.json",
+      "cancel_audit": "results/development/cleaning_budget_20261122/final_smoke/cancel_audit.json",
+      "status": "passed",
+      "budget_selection_disabled": true,
+      "source_checks": {
+        "scripts/run_cleaning.py": true,
+        "src/semantic_search/semantic_search/cleaning.py": true,
+        "src/semantic_search/config/navigate_cleaning_lane.xml": true,
+        "scripts/navigation_client.py": true,
+        "scripts/robot_console.py": true,
+        "scripts/robot_runtime.py": true
+      },
+      "independent_stop_samples": 42,
+      "independent_stop_span_seconds": 0.8200000000000003,
+      "artifact_downloads": 6,
+      "manual_return_error": {
+        "position_m": 0.1063182600911882,
+        "yaw_rad": 0.09685283314899511,
+        "stationary_seconds": 0.46
+      }
+    },
+    "engineering": {
+      "passed": 333,
+      "skipped": 29,
+      "tests": "results/development/cleaning_budget_20261122/tests_final.txt",
+      "initial_tests": "results/development/cleaning_budget_20261122/tests.txt",
+      "initial_collection_error": "results/development/cleaning_budget_20261122/tests_collection_initial.txt",
+      "build": "results/development/cleaning_budget_20261122/build_final.txt",
+      "stop_protocol": "Not repeated: shared navigation_client.py unchanged from C032, which passed 18 isolated ROS protocol cases."
+    },
+    "source_sha256": {
+      "scripts/run_cleaning.py": "ad07984af19f932da9cf4bfcb169a62d5d4dc67f59fbd1bea87db04a60ba794c",
+      "scripts/robot_console.py": "f8d6e3f99596c3d86ad321382ac9b31eecc477a07dd6fd1f05b8ce92aec0f76c",
+      "scripts/robot_runtime.py": "bd902df702019f5505ab77fd2549e112f728a339abc7955eff4e1ae3f90751c2",
+      "src/semantic_search/semantic_search/cleaning.py": "4ce1fa77b3b2953c6f1ac5e19fa0766be1215c48a213d3dad231dc2f182aaa44",
+      "tests/test_cleaning_remaining.py": "5af21f5c4aecc0396ed821e31a46d3c7d22171fbd2eda72646b4326fb54bc7b4",
+      "tests/test_robot_console.py": "4793a2d1602be0b7d982c9262db8021c3d7ac839ce47890b116ac116d0d4f8fe",
+      "tests/test_robot_runtime.py": "413d77eab72c2cf85df000f92d53f9f148e269e2c7ea938c169359e70ea51a3d"
+    },
+    "configuration_matches_selected_C032": {
+      "scenes/aws_house/layout_r0_yellow_v1.json": true,
+      "src/semantic_search/config/rooms_aws_house_v4.json": true,
+      "src/semantic_search/config/nav2_depth.yaml": true,
+      "scenes/aws_house/spatial_v4.json": true,
+      "src/semantic_search/config/navigate_cleaning_lane.xml": true,
+      "src/semantic_search/config/navigate_service.xml": true,
+      "src/semantic_search/config/navigate_service_through_poses.xml": true,
+      "src/semantic_search/config/charging_station.json": true
+    },
+    "cleanup": "results/development/cleaning_budget_20261122/cleanup.json",
+    "limitations": [
+      "Candidate full-room coverage and return both failed; 85% acceptance remains unmet. Historical best remains single C032 run 72.80%.",
+      "Frozen-mask policy replay and cold cancellation/manual return do not establish new full-room coverage or stable acceptance.",
+      "Before-connector global and post-failure global/local observed costs are99 at the stopped map pose; controller-internal timing, physical contact and source-layer attribution remain unresolved.",
+      "No claim that fixed route alone resolves navigation; next focused comparison will isolate connector tracking/recovery/TF.",
+      "Final .30m safety candidate four daily cases, category admission, semantic-memory benefit and live microphone acceptance unchanged."
+    ],
+    "next_step": "Compare a fixed safe connector reference against the current NavigateToPose connector using measured paths, odometry and local/global costmaps; preserve original safety, coverage and docking gates.",
+    "all_owned_sessions_stopped": true,
+    "documentation_validation": {
+      "local_links_checked": 147,
+      "missing_local_links": [],
+      "changed_file_whitespace_check": "passed"
+    },
+    "configuration_hashes_unchanged": {
+      "scenes/aws_house/layout_r0_yellow_v1.json": true,
+      "src/semantic_search/config/rooms_aws_house_v4.json": true,
+      "src/semantic_search/config/nav2_depth.yaml": true,
+      "scenes/aws_house/spatial_v4.json": true,
+      "src/semantic_search/config/navigate_cleaning_lane.xml": true,
+      "src/semantic_search/config/navigate_service.xml": true,
+      "src/semantic_search/config/navigate_service_through_poses.xml": true,
+      "src/semantic_search/config/charging_station.json": true
+    }
+  },
+  "connector_contact": {
+    "stage": "C034",
+    "date_local": "2026-11-22",
+    "status": "partial_validation_with_memory_regression_passed",
+    "git_head": "737aadb",
+    "scope": "Bounded connector/contact investigation, one full cleaning, admitted-category memory regression, cancellation and recovery of a failed observer stage.",
+    "final_profile": {
+      "layout": "scenes/aws_house/layout_r0_yellow_v1.json",
+      "rooms": "src/semantic_search/config/rooms_aws_house_v4.json",
+      "navigation": "src/semantic_search/config/nav2_depth.yaml",
+      "model": "yolov8n-seg.pt",
+      "detector": {
+        "device": "cuda:0",
+        "python_env": ".venv-gpu",
+        "image_size": 640,
+        "confidence": 0.35,
+        "iou": 0.3,
+        "half": false
+      },
+      "camera_height": 1.0,
+      "camera_pitch": 0.25,
+      "camera_resolution": "640x480",
+      "camera_horizontal_fov": 1.02974,
+      "navigation_safety": false,
+      "cleaning_position_goals": false,
+      "cleaning_local_recovery": false,
+      "cleaning_budget_selection": false
+    },
+    "changes": [
+      "Reuse separate laser ObstacleLayer and depth VoxelLayer with maximum fusion.",
+      "Default development footprint .22m->.25m encloses body rear corner .237m; explicit safety candidate .30m unchanged.",
+      "Reuse native RotationShim around ordinary DWB while retaining original critics, limits and full-pose checker.",
+      "Bound cleaning-start connector estimates by current binary-mask four-neighbor distance; fallback remains Euclidean and may understate weighted NavFn distance.",
+      "Read-only body/rig contact diagnostics; normal wheel/caster floor traffic omitted. Collision geometry unchanged."
+    ],
+    "thresholds": {
+      "coverage": 0.85,
+      "eligible_cells": 11156,
+      "brush_width_m": 0.5,
+      "nominal_spacing_m": 0.35,
+      "max_linear_mps": 0.26,
+      "product_budget_seconds": 720,
+      "return_position_m": 0.15,
+      "return_yaw_rad": 0.15,
+      "fresh_stationary_seconds": 0.45
+    },
+    "contact_evidence": {
+      "report": "results/development/connector_contact_20261122/baseline/contact_at_stop.json",
+      "scope": "Read-only contacts at the stopped baseline connector pose; not retroactive timestamp proof of first contact.",
+      "pairs": [
+        {
+          "names": [
+            "waffle::rgbd_support::mount_plate_collision",
+            "Dumbbell_01_001::link::collision"
+          ],
+          "samples": 69,
+          "depth_max": 0.0
+        }
+      ],
+      "initial_topic_misconfiguration": "sensor/topic produced no data; corrected to contact/topic per installed SDFormat1.8 schema",
+      "limitations": [
+        "Recorded after the baseline action stopped, not proof of first contact time in C033.",
+        "Does not establish exactly which perception/clearing/TF event caused the original bad approach."
+      ]
+    },
+    "short_trials": [
+      {
+        "name": "baseline",
+        "report": "results/development/connector_contact_20261122/baseline/report.json",
+        "status": "navigation_failed"
+      },
+      {
+        "name": "split_layers",
+        "report": "results/development/connector_contact_20261122/split_layers/report.json",
+        "status": "navigation_failed"
+      },
+      {
+        "name": "split_shim",
+        "report": "results/development/connector_contact_20261122/split_shim/report.json",
+        "status": "navigation_failed"
+      },
+      {
+        "name": "adaptive_connector",
+        "report": "results/development/connector_contact_20261122/adaptive_connector/report.json",
+        "status": "navigation_failed"
+      }
+    ],
+    "original_connector": {
+      "report": "results/development/connector_contact_20261122/adaptive_connector/report.json",
+      "action_completed": false,
+      "position_error_m": 0.10439603186991045,
+      "yaw_rad": 1.7387571964918547,
+      "budget": {
+        "timeout_seconds": 40.0,
+        "observed_path_distance_m": null,
+        "source": "euclidean_fallback"
+      },
+      "body_contacts": 0,
+      "limitation": "Position within.15m but full heading not achieved before cancellation; never counted as a passed original connector."
+    },
+    "full_cleaning": {
+      "session": "results/sessions/20261121T173842_396879Z_54246dea",
+      "request_id": "connector_gym_full_01",
+      "report": "results/development/connector_contact_20261122/full_gym/report.json",
+      "audit": "results/development/connector_contact_20261122/full_gym/audit.json",
+      "budget_audit": "results/development/connector_contact_20261122/full_gym/connector_budget_audit.json",
+      "elapsed_seconds": 638.49,
+      "coverage": {
+        "floor_cells": 12469,
+        "eligible_cells": 11156,
+        "covered_cells": 6844,
+        "uncovered_cells": 4312,
+        "excluded_floor_cells": 1313,
+        "coverage_fraction": 0.6134815346002152,
+        "covered_area_m2": 17.11,
+        "repeated_area_m2": 6.4675,
+        "repeated_coverage_fraction": 0.23189315166726426
+      },
+      "stop_reason": "cleaning_budget_exhausted",
+      "return_state": "simulated_charging",
+      "return_error": {
+        "position_m": 0.08061756401222528,
+        "yaw_rad": 0.09648022354129263,
+        "stationary_seconds": 0.46
+      },
+      "coverage_passed": false,
+      "dock_passed": true,
+      "no_body_contact_records": true,
+      "contact_channel_calibration": true,
+      "fixtures_removed": true,
+      "attempts": 14,
+      "source_match": true
+    },
+    "memory_regression": {
+      "report": "results/development/connector_contact_20261122/memory_validation/report.json",
+      "status": "passed",
+      "request_id": "connector_memory_cup_01",
+      "task_id": "87990030-d0cc-40e6-ab96-d0a7af342e20",
+      "observed_count": 1,
+      "elapsed_seconds": 101.67,
+      "namespace": "393ef03cd855b09feaa4a055dd957feca9d9000edc5c00ba1c00a95ac20c2f03",
+      "namespace_unchanged": true,
+      "before_revision": "83:2026-11-21T12:22:36.482542+00:00",
+      "after_revision": "84:2026-11-21T17:57:19.540713+00:00",
+      "sqlite_reopen": {
+        "passed": true,
+        "objects": 22,
+        "revision": "84:2026-11-21T17:57:19.540713+00:00"
+      },
+      "graph_reload": {
+        "nodes": 28,
+        "edges": 27,
+        "objects": 22,
+        "metadata_preserved": true
+      },
+      "return_error": {
+        "position_m": 0.07384693519961708,
+        "yaw_rad": 0.0945870410613073,
+        "stationary_seconds": 0.46
+      },
+      "graph": "results/development/connector_contact_20261122/memory_validation/scene_graph.json",
+      "limitations": [
+        "One admitted-category positive case, not a category expansion, physical reidentification or memory-guided search benefit test.",
+        "UI memory remains last-observed history; current task confirmation is supported only by its new sensor result."
+      ]
+    },
+    "cancellation": {
+      "report": "results/development/connector_contact_20261122/final_smoke/cancel_return.json",
+      "audit": "results/development/connector_contact_20261122/final_smoke/cancel_audit.json",
+      "actual_task_state": "canceled",
+      "navigation_settled": true,
+      "no_automatic_return": true,
+      "independent_stop_samples": 45,
+      "independent_stop_span_seconds": 0.8800000000001091,
+      "artifacts_downloaded": 6,
+      "combined_observer_status": "failed",
+      "observer_error": "RCLError: failed to create timer: the given context is not valid, either rcl_init() was not called or rcl_shutdown() was called., at ./src/rcl/guard_condition.c:67",
+      "manual_stage_recovery": "results/development/connector_contact_20261122/final_home_recovery.json",
+      "manual_recovery_passed": true,
+      "manual_recovery_error": {
+        "position_m": 0.08822632634324931,
+        "yaw_rad": 0.09549119485716752,
+        "stationary_seconds": 0.46
+      },
+      "limitation": "Combined observer failed due invalid rclpy context during manual return. Initial failed report and canceled return retained; only manual stage rerun via UI with original docking gates."
+    },
+    "engineering": {
+      "passed": 335,
+      "skipped": 29,
+      "tests": "results/development/connector_contact_20261122/tests_final.txt",
+      "spark_dsg_passed": 3,
+      "spark_dsg_tests": "results/development/connector_contact_20261122/semantic_tests.txt",
+      "build": "results/development/connector_contact_20261122/build_final.txt",
+      "shared_navigation_client_unchanged": true
+    },
+    "source_sha256": {
+      "scripts/run_cleaning.py": "2fece3c5b81a6a16114bcd7f2083b0bdbcbc81c241b2bb8656783e43a1ed2c0e",
+      "src/semantic_search/semantic_search/cleaning.py": "c9d0ca251a00431756c48438abc04e5bd22ddb5ea90fef17b9c8c5bab4a49179",
+      "src/semantic_search/semantic_search/development.py": "9d5def38bb326ab13cabf015ee558946d651766d08353268b38b2f1ce0537f76",
+      "src/semantic_search/launch/development.launch.py": "7bb11b1736b9bb4251793a26e3789915d24db2f08904dc39177eda1f91bca61b",
+      "src/semantic_search/config/nav2_depth.yaml": "c18d5205d308f4d14ca9f25809f4c6de21690b0b161bdcb6844a8105c5107fe3",
+      "tests/test_cleaning_remaining.py": "91c0c6ec8bd20f83e8bd3be5374822ba46ec1de5917d810a3d212ea3f42bc1ff",
+      "tests/test_development.py": "2fc3eb5040e8bd816565683cc12aa664874e04c9f3c02f0e18fae5da643b3221",
+      "tests/test_service_navigation_config.py": "796a098cdccbfe8887ae5e57436524f099473dfaa5e74d93ee29ca181261c098"
+    },
+    "figure": "docs/evidence/cleaning_connector_contact_20261122.png",
+    "cleanup": "results/development/connector_contact_20261122/cleanup.json",
+    "all_owned_sessions_stopped": true,
+    "limitations": [
+      "85% remains unmet; 61.35% belongs to the new profile, historical72.80% remains tied to C032. No single-factor speedup or stable navigation acceptance claim.",
+      "All original-connector short actions failed full completion. New profile original target ended within.1044m but heading unfinished.",
+      "Full run14 connector budget estimates were40s; no extension was physically demonstrated. Component detour regression and exact14-mask budget replay passed; original target used unreachable-mask Euclidean fallback.",
+      "Final default development profile and explicit.30m safety candidate still need the four daily avoidance cases.",
+      "No new category admission, physical reidentification or measured memory-guided search benefit.",
+      "Observer ROS-context failure cause remains unresolved; it is not reclassified as a successful combined regression."
+    ],
+    "next_step": "Proceed with existing coverage/semantic-map plan; keep the unfinished connector heading and fallback budget as bounded regression items, capture actual NavFn path lengths/target feasibility before another controller change. Do not expand obstacle matrices or infer counts from truth.",
+    "documentation_validation": {
+      "local_links_checked": 164,
+      "missing_local_links": [],
+      "evidence_paths_missing": [],
+      "source_fingerprints_match": true,
+      "changed_file_whitespace_check": "passed"
+    }
+  },
+  "bedroom_uniformity": {
+    "stage": "C039",
+    "summary": "results/development/bedroom_nightstand_20261122/stage_summary.json",
+    "audit": "results/development/bedroom_nightstand_20261122/clean_audit/audit.json",
+    "diagnosis": "results/development/bedroom_nightstand_20261122/uniformity_audit.json",
+    "baseline_covered_cells": 5997,
+    "candidate_covered_cells": 5954,
+    "eligible_cells": 7975,
+    "candidate_accepted": false,
+    "source_change": "safe stopped failure preserves original seed queue before global repairs",
+    "engineering_passed": 367,
+    "engineering_skipped": 29,
+    "post_fix_live_acceptance": false
+  },
+  "bedroom_efficiency": {
+    "stage": "C040",
+    "summary": "results/development/cleaning_efficiency_20261122/stage_summary.json",
+    "audit": "results/development/cleaning_efficiency_20261122/clean_audit.json",
+    "actual_coverage": 0.8012539184952978,
+    "eligible_cells": 7975,
+    "covered_cells": 6390,
+    "route_spacing_m": 0.35,
+    "speed_cap_m_s": 0.35,
+    "core_elapsed_seconds": 635.48,
+    "return_passed": true,
+    "coverage_85_passed": false,
+    "west_covered": 239,
+    "west_eligible": 908,
+    "limitations": [
+      "One trial per version: initial live masks differ; no isolated causal speed claim or repeated stability acceptance.",
+      "Raw partial retained: cleaning budget exhausted, west239/908, most western strips still not finished.",
+      "Full-run contact sampler output lost at external runner exit143; no full-run no-contact claim.",
+      "Original C039 failures, maps and historical profiles retained; no class admission/physical identity or memory benefit claim."
+    ]
+  },
+  "integrated_expansion_c041": {
+    "status": "bedroom_single_pass_gym_failed",
+    "acceptance": {
+      "global_fraction": 0.8,
+      "all_original_stripe_centerlines_actually_covered": true,
+      "stop_at_fraction_alone": false
+    },
+    "audit": "results/development/integrated_expansion_20261122/clean_audit.json",
+    "trials": [
+      {
+        "room": "bedroom",
+        "state": "completed",
+        "coverage": {
+          "floor_cells": 11919,
+          "eligible_cells": 7975,
+          "covered_cells": 6613,
+          "uncovered_cells": 1362,
+          "excluded_floor_cells": 3944,
+          "coverage_fraction": 0.8292163009404389,
+          "covered_area_m2": 16.5325,
+          "repeated_area_m2": 7.04,
+          "repeated_coverage_fraction": 0.35310344827586204
+        },
+        "spatial_coverage": {
+          "basis": "measured_brush_coverage_of_original_stripe_centerlines",
+          "completed": true,
+          "planned_lanes": 19,
+          "covered_lanes": 19,
+          "incomplete_lanes": []
+        },
+        "repaint_exact": true,
+        "position_only_connectors": 19,
+        "duration_by_purpose": {
+          "room_entry": 18.531,
+          "lane_start": 165.02499999999992,
+          "follow_path": 329.464,
+          "room_exit": 28.942999999999984,
+          "dock": 25.345000000000027
+        },
+        "elapsed_seconds": 572.05,
+        "stop_reason": "coverage_target_met",
+        "return_passed": true,
+        "return_error": {
+          "position_m": 0.07422766990596637,
+          "yaw_rad": 0.10560421420373282,
+          "stationary_seconds": 0.46
+        },
+        "actual_follow_lateral_error_m": {
+          "samples": 2614,
+          "median": 0.03013328474507526,
+          "p95": 0.11497078465598637
+        },
+        "west_diagnostic": {
+          "eligible": 908,
+          "covered": 510
+        }
+      },
+      {
+        "room": "gym",
+        "state": "partial",
+        "coverage": {
+          "floor_cells": 12469,
+          "eligible_cells": 11156,
+          "covered_cells": 8363,
+          "uncovered_cells": 2793,
+          "excluded_floor_cells": 1313,
+          "coverage_fraction": 0.7496414485478666,
+          "covered_area_m2": 20.9075,
+          "repeated_area_m2": 11.4225,
+          "repeated_coverage_fraction": 0.4095553961993546
+        },
+        "spatial_coverage": {
+          "basis": "measured_brush_coverage_of_original_stripe_centerlines",
+          "completed": false,
+          "planned_lanes": 22,
+          "covered_lanes": 18,
+          "incomplete_lanes": [
+            {
+              "lane_id": 9,
+              "centerline_cells": 42,
+              "covered_centerline_cells": 39,
+              "completed": false
+            },
+            {
+              "lane_id": 16,
+              "centerline_cells": 6,
+              "covered_centerline_cells": 0,
+              "completed": false
+            },
+            {
+              "lane_id": 19,
+              "centerline_cells": 24,
+              "covered_centerline_cells": 17,
+              "completed": false
+            },
+            {
+              "lane_id": 21,
+              "centerline_cells": 12,
+              "covered_centerline_cells": 0,
+              "completed": false
+            }
+          ]
+        },
+        "repaint_exact": true,
+        "position_only_connectors": 21,
+        "duration_by_purpose": {
+          "room_entry": 44.931,
+          "lane_start": 220.346,
+          "follow_path": 293.9900000000001,
+          "room_exit": 28.135999999999967,
+          "dock": 31.149999999999977
+        },
+        "elapsed_seconds": 624.24,
+        "stop_reason": "cleaning_budget_exhausted",
+        "return_passed": true,
+        "return_error": {
+          "position_m": 0.03675900800071853,
+          "yaw_rad": 0.09365359509567983,
+          "stationary_seconds": 0.46
+        },
+        "actual_follow_lateral_error_m": {
+          "samples": 2337,
+          "median": 0.04049013055235884,
+          "p95": 0.11667516808446576
+        },
+        "west_diagnostic": {
+          "eligible": 0,
+          "covered": 0
+        }
+      }
+    ],
+    "plot": "docs/evidence/bedroom_cleaning_c041_20261122.png",
+    "independent_observer": {
+      "status": "no_data_not_a_zero_contact_pass",
+      "reason": "validator sourced ROS/install but did not apply project env.sh; root runtime uses isolated local DDS",
+      "samples_bytes": 0,
+      "internal_trace_repaint_exact": true
+    },
+    "limitations": [
+      "One full run per room; no repeated stability or final daily avoidance acceptance.",
+      "Bedroom still has 1362 eligible unswept cells; stripe completion is not 100% floor coverage.",
+      "Gym retains original partial/cleaning_budget_exhausted; three follow endpoints stalled ~.133m from .12m targets."
+    ],
+    "latest_stage_summary": "results/development/integrated_expansion_20261122/stage_summary.json",
+    "queue_fix": {
+      "replay": "results/development/integrated_expansion_20261122/unsafe_queue_actual_mask_replay.json",
+      "tests": "388 passed,29 conditional skips",
+      "live_trial": "results/development/integrated_expansion_20261122/gym_queue_fix_trial/report.json",
+      "coverage_fraction": 0.7387952671208319,
+      "actual_recovery_triggered": false
+    },
+    "twirling": {
+      "trial": "results/development/integrated_expansion_20261122/gym_twirling_trial/report.json",
+      "coverage_fraction": 0.7177303693079957,
+      "promoted": false,
+      "original_yaml_restored": true
+    },
+    "equipment_and_clearance": {
+      "audit": "results/development/integrated_expansion_20261122/gym_equipment_audit.json",
+      "margin": "results/development/integrated_expansion_20261122/equipment_margin_audit.json",
+      "figure": "docs/evidence/gym_equipment_clearance_20261122.png",
+      "no_global_radius_reduction": true
+    },
+    "physical_evaluation": {
+      "world_brush": "results/development/integrated_expansion_20261122/world_brush_audit.json",
+      "world_dock_before": "results/development/integrated_expansion_20261122/gym_score_world_dock_check.json",
+      "world_dock_after": "results/development/integrated_expansion_20261122/gym_queue_fix_world_dock_check.json",
+      "map_only_charging_not_physical_precision_guarantee": true
+    },
+    "runtime": "all_trial_stacks_stopped",
+    "equipment_clearance_probe": {
+      "status": "implemented_candidate_local_execution_not_accepted",
+      "audit": "results/development/clearance_probe_20261122/audit.json",
+      "tests": "394 passed, 29 skipped",
+      "default_margin_cells": 1,
+      "local_strip_sent": false,
+      "coverage_admission_unchanged": true
+    },
+    "cloud_continuity_repair": {
+      "status": "cloud_continuity_repair_validated",
+      "audit": "results/development/cloud_continuity_20261122/audit.json",
+      "local_passage_admitted": false,
+      "default_margin_cells": 1
+    },
+    "cross_supplement": {
+      "status": "implemented_replay_checked_single_utility_pass",
+      "audit": "results/development/cross_supplement_20261122/audit.json",
+      "utility_coverage": {
+        "floor_cells": 10363,
+        "eligible_cells": 9336,
+        "covered_cells": 8272,
+        "uncovered_cells": 1064,
+        "excluded_floor_cells": 1027,
+        "coverage_fraction": 0.8860325621251071,
+        "covered_area_m2": 20.68,
+        "repeated_area_m2": 8.865,
+        "repeated_coverage_fraction": 0.37982005141388175
+      },
+      "spatial_coverage": {
+        "basis": "measured_brush_coverage_of_original_stripe_centerlines",
+        "completed": true,
+        "planned_lanes": 26,
+        "covered_lanes": 26,
+        "incomplete_lanes": []
+      },
+      "return_error": {
+        "position_m": 0.09312421977863866,
+        "yaw_rad": 0.09572661636643962,
+        "stationary_seconds": 0.46
+      },
+      "new_supplement_attempts": 0,
+      "benefit_admitted": false
+    }
+  }
+}

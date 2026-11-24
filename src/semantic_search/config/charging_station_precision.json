@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "id": "home_dock",
+  "display_name": "家庭充电处",
+  "simulation_only": true,
+  "frame_id": "map",
+  "room": "living",
+  "map_yaml": "scenes/aws_house/r0_v1/maps/house.yaml",
+  "map_sha256": {
+    "yaml": "0dac305d71af1e771b54ff9093b28a8948707fbdefa96b7ea12910c4607d3b5e",
+    "image": "fd3b7f0c4924354c084b802e3110ef0d845ccb47a71799cc018ce9b64c0eaa53"
+  },
+  "map_pose": [
+    -1.8,
+    -4.0,
+    0.0
+  ],
+  "world_spawn_pose": [
+    -1.8,
+    -4.0,
+    0.0
+  ],
+  "model": {
+    "name": "home_charging_station",
+    "pose": [
+      -2.34,
+      -4.0,
+      0.0
+    ],
+    "size": [
+      0.12,
+      0.55,
+      0.35
+    ]
+  },
+  "note": "Configured service facility, not a perceived object. Map pose is robot base pose; world spawn is already included in this simulator odometry.",
+  "precision_docking": true
+}

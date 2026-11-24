@@ -5,7 +5,7 @@
   const labels = {
     starting: '启动中', booting: '启动中', preflight: '启动检查', checking: '启动检查', simulation: '启动仿真',
     waiting_simulation: '等待传感器', navigation: '启动导航', waiting_navigation: '等待定位导航',
-    perception: '启动感知', waiting_perception: '等待视觉数据', ready: '系统就绪', switching: '正在切换模式',
+    perception: '启动感知', safety: '启动防碰撞', waiting_perception: '等待视觉数据', ready: '系统就绪', switching: '正在切换模式',
     running: '执行中', canceling: '正在停止', completed: '已完成', succeeded: '已完成',
     found: '已找到', passed: '检查通过', partial: '部分完成', failed: '失败', error: '异常',
     canceled: '已取消', stopped: '已停止', stopping: '正在关闭', shutdown: '已关闭',
@@ -13,10 +13,20 @@
     navigation_failed: '导航失败', navigation_rejected: '导航未就绪', timeout: '执行超时',
     idle: '空闲', pending: '等待启动', exited: '已退出', disabled: '未启用',
   };
-  const componentLabels = {simulation: 'Gazebo', navigation: '导航', detector: '视觉检测', search: '搜索服务', rviz: 'RViz', slam: '实时建图', motion: '运动保护'};
+  const componentLabels = {simulation: 'Gazebo', navigation: '导航', detector: '视觉检测', search: '搜索服务', rviz: 'RViz', slam: '实时建图', motion: '运动保护', safety: '防碰撞'};
   const categories = {cup: '杯子', bottle: '瓶子', chair: '椅子'};
   const rooms = {};
   let roomSignature = '';
+  let catalogSignature = '';
+  let memoryData = null;
+  let memoryRequest = 0;
+  let selectedMemoryId = null;
+  let mapView = 'semantic';
+  let memoryHitTargets = [];
+  const objectColors = {cup:'#087f8c',bottle:'#346fca',chair:'#7972ab',bowl:'#bc6c25',
+    apple:'#cd4d58',book:'#815bc0','sports ball':'#bc7a0c','cell phone':'#516473',
+    orange:'#d77828',banana:'#9c861a',vase:'#a65f93'};
+  const categoryColor = (category) => objectColors[category] || '#557684';
   const busyStates = new Set(['starting', 'running', 'canceling', 'queued', 'pending']);
   let state = null;
   let online = false;
@@ -29,6 +39,8 @@
   let mapData = null;
   let mapRaster = null;
   let mapUnavailable = false;
+  let costmapData=null,costmapRaster=null,costmapReceived=0,costmapBusy=false,costmapSession=null;
+  let mapExportSession=null;
   let zoom = 1;
   let historyKey = '';
   let taskKey = '';
@@ -78,6 +90,7 @@
   function taskBusy() { return Boolean(state && (state.busy || state.task && busyStates.has(state.task.state))); }
   function taskCommand(task) {
     if (task.kind === 'validation') return '传感器检查';
+    if (task.kind === 'return') return task.command || '返回充电处';
     const command = task.command;
     let structured = command;
     if (typeof command === 'string') {
@@ -92,6 +105,12 @@
   function refreshButtons() {
     const allowed = Boolean(online && state && state.ready && !taskBusy() && !mutationPending && !recording);
     const mapping = state?.mode === 'mapping';
+    el('export-costmap').hidden = mapping || !state?.map_export_available;
+    el('export-view-control').hidden=mapping || !state?.map_export_views;
+    el('export-costmap').textContent=state?.map_export_views?'保存所选地图':'保存导航代价快照';
+    if (mapExportSession && mapExportSession!==state?.session_id) {
+      el('costmap-exports').replaceChildren();mapExportSession=null;
+    }
     const motion = state?.telemetry?.mapping_motion;
     const cleaning = el('mode').value === 'clean';
     el('search-fields').hidden = mapping;
@@ -111,6 +130,9 @@
     text('submit-task', mutationPending ? '正在提交…' : taskBusy() ? '任务执行中' : allowed ? '开始任务' : '等待系统就绪');
     el('cancel-task').disabled = !online || mutationPending;
     el('validate').disabled = !allowed;
+    el('return-to-dock').hidden = mapping || !state?.charging_station;
+    el('return-to-dock').disabled = !allowed;
+    el('dock-legend').hidden = mapping || !state?.charging_station;
     el('record-voice').disabled = recording ? !recording.recorder : !allowed || !canRecord || !state?.voice_available;
     text('record-voice', recording ? recording.recorder ? '结束录音' : '等待麦克风授权…' : '录音转写');
     text('task-help', recording ? '录音最长 8 秒。说完可提前结束。' : !online ? '连接已断开，无法提交任务。' :
@@ -121,8 +143,24 @@
   }
   function progressLabel(progress) {
     if (!progress) return '等待搜索节点接收任务。';
+    if (progress.viewpoint_source === 'memory_safe_approach') {
+      return progress.stage === 'navigating' ? '正在根据历史位置优先前往核验，物品尚未现场确认。' :
+        progress.stage === 'observing' ? '正在现场核验历史线索，确认数量只来自本次观测。' : '正在核验历史线索。';
+    }
     const position = progress.viewpoint_index ? `观察点 ${progress.viewpoint_index} / ${progress.viewpoints_total}` : '';
     const room = rooms[progress.room] || progress.room;
+    if (progress.inspection_area) {
+      if (progress.stage === 'navigating') return `正在前往${room}的${progress.inspection_area}巡视（${position}）。`;
+      if (progress.stage === 'observing') return `正在巡视${room}的${progress.inspection_area}（${position}）。`;
+    }
+    if (progress.viewpoint_source === 'tentative_object_recheck') {
+      if (progress.stage === 'navigating') return `发现待确认目标，正在${room}寻找更清晰的观察位置（${position}）。`;
+      if (progress.stage === 'observing') return `正在${room}近距离核验目标（${position}）。`;
+    }
+    if (progress.viewpoint_source === 'measured_support_surface') {
+      if (progress.stage === 'navigating') return `正在${room}靠近已观察到的桌面，检查小物品（${position}）。`;
+      if (progress.stage === 'observing') return `正在${room}检查桌面细节（${position}）。`;
+    }
     switch (progress.stage) {
       case 'navigating': return `正在前往${room}的${position}。`;
       case 'observing': return `正在${room}扫描（${position}）。`;
@@ -138,7 +176,7 @@
       case 'entering': return `正在前往${rooms[progress.room] || progress.room}。`;
       case 'sweeping': return `正在清扫。已处理 ${progress.goals_finished} / ${progress.goals_total} 个路线点。`;
       case 'supplementing': return '正在补扫遗漏区域。';
-      case 'returning': return '正在返回本次任务的起点。';
+      case 'returning': return state?.charging_station ? '正在返回充电处。' : '正在返回本次任务的起点。';
       default: return '正在核对起点、地面和清扫路线。';
     }
   }
@@ -157,6 +195,16 @@
       [['定位与导航', telemetry.navigation_ready], ['视觉数据', telemetry.perception_ready]];
     for (const [name, ready] of [['仿真数据', telemetry.simulation_ready], ...checks]) {
       list.append(healthRow(name, ready ? '就绪' : '等待数据', ready ? 'good' : 'warn'));
+    }
+    if (state.components?.safety?.state !== 'disabled' && state.components?.safety) {
+      const safety = telemetry.safety || {};
+      const reasons = {scan_stale: '雷达数据过期', depth_stale: '深度数据过期', cloud_stale: '障碍数据过期',
+        odom_stale: '里程计过期', odometry_tf_stale: '里程计变换过期', clock_stale: '仿真时钟停止',
+        collision_monitor_inactive: '防碰撞未就绪'};
+      const blocked = (safety.reasons || []).filter((name) => name !== 'command_stale');
+      const label = safety.ready ? '就绪' : !safety.fresh ? '等待防护数据' :
+        `已停车 · ${blocked.slice(0, 2).map((name) => reasons[name] || '等待数据').join('、')}`;
+      list.append(healthRow('运动防护', label, safety.ready ? 'good' : 'warn'));
     }
     for (const [name, component] of Object.entries(state.components || {})) {
       if (!Object.hasOwn(componentLabels, name)) continue;
@@ -215,13 +263,15 @@
     text('task-metric', cleaning ? '可清扫区域覆盖率' : '确认数量');
     text('count', cleaning ? finite(fraction) ? `${(fraction*100).toFixed(1)}%` : '—' :
       finite(count) ? String(count) : '—');
-    const key = JSON.stringify([task && task.id, current, result, progress, task && task.error, task && task.save_status, task && task.artifacts, historical]);
+    const key = JSON.stringify([task && task.id, current, result, progress, task?.return, task && task.error, task && task.save_status, task && task.artifacts, historical]);
     if (taskKey === key) return;
     taskKey = key;
     let feedback = '选择房间和物品，系统就绪后即可开始。';
     if (task) {
       if (task.error) feedback = String(task.error);
       else if (current === 'canceling') feedback = '已请求停止，正在等待机器人确认。';
+      else if (busyStates.has(current) && task.return?.state==='running') feedback = '任务结果已保存，正在返回充电处。';
+      else if (busyStates.has(current) && task.kind==='return') feedback = '正在返回充电处。';
       else if (busyStates.has(current)) feedback = validation ? '正在检查实际传感器数据和坐标变换。' :
         voice ? '正在离线转写录音。' :
         task.kind === 'motion' ? '正在执行运动指令。' :
@@ -229,29 +279,40 @@
         cleaning ? cleaningProgress(progress) : progressLabel(progress);
       else if (validation) feedback = result ? result.passed ? '传感器检查通过。详细数据已记录在报告中。' : '传感器检查未通过，请查看报告与日志。' : statusLabel(current);
       else if (voice) feedback = result?.text ? `识别文本\n${result.text}` : statusLabel(current);
-      else if (task.kind === 'motion' || task.kind === 'map_save' || cleaning) feedback = result?.message || statusLabel(current);
+      else if (task.kind === 'motion' || task.kind === 'map_save' || task.kind==='return' || cleaning) feedback = result?.message || statusLabel(current);
       else if (result) {
         const resultLabel = statusLabel(result.status || current);
         feedback = `${resultLabel}${finite(result.count) ? `，已确认 ${result.count} 个${categories[result.category] || result.category || '目标'}。` : '。'}`;
       } else feedback = statusLabel(current);
+      if (!busyStates.has(current) && task.kind==='search' && !task.error && task.return?.return_state==='simulated_charging') {
+        feedback += '\n已返回充电处并进入模拟充电。';
+      }
       if (task.save_status === 'partial') feedback += '\n部分结果文件尚未完整保存，请查看日志。';
       if (task.save_status === 'missing') feedback += '\n未找到结果文件，请查看日志。';
       if (historical) feedback += '\n正在查看本次运行中的历史记录。';
     }
+    if (task?.memory?.status === 'failed') feedback += ` ${task.memory.message}`;
+    if (result?.memory_guidance?.used) feedback += '\n已参考历史位置安排现场核验，确认数量仅来自本次观测。';
     text('task-feedback', feedback);
     const coverage = cleaning ? cleanCoverage : result && result.coverage;
     el('coverage').hidden = !coverage;
     if (coverage && cleaning) {
       const target = result?.coverage_target;
+      const spatial = (result || progress).spatial_coverage;
       const returnStatus = {simulated_charging:'模拟充电', return_incomplete:'停靠未达标', returning:'返航中',
         return_canceled:'已取消返航', not_attempted:'尚未返航'}[(result || progress).return_state];
       text('coverage', `已扫 ${coverage.covered_area_m2.toFixed(2)} m²，剩余 ${coverage.uncovered_cells} 格。` +
         (finite(target) ? `覆盖目标 ${Math.round(target*100)}%。` : '') +
+        (spatial ? ` 已实扫条带 ${spatial.covered_lanes}/${spatial.planned_lanes}。` : '') +
         (returnStatus ? ` ${returnStatus}。` : ''));
     } else if (coverage) {
       const observed = coverage.viewpoints_observed;
       const total = result.viewpoints_total;
-      text('coverage', `${finite(observed) && finite(total) ? `已完成观察 ${observed} / ${total}。` : ''}${coverage.full_room_coverage_verified === true ? '房间覆盖已验证。' : '数量来自已完成的有效观察，未确认全房覆盖。'}`);
+      const geometry = result.geometric_coverage;
+      const detail = finite(geometry?.observed_fraction) ? `实测可见采样 ${(100*geometry.observed_fraction).toFixed(1)}%，补充 ${geometry.additional_views} 个观察点。` : '';
+      const inspection = result.inspection_coverage;
+      const areas = inspection?.required ? inspection.groups.map(group => `${group.name}：${group.completed ? '已巡视' : '未完成'}`).join('；') + '。' : '';
+      text('coverage', `${areas}${finite(observed) && finite(total) ? `已完成观察 ${observed} / ${total}。` : ''}${detail}${coverage.full_room_coverage_verified === true ? '房间覆盖已验证。' : '数量来自已完成的有效观察，未确认全房覆盖。'}`);
     }
     const objects = el('objects'); objects.replaceChildren();
     for (const object of !validation && result && Array.isArray(result.objects) ? result.objects : []) {
@@ -299,17 +360,22 @@
     if (signature === roomSignature) return;
     roomSignature = signature;
     const selected = el('room').value;
+    const memoryRoom = el('memory-room').value;
+    el('memory-room').replaceChildren(new Option('全部房间', ''));
     el('room').replaceChildren();
     for (const key of Object.keys(rooms)) delete rooms[key];
     for (const [id, room] of Object.entries(definitions)) {
       rooms[id] = room.display_name || (room.aliases || [id])[0];
+      el('memory-room').append(new Option(rooms[id], id));
       const option = document.createElement('option'); option.value = id; option.textContent = rooms[id];
       el('room').append(option);
     }
     if (definitions[selected]) el('room').value = selected;
+    if (definitions[memoryRoom]) el('memory-room').value = memoryRoom;
     taskKey = ''; historyKey = '';
   }
   function renderState() {
+    renderCatalog();
     renderRooms();
     badge('connection', 'ready', '已连接');
     text('phase', statusLabel(state.phase));
@@ -322,6 +388,162 @@
       announce('已填写识别文本。请检查或修改文字，再点击开始任务。');
     }
     renderHealth(); renderTask(); renderHistory(); renderValidation(); refreshButtons(); drawMap();
+  }
+
+  function renderCatalog() {
+    const catalog = state.object_catalog;
+    if (!Array.isArray(catalog)) return;
+    const signature = JSON.stringify(catalog);
+    if (signature === catalogSignature) return;
+    catalogSignature = signature;
+    const selected = el('category').value;
+    const memoryCategory = el('memory-category').value;
+    el('category').replaceChildren();
+    el('memory-category').replaceChildren(new Option('全部物品', ''));
+    for (const item of catalog) {
+      categories[item.category] = item.name;
+      const enabled = item.admitted || item.validation_enabled;
+      const option = new Option(item.name + (item.admitted ? '' : item.validation_enabled ? '（验证中）' : '（待验证）'), item.category);
+      option.disabled = !enabled;
+      el('category').append(option);
+      el('memory-category').append(new Option(item.name, item.category));
+    }
+    if (catalog.some((item) => item.category === selected && (item.admitted || item.validation_enabled))) el('category').value = selected;
+    if (categories[memoryCategory]) el('memory-category').value = memoryCategory;
+  }
+
+  function renderMemory() {
+    const items = el('memory-objects');
+    const opened = new Set([...items.querySelectorAll('details[open]')].map(item => item.dataset.memoryId));
+    items.replaceChildren();
+    if (!memoryData?.objects?.some(item => item.id === selectedMemoryId)) selectedMemoryId = null;
+    text('memory-status', memoryData?.message || '等待物品记忆。');
+    text('memory-count', memoryData?.available ? `${memoryData.total} 条记录` : '暂不可用');
+    el('memory-graph').hidden = !memoryData?.graph_available;
+    if (!memoryData?.available) return;
+    if (!memoryData.objects.length) {
+      const empty = document.createElement('p'); empty.className = 'small muted';
+      empty.textContent = '该范围还没有物品记忆。实际任务确认物品后会自动保存。'; items.append(empty);
+    }
+    for (const item of memoryData.objects) {
+      const detail = document.createElement('details'); detail.className = 'object-item';
+      detail.dataset.memoryId = item.id;
+      detail.open = opened.has(item.id) || item.id === selectedMemoryId;
+      detail.classList.toggle('memory-selected', item.id === selectedMemoryId);
+      const summary = document.createElement('summary');
+      const status = item.classification_conflict ? '类别或物品变化待核验' : item.state === 'needs_verification' ? '后续盘点未再确认' : '最后观测位置';
+      const stamp = new Date(item.last_seen).toLocaleString('zh-CN',{hour12:false});
+      const title=document.createElement('strong');title.textContent=categories[item.category] || item.category;
+      const badge=document.createElement('span');badge.className='memory-state';badge.textContent=item.classification_conflict || item.state==='needs_verification' ? '待核验' : '历史观测';
+      const subtitle=document.createElement('span');subtitle.className='memory-subtitle';
+      subtitle.textContent=`${rooms[item.room] || item.room} · M-${item.id.slice(0,6)}${item.category_admitted === false ? ' · 类别验证中' : ''}`;
+      summary.append(title,badge,subtitle);detail.style.borderLeftColor=categoryColor(item.category);
+      const info = document.createElement('p'); info.className = 'small';
+      info.textContent = `(${item.x.toFixed(2)}, ${item.y.toFixed(2)}, ${item.z.toFixed(2)}) m · ${stamp} · ${item.observation_tasks} 次任务观测。`;
+      const evidence = document.createElement('p'); evidence.className = 'small muted';
+      evidence.textContent = `任务 ${item.task_id}；证据 ${item.evidence}。` +
+        (item.classification_conflict ? '同一历史位置出现不同类别；可能是误识或物品替换，尚未确定。' : '') +
+        (item.association === 'ambiguous' ? '空间关联有歧义，记录身份待核验。' : '记录按空间位置关联，移动后的物理身份待核验。');
+      const locate = document.createElement('button'); locate.type = 'button'; locate.className = 'text-button';
+      locate.textContent = item.id === selectedMemoryId ? '已在地图选中' : '在地图查看最后位置';
+      locate.setAttribute('aria-pressed', String(item.id === selectedMemoryId));
+      locate.setAttribute('aria-controls', 'map');
+      locate.disabled = !online || state?.mode === 'mapping' || !mapData ||
+        memoryData.namespace !== mapData.memory_namespace || ![item.x, item.y].every(finite);
+      locate.addEventListener('click', () => {
+        selectedMemoryId = item.id; zoom = 1; el('show-memory').checked = true;
+        renderMemory(); drawMap(); el('map-stage').scrollIntoView({block: 'nearest'});
+      });
+      const provenance=document.createElement('details');provenance.className='memory-provenance';
+      const provenanceTitle=document.createElement('summary');provenanceTitle.textContent='观测依据与关联说明';
+      provenance.append(provenanceTitle,evidence);
+      detail.append(summary, info, locate, provenance); items.append(detail);
+    }
+    if (memoryData.truncated) {
+      const note = document.createElement('p'); note.className = 'small muted';
+      note.textContent = `已显示最近 ${memoryData.objects.length} 条，请按房间或类别缩小查询范围。`; items.append(note);
+    }
+  }
+
+  function renderSemanticSummary() {
+    const items=memoryData?.objects || [];
+    const pending=items.filter(item => item.state==='needs_verification' || item.classification_conflict).length;
+    const selected=state && selectedTask();
+    const confirmed=selected?.kind==='search' ? selected.result?.count || 0 : 0;
+    const box=el('semantic-summary');box.replaceChildren();box.hidden=mapView==='operation';
+    for (const [number,label] of [[items.length,'历史观测记录'],[pending,'待核验记录'],[confirmed,'所选任务确认']]) {
+      const item=document.createElement('div');const strong=document.createElement('strong');strong.textContent=number;
+      const text=document.createElement('span');text.textContent=label;item.append(strong,text);box.append(item);
+    }
+  }
+
+  function renderSemanticRelations() {
+    const container=el('semantic-relations');container.replaceChildren();
+    const note=document.createElement('p');note.className='relation-note';
+    note.textContent='家庭 → 房间 → 物品记录 · 连线表示房间归属；历史位置需要现场核验。';container.append(note);
+    if (!memoryData?.available) { note.textContent='等待同版地图与物品观测记录。';return; }
+    const definitions=state?.rooms || {};const shown=(memoryData.objects || []).slice(0,40);
+    const keys=Object.keys(definitions).filter(key => !el('memory-room').value || key===el('memory-room').value);
+    const ns='http://www.w3.org/2000/svg';
+    const svg=document.createElementNS(ns,'svg');
+    const height=Math.max(410,keys.reduce((n,key)=>n+Math.max(76,shown.filter(item=>item.room===key).length*48),30));
+    svg.setAttribute('viewBox',`0 0 860 ${height}`);svg.setAttribute('role','img');svg.setAttribute('aria-label','按实际观测记录生成的家庭、房间和物品关系');
+    function element(tag,attributes,text) {
+      const node=document.createElementNS(ns,tag);
+      for (const [key,value] of Object.entries(attributes)) node.setAttribute(key,value);
+      if (text!==undefined) node.textContent=text;svg.append(node);return node;
+    }
+    function edge(x1,y1,x2,y2,color) {
+      element('path',{d:`M${x1},${y1} C${(x1+x2)/2},${y1} ${(x1+x2)/2},${y2} ${x2},${y2}`,fill:'none',stroke:color,'stroke-width':1.5});
+    }
+    const rootY=height/2;let top=24;
+    for (const key of keys) {
+      const items=shown.filter(item=>item.room===key);const block=Math.max(76,items.length*48);const y=top+block/2;
+      const color=/^#[0-9a-f]{6}$/i.test(definitions[key].color || '') ? definitions[key].color : '#557684';
+      edge(124,rootY,274,y,'#c7d6dc');
+      element('rect',{x:274,y:y-22,width:158,height:44,rx:12,fill:color+'14',stroke:color});
+      element('text',{x:290,y:y-2,fill:color,'font-size':14,'font-weight':600},rooms[key] || key);
+      element('text',{x:290,y:y+14,fill:'#68808c','font-size':10},`${items.length} 条历史记录`);
+      items.forEach((item,index)=>{
+        const iy=top+24+index*48;const selected=item.id===selectedMemoryId;
+        const pending=item.state==='needs_verification' || item.classification_conflict;
+        edge(432,y,505,iy,pending ? '#c2a66e' : '#cbd9df');
+        const rect=element('rect',{x:505,y:iy-19,width:308,height:38,rx:9,fill:selected ? '#e9f3f7' : '#fff',stroke:selected ? '#225d82' : '#dbe5e9','stroke-width':selected ? 2 : 1,tabindex:0,role:'button','aria-label':`查看${categories[item.category] || item.category}历史位置`});
+        element('circle',{cx:522,cy:iy,r:5,fill:categoryColor(item.category)});
+        const label=element('text',{x:537,y:iy+5,fill:'#294b5b','font-size':13},`${categories[item.category] || item.category} · M-${item.id.slice(0,6)}${pending ? ' · 待核验' : ''}`);
+        label.style.pointerEvents='none';
+        function select() { selectedMemoryId=item.id;renderMemory();renderSemanticRelations(); }
+        rect.addEventListener('click',select);rect.addEventListener('keydown',event=>{if (['Enter',' '].includes(event.key)) {event.preventDefault();select();}});
+      });
+      top+=block;
+    }
+    element('rect',{x:18,y:rootY-30,width:106,height:60,rx:16,fill:'#153c4c'});
+    element('text',{x:71,y:rootY+6,fill:'#fff','font-size':18,'text-anchor':'middle','font-weight':600},'家庭');
+    container.append(svg);
+    if ((memoryData.objects || []).length>shown.length) {
+      const limit=document.createElement('p');limit.className='relation-note';limit.textContent='当前展示前40条记录，请按房间或类别筛选查看其余记录。';container.append(limit);
+    }
+  }
+
+  async function refreshMemory() {
+    const request = ++memoryRequest;
+    const query = new URLSearchParams();
+    if (el('memory-room').value) query.set('room', el('memory-room').value);
+    if (el('memory-category').value) query.set('category', el('memory-category').value);
+    try {
+      const value = await api('/api/memory?' + query);
+      if (request !== memoryRequest) return;
+      memoryData = value;
+    } catch (error) {
+      if (request !== memoryRequest) return;
+      memoryData = {available: false, objects: [], message: `物品记忆读取失败：${error.message}`};
+    }
+    renderMemory(); drawMap();
+  }
+
+  async function pollMemory() {
+    await refreshMemory();
+    setTimeout(pollMemory, 5000);
   }
 
   function setMap(value) {
@@ -348,7 +570,38 @@
     text('map-meta', `${value.frame_id || 'map'} · ${resolution.toFixed(2)} m / 栅格 · ${(width * resolution).toFixed(1)} × ${(height * resolution).toFixed(1)} m`);
     drawMap();
   }
+  function renderObstacle() {
+    const observation=state?.telemetry?.obstacle;
+    const fresh=online && observation?.fresh && observation?.motion_fresh;
+    const labels={near_moving:'近障 · 正在移动',near_stopped:'近障 · 速度接近零',moving:'正在移动',stationary:'当前静止',stale:'数据过期'};
+    const near=fresh && observation.state.startsWith('near_');
+    document.querySelector('.avoidance-panel').dataset.state=!fresh?'stale':near?'near':'observing';
+    text('obstacle-heading',!fresh?'等待有效观测':near?'检测到近距离障碍':observation.state==='moving'?'机器人正在行进':'机器人当前静止');
+    text('obstacle-symbol',near?'!':'⌖');
+    badge('obstacle-badge',!fresh?'neutral':near?'partial':'ready',!fresh?'等待有效数据':labels[observation.state]);
+    const closest=fresh && observation.nearest;
+    text('obstacle-sector',fresh?`${observation.sector}最近障碍`:'当前方向最近障碍');
+    text('obstacle-distance',closest?`${closest.distance_m.toFixed(2)} m`:'— m');
+    text('obstacle-bearing',closest?`方位 ${closest.bearing_degrees.toFixed(0)}°`:'方位 —');
+    text('obstacle-speed',fresh && observation.velocity?`${Math.abs(observation.velocity[0]).toFixed(2)} m/s`:'— m/s');
+    text('obstacle-turn',fresh && observation.velocity?`转速 ${Math.abs(observation.velocity[1]).toFixed(2)} rad/s`:'转速 — rad/s');
+    text('obstacle-note',!fresh?'观测不可用或已过期；不据此判断安全。':near?'检测到近距离障碍。请结合规划路径、实际运动和任务结果判断避障完成情况。':'距离从机器人中心计算；激光只反映当前可见障碍，低矮/悬空障碍还依赖深度与导航。');
+    const list=el('obstacle-events');list.replaceChildren();
+    const events=observation?.events || [];
+    for (const event of events.slice(-5).reverse()) {
+      const item=document.createElement('li');
+      item.textContent=`${event.stamp_seconds?.toFixed(1) || '—'}s · ${labels[event.state] || event.state}${finite(event.distance_m)?` · ${event.sector} ${event.distance_m.toFixed(2)}m / ${event.bearing_degrees.toFixed(0)}°`:''}`;
+      list.append(item);
+    }
+    if (!events.length){const item=document.createElement('li');item.textContent='暂无近障变化记录';list.append(item);}
+  }
   function drawMap() {
+    memoryHitTargets=[];
+    renderSemanticSummary();
+    renderObstacle();
+    const relations=mapView==='relations';canvas.hidden=relations;el('semantic-relations').hidden=!relations;
+    el('zoom-in').disabled=relations;el('zoom-out').disabled=relations;el('fit-map').disabled=relations;
+    if (relations) {el('map-empty').hidden=true;renderSemanticRelations();return;}
     const bounds = canvas.getBoundingClientRect();
     const ratio = window.devicePixelRatio || 1;
     if (canvas.width !== Math.floor(bounds.width * ratio) || canvas.height !== Math.floor(bounds.height * ratio)) {
@@ -367,6 +620,21 @@
       const dx = x - origin.x, dy = y - origin.y;
       return [offsetX + (c * dx + s * dy) / mapData.resolution * scale, offsetY + (mapData.height - (-s * dx + c * dy) / mapData.resolution) * scale];
     }
+    const showCost=el('map-layer').value==='cost';el('costmap-legend').hidden=!showCost;
+    if (costmapSession && costmapSession!==state?.session_id) {costmapData=null;costmapRaster=null;}
+    // 1Hz native update/publication plus 1Hz HTTP polling can legitimately
+    // exceed 2.5s between paints. This is a display lease, not navigation safety.
+    const costFresh=online && costmapData?.fresh && Date.now()-costmapReceived<4000 &&
+      finite(state?.telemetry?.clock_seconds) && state.telemetry.clock_seconds-costmapData.stamp_seconds<=4 &&
+      state.telemetry.clock_seconds-costmapData.stamp_seconds>=-.1;
+    if (showCost && state?.mode!=='mapping' && costmapRaster && costmapData.frame_id===mapData.frame_id) {
+      const layer=costmapData,zero=project(layer.origin.x,layer.origin.y);
+      const angle=layer.origin.yaw-origin.yaw;
+      const layerScale=layer.resolution/mapData.resolution*scale;
+      ctx.save();ctx.globalAlpha=costFresh?1:.35;ctx.translate(...zero);ctx.rotate(-angle);
+      ctx.drawImage(costmapRaster,0,-layer.height*layerScale,layer.width*layerScale,layer.height*layerScale);ctx.restore();
+      text('costmap-state',costFresh?'全局导航代价 · 实时更新':'上次导航代价（已过期）');
+    } else text('costmap-state',showCost?'代价图不可用或已过期，当前仅显示底图':'共用同一张栅格底图');
     if (state && state.rooms_frame_id === mapData.frame_id) {
       const definitions = state.rooms || {};
       if (state.mode!=='mapping' && el('show-regions').checked) for (const [id, room] of Object.entries(definitions)) {
@@ -389,31 +657,53 @@
         }
         ctx.restore();
       }
-      const room = definitions[el('room').value];
+      const currentTask=state.task;
+      const taskData=currentTask?.kind==='search'?(currentTask.progress?.room ? currentTask.progress : currentTask.result):null;
+      const roomId=state.busy && taskData?.room ? taskData.room:el('room').value;
+      const category=state.busy && taskData?.category ? taskData.category:el('category').value;
+      const room = definitions[roomId];
+      el('view-note').hidden=!el('show-views').checked;
       if (state.mode!=='mapping' && room && el('show-views').checked) {
-        const views = (room.category_views || {})[el('category').value] || room.views || [];
+        const route=[...Object.values(room.inspection_views || {}).flat(),...((room.category_views || {})[category] || room.views || [])];
+        const seen=new Set();const views=route.filter(p=>{const key=JSON.stringify(p);if(seen.has(key))return false;seen.add(key);return true;});
+        const relevant=taskData?.room===roomId && taskData?.category===category;
+        const diagnostics=relevant ? currentTask.result?.viewpoint_diagnostics || []:[];
+        const progress=relevant && currentTask.progress?.kind==='search' ? currentTask.progress:null;
+        const current=progress && ['navigating','observing'].includes(progress.stage)?views[(progress.viewpoint_index || 1)-1]:null;
+        const same=(a,b)=>a && b && Math.hypot(a[0]-b[0],a[1]-b[1])<.001 && Math.abs(Math.atan2(Math.sin(a[2]-b[2]),Math.cos(a[2]-b[2])))<.00001;
+        text('view-note',`${rooms[roomId] || roomId} · ${categories[category] || category}：预设巡视点，非实时检测位置；绿=已观察，橙=当前目标，灰=预设。`);
         const positions = new Map();
         views.forEach((view, index) => {
-          const key = `${view[0]},${view[1]}`;
+          const key = `${view[0].toFixed(3)},${view[1].toFixed(3)}`;
           if (!positions.has(key)) positions.set(key, []);
           positions.get(key).push({view,index});
         });
+        canvas.dataset.observationPositions=String(positions.size);
+        canvas.dataset.observationTargets=String(views.length);
         positions.forEach((directions) => {
           const {view,index} = directions[0];
           const [x,y] = project(view[0],view[1]);
-          ctx.save(); ctx.strokeStyle = '#273e4b'; ctx.fillStyle = '#ffffff'; ctx.lineWidth = 1.5;
+          const completed=p=>diagnostics.some(d=>d.reached && d.dwell_completed && same(d.pose,p)) ||
+            (progress?.viewpoints_failed===0 && views.findIndex(v=>same(v,p))>=0 &&
+             views.findIndex(v=>same(v,p))<(progress.viewpoint_index || 1)-1);
+          const active=directions.some(d=>same(d.view,current));
+          const color=active?'#d47a19':directions.every(d=>completed(d.view))?'#16847d':'#5c7180';
+          ctx.save(); ctx.strokeStyle = color; ctx.fillStyle = '#ffffff'; ctx.lineWidth = active?2.5:1.5;
           ctx.beginPath(); ctx.arc(x,y,7,0,2*Math.PI); ctx.fill(); ctx.stroke();
           directions.forEach(({view: pose}) => {
+            ctx.strokeStyle=same(pose,current)?'#d47a19':completed(pose)?'#16847d':'#5c7180';
             const angle = -(pose[2]-origin.yaw);
             ctx.beginPath(); ctx.moveTo(x,y); ctx.lineTo(x+17*Math.cos(angle),y+17*Math.sin(angle)); ctx.stroke();
           });
-          ctx.font='bold 11px sans-serif'; ctx.fillStyle='#273e4b';
-          ctx.fillText(directions.length > 1 ? `${directions.length}次观察` : String(index+1),x+9,y-18); ctx.restore();
+          ctx.font='bold 11px sans-serif'; ctx.fillStyle=color;
+          const observedCount=directions.filter(d=>completed(d.view)).length;
+          ctx.fillText(`P${index+1}${directions.length>1?' · '+observedCount+'/'+directions.length+'朝向':observedCount?' ✓':''}`,x+9,y-18); ctx.restore();
         });
       }
     }
     const task = state && selectedTask();
-    const clean = state?.mode!=='mapping' && task?.kind==='clean' && (task.result || task.progress);
+    const clean = state?.mode!=='mapping' && (task?.kind==='clean' ? (task.result || task.progress) :
+      task?.kind==='return' ? (task.result || task.progress) : task?.return ? (task.progress || task.return) : null);
     if (clean?.frame_id === mapData.frame_id && clean.trace_preview?.length) {
       ctx.save();
       ctx.lineWidth = 2.8;
@@ -433,6 +723,32 @@
       }
       ctx.restore();
     }
+    const dock = state?.mode!=='mapping' && state?.charging_station;
+    if (dock?.frame_id===mapData.frame_id && Array.isArray(dock.map_pose)) {
+      const [x,y]=project(dock.map_pose[0],dock.map_pose[1]);
+      ctx.save();ctx.fillStyle='#7755a2';ctx.strokeStyle='#fff';ctx.lineWidth=2;
+      ctx.fillRect(x-8,y-8,16,16);ctx.strokeRect(x-8,y-8,16,16);
+      ctx.fillStyle='#513872';ctx.font='bold 12px sans-serif';ctx.fillText('充电处',x+12,y-9);ctx.restore();
+    }
+    if (online && el('show-obstacles').checked) {
+      const obstacle=state?.telemetry?.obstacle;
+      const path=state?.telemetry?.navigation_path;
+      ctx.save();
+      if (state?.busy && path?.fresh && path.frame_id===mapData.frame_id && path.points?.length>1) {
+        ctx.beginPath();ctx.strokeStyle='#3282c4';ctx.lineWidth=2;ctx.setLineDash([6,4]);
+        path.points.forEach(([x,y],i)=>{const point=project(x,y);if(i===0)ctx.moveTo(...point);else ctx.lineTo(...point);});ctx.stroke();ctx.setLineDash([]);
+      }
+      if (obstacle?.fresh && obstacle.frame_id===mapData.frame_id) {
+        ctx.fillStyle='#df8b28';ctx.globalAlpha=.8;
+        for (const point of obstacle.points || []) {const [x,y]=project(...point);ctx.beginPath();ctx.arc(x,y,2,0,2*Math.PI);ctx.fill();}
+        const near=obstacle.nearest;
+        if (near?.map_xy && near.distance_m<=obstacle.near_threshold_m) {
+          const [x,y]=project(...near.map_xy);ctx.globalAlpha=1;ctx.strokeStyle='#c86315';ctx.lineWidth=2;
+          ctx.beginPath();ctx.arc(x,y,8,0,2*Math.PI);ctx.stroke();ctx.fillStyle='#a54c09';ctx.font='bold 12px sans-serif';ctx.fillText(`${near.distance_m.toFixed(2)}m`,x+11,y-10);
+        }
+      }
+      ctx.restore();
+    }
     const pose = state && state.telemetry && state.telemetry.pose;
     const poseFresh = online && pose && pose.fresh !== false && state.telemetry.pose_fresh !== false;
     if (pose && finite(pose.x) && finite(pose.y) && finite(pose.yaw) && (!pose.frame_id || pose.frame_id === mapData.frame_id)) {
@@ -444,14 +760,40 @@
       ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.moveTo(7, 0); ctx.lineTo(-3, -4); ctx.lineTo(-3, 4); ctx.closePath(); ctx.fill(); ctx.restore();
       text('pose', `${poseFresh ? '' : '上次位置 · '}x ${pose.x.toFixed(2)} / y ${pose.y.toFixed(2)} m`);
     } else text('pose', '位置等待定位');
+    const semantic=mapView==='semantic';
     const result = state?.mode!=='mapping' && task && task.kind === 'search' && task.result;
     const objects = result && Array.isArray(result.objects) ? result.objects : [];
+    const labelBoxes=[];
+    function semanticLabel(label,x,y,color,force=false) {
+      ctx.font='600 11px system-ui';const width=ctx.measureText(label).width+12;const height=19;
+      let box=null;
+      for (const [dx,dy] of [[13,-25],[13,9],[-width-13,-25],[-width-13,9],[13,-50],[13,34],[-width/2,-70]]) {
+        const b={x:x+dx,y:y+dy,w:width,h:height};
+        if (b.x<2 || b.y<2 || b.x+b.w>bounds.width-2 || b.y+b.h>bounds.height-2) continue;
+        if (labelBoxes.every(a=>b.x>a.x+a.w+4 || b.x+b.w+4<a.x || b.y>a.y+a.h+4 || b.y+b.h+4<a.y)) {box=b;break;}
+      }
+      if (!box && !force) return;
+      box ||= {x:x-width/2,y:y+17,w:width,h:height};labelBoxes.push(box);
+      ctx.strokeStyle=color;ctx.lineWidth=.7;ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(box.x+box.w/2,box.y+box.h/2);ctx.stroke();
+      ctx.fillStyle='#ffffffed';ctx.fillRect(box.x,box.y,box.w,box.h);ctx.fillStyle=color;ctx.textAlign='left';ctx.fillText(label,box.x+6,box.y+13);
+    }
+    if (semantic && online && state?.mode !== 'mapping' && el('show-memory').checked && memoryData?.available &&
+        memoryData.namespace === mapData.memory_namespace) for (const item of [...memoryData.objects].sort((a,b)=>Number(b.id===selectedMemoryId)-Number(a.id===selectedMemoryId))) {
+      if (result && item.task_id===result.task_id && item.category===result.category) continue;
+      const [x, y] = project(item.x, item.y);
+      const selected = item.id === selectedMemoryId;
+      memoryHitTargets.push({x,y,id:item.id});
+      ctx.strokeStyle = item.classification_conflict || item.state === 'needs_verification' ? '#986b20' : categoryColor(item.category);
+      ctx.lineWidth = selected ? 3 : 1.8; ctx.setLineDash([3, 2]);
+      ctx.beginPath(); ctx.arc(x, y, selected ? 14 : 9, 0, Math.PI * 2); ctx.stroke(); ctx.setLineDash([]);
+      semanticLabel(`${categories[item.category] || item.category} · M-${item.id.slice(0,4)}`,x,y,ctx.strokeStyle,selected);
+    }
     for (const object of objects) {
       if (!finite(object.x) || !finite(object.y)) continue;
       if (result.frame_id && result.frame_id !== mapData.frame_id) continue;
       const [x, y] = project(object.x, object.y);
       const id = String(object.id ?? object.object_id ?? '?');
-      ctx.fillStyle = '#d38b23'; ctx.strokeStyle = '#fff'; ctx.lineWidth = 2;
+      ctx.fillStyle = semantic ? categoryColor(result.category) : '#d38b23'; ctx.strokeStyle = '#fff'; ctx.lineWidth = 2;
       ctx.beginPath(); ctx.arc(x, y, 7, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
       ctx.font = '600 11px system-ui'; ctx.textAlign = 'center';
       const label = `#${id}`;
@@ -476,6 +818,28 @@
   async function pollMap() {
     try { setMap(await api('/api/map')); } catch { mapUnavailable = true; drawMap(); }
     setTimeout(pollMap, 3000);
+  }
+  async function pollCostmap() {
+    if (costmapBusy) return;
+    if (el('map-layer').value!=='cost' || state?.mode==='mapping') {setTimeout(pollCostmap,1000);return;}
+    costmapBusy=true;
+    try {
+      const value=await api('/api/costmap');
+      if (value.available && value.fresh && Number.isInteger(value.width) && value.width>0 && Number.isInteger(value.height) && value.height>0 &&
+          value.width*value.height<=16000000 && finite(value.resolution) && value.resolution>0 &&
+          [value.origin?.x,value.origin?.y,value.origin?.yaw].every(finite) && Array.isArray(value.data) && value.data.length===value.width*value.height) {
+        const raster=document.createElement('canvas');raster.width=value.width;raster.height=value.height;
+        const context=raster.getContext('2d'),pixels=context.createImageData(value.width,value.height);
+        for(let y=0;y<value.height;y++)for(let x=0;x<value.width;x++) {
+          const cost=value.data[y*value.width+x],i=((value.height-1-y)*value.width+x)*4;
+          const color=cost<0?[111,125,139,100]:cost===100?[207,47,52,220]:cost===99?[229,115,32,200]:cost>0?[245,177,50,Math.round(35+cost*1.1)]:[0,0,0,0];
+          pixels.data.set(color,i);
+        }
+        context.putImageData(pixels,0,0);
+        costmapData=value;costmapReceived=Date.now();costmapRaster=raster;costmapSession=state?.session_id;
+      }
+    } catch { /* Keep last valid frame, visibly stale when its display lease expires. */ }
+    finally {costmapBusy=false;drawMap();setTimeout(pollCostmap,1000);}
   }
   async function refreshLog() {
     if (logBusy) return;
@@ -586,6 +950,8 @@
     if (event.code==='Space') { event.preventDefault(); el('cancel-task').click(); }
   });
   el('record-voice').addEventListener('click', recordVoice);
+  el('return-to-dock').addEventListener('click', () =>
+    mutate('/api/task',{mode:'return',request_id:requestId()},'已开始返回充电处。'));
   el('cancel-task').addEventListener('click', () => {
     if (recording) {
       stopRecording(true);
@@ -599,8 +965,50 @@
   el('zoom-in').addEventListener('click', () => { zoom = Math.min(4, zoom * 1.2); drawMap(); });
   el('zoom-out').addEventListener('click', () => { zoom = Math.max(.5, zoom / 1.2); drawMap(); });
   el('fit-map').addEventListener('click', () => { zoom = 1; drawMap(); });
-  ['room','category','show-regions','show-views'].forEach((id) => el(id).addEventListener('change', drawMap));
+  el('map-layer').addEventListener('change',drawMap);
+  el('export-costmap').addEventListener('click',async () => {
+    const button=el('export-costmap');button.disabled=true;
+    try {
+      const view=state?.map_export_views ? el('map-export-view').value:'cost';
+      const body={view};
+      if (view==='observations' || view.startsWith('clean_')) {
+        const task=selectedTask();
+        if (!task) throw new Error('请先选择本次运行中已保存的相应任务。');
+        body.task_id=task.id;
+      }
+      if (view==='semantic' && selectedTask()?.kind==='search')body.task_id=selectedTask().id;
+      if (['semantic','relations'].includes(view)) {
+        if(el('memory-room').value)body.room=el('memory-room').value;
+        if(el('memory-category').value)body.category=el('memory-category').value;
+      }
+      const result=await api('/api/map/export',body),links=el('costmap-exports');links.replaceChildren();
+      mapExportSession=result.session_id;
+      for(const item of result.artifacts) {
+        const a=document.createElement('a');a.href=item.url;a.textContent=item.name;
+        a.target='_blank';a.rel='noopener';a.className='text-button';links.append(a,document.createTextNode(' · '));
+      }
+      announce('已保存所选视图PNG、SVG和原始数据；快照不自动更新。');
+    } catch(error) {announce(error.message,true);}
+    finally {button.disabled=false;}
+  });
+  ['room','category','show-regions','show-views','show-memory','show-obstacles'].forEach((id) => el(id).addEventListener('change', drawMap));
+  ['memory-room','memory-category'].forEach((id) => el(id).addEventListener('change', refreshMemory));
+  document.querySelectorAll('[data-map-view]').forEach(button=>button.addEventListener('click',()=>{
+    mapView=button.dataset.mapView;
+    document.querySelectorAll('[data-map-view]').forEach(item=>item.setAttribute('aria-pressed',String(item===button)));
+    drawMap();
+  }));
+  function memoryHit(event) {
+    const bounds=canvas.getBoundingClientRect();const x=event.clientX-bounds.left,y=event.clientY-bounds.top;
+    return memoryHitTargets.filter(item=>Math.hypot(item.x-x,item.y-y)<=15)
+      .sort((a,b)=>Math.hypot(a.x-x,a.y-y)-Math.hypot(b.x-x,b.y-y))[0];
+  }
+  canvas.addEventListener('mousemove',event=>{canvas.style.cursor=memoryHit(event) ? 'pointer' : 'default';});
+  canvas.addEventListener('click',event=>{
+    const item=memoryHit(event);if (!item) return;
+    selectedMemoryId=item.id;renderMemory();drawMap();
+  });
   new ResizeObserver(drawMap).observe(el('map-stage'));
-  pollState(); pollMap(); refreshLog();
+  pollState(); pollMap(); pollCostmap(); pollMemory(); refreshLog();
   setInterval(refreshLog, 5000);
 })();

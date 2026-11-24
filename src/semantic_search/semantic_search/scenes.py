@@ -2,6 +2,11 @@
 import json
 from pathlib import Path
 
+if __package__:
+    from .map_resources import canonical_map_yaml
+else:
+    from map_resources import canonical_map_yaml
+
 
 def load_scene(scene_id, project_root, config_dir=None):
     if config_dir is None:
@@ -14,6 +19,7 @@ def load_scene(scene_id, project_root, config_dir=None):
     root = Path(project_root).absolute()
     for key in ('map', 'rooms', 'route', 'output'):
         scene[key] = str(root / scene[key])
+    scene['map']=str(canonical_map_yaml(root,yaml_path=scene['map']))
     return scene
 
 

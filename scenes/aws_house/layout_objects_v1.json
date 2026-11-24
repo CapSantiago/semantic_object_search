@@ -1,0 +1,351 @@
+{
+  "version": "aws_house_objects_v1",
+  "status": "development_unverified",
+  "purpose": "scene_design_and_evaluation_only",
+  "frame_id": "world",
+  "coordinate_unit": "m",
+  "measurement_backend": "ignition-common4 MeshManager (Fortress system library)",
+  "surfaces": {
+    "KitchenTable_01_001": {
+      "min": [
+        5.64010278485621,
+        0.5845764737044612,
+        -6e-06
+      ],
+      "max": [
+        7.46527723314339,
+        1.3177695264155318,
+        0.818452984
+      ],
+      "source_sha256": {
+        "third_party/aws_small_house/models/aws_robomaker_residential_KitchenTable_01/meshes/aws_KitchenTable_01_collision.DAE": "2bc587c03b78dcd9515bb2dde969a262bc9299d593c2e41f0e025b113705b949"
+      },
+      "top_z_m": 0.818452984,
+      "method": "world AABB of simulator collision mesh; flat top pending contact check"
+    },
+    "CoffeeTable_01_001": {
+      "min": [
+        0.8518972948801777,
+        -2.069529426953968,
+        0.04198296
+      ],
+      "max": [
+        2.1854422864834717,
+        -1.3881268683739236,
+        0.36574669
+      ],
+      "source_sha256": {
+        "third_party/aws_small_house/models/aws_robomaker_residential_CoffeeTable_01/meshes/aws_CoffeeTable_01_collision.DAE": "96d855fbd04032b9eb55f38ad66cf4d8e989fccc9d889eaa43943a75b6f62385"
+      },
+      "top_z_m": 0.36574669,
+      "method": "world AABB of simulator collision mesh; flat top pending contact check"
+    },
+    "ReadingDesk_01_001": {
+      "min": [
+        -9.258932357554928,
+        1.4795328402527839,
+        -0.00145489
+      ],
+      "max": [
+        -8.721458950130597,
+        2.6363782115293843,
+        0.74365097
+      ],
+      "source_sha256": {
+        "third_party/aws_small_house/models/aws_robomaker_residential_ReadingDesk_01/meshes/aws_ReadingDesk_01_collision.DAE": "2e07ecffd6748046f2ab44b13ec45a88c3a05a91f2d56c481b2d2113820dfe86"
+      },
+      "top_z_m": 0.74365097,
+      "method": "world AABB of simulator collision mesh; flat top pending contact check"
+    }
+  },
+  "assets": {
+    "yellow_mug": {
+      "min": [
+        -0.0685739964247,
+        -0.0556749999523,
+        -1.10000000859e-05
+      ],
+      "max": [
+        0.0682640001178,
+        0.0465160012245,
+        0.104782998562
+      ],
+      "source_sha256": {
+        "third_party/target_assets/yellow_mug/meshes/model.obj": "04e85728c4139d0a43f888c38b1f1d15077169cba7c972211d2b41f21b39600f"
+      },
+      "dimensions_m": [
+        0.1368379965425,
+        0.1021910011768,
+        0.1047939985620859
+      ]
+    },
+    "mustard_bottle": {
+      "min": [
+        -0.063938,
+        -0.056809,
+        -0.003153
+      ],
+      "max": [
+        0.03326,
+        0.009812,
+        0.188148
+      ],
+      "source_sha256": {
+        "third_party/target_assets/mustard_bottle/textured.dae": "44bde2fe3daa7e5b0a94b37f2aa903d80becc09c843f88629bfd0f0950ae7f43"
+      },
+      "dimensions_m": [
+        0.09719799999999999,
+        0.066621,
+        0.191301
+      ]
+    },
+    "book": {
+      "min": [
+        -0.0707660019398,
+        -0.028823999688,
+        3.09999995807e-05
+      ],
+      "max": [
+        0.0697740018368,
+        0.0217289999127,
+        0.210399001837
+      ],
+      "source_sha256": {
+        "third_party/target_assets/book/meshes/model.obj": "a9805cc75b057a169b11da77fd75fce67b381466fd945899b721b4cd5dc76d80"
+      },
+      "directory": "third_party/target_assets/book"
+    },
+    "patterned_bowl": {
+      "min": [
+        -0.056728001684,
+        -0.0574380010366,
+        -2.70000000455e-05
+      ],
+      "max": [
+        0.0567599982023,
+        0.0574599988759,
+        0.0618380010128
+      ],
+      "source_sha256": {
+        "third_party/target_assets/patterned_bowl/meshes/model.obj": "d79dfced85104d9af9706492175ed899ace90c3834e50b93b6909f0c9c070cb4"
+      },
+      "directory": "third_party/target_assets/patterned_bowl"
+    },
+    "bowl": {
+      "directory": "third_party/target_assets/bowl",
+      "min": [
+        -0.09782,
+        -0.09782,
+        0
+      ],
+      "max": [
+        0.09783,
+        0.09783,
+        0.03491
+      ],
+      "dimensions_m": [
+        0.19565,
+        0.19565,
+        0.03491
+      ],
+      "source_sha256": {
+        "third_party/target_assets/bowl/meshes/bowl.dae": "9615d17d9f289ce147d7401dee8a585a1fd4566c7de848131a3de12b81d1e1a9"
+      },
+      "measurement": "Fortress ignition-common4 MeshManager bounds; phone includes its source link z=0.08 m"
+    },
+    "mobile_phone": {
+      "directory": "third_party/target_assets/mobile_phone",
+      "min": [
+        -0.038,
+        -0.008,
+        0
+      ],
+      "max": [
+        0.038,
+        0,
+        0.16
+      ],
+      "dimensions_m": [
+        0.076,
+        0.008,
+        0.16
+      ],
+      "source_sha256": {
+        "third_party/target_assets/mobile_phone/meshes/phone.dae": "6b5cdee5c2d29b9e51803a87804afc4ecc00bd70621a8f4b852b083a9071d49b"
+      },
+      "measurement": "Fortress ignition-common4 MeshManager bounds; phone includes its source link z=0.08 m"
+    }
+  },
+  "targets": [
+    {
+      "id": "kitchen_yellow_mug",
+      "category": "cup",
+      "asset": "yellow_mug",
+      "room": "kitchen",
+      "support": "KitchenTable_01_001",
+      "support_z_m": 0.818452984,
+      "pose": [
+        6.3999999999999995,
+        0.95,
+        0.8194639840000859,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "kitchen_mustard_bottle",
+      "category": "bottle",
+      "asset": "mustard_bottle",
+      "room": "kitchen",
+      "support": "KitchenTable_01_001",
+      "support_z_m": 0.818452984,
+      "pose": [
+        6.7,
+        0.95,
+        0.822605984,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "living_yellow_mug",
+      "category": "cup",
+      "asset": "yellow_mug",
+      "room": "living",
+      "support": "CoffeeTable_01_001",
+      "support_z_m": 0.36574669,
+      "pose": [
+        1.05,
+        -1.9,
+        0.3667576900000859,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "living_mustard_bottle",
+      "category": "bottle",
+      "asset": "mustard_bottle",
+      "room": "living",
+      "support": "CoffeeTable_01_001",
+      "support_z_m": 0.36574669,
+      "pose": [
+        1.3499999999999999,
+        -1.9,
+        0.36989969,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "bedroom_yellow_mug",
+      "category": "cup",
+      "asset": "yellow_mug",
+      "room": "bedroom",
+      "support": "ReadingDesk_01_001",
+      "support_z_m": 0.74365097,
+      "pose": [
+        -8.98,
+        1.9100000000000001,
+        0.7446619700000859,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "bedroom_mustard_bottle",
+      "category": "bottle",
+      "asset": "mustard_bottle",
+      "room": "bedroom",
+      "support": "ReadingDesk_01_001",
+      "support_z_m": 0.74365097,
+      "pose": [
+        -8.98,
+        2.21,
+        0.74780397,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "objects_kitchen_plain_bowl",
+      "category": "bowl",
+      "asset": "bowl",
+      "room": "kitchen",
+      "support": "KitchenTable_01_001",
+      "support_z_m": 0.818452984,
+      "pose": [
+        6.0,
+        0.9,
+        0.819452984,
+        0,
+        0,
+        0
+      ],
+      "scenario": "candidate_detection_and_counting"
+    },
+    {
+      "id": "objects_kitchen_patterned_bowl",
+      "category": "bowl",
+      "asset": "patterned_bowl",
+      "room": "kitchen",
+      "support": "KitchenTable_01_001",
+      "support_z_m": 0.818452984,
+      "pose": [
+        6.15,
+        1.15,
+        0.819479984,
+        0,
+        0,
+        0
+      ],
+      "scenario": "candidate_detection_and_counting"
+    },
+    {
+      "id": "objects_kitchen_book",
+      "category": "book",
+      "asset": "book",
+      "room": "kitchen",
+      "support": "KitchenTable_01_001",
+      "support_z_m": 0.818452984,
+      "pose": [
+        7.2,
+        1.0,
+        0.819421984,
+        0,
+        0,
+        3.141592653589793
+      ],
+      "scenario": "candidate_detection_and_counting"
+    },
+    {
+      "id": "objects_kitchen_phone",
+      "category": "cell phone",
+      "asset": "mobile_phone",
+      "room": "kitchen",
+      "support": "KitchenTable_01_001",
+      "support_z_m": 0.818452984,
+      "pose": [
+        6.95,
+        0.67,
+        0.819452984,
+        -1.5707963267948966,
+        0,
+        0
+      ],
+      "scenario": "candidate_detection_and_counting"
+    }
+  ],
+  "limitations": [
+    "AABB top is a candidate flat support surface, not a physical contact test.",
+    "Texture appearance and YOLO detectability are unverified.",
+    "Old map is reference only; new layout needs sensor/navigation verification."
+  ],
+  "description": "R1 candidate layout; geometry only for scene design and post-task evaluation."
+}

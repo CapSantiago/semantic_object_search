@@ -61,6 +61,78 @@ def map_payload(message):
                 stamp_seconds=stamp_seconds(message.header.stamp))
 
 
+def scan_obstacles(message, transform, direction=1, rotating=False, map_transform=None):
+    """Measured laser points, never obstacle labels or navigation decisions."""
+    if (not message.header.frame_id or not math.isfinite(message.angle_increment)
+            or message.angle_increment<=0 or len(message.ranges)<8):
+        raise ValueError('Invalid laser geometry')
+    def point(distance,angle,tf):
+        x,y=distance*math.cos(angle),distance*math.sin(angle);q=tf.rotation;t=tf.translation
+        return [t.x+(1-2*(q.y*q.y+q.z*q.z))*x+2*(q.x*q.y-q.z*q.w)*y,
+                t.y+2*(q.x*q.y+q.z*q.w)*x+(1-2*(q.x*q.x+q.z*q.z))*y]
+    points=[];nearest=None;valid=0
+    for i,distance in enumerate(message.ranges):
+        if distance==math.inf:valid+=1;continue
+        if not math.isfinite(distance)or not message.range_min<=distance<=message.range_max:continue
+        valid+=1;angle=message.angle_min+i*message.angle_increment
+        x,y=point(distance,angle,transform);radius=math.hypot(x,y)
+        if radius>2.5:continue
+        mapped=point(distance,angle,map_transform)if map_transform is not None else None
+        if mapped is not None:points.append(mapped)
+        bearing=math.atan2(y,x)
+        in_direction=rotating or direction*x>0 and abs(y)<=abs(x)*math.tan(math.pi/3)
+        if in_direction and(nearest is None or radius<nearest['distance_m']):
+            nearest=dict(distance_m=radius,bearing_degrees=math.degrees(bearing),base_xy=[x,y],map_xy=mapped)
+    if valid/len(message.ranges)<.75:raise ValueError('Insufficient valid laser rays')
+    return dict(source='/scan',stamp_seconds=stamp_seconds(message.header.stamp),frame_id='map',
+                points=points[::max(1,math.ceil(len(points)/90))],nearest=nearest,
+                sector='周围'if rotating else'前方'if direction>0 else'后方')
+
+
+class ObstacleObservation:
+    """Read-only, expiring UI/log evidence. Near range is not a safety verdict."""
+    def __init__(self,now=time.monotonic):
+        self.now=now;self.scan=None;self.received=None;self.velocity=None;self.command=None
+        self.events=[];self.last_event=-math.inf;self.last_state=None
+
+    def motion(self,v,w,*,command=False):
+        if all(math.isfinite(value)for value in(v,w)):
+            setattr(self,'command'if command else'velocity',(v,w,self.now()))
+
+    def direction(self):
+        now=self.now();motion=self.command if self.command and now-self.command[2]<=.35 else self.velocity
+        if motion is None or now-motion[2]>.4:return 1,False
+        return (-1 if motion[0]<-.015 else 1),abs(motion[0])<.015 and abs(motion[1])>.04
+
+    def receive(self,value):
+        self.scan=value;self.received=self.now()
+
+    def snapshot(self,sim):
+        now=self.now();fresh=bool(self.scan is not None and self.received is not None and now-self.received<=.4
+            and sim is not None and -.1<=sim-self.scan['stamp_seconds']<=.4)
+        motion_fresh=bool(self.velocity and now-self.velocity[2]<=.4)
+        velocity=self.velocity[:2]if motion_fresh else None
+        nearest=self.scan.get('nearest')if fresh else None
+        near=bool(nearest and nearest['distance_m']<=.7)
+        moving=bool(velocity and(abs(velocity[0])>.015 or abs(velocity[1])>.04))
+        state='stale'if not fresh or not motion_fresh else'near_moving'if near and moving else'near_stopped'if near else'moving'if moving else'stationary'
+        value=dict(self.scan or{},fresh=fresh,motion_fresh=motion_fresh,state=state,velocity=velocity,
+                   near_threshold_m=.7,age_seconds=None if self.received is None else now-self.received,
+                   limitation='激光观测，距离从机器人中心计算；运动状态不代表避障已成功，低矮/悬空障碍还依赖深度与导航。')
+        if not fresh:value.update(points=[],nearest=None)
+        return value
+
+    def event(self,sim):
+        value=self.snapshot(sim);state=value['state'];now=self.now()
+        # No startup/idle spam; recovery is only a change in observed proximity.
+        if state==self.last_state or now-self.last_event<2.5:return None
+        previous=self.last_state;self.last_state=state
+        if not state.startswith('near_')and not(previous and previous.startswith('near_')):return None
+        self.last_event=now;nearest=value.get('nearest')or{}
+        event=dict(stamp_seconds=sim,state=state,sector=value.get('sector'),**nearest)
+        self.events.append(event);self.events=self.events[-30:];return event
+
+
 class TelemetryStore:
     """Thread-safe data model also exercised without starting ROS or Gazebo."""
     def __init__(self, now=time.monotonic, freshness_seconds=3.0):
@@ -87,6 +159,24 @@ class TelemetryStore:
         self.search_progress = None
         self.mapping_motion = None
         self.mapping_received = None
+        self.safety = None
+        self.safety_received = None
+        self.obstacle=ObstacleObservation(now)
+        self.navigation_path=None
+        self.path_received=None
+        self.costmap=None
+        self.costmap_received=None
+        self.costmap_error=None
+
+    def receive_safety(self, message):
+        try:
+            value = json.loads(message)
+        except ValueError:
+            return
+        if (isinstance(value,dict) and type(value.get('ready')) is bool
+            and isinstance(value.get('stamp_seconds'),(int,float)) and math.isfinite(value['stamp_seconds'])):
+            with self.lock:
+                self.safety,self.safety_received = value,self.now()
 
     def receive_mapping_motion(self, message):
         try:
@@ -103,6 +193,9 @@ class TelemetryStore:
             self.map = self.map_received = self.pose = self.pose_received = None
             self.mapping_motion = self.mapping_received = None
             self.lifecycle.clear()
+            self.obstacle=ObstacleObservation(self.now)
+            self.navigation_path=self.path_received=None
+            self.costmap=self.costmap_received=None
 
     def receive_search_progress(self, message):
         try:
@@ -210,12 +303,25 @@ class TelemetryStore:
             foreign_nodes = [name for name in self.nodes if name.rsplit('/', 1)[-1] in STACK_NODES]
             foreign = bool(foreign_nodes or any(self.foreign_publishers.values())
                            or self.command_subscribers)
+            safety = deepcopy(self.safety) if self.safety is not None else dict(ready=False)
+            safety['fresh'] = (self.safety_received is not None and now-self.safety_received<=.75
+                and self.clock_seconds is not None and -.1<=self.clock_seconds-safety['stamp_seconds']<=.75)
+            safety['ready'] = safety['ready'] and safety['fresh']
+            obstacle=self.obstacle.snapshot(self.clock_seconds)
+            obstacle['events']=deepcopy(self.obstacle.events)
+            path=deepcopy(self.navigation_path)
+            if path is not None:
+                path['fresh']=bool(self.path_received is not None and now-self.path_received<=2.5 and self.clock_seconds is not None
+                    and -.1<=self.clock_seconds-path['stamp_seconds']<=2.5)
+                if not path['fresh']:path['points']=[]
             return dict(connected=bool(self.running and graph_fresh
                                        and any(row['fresh'] for row in topics.values())),
                         monitor_running=self.running, error=self.error,
                         discovery_ready=bool(graph_fresh and self.graph_polls >= 2
                                              and now-self.started_wall >= 2),
                         simulation_ready=simulation_ready, navigation_ready=navigation_ready,
+                        safety=safety,
+                        obstacle=obstacle,navigation_path=path,
                         navigation_control_ready=navigation_control_ready,
                         control_publishers=deepcopy(self.control_publishers),
                         mapping_ready=mapping_ready,mapping_motion=deepcopy(self.mapping_motion),
@@ -238,6 +344,19 @@ class TelemetryStore:
             # A static map is intentionally latched; its age alone is not failure.
             result['source'] = '/map'
             return result
+
+    def receive_costmap(self,payload):
+        with self.lock:
+            self.costmap=payload;self.costmap_received=self.now();self.costmap_error=None
+
+    def costmap_snapshot(self):
+        with self.lock:
+            if self.costmap is None:return dict(available=False,fresh=False,error=self.costmap_error)
+            value=deepcopy(self.costmap);age=self.now()-self.costmap_received
+            value.update(source='/global_costmap/costmap',age_seconds=age,
+                fresh=bool(age<=2.5 and self.clock_seconds is not None and -.1<=self.clock_seconds-value['stamp_seconds']<=2.5))
+            if not value['fresh']:value['data']=[]
+            return value
 
 
 class Monitor:
@@ -262,6 +381,9 @@ class Monitor:
     def map_snapshot(self):
         return self.store.map_snapshot()
 
+    def costmap_snapshot(self):
+        return self.store.costmap_snapshot()
+
     def clear_localization(self):
         self.store.clear_localization()
 
@@ -281,6 +403,8 @@ class Monitor:
             import rclpy
             from lifecycle_msgs.srv import GetState
             from nav_msgs.msg import OccupancyGrid, Odometry
+            from nav_msgs.msg import Path
+            from geometry_msgs.msg import Twist
             from rclpy.context import Context
             from rclpy.executors import SingleThreadedExecutor
             from rclpy.node import Node
@@ -306,6 +430,26 @@ class Monitor:
             reliable = sensor_qos_profile('reliable')
             best_effort = sensor_qos_profile('best_effort')
             subscriptions = []
+            last_scan=[-math.inf]
+            def observe_scan(message):
+                now=time.monotonic()
+                if now-last_scan[0]<.2:return
+                last_scan[0]=now
+                try:
+                    stamp=Time.from_msg(message.header.stamp)
+                    base=buffer.lookup_transform('base_link',message.header.frame_id,stamp).transform
+                    try:mapped=buffer.lookup_transform('map',message.header.frame_id,stamp).transform
+                    except TransformException:mapped=None
+                    with self.store.lock:
+                        direction,rotating=self.store.obstacle.direction()
+                        self.store.obstacle.receive(scan_obstacles(message,base,direction,rotating,mapped))
+                        event=self.store.obstacle.event(self.store.clock_seconds)
+                    if event:
+                        labels={'near_moving':'检测到近障，机器人正在移动','near_stopped':'检测到近障，机器人已停稳',
+                                'moving':'近障提示解除，机器人正在移动','stationary':'近障提示解除，机器人已停稳','stale':'观测数据过期'}
+                        details=(f"，中心距离{event['distance_m']:.2f}m，方位{event['bearing_degrees']:.0f}°"if'distance_m'in event else'')
+                        print('[避障观察] '+labels[event['state']]+details+'（激光观测）',flush=True)
+                except (TransformException,ValueError):pass
             for topic, kind in [('/clock', Clock), ('/odom', Odometry), ('/scan', LaserScan),
                                 ('/rgbd/obstacles', PointCloud2), ('/rgbd/image', Image),
                                 ('/rgbd/depth_image', Image), ('/rgbd/camera_info', CameraInfo),
@@ -313,10 +457,25 @@ class Monitor:
                 def receive(message, name=topic):
                     stamp = message.clock if name == '/clock' else message.header.stamp
                     self.store.receive(name, stamp_seconds(stamp))
+                    if name=='/scan':observe_scan(message)
+                    elif name=='/odom':
+                        with self.store.lock:self.store.obstacle.motion(message.twist.twist.linear.x,message.twist.twist.angular.z)
                 # The adapter publishes obstacles BEST_EFFORT; all image bridge
                 # outputs and detector results in this candidate are RELIABLE.
                 qos = best_effort if topic == '/rgbd/obstacles' else reliable
                 subscriptions.append(node.create_subscription(kind, topic, receive, qos))
+            def receive_command(message):
+                with self.store.lock:self.store.obstacle.motion(message.linear.x,message.angular.z,command=True)
+            subscriptions.append(node.create_subscription(Twist,'/cmd_vel',receive_command,best_effort))
+            def receive_path(message):
+                if message.header.frame_id!='map':return
+                points=[[p.pose.position.x,p.pose.position.y]for p in message.poses]
+                if not all(math.isfinite(v)for p in points for v in p):return
+                with self.store.lock:
+                    self.store.navigation_path=dict(frame_id='map',stamp_seconds=stamp_seconds(message.header.stamp),
+                        points=points[::max(1,math.ceil(len(points)/300))],source='/plan')
+                    self.store.path_received=time.monotonic()
+            subscriptions.append(node.create_subscription(Path,'/plan',receive_path,reliable))
 
             def receive_map(message):
                 try:
@@ -327,10 +486,21 @@ class Monitor:
             subscriptions.append(node.create_subscription(
                 OccupancyGrid, '/map', receive_map,
                 QoSProfile(depth=1, durability=DurabilityPolicy.TRANSIENT_LOCAL)))
+            def receive_costmap(message):
+                try:
+                    if message.header.frame_id!='map':raise ValueError('Global costmap is not in map frame')
+                    self.store.receive_costmap(map_payload(message))
+                except ValueError as error:
+                    with self.store.lock:
+                        self.store.costmap=None;self.store.costmap_error=str(error)
+            subscriptions.append(node.create_subscription(OccupancyGrid,'/global_costmap/costmap',receive_costmap,
+                QoSProfile(depth=1,durability=DurabilityPolicy.TRANSIENT_LOCAL)))
             subscriptions.append(node.create_subscription(String, '/search/progress',
                 lambda msg: self.store.receive_search_progress(msg.data), 10))
             subscriptions.append(node.create_subscription(String, '/mapping/state',
                 lambda msg: self.store.receive_mapping_motion(msg.data), 10))
+            subscriptions.append(node.create_subscription(String, '/safety/state',
+                lambda msg: self.store.receive_safety(msg.data), 10))
             services = {name: node.create_client(GetState, '/'+name+'/get_state')
                         for name in ('amcl', 'bt_navigator')}
             pending = {}

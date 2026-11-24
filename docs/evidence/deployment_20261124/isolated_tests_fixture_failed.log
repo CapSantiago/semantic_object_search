@@ -1,0 +1,155 @@
+........................................................................ [ 12%]
+........................................................................ [ 25%]
+...............................sssssssssssssssssssssssssss.............. [ 37%]
+..............F...FF....................s............................... [ 50%]
+........................................................................ [ 62%]
+........................................................................ [ 75%]
+......................sss....sssssss.................................... [ 87%]
+......................................................................   [100%]
+=================================== FAILURES ===================================
+___ DevelopmentTests.test_additional_furniture_reuses_existing_project_asset ___
+
+self = <test_development.DevelopmentTests testMethod=test_additional_furniture_reuses_existing_project_asset>
+
+    def test_additional_furniture_reuses_existing_project_asset(self):
+        world=ET.Element('world')
+        directory='third_party/aws_small_house/models/aws_robomaker_residential_ChairA_01'
+        layout=dict(assets={'extra_chair':dict(directory=directory)},targets=[
+            dict(id='validation_chair',asset='extra_chair',category='chair',pose=[-4,-3,0,0,0,0])])
+        with tempfile.TemporaryDirectory() as cache:
+>           truth=add_targets(world,ROOT,layout,cache)
+
+tests/test_development.py:77: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/semantic_search/semantic_search/development.py:212: in add_targets
+    folder.relative_to(root.resolve())
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = PosixPath('/tmp/semantic_publish_20261124/third_party/aws_small_house/models/aws_robomaker_residential_ChairA_01')
+other = (PosixPath('/tmp/semantic_publish_smoke_20261124'),)
+parts = ['/', 'tmp', 'semantic_publish_20261124', 'third_party', 'aws_small_house', 'models', ...]
+drv = '', root = '/'
+
+    def relative_to(self, *other):
+        """Return the relative path to another path identified by the passed
+        arguments.  If the operation is not possible (because this is not
+        a subpath of the other path), raise ValueError.
+        """
+        # For the purpose of this method, drive and root are considered
+        # separate parts, i.e.:
+        #   Path('c:/').relative_to('c:')  gives Path('/')
+        #   Path('c:/').relative_to('/')   raise ValueError
+        if not other:
+            raise TypeError("need at least one argument")
+        parts = self._parts
+        drv = self._drv
+        root = self._root
+        if root:
+            abs_parts = [drv, root] + parts[1:]
+        else:
+            abs_parts = parts
+        to_drv, to_root, to_parts = self._parse_args(other)
+        if to_root:
+            to_abs_parts = [to_drv, to_root] + to_parts[1:]
+        else:
+            to_abs_parts = to_parts
+        n = len(to_abs_parts)
+        cf = self._flavour.casefold_parts
+        if (root or drv) if n == 0 else cf(abs_parts[:n]) != cf(to_abs_parts):
+            formatted = self._format_parsed_parts(to_drv, to_root, to_parts)
+>           raise ValueError("{!r} is not in the subpath of {!r}"
+                    " OR one path is relative and the other is absolute."
+                             .format(str(self), str(formatted)))
+E           ValueError: '/tmp/semantic_publish_20261124/third_party/aws_small_house/models/aws_robomaker_residential_ChairA_01' is not in the subpath of '/tmp/semantic_publish_smoke_20261124' OR one path is relative and the other is absolute.
+
+/usr/lib/python3.10/pathlib.py:818: ValueError
+_ DevelopmentTests.test_phone_adaptation_retains_geometry_without_subt_or_thermal_extras _
+
+self = <test_development.DevelopmentTests testMethod=test_phone_adaptation_retains_geometry_without_subt_or_thermal_extras>
+
+    def test_phone_adaptation_retains_geometry_without_subt_or_thermal_extras(self):
+        world=ET.Element('world')
+>       original=(ROOT/'third_party/target_assets/mobile_phone/model.sdf').read_bytes()
+
+tests/test_development.py:60: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/lib/python3.10/pathlib.py:1126: in read_bytes
+    with self.open(mode='rb') as f:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = PosixPath('/tmp/semantic_publish_smoke_20261124/third_party/target_assets/mobile_phone/model.sdf')
+mode = 'rb', buffering = -1, encoding = None, errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+>       return self._accessor.open(self, mode, buffering, encoding, errors,
+                                   newline)
+E       FileNotFoundError: [Errno 2] No such file or directory: '/tmp/semantic_publish_smoke_20261124/third_party/target_assets/mobile_phone/model.sdf'
+
+/usr/lib/python3.10/pathlib.py:1119: FileNotFoundError
+_ DevelopmentTests.test_r0_targets_use_local_assets_and_calibrated_support_heights _
+
+self = <test_development.DevelopmentTests testMethod=test_r0_targets_use_local_assets_and_calibrated_support_heights>
+
+    def test_r0_targets_use_local_assets_and_calibrated_support_heights(self):
+        layout = json.loads((ROOT/'scenes/aws_house/layout_r0_v1.json').read_text())
+        rooms = json.loads((ROOT/'src/semantic_search/config/rooms_aws_house_v1.json').read_text())
+        world = ET.Element('world')
+        with tempfile.TemporaryDirectory() as cache:
+>           add_targets(world, ROOT, layout, cache)
+
+tests/test_development.py:154: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/semantic_search/semantic_search/development.py:212: in add_targets
+    folder.relative_to(root.resolve())
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = PosixPath('/tmp/semantic_publish_20261124/third_party/target_assets/blue_mug')
+other = (PosixPath('/tmp/semantic_publish_smoke_20261124'),)
+parts = ['/', 'tmp', 'semantic_publish_20261124', 'third_party', 'target_assets', 'blue_mug']
+drv = '', root = '/'
+
+    def relative_to(self, *other):
+        """Return the relative path to another path identified by the passed
+        arguments.  If the operation is not possible (because this is not
+        a subpath of the other path), raise ValueError.
+        """
+        # For the purpose of this method, drive and root are considered
+        # separate parts, i.e.:
+        #   Path('c:/').relative_to('c:')  gives Path('/')
+        #   Path('c:/').relative_to('/')   raise ValueError
+        if not other:
+            raise TypeError("need at least one argument")
+        parts = self._parts
+        drv = self._drv
+        root = self._root
+        if root:
+            abs_parts = [drv, root] + parts[1:]
+        else:
+            abs_parts = parts
+        to_drv, to_root, to_parts = self._parse_args(other)
+        if to_root:
+            to_abs_parts = [to_drv, to_root] + to_parts[1:]
+        else:
+            to_abs_parts = to_parts
+        n = len(to_abs_parts)
+        cf = self._flavour.casefold_parts
+        if (root or drv) if n == 0 else cf(abs_parts[:n]) != cf(to_abs_parts):
+            formatted = self._format_parsed_parts(to_drv, to_root, to_parts)
+>           raise ValueError("{!r} is not in the subpath of {!r}"
+                    " OR one path is relative and the other is absolute."
+                             .format(str(self), str(formatted)))
+E           ValueError: '/tmp/semantic_publish_20261124/third_party/target_assets/blue_mug' is not in the subpath of '/tmp/semantic_publish_smoke_20261124' OR one path is relative and the other is absolute.
+
+/usr/lib/python3.10/pathlib.py:818: ValueError
+=========================== short test summary info ============================
+FAILED tests/test_development.py::DevelopmentTests::test_additional_furniture_reuses_existing_project_asset
+FAILED tests/test_development.py::DevelopmentTests::test_phone_adaptation_retains_geometry_without_subt_or_thermal_extras
+FAILED tests/test_development.py::DevelopmentTests::test_r0_targets_use_local_assets_and_calibrated_support_heights
+3 failed, 533 passed, 38 skipped in 13.16s

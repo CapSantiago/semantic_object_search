@@ -1,0 +1,59 @@
+{
+  "stamp_ns": 873876000000,
+  "cloud_frame": "camera_optical_frame",
+  "depth_frame": "camera_optical_frame",
+  "width": 1280,
+  "height": 960,
+  "sampling_stride": 8,
+  "point_step": 24,
+  "row_step": 30720,
+  "cloud_payload_bytes": 29491200,
+  "depth_payload_bytes": 4915200,
+  "k": [
+    1131.2017905548396,
+    0.0,
+    640.0,
+    0.0,
+    1131.2017905548394,
+    480.0,
+    0.0,
+    0.0,
+    1.0
+  ],
+  "distortion": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "fields": [
+    {
+      "name": "x",
+      "offset": 0,
+      "datatype": 7,
+      "count": 1
+    },
+    {
+      "name": "y",
+      "offset": 4,
+      "datatype": 7,
+      "count": 1
+    },
+    {
+      "name": "z",
+      "offset": 8,
+      "datatype": 7,
+      "count": 1
+    },
+    {
+      "name": "rgb",
+      "offset": 16,
+      "datatype": 7,
+      "count": 1
+    }
+  ],
+  "native_source_age_at_capture": 0.10400000000004184,
+  "source": "results/development/cloud_continuity_20261122/depth_image_candidate_20261124/native_pair.npz",
+  "method": "Only actual sampled pixels retained; unit fixture reconstructs unused pixels as NaN, which stride8 never reads."
+}

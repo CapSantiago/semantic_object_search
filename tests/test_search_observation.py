@@ -31,6 +31,21 @@ def viewpoint(index=0, **changes):
 
 @unittest.skipIf(Search is None, 'Source scripts/env.sh to load ROS message types; no ROS node is started')
 class SearchObservationTests(unittest.TestCase):
+    def test_adaptive_exhaustion_preserves_partial_counts_and_never_claims_missing_objects_absent(self):
+        for fraction,mode,confirmed,expected in ((.4,'count',[object()],'partial'),
+                                                (.4,'find',[],'partial'),
+                                                (.9,'count',[object()],'completed')):
+            with self.subTest(fraction=fraction,mode=mode):
+                node=SimpleNamespace(view=1,views=[[0.,0.,0.]],active_enabled=True,
+                    append_active_view=Mock(return_value=False),active_error=None,
+                    active=SimpleNamespace(target_fraction=.85,summary=lambda:dict(observed_fraction=fraction)),
+                    task=(mode,'kitchen','cup'),frames=5,landmarks=SimpleNamespace(confirmed=confirmed),
+                    valid_projection=2,tf_failures=0,invalid_target_depth=0,failed_views=[],finish=Mock(),
+                    viewpoint_diagnostics=[viewpoint(reached=True,dwell_completed=True,
+                                                     synchronized_frames=5,valid_projections=2)])
+                Search.next_view(node)
+                node.finish.assert_called_once_with(expected)
+
     def test_integer_json_coordinates_are_valid_ros_goal_coordinates(self):
         node=SimpleNamespace(view=0,views=[[0,0,0]],phase='idle',nav=Mock(),on_goal=Mock(), publish_progress=Mock(),
             get_clock=lambda:SimpleNamespace(now=lambda:SimpleNamespace(to_msg=lambda:TimeMessage())))

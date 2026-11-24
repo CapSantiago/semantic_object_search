@@ -1,0 +1,61 @@
+{
+  "status": "failed",
+  "session": "20261124T045959_619091Z_880ba12a",
+  "preceding_primer_scope": "Correctness, full raw source and independent physical dock passed; terminal UI freshness failed and remains in original audit.",
+  "abba_exit": 0,
+  "abba_status": "finished",
+  "actual_history_provenance": [
+    {
+      "memory_id": "edbf818d338740c291ffba74a0e20ca7",
+      "passed": true,
+      "basis": "observed_memory_safe_approach"
+    },
+    {
+      "memory_id": "edbf818d338740c291ffba74a0e20ca7",
+      "passed": true,
+      "basis": "observed_memory_safe_approach"
+    }
+  ],
+  "time_benefit_all_pairs": false,
+  "distance_benefit_all_pairs": false,
+  "pairs": [
+    {
+      "pair": 0,
+      "seconds_saved": -18.555524782000248,
+      "measured_search_distance_saved_m": -2.8413485632455533,
+      "baseline_views": 1,
+      "guided_views": 2
+    },
+    {
+      "pair": 1,
+      "seconds_saved": -24.90118591299961,
+      "measured_search_distance_saved_m": -2.8102263336903803,
+      "baseline_views": 1,
+      "guided_views": 2
+    }
+  ],
+  "error": "AssertionError: Actual benefit not established",
+  "cloud_exit": 0,
+  "cloud_summary": {
+    "cloud": {
+      "count": 2769,
+      "max_gap": 0.19120206899970071,
+      "gaps_over_point4": 0,
+      "max_source_age": 0.12000000000000455
+    },
+    "scan": {
+      "count": 1731,
+      "max_gap": 0.2554501150007127,
+      "gaps_over_point4": 0,
+      "max_source_age": 0.06200000000001182
+    },
+    "fresh_checks": 177876,
+    "stale_checks": 0
+  },
+  "final_state": {
+    "session_id": "20261124T045959_619091Z_880ba12a",
+    "ready": true,
+    "busy": false,
+    "control_uncertain": false
+  }
+}

@@ -19,6 +19,23 @@ except ModuleNotFoundError as error:
 
 @unittest.skipIf(sensor_qos_profile is None, 'Source scripts/env.sh for ROS QoS/message libraries')
 class SensorQoSTests(unittest.TestCase):
+    def test_latest_frame_queue_preserves_reliability_and_global_default(self):
+        chosen = sensor_qos_profile('reliable',depth=1)
+        self.assertEqual(chosen.depth,1)
+        self.assertEqual(chosen.reliability,ReliabilityPolicy.RELIABLE)
+        self.assertEqual(chosen.history,HistoryPolicy.KEEP_LAST)
+        self.assertEqual(sensor_qos_profile().depth,5)
+        for value in (0,-1,True,1.5):
+            with self.assertRaises(ValueError):sensor_qos_profile(depth=value)
+
+    def test_input_freshness_rejects_queued_old_and_invalid_frames(self):
+        from semantic_search.sensor_qos import current_sensor_stamp
+        self.assertTrue(current_sensor_stamp(10.,10.2))
+        self.assertFalse(current_sensor_stamp(10.,10.4))
+        self.assertFalse(current_sensor_stamp(10.3,10.))
+        self.assertFalse(current_sensor_stamp(0.,0.))
+        self.assertFalse(current_sensor_stamp(float('nan'),10.))
+
     def test_default_matches_sensor_preset_and_reliable_changes_only_reliability(self):
         baseline = sensor_qos_profile()
         reliable = sensor_qos_profile('reliable')

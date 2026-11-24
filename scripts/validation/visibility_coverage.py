@@ -12,6 +12,7 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0,str(ROOT/'src/semantic_search'))
 from semantic_search.rooms import room_at, observation_views
 from semantic_search.visibility import visible_samples
+from semantic_search.map_resources import resolve_map
 
 
 def main():
@@ -22,7 +23,7 @@ def main():
     p.add_argument('--spacing',type=float,default=.2)
     p.add_argument('--manifest',type=Path,help='JSON mapping capture folder names to commanded map poses')
     p.add_argument('--plot',type=Path,help='Optional PNG of observed/unobserved samples by route and height')
-    p.add_argument('--map',type=Path,default=ROOT/'scenes/aws_house/r0_v1/maps/house.yaml')
+    p.add_argument('--map',type=Path,help='Explicit map version; default is the registered AWS map')
     args=p.parse_args()
     if not .05<=args.spacing<=1.:p.error('spacing must be 0.05–1 m')
     rooms=json.loads(args.rooms.read_text())
@@ -73,16 +74,16 @@ def main():
         matplotlib.use('Agg')
         import matplotlib.pyplot as plt
         from matplotlib import font_manager
-        import yaml
         from PIL import Image
         cjk=Path('/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc')
         if cjk.exists():
             font_manager.fontManager.addfont(str(cjk))
             plt.rcParams['font.family']=font_manager.FontProperties(fname=str(cjk)).get_name()
             plt.rcParams['axes.unicode_minus']=False
-        metadata=yaml.safe_load(args.map.read_text())
+        resource=resolve_map(ROOT,yaml_path=args.map) if args.map else resolve_map(ROOT,map_id='aws_house_v1')
+        metadata=resource['metadata']
         if abs(metadata['origin'][2])>1e-9:raise ValueError('Plot currently requires an axis-aligned map')
-        occupancy=np.array(Image.open(args.map.parent/metadata['image']))
+        occupancy=np.array(Image.open(resource['image']))
         x,y,_=metadata['origin'];resolution=metadata['resolution']
         extent=[x,x+occupancy.shape[1]*resolution,y,y+occupancy.shape[0]*resolution]
         categories=['chair','cup','bottle'] if manifest is not None else ['all_captures']

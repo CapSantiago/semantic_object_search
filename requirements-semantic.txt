@@ -1,0 +1,4 @@
+# Independent CPU scene-graph environment; does not replace the ROS or YOLO stack.
+numpy==1.26.4
+scipy==1.15.3
+spark-dsg==1.1.3

@@ -1,0 +1,189 @@
+{
+  "status": "movement_memory_subchecks_passed",
+  "session": "20261124T052056_236752Z_be7bb4a8",
+  "design": {
+    "layout": "scenes/aws_house/layout_service_balls_banana_memory_moved_v1.json",
+    "layout_sha256": "512093b6a35b1023c3526e2540153cab494743e18b067fd23c3197fcd14bdb87",
+    "original_pose": [
+      1.6385239973664285,
+      -1.592656502872705,
+      0.36715369001409276,
+      0,
+      0,
+      0.0
+    ],
+    "new_pose": [
+      1.0385239973664286,
+      -1.532656502872705,
+      0.36715369001409276,
+      0,
+      0,
+      0.0
+    ],
+    "room": "living",
+    "category": "banana",
+    "expected_count": 1,
+    "model": "living_banana_1"
+  },
+  "declared_truth_sha256": "512093b6a35b1023c3526e2540153cab494743e18b067fd23c3197fcd14bdb87",
+  "trials": {
+    "find": {
+      "original_status": "passed",
+      "functional_subchecks_passed": true,
+      "evaluation": {
+        "passed": true,
+        "expected": 1,
+        "actual": 1,
+        "checks": {
+          "task_completed": true,
+          "count": true,
+          "position": true,
+          "unique_ids": true,
+          "map_metres": true,
+          "room": true,
+          "required_surfaces": true,
+          "measured_arrivals": true,
+          "saved": true,
+          "memory_saved": true,
+          "return_passed": true,
+          "configured_route": true,
+          "found": true,
+          "persisted_result": true,
+          "observed_hits": true,
+          "svg_ids": true
+        },
+        "position_limit_m": 0.2,
+        "errors": [
+          {
+            "id": 1,
+            "reference": "living_banana_1",
+            "xy_error_m": 0.10308020285320521
+          }
+        ],
+        "arrivals": [
+          {
+            "index": 0,
+            "passed": true,
+            "xy_error_m": 0.1011991710289922,
+            "yaw_error_rad": 0.0985969993356759
+          }
+        ]
+      },
+      "original_checks": {
+        "observer_healthy": true,
+        "original_task_succeeded": true,
+        "mandatory_surfaces_observed": true,
+        "returned_to_dock": true,
+        "native_settled": true,
+        "no_recorded_contact": true,
+        "no_external_cancel": true,
+        "ui_observation_fresh": true,
+        "independent_world_dock": true,
+        "fresh_sensor_checks": true,
+        "observer_clean": true
+      }
+    },
+    "count": {
+      "original_status": "passed",
+      "functional_subchecks_passed": true,
+      "evaluation": {
+        "passed": true,
+        "expected": 1,
+        "actual": 1,
+        "checks": {
+          "task_completed": true,
+          "count": true,
+          "position": true,
+          "unique_ids": true,
+          "map_metres": true,
+          "room": true,
+          "required_surfaces": true,
+          "measured_arrivals": true,
+          "saved": true,
+          "memory_saved": true,
+          "return_passed": true,
+          "configured_route": true,
+          "full_observation_plan": true,
+          "full_observation_data": true,
+          "no_history_count": true,
+          "persisted_result": true,
+          "observed_hits": true,
+          "svg_ids": true
+        },
+        "position_limit_m": 0.2,
+        "errors": [
+          {
+            "id": 1,
+            "reference": "living_banana_1",
+            "xy_error_m": 0.08034530695993197
+          }
+        ],
+        "arrivals": [
+          {
+            "index": 0,
+            "passed": true,
+            "xy_error_m": 0.11388653223438644,
+            "yaw_error_rad": 0.09676946423117738
+          },
+          {
+            "index": 1,
+            "passed": true,
+            "xy_error_m": 0.08536468927533052,
+            "yaw_error_rad": 0.09487111266520998
+          }
+        ]
+      },
+      "original_checks": {
+        "observer_healthy": true,
+        "original_task_succeeded": true,
+        "mandatory_surfaces_observed": true,
+        "returned_to_dock": true,
+        "native_settled": true,
+        "no_recorded_contact": true,
+        "no_external_cancel": true,
+        "ui_observation_fresh": true,
+        "independent_world_dock": true,
+        "fresh_sensor_checks": true,
+        "observer_clean": true
+      }
+    }
+  },
+  "pose_changed": true,
+  "pose_restored": false,
+  "method": "Only Gazebo fixture setter consumes design XY; public tasks carry mode/room/category only; evaluation layout override is posthoc, root frozen metadata is not modified.",
+  "validation_source_sha256": {
+    "results/development/demo_two_rooms_20261123/semantic_followup/living_banana/move_and_verify.py": "0b1f3b02d4fe96b7051ae450cfd835672a7e0458b04de3e1e5dfe034ed8a82dd",
+    "results/development/demo_two_rooms_20261123/semantic_followup/living_banana/key_route.py": "9ad7d7ec955e9d8d0c63fb3cf9f4978e5fef8346ab8286f2a78aae695936303a",
+    "scripts/validation/target_stability.py": "552802eb1862f7838ab889ab861697089a47e9623d8dd732e8bc783035ae4886"
+  },
+  "fixture_services": [
+    {
+      "pose": [
+        1.0385239973664286,
+        -1.532656502872705,
+        0.36715369001409276,
+        0,
+        0,
+        0.0
+      ],
+      "returncode": 0,
+      "stdout": "data: true\n\n",
+      "stderr": ""
+    }
+  ],
+  "memory_checks": {
+    "latest_record_count": true,
+    "latest_from_current_count": true,
+    "original_position_history_exists": true,
+    "old_position_records_marked_pending": true,
+    "latest_near_declared_new_position": true,
+    "current_counts_not_from_history": true
+  },
+  "all_full_checks_passed": true,
+  "next": "Keep this declared pose only until reproducible variant cold reload; original assets/layout/map untouched.",
+  "limits": [
+    "Native entity identity is evaluator knowledge only; semantic memory keeps separate spatial records and cannot establish physical reidentification.",
+    "Old positions are needs_verification, not proven absent.",
+    "Source timing failures, if any, remain in original per-task reports; no coverage/count/truth thresholds lowered."
+  ]
+}

@@ -1,1 +1,4 @@
 *.sh text eol=lf
+
+# Preserve original terminal validation logs.
+docs/evidence/deployment_20261124/*.log -whitespace

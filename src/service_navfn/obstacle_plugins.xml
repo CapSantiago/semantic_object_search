@@ -1,0 +1,8 @@
+<library path="service_navfn">
+  <class name="service_navfn/OdomObstacleLayer" type="service_navfn::OdomObstacleLayer" base_class_type="nav2_costmap_2d::Layer">
+    <description>Native ObstacleLayer memory in odom, projected to the canonical map.</description>
+  </class>
+  <class name="service_navfn/OdomVoxelLayer" type="service_navfn::OdomVoxelLayer" base_class_type="nav2_costmap_2d::Layer">
+    <description>Native VoxelLayer memory in odom, projected to the canonical map.</description>
+  </class>
+</library>

@@ -23,6 +23,7 @@
 __pycache__/
 *.pyc
 *.pt
+/mobileclip_blt.ts
 *.onnx
 /third_party/*/
 /.aws/

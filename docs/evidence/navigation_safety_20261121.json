@@ -1,0 +1,329 @@
+{
+  "stage": "C023",
+  "status": "static_low_overhang_subset_passed_other_cases_pending",
+  "full_matrix_passed": false,
+  "default_enabled": false,
+  "implementation": {
+    "upstream": "Nav2 CollisionMonitor 1.1.20",
+    "guard": "src/semantic_search/semantic_search/velocity_guard.py",
+    "sensor_timeout_seconds": 0.4,
+    "command_timeout_seconds": 0.3,
+    "wall_rate_hz": 20,
+    "candidate_navigation": "src/semantic_search/config/nav2_safety.yaml",
+    "validated_navigation_snapshot": "results/development/navigation_safety/separate_layers/configuration/nav2_safety.yaml",
+    "validated_snapshot_sha256": "4a0a27aeb7fa69fe978c72d8988e3e5b6e0f7683a2348e8db97433c565d87de5",
+    "current_candidate_radius_m": 0.3,
+    "current_candidate_full_matrix_passed": false,
+    "validated_robot_radius_m": 0.25
+  },
+  "sources": [
+    {
+      "path": "results/development/navigation_safety/isolated_repeated/report.json",
+      "sha256": "bdf8829205d19a2ba8c12aed8191388956d7479d3ed5a8d79e54e0f4f0b6ab89"
+    },
+    {
+      "path": "results/development/navigation_safety/integration_split/repeated_trials_retry/report.json",
+      "sha256": "22d2d9037e10f1f7b118e64ad81f5960bad5337a5bdde6ed5fce8ad399d64d78"
+    },
+    {
+      "path": "results/development/navigation_safety/separate_layers/low_probe_retry/report.json",
+      "sha256": "a0e7e09d8e0fbcc8aa44ce7df45f05f70ee82a61aecd2d36ff3f2e816b4259cc"
+    },
+    {
+      "path": "results/development/navigation_safety/separate_layers/matrix/report.json",
+      "sha256": "bec6d3d72d458535277b5ada9dfd3c2ef10147c1d3f9e217458e24e091f8dd3a"
+    },
+    {
+      "path": "results/development/navigation_safety/separate_layers/matrix_resumed/report.json",
+      "sha256": "b7cdd8f9696cbfd993d04614433c7db130e12253302e0601dd5ebe0ef48ea8ae"
+    }
+  ],
+  "isolated_components": {
+    "passed": 50,
+    "total": 50,
+    "ros_domain": 71
+  },
+  "prior_navigation_profile_integration": {
+    "session": "20261120T183842_388782Z_96544ba4",
+    "navigation": "nav2_depth.yaml",
+    "cloud_outages_passed": 5,
+    "cancellations_passed": 5,
+    "fresh_odometry_required": true
+  },
+  "separated_layers": {
+    "session": "20261120T191441_872639Z_2e4dcb1e",
+    "cases": [
+      {
+        "case": "low",
+        "repeat": 1,
+        "source": "results/development/navigation_safety/separate_layers/low_probe_retry/report.json",
+        "checks": {
+          "calibrated_sensor": true,
+          "no_fixture_contacts": true,
+          "contact_bridge_alive": true,
+          "task_result": true
+        },
+        "request_id": "3d5310efbc9445a184f56a6f8b1e5a66",
+        "elapsed_seconds": 36.00373002299966
+      },
+      {
+        "case": "low",
+        "repeat": 2,
+        "source": "results/development/navigation_safety/separate_layers/matrix/report.json",
+        "checks": {
+          "calibrated_sensor": true,
+          "no_fixture_contacts": true,
+          "contact_bridge_alive": true,
+          "task_result": true
+        },
+        "request_id": "9d87a8f77e9d428d8772d54d41862be9",
+        "elapsed_seconds": 30.274176655999327
+      },
+      {
+        "case": "low",
+        "repeat": 3,
+        "source": "results/development/navigation_safety/separate_layers/matrix/report.json",
+        "checks": {
+          "calibrated_sensor": true,
+          "no_fixture_contacts": true,
+          "contact_bridge_alive": true,
+          "task_result": true
+        },
+        "request_id": "113a08d971fe49f8a9fc4afce4fc4391",
+        "elapsed_seconds": 30.331738450999183
+      },
+      {
+        "case": "low",
+        "repeat": 4,
+        "source": "results/development/navigation_safety/separate_layers/matrix/report.json",
+        "checks": {
+          "calibrated_sensor": true,
+          "no_fixture_contacts": true,
+          "contact_bridge_alive": true,
+          "task_result": true
+        },
+        "request_id": "66273848f8ea4a62838786e0092bc96f",
+        "elapsed_seconds": 38.65095167599975
+      },
+      {
+        "case": "low",
+        "repeat": 5,
+        "source": "results/development/navigation_safety/separate_layers/matrix/report.json",
+        "checks": {
+          "calibrated_sensor": true,
+          "no_fixture_contacts": true,
+          "contact_bridge_alive": true,
+          "task_result": true
+        },
+        "request_id": "fb0dd22aa728473b8d3eb481794b133e",
+        "elapsed_seconds": 38.42242907699983
+      },
+      {
+        "case": "static",
+        "repeat": 1,
+        "source": "results/development/navigation_safety/separate_layers/matrix/report.json",
+        "checks": {
+          "calibrated_sensor": true,
+          "no_fixture_contacts": true,
+          "contact_bridge_alive": true,
+          "task_result": true
+        },
+        "request_id": "0055fccf92ba40919c9d1d957d43e844",
+        "elapsed_seconds": 38.99499259199911
+      },
+      {
+        "case": "static",
+        "repeat": 2,
+        "source": "results/development/navigation_safety/separate_layers/matrix/report.json",
+        "checks": {
+          "calibrated_sensor": true,
+          "no_fixture_contacts": true,
+          "contact_bridge_alive": true,
+          "task_result": true
+        },
+        "request_id": "545ae0f788f54af08c5a457891780d78",
+        "elapsed_seconds": 39.953963361000206
+      },
+      {
+        "case": "static",
+        "repeat": 3,
+        "source": "results/development/navigation_safety/separate_layers/matrix_resumed/report.json",
+        "checks": {
+          "calibrated_sensor": true,
+          "no_fixture_contacts": true,
+          "contact_bridge_alive": true,
+          "task_result": true
+        },
+        "request_id": "ba3ac357d50943d5b6c0799141a5c681",
+        "elapsed_seconds": 30.62973471800069
+      },
+      {
+        "case": "static",
+        "repeat": 4,
+        "source": "results/development/navigation_safety/separate_layers/matrix_resumed/report.json",
+        "checks": {
+          "calibrated_sensor": true,
+          "no_fixture_contacts": true,
+          "contact_bridge_alive": true,
+          "task_result": true
+        },
+        "request_id": "934cd60ffc37447185387ed6a74c9595",
+        "elapsed_seconds": 35.97859674099891
+      },
+      {
+        "case": "static",
+        "repeat": 5,
+        "source": "results/development/navigation_safety/separate_layers/matrix_resumed/report.json",
+        "checks": {
+          "calibrated_sensor": true,
+          "no_fixture_contacts": true,
+          "contact_bridge_alive": true,
+          "task_result": true
+        },
+        "request_id": "8401d959e7b24efbba78f1191d1c9865",
+        "elapsed_seconds": 39.46714586900089
+      },
+      {
+        "case": "overhang",
+        "repeat": 1,
+        "source": "results/development/navigation_safety/separate_layers/matrix_resumed/report.json",
+        "checks": {
+          "calibrated_sensor": true,
+          "no_fixture_contacts": true,
+          "contact_bridge_alive": true,
+          "task_result": true
+        },
+        "request_id": "e9119623566a4df1ae6d78a6bc09fff4",
+        "elapsed_seconds": 39.737645262001024
+      },
+      {
+        "case": "overhang",
+        "repeat": 2,
+        "source": "results/development/navigation_safety/separate_layers/matrix_resumed/report.json",
+        "checks": {
+          "calibrated_sensor": true,
+          "no_fixture_contacts": true,
+          "contact_bridge_alive": true,
+          "task_result": true
+        },
+        "request_id": "245657cb543e49eeb33f597612f2c03f",
+        "elapsed_seconds": 38.64406604100077
+      },
+      {
+        "case": "overhang",
+        "repeat": 3,
+        "source": "results/development/navigation_safety/separate_layers/matrix_resumed/report.json",
+        "checks": {
+          "calibrated_sensor": true,
+          "no_fixture_contacts": true,
+          "contact_bridge_alive": true,
+          "task_result": true
+        },
+        "request_id": "068009851b39487d9f8f45b1d8bdbd95",
+        "elapsed_seconds": 38.84830839499955
+      },
+      {
+        "case": "overhang",
+        "repeat": 4,
+        "source": "results/development/navigation_safety/separate_layers/matrix_resumed/report.json",
+        "checks": {
+          "calibrated_sensor": true,
+          "no_fixture_contacts": true,
+          "contact_bridge_alive": true,
+          "task_result": true
+        },
+        "request_id": "67a9a5194a664a8f9733919b00d40d3e",
+        "elapsed_seconds": 30.266239184998994
+      },
+      {
+        "case": "overhang",
+        "repeat": 5,
+        "source": "results/development/navigation_safety/separate_layers/matrix_resumed/report.json",
+        "checks": {
+          "calibrated_sensor": true,
+          "no_fixture_contacts": true,
+          "contact_bridge_alive": true,
+          "task_result": true
+        },
+        "request_id": "cef18329ce8a4b4097455b8023ea4154",
+        "elapsed_seconds": 30.930040036999344
+      }
+    ],
+    "passed": 15,
+    "planned": 15,
+    "fixture_positions": [
+      [
+        2.7,
+        -0.2
+      ],
+      [
+        3.1,
+        -0.25
+      ],
+      [
+        3.5,
+        -0.3
+      ]
+    ],
+    "calibration": "Each fixture receives a dropped sphere; actual Gazebo contact sensor must report it before the robot traverses. First traversal contact cancels the task.",
+    "fixtures_restored": true,
+    "session_closed": true,
+    "shutdown": "results/sessions/20261120T191441_872639Z_2e4dcb1e/shutdown.json",
+    "configuration_copies": "results/development/navigation_safety/separate_layers/configuration"
+  },
+  "failures": [
+    {
+      "path": "results/development/navigation_safety/integration/initial_failure.json",
+      "finding": "Approach max_points=0 always stopped; changed to 1."
+    },
+    {
+      "path": "results/development/navigation_safety/integration_retry/cloud_outage.json",
+      "finding": "Shared reliable bridge stalled odometry too; stop feedback inconclusive. Bridges split."
+    },
+    {
+      "path": "results/development/navigation_safety/integration_split/obstacle_matrix_resumed/report.json",
+      "finding": "Mixed costmap sources: low obstacle caused real base contact despite eventual search success."
+    },
+    {
+      "path": "results/development/navigation_safety/separate_layers/low_probe/report.json",
+      "finding": "Costmap reset response timeout, no obstacle trial executed."
+    },
+    {
+      "path": "results/development/navigation_safety/separate_layers/matrix/report.json",
+      "finding": "SIGINT sender unknown; task canceled, fixtures restored, interrupted case excluded."
+    }
+  ],
+  "diagnostics": [
+    {
+      "path": "results/development/navigation_safety/integration_split/low_depth_diagnostic/report.json",
+      "sha256": "7e1f6da6c0071c1e451edcbfb21caa2eabc7de7e17cf1d0e6268be55b03cf678"
+    }
+  ],
+  "ui": {
+    "report": {
+      "path": "results/development/navigation_safety/separate_layers/ui_check.json",
+      "sha256": "4de37e0ebc821bc409cd3e088ea7935080772f0085835e9b227bcbfd7f726eff"
+    },
+    "screenshot": {
+      "path": "docs/evidence/semantic_memory_selection_20261121.png",
+      "sha256": "42abda328c061693c5a5e2c05aad1aa6bf2cacd45dde8121106f301d00cff749"
+    }
+  },
+  "limitations": [
+    "Dynamic crossing, persistent blockage, narrow passages, rear/side/turning and five-zone full regression remain pending.",
+    "Candidate costmap depth min-height also filters clearing rays; removal recovery needs explicit measurement, not assumptions.",
+    "Physical contacts cover test fixtures, not all existing house surfaces.",
+    "Original profile and every observed failure remain retained."
+  ],
+  "lifecycle_startup_fix": {
+    "failure": "results/development/cleaning_separate_layers/startup_failure.json",
+    "observed": "Configure completed but DDS response lost; autostart manager waited indefinitely. No cleaning executed.",
+    "implementation": "Bounded startup checks actual state before transitions; guard state queries have 2-second deadlines.",
+    "protocol_test": "tests/test_lifecycle_startup_ros.py",
+    "protocol_result": "1 passed, real ROS state-machine fixture with late configure ACK; not an obstacle test",
+    "guard_regression": "results/development/navigation_safety/lifecycle_retry_guard/report.json",
+    "guard_regression_passed": 10,
+    "cold_start_verified": "20261120T193324_403220Z_29ed8f0e",
+    "cold_start_clean_shutdown": true
+  }
+}

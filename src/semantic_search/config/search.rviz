@@ -1,11 +1,11 @@
 Panels:
   - Class: rviz_common/Displays
-    Help Height: 85
+    Help Height: 0
     Name: Displays
     Property Tree Widget:
       Expanded: ~
       Splitter Ratio: 0.5
-    Tree Height: 168
+    Tree Height: 170
   - Class: rviz_common/Views
     Expanded:
       - /Current View1
@@ -101,6 +101,8 @@ Visualization Manager:
           Value: true
         odom:
           Value: true
+        rgbd_support:
+          Value: true
       Marker Scale: 0.20000000298023224
       Name: Robot frames
       Show Arrows: true
@@ -116,6 +118,8 @@ Visualization Manager:
                 camera_link:
                   camera_optical_frame:
                     {}
+                rgbd_support:
+                  {}
       Update Interval: 0
       Value: true
     - Class: rviz_default_plugins/Image
@@ -129,7 +133,7 @@ Visualization Manager:
         Depth: 2
         Durability Policy: Volatile
         History Policy: Keep Last
-        Reliability Policy: Best Effort
+        Reliability Policy: Reliable
         Value: /rgbd/image
       Value: true
   Enabled: true
@@ -169,7 +173,7 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Scale: 36.617332458496094
+      Scale: 23.891136169433594
       Target Frame: map
       Value: TopDownOrtho (rviz_default_plugins)
       X: 0
@@ -178,14 +182,13 @@ Visualization Manager:
 Window Geometry:
   Displays:
     collapsed: false
-  Height: 850
+  Height: 731
   Hide Left Dock: false
   Hide Right Dock: false
-  QMainWindow State: 000000ff00000000fd000000010000000000000210000002eafc0200000003fb00000014005200470042002000630061006d0065007200610100000047000000bf0000002f00fffffffb000000100044006900730070006c006100790073010000010d00000144000000f100fffffffb0000000a005600690065007700730100000258000000d9000000c200ffffff000002e9000002ea00000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   RGB camera:
     collapsed: false
   Views:
     collapsed: false
-  Width: 1280
-  X: 82
-  Y: 34
+  Width: 1048
+  X: 20
+  Y: 40

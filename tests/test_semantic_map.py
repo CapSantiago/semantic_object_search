@@ -48,6 +48,19 @@ class AssociationTests(unittest.TestCase):
 
 
 class OutputTests(unittest.TestCase):
+    def test_candidate_categories_require_explicit_enable_and_share_text_json_parser(self):
+        rooms = {'kitchen': {'aliases':['厨房','kitchen']}}
+        with self.assertRaises(ValueError):
+            parse_command('去厨房统计碗', rooms)
+        for category, text in [('bowl','去厨房统计碗'),('cell phone','去厨房统计手机'),
+                               ('sports ball','count sports balls in kitchen')]:
+            enabled = ['cup',category]
+            structured = json.dumps(dict(mode='count',room='kitchen',category=category))
+            self.assertEqual(parse_command(structured,rooms,enabled),('count','kitchen',category))
+            self.assertEqual(parse_command(text,rooms,enabled),('count','kitchen',category))
+        with self.assertRaises(ValueError):
+            parse_command('去厨房找哑铃',rooms,['dumbbell'])
+
     def test_rotated_map_coordinates_and_json(self):
         grid = NS(info=NS(width=20, height=20, resolution=.5, origin=NS(
             position=NS(x=1., y=2.), orientation=NS(x=0., y=0., z=sin(pi/4), w=cos(pi/4)))),

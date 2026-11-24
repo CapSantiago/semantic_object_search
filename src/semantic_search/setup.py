@@ -17,5 +17,7 @@ setup(
         'detect = semantic_search.detector:main',
         'voice = semantic_search.voice:main',
         'cloud_adapter = semantic_search.cloud_adapter:main',
+        'velocity_guard = semantic_search.velocity_guard:main',
+        'lifecycle_startup = semantic_search.lifecycle_startup:main',
     ]},
 )

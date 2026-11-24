@@ -9,12 +9,12 @@ for semantic_map_arg in "${SEMANTIC_LAUNCH_ARGS[@]}"; do
         [[ -n "$semantic_map_prefix" ]] || { echo "map_output requires a file prefix" >&2; exit 2; }
     fi
 done
-if [[ -z "$semantic_map_prefix" && "$SEMANTIC_SCENE" == baseline ]]; then
-    # Keep the accepted baseline maps byte-for-byte intact.
-    semantic_map_prefix="$SEMANTIC_WS/maps/baseline/rebuilt_$(date +%Y%m%dT%H%M%S)"
-elif [[ -z "$semantic_map_prefix" ]]; then
-    semantic_map_prefix="${SEMANTIC_MAP%.yaml}"
+semantic_save_args=(--new-output --scene "$SEMANTIC_SCENE")
+if [[ -n "$semantic_map_prefix" ]]; then
+    semantic_save_args+=(--output-prefix "$semantic_map_prefix")
 fi
+semantic_map_prefix="$(python3 "$SEMANTIC_PROJECT_ROOT/src/semantic_search/semantic_search/map_resources.py" \
+    --root "$SEMANTIC_WS" "${semantic_save_args[@]}")"
 mkdir -p -- "$(dirname -- "$semantic_map_prefix")"
 # Nav2 represents unknown cells as gray 205 in a trinary PGM. A free
 # threshold below 50/255 keeps these cells unknown when the image is loaded.

@@ -1,0 +1,98 @@
+{
+  "sensor_reliability": "reliable",
+  "topics": {
+    "/clock": {
+      "messages": 4992,
+      "sim_hz": 499.99999999999864
+    },
+    "/rgbd/depth_image": {
+      "messages": 80,
+      "sim_hz": 8.000810208628703,
+      "frame": "camera_optical_frame",
+      "encoding": "32FC1",
+      "width": 640,
+      "height": 480,
+      "valid_fraction": 0.7966276041666667,
+      "minimum": 1.4829241037368774,
+      "maximum": 7.906134128570557
+    },
+    "/rgbd/image": {
+      "messages": 80,
+      "sim_hz": 8.000810208628703,
+      "frame": "camera_optical_frame",
+      "encoding": "rgb8",
+      "width": 640,
+      "height": 480
+    },
+    "/scan": {
+      "messages": 50,
+      "sim_hz": 4.999999999999994,
+      "frame": "base_scan",
+      "samples": 360,
+      "minimum": 0.40501394867897034,
+      "maximum": 11.402682304382324
+    },
+    "/odom": {
+      "messages": 499,
+      "sim_hz": 50.0000000000001
+    },
+    "/rgbd/camera_info": {
+      "messages": 80,
+      "sim_hz": 7.9991899554475685,
+      "frame": "camera_optical_frame",
+      "k": [
+        565.6008952774198,
+        0.0,
+        320.0,
+        0.0,
+        565.6008952774197,
+        240.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    }
+  },
+  "tf": {
+    "odom->base_footprint": {
+      "xyz": [
+        -1.8000569248191611,
+        -3.999999999952411,
+        0.0
+      ],
+      "xyzw": [
+        -1.9318499742196044e-09,
+        -0.0028455073217445413,
+        -7.4668206310177e-09,
+        0.9999959515358459
+      ]
+    },
+    "base_footprint->base_scan": {
+      "xyz": [
+        -0.064,
+        0.0,
+        0.121
+      ],
+      "xyzw": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    "base_link->camera_optical_frame": {
+      "xyz": [
+        0.069,
+        -0.047,
+        1.0
+      ],
+      "xyzw": [
+        -0.5584362003072785,
+        0.5584362003094919,
+        -0.43376146692205075,
+        0.43376146691920076
+      ]
+    }
+  },
+  "passed": true
+}

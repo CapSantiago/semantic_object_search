@@ -1,0 +1,455 @@
+{
+  "status": "passed",
+  "actual_human_microphone": false,
+  "cases": [
+    {
+      "mode": "find",
+      "task_id": "demo_final_living_find_find_96b51d18",
+      "passed": true,
+      "evaluation": {
+        "passed": true,
+        "expected": 1,
+        "actual": 1,
+        "checks": {
+          "task_completed": true,
+          "count": true,
+          "position": true,
+          "unique_ids": true,
+          "map_metres": true,
+          "room": true,
+          "required_surfaces": true,
+          "measured_arrivals": true,
+          "saved": true,
+          "memory_saved": true,
+          "return_passed": true,
+          "configured_route": true,
+          "found": true,
+          "persisted_result": true,
+          "observed_hits": true,
+          "svg_ids": true
+        },
+        "position_limit_m": 0.2,
+        "errors": [
+          {
+            "id": 1,
+            "reference": "living_banana_1",
+            "xy_error_m": 0.14756843929028093
+          }
+        ],
+        "arrivals": [
+          {
+            "index": 0,
+            "passed": true,
+            "xy_error_m": 0.10433077008224129,
+            "yaw_error_rad": 0.11247549767384069
+          }
+        ]
+      },
+      "operational_status": "passed",
+      "driver_exit": 0
+    },
+    {
+      "mode": "count",
+      "task_id": "demo_final_living_count_count_4d686f72",
+      "passed": true,
+      "evaluation": {
+        "passed": true,
+        "expected": 2,
+        "actual": 2,
+        "checks": {
+          "task_completed": true,
+          "count": true,
+          "position": true,
+          "unique_ids": true,
+          "map_metres": true,
+          "room": true,
+          "required_surfaces": true,
+          "measured_arrivals": true,
+          "saved": true,
+          "memory_saved": true,
+          "return_passed": true,
+          "configured_route": true,
+          "full_observation_plan": true,
+          "full_observation_data": true,
+          "no_history_count": true,
+          "persisted_result": true,
+          "observed_hits": true,
+          "svg_ids": true
+        },
+        "position_limit_m": 0.2,
+        "errors": [
+          {
+            "id": 1,
+            "reference": "living_banana_2",
+            "xy_error_m": 0.1357612972630006
+          },
+          {
+            "id": 2,
+            "reference": "living_banana_1",
+            "xy_error_m": 0.1084209719503674
+          }
+        ],
+        "arrivals": [
+          {
+            "index": 0,
+            "passed": true,
+            "xy_error_m": 0.11797241524247097,
+            "yaw_error_rad": 0.09689795022138625
+          },
+          {
+            "index": 1,
+            "passed": true,
+            "xy_error_m": 0.10948522465420941,
+            "yaw_error_rad": 0.09708175565617783
+          }
+        ]
+      },
+      "operational_status": "passed",
+      "driver_exit": 0
+    }
+  ],
+  "session": "20261124T035814_578280Z_f52b173a",
+  "configuration": {
+    "domain": 67,
+    "ign_partition": "semantic_session_f52b173a8bec4fe296e5bcdb40c264ae",
+    "target_categories": [
+      "cup",
+      "bottle",
+      "chair",
+      "bowl",
+      "book",
+      "sports ball",
+      "banana"
+    ],
+    "candidate_categories": [
+      "bowl",
+      "book",
+      "sports ball",
+      "banana"
+    ],
+    "headless": false,
+    "scene_id": "aws_house_console_f52b173a",
+    "layout": "scenes/aws_house/layout_service_balls_banana_v1.json",
+    "rooms": "src/semantic_search/config/rooms_aws_house_v16_local_supplement.json",
+    "navigation": "src/semantic_search/config/nav2_depth.yaml",
+    "sensor_reliability": "reliable",
+    "model": "yolov8s-seg.pt",
+    "ball_model": null,
+    "depth_cloud_source": "image",
+    "auxiliary_model": "yoloe-11s-seg.pt",
+    "auxiliary_categories": [
+      "book",
+      "sports ball"
+    ],
+    "auxiliary_prompts": "resources/ball_prompts_v1.npz",
+    "reject_clipped_detections": true,
+    "validate_object_size": true,
+    "camera_height": 1.0,
+    "camera_pitch": 0.25,
+    "camera_resolution": "1280x960",
+    "camera_horizontal_fov": 1.02974,
+    "active_observation": false,
+    "memory_guidance": true,
+    "navigation_safety": false,
+    "body_footprint": false,
+    "cleaning_position_goals": false,
+    "cleaning_local_recovery": false,
+    "cleaning_budget_selection": false,
+    "search": {
+      "min_hits": 2,
+      "merge_radius": 0.3,
+      "min_score": 0.35
+    },
+    "detector": {
+      "device": "cuda:0",
+      "python_env": ".venv-gpu",
+      "image_size": 1280,
+      "confidence": 0.35,
+      "iou": 0.3,
+      "half": false,
+      "ball_model": null,
+      "ball_max_rate_hz": null,
+      "auxiliary_model": "yoloe-11s-seg.pt",
+      "auxiliary_categories": [
+        "book",
+        "sports ball"
+      ],
+      "auxiliary_max_rate_hz": 2.0
+    },
+    "map_id": "aws_house_v1",
+    "map": "scenes/aws_house/r0_v1/maps/house.yaml",
+    "map_resource": {
+      "map_id": "aws_house_v1",
+      "metadata": {
+        "image": "house.pgm",
+        "mode": "trinary",
+        "resolution": 0.05,
+        "origin": [
+          -9.36,
+          -5.63,
+          0
+        ],
+        "negate": 0,
+        "occupied_thresh": 0.65,
+        "free_thresh": 0.25
+      },
+      "yaml_sha256": "0dac305d71af1e771b54ff9093b28a8948707fbdefa96b7ea12910c4607d3b5e",
+      "image_sha256": "fd3b7f0c4924354c084b802e3110ef0d845ccb47a71799cc018ce9b64c0eaa53",
+      "requested_yaml_sha256": "0dac305d71af1e771b54ff9093b28a8948707fbdefa96b7ea12910c4607d3b5e",
+      "yaml": "scenes/aws_house/r0_v1/maps/house.yaml",
+      "image": "scenes/aws_house/r0_v1/maps/house.pgm",
+      "requested_yaml": "scenes/aws_house/r0_v1/maps/house.yaml",
+      "verified_copies": [
+        "scenes/aws_house/r0_v1/maps/house.yaml",
+        "maps/aws_house/house.yaml",
+        "scenes/aws_house/maps/house.yaml"
+      ]
+    },
+    "charging_station": "src/semantic_search/config/charging_station.json",
+    "charging_station_enabled": true
+  },
+  "source_sha256": {
+    "scenes/aws_house/layout_service_balls_banana_v1.json": "3e37fc507112c998555b9470a0a25efd0f287fac51ef1a985f4123b3bf218eed",
+    "src/semantic_search/config/rooms_aws_house_v16_local_supplement.json": "73f1d983031eaf31b060cdad55cf0b9e4dee36fa62c7b2ad4bdadf039769fd31",
+    "src/semantic_search/config/nav2_depth.yaml": "0bb43ee242be5aad4642e30a4411d977d925a4e3fad78d08be4a463b248ff247",
+    "yolov8s-seg.pt": "0bac0770b55e5eb5b76a61bc535673288dcec36c2bc0cd25ee0d584c632f3413",
+    "yoloe-11s-seg.pt": "8e439445c87338b79d9ce21dec109f4621e26df67e94d26ea1a98c1e64dce3e3",
+    "resources/ball_prompts_v1.npz": "c198c497e1d0a351bbcf832b74d54860534fe9cbf7c0cb27a051f6ee7f0e67e0",
+    "resources/vision_prompts_v1.json": "e80f5ce1f50cf0a95e3489aeb4a00648508f014fd5594d7f3fd11123eeca2993",
+    "resources/runtime.lock.json": "537142d0ec617d64b58f800b29b649d566614f4ce0243bf5376687f6d227af84",
+    "src/semantic_search/semantic_search/search_node.py": "c5f8e774d6cc644d3e6916d073cd263ebc8cfa2217ad794e09507715c3a20a9e",
+    "src/semantic_search/semantic_search/detector.py": "2c1949e1da9cdce41eaded762ac9f997daaf6d95263b4df3977f1d7eb691cf05",
+    "src/semantic_search/semantic_search/ball_geometry.py": "c9c7af3a74eb496cfb7e166cb6bb74c337cbdfc7cf8bcd3a2202fa3b56b5c82f",
+    "src/semantic_search/semantic_search/detection_fusion.py": "35f07cc8ac9e2ab80f5b5cdcca05387940558f52f6a14c60f5414f653faed098",
+    "src/semantic_search/semantic_search/sensor_qos.py": "d2783852e0df35079184479b077b220e50c5ca0d2df5a73be907ce7df68bc562",
+    "src/semantic_search/semantic_search/depth.py": "4f8ec066f54194e96862586b858cb3d6c569831e7043f0ddbc2e7ee0132f223f",
+    "src/semantic_search/semantic_search/rooms.py": "1a1b33c9b9cc94735b487b913fff1c4cef2fa9ed9ea462a68694318c58b8f81b",
+    "src/semantic_search/semantic_search/semantic_map.py": "a7e259be9fe6a2e0a9b03defe11b93e2103c65e52c62518f9a482aa3aa491b91",
+    "src/semantic_search/semantic_search/map_export.py": "a1f800e08774e202f7707d4b2ebd7ab1763957e01ff44df10bf732037858db84",
+    "src/semantic_search/semantic_search/view_export.py": "1fac4e3f5893bd7d28a8b0e30b504c72eeba878e5d55a18a66d64fd4d27c9830",
+    "src/semantic_search/semantic_search/objects.py": "f88b1d57118e80eb81509da97be136181950862340e5b99577e3d2827e2e41f7",
+    "src/semantic_search/semantic_search/semantic_memory.py": "caf34e9f2eff93e4da4c19d7a96fa82c2694445339316e5034f6e283caed64a9",
+    "src/semantic_search/semantic_search/memory_guidance.py": "fa933794e62b8b6dff24fb3b7059a9864dc43b2cf3fdaebfab31f5a53aef696e",
+    "scripts/validation/memory_guidance_trials.py": "31ac679d3fd3e7ed166fdcc47881e1cbee3ea407a5250a67704f5a56640cef88",
+    "scripts/validation/target_stability.py": "80a383143a8effceeb62bdb7e2825652895db1814d0b6e8623f3a16f5e00c02f",
+    "src/semantic_search/semantic_search/scene_graph.py": "fa3957f45a26a7196916a863d016ee0641a0cb60d424d342cc69ec162a94d2cb",
+    "requirements-semantic.txt": "612cd1820d0f4d69373459e3b5502d0a39536af31f94f4d986d96fbf630969e5",
+    "src/semantic_search/semantic_search/active_observation.py": "25242536cacc4d99995023db3e2f710d1b55d6e21271f6ce94be2dea1ac86d8c",
+    "src/semantic_search/semantic_search/visibility.py": "76135118eed28c9a630d429e5a4da983f9a0fad16f9dbfb0757ababb7cc2c276",
+    "src/semantic_search/semantic_search/velocity_guard.py": "21290d70779f9c00ab632383527125a375f578783589e2777b97b9fabb18f84c",
+    "src/semantic_search/semantic_search/lifecycle_startup.py": "b239076cd2cc1f75e63de6879354281d70c700fb2ac076afd0a1d749c2f124a1",
+    "src/semantic_search/semantic_search/cloud_adapter.py": "b37ba51216a7528183da25c00f9ab003e4849a7cf65898f0914d87905724c8d9",
+    "src/semantic_search/semantic_search/cloud_projection.py": "7521eb57137daf3d0b109989f90375962e7a9ed485f1f0d554e25b8221107204",
+    "src/semantic_search/semantic_search/clouds.py": "e149cb37ee24be0dc6a1aaa3975c890bd5653877adf6296dae5dc819af16fa63",
+    "src/semantic_search/config/collision_monitor.yaml": "3151c278ee727239ca143655d510d375ec8ac4cfbc8bc9d55d8068f9333b1568",
+    "src/semantic_search/launch/navigation_safety.launch.py": "f2b1cfded121ad7e334a88c57f8fd8110a77e9051ffc5c7e071b288c08f5daaa",
+    "src/semantic_search/semantic_search/development.py": "18e8f3eb32b201823c5b60f68f6f8efb829e47e674f66dc003afd0f361e834af",
+    "src/semantic_search/launch/development.launch.py": "2cb2527cc24a8c429125aa588a7ea0c1f80396f40aebcdc87b1f8fdd17dbfd11",
+    "resources/assets.lock.json": "5f32423b49ee9dc8bd25636a6cfd90970c81f9539b5ce2f1abac3b8fc2d15346",
+    "src/semantic_search/semantic_search/mapping_control.py": "0e7eee13cfc2a0c73a29c192193b17b308e79ef7d61088413257ed19c05bc5ac",
+    "src/semantic_search/semantic_search/mapping_motion.py": "a077fc51d7fcf679f0fbe41f9f885f6117d46cb9c547ca0deed3201f46e0507c",
+    "src/semantic_search/semantic_search/cleaning.py": "6897f1799367a567a091a92ff1f58d05528775061e0a8a8387d3000949d2d8e0",
+    "src/semantic_search/semantic_search/cleaning_repairs.py": "de79270ba9240cb7343662aff78dc79f68c67ef7f8ca3c454823936c1e53f8cd",
+    "scenes/aws_house/spatial_v4.json": "3a145ec56cf5762fd265f1c59ebfc0c0f4cefd7d17fac76fe9431ef646debaf6",
+    "src/semantic_search/semantic_search/map_resources.py": "9ab95f881a63e7989e2dc831a9e62b56cb33560a493f21dbaee8e0db90ba4b5d",
+    "src/semantic_search/semantic_search/scenes.py": "a5be07e13b4dc03bf638a7af736299ff46dcdeeffda865a6fc5c0ae25cf8b695",
+    "src/semantic_search/config/map_resources.json": "1239480ee472d425b36898d78f13d0c778cfc2dbcac8fa467cfeef56c5ca1423",
+    "scenes/aws_house/r0_v1/maps/house.yaml": "0dac305d71af1e771b54ff9093b28a8948707fbdefa96b7ea12910c4607d3b5e",
+    "src/semantic_search/config/navigate_cleaning_lane.xml": "f6b98b837961b5345aca41381ba5bf11ac26273f46bef6b1591e46ea8b262d9a",
+    "src/semantic_search/config/navigate_cleaning_connector.xml": "8f4a745ff09133821080833e69377de3252e0301c80ace82632a34a859114d56",
+    "src/semantic_search/config/navigate_service.xml": "c62887f54ab4b8227d8d70cdad0f489b440c73c919233ae1adec8bfb1f0f6c9d",
+    "src/semantic_search/config/navigate_service_through_poses.xml": "504f45162c142ee169bfa1112cc80f40d33230cf6e9eabe41e9a7f5334e18673",
+    "src/semantic_search/launch/navigation.launch.py": "6a3e4237a77ac84d404ac9fa026b0c81f03ca06c293c95bbd762a89d2c2ba98a",
+    "scripts/development_navigation.sh": "88d28172b2e8de2661db04b4fc98cfaf8b7ed31b9869ed1af2cf0b6d12906eb0",
+    "scripts/navigation.sh": "5094b58bcde625fa6e88f0f3dacb673b688a343bcc82ecc8a188b0b34838e403",
+    "scripts/save_map.sh": "4936e4e4cdf203f6b7db1be3f577b3ec010496a3860cb4e014f55418a5b97acc",
+    "src/semantic_search/config/charging_station.json": "6f86d9a3b806fb6094d21ef6fb6c9062b793304a5b49032716437975792ee221",
+    "src/semantic_search/semantic_search/docking.py": "0a77e9dcbfb128c447534e4c6415de442cfcfb53924a9d97baa4ebdbee5c068d",
+    "scripts/navigation_client.py": "5bc9cc6c99ae8de66d2546ac3ce8752e076fce669233a6c36cf63ab7bcd137ab",
+    "scripts/run_return.py": "1a066eb177ab0a6f16cfcf27a0f14f5ea409c2154b314c0d5e3b783be4c4e9b6",
+    "scripts/start_navigation.py": "a9a1282b99ac37e957443effa0c025de34920282eb8157727af0318ad32a05e4",
+    "scripts/start_robot.sh": "8cd119f3724065185fbfe6fe90ae125bd01b6e81ee69e93386f39bff2486fffa",
+    "scripts/robot_console.py": "b476642e7394e347a27d09a68b395c375d3dbad8d42c97eefe33569d1e9d88ca",
+    "scripts/initialize_sim_amcl.py": "b531415dba4f48b2bffe04fbbe105ffa17f69d0c5a9ecea37ba4bd933cd3bd37",
+    "scripts/robot_runtime.py": "746aaacce84e63ad45f79f19e66dfb3666c5fcbd77e5aab87c8233f6c65e38cc",
+    "scripts/robot_monitor.py": "a016272e69edebc8ddb61b0df4631525260429c6e05b692bf9abb7e9b885c6ae",
+    "src/service_navfn/src/planner.cpp": "4aba8a325305cb7e20774ace910fec11e8cd987e5ceb7ba4db6cb0ce4b5edb2d",
+    "src/service_navfn/include/service_navfn/planner.hpp": "5d99816b2b92b140c31151f65e0c5bf12b8c6c1bf300c687208005e44b5c1a15",
+    "src/service_navfn/src/odom_memory.cpp": "eaa283c7e37438bd7071019dc6d50f42c657484fc71f6a4364eb9cad10418582",
+    "src/service_navfn/include/service_navfn/odom_memory.hpp": "8807b60a6bb41ea21a6b67796edf9948be96b1fa8770825775b0424157e2cba7",
+    "src/service_navfn/obstacle_plugins.xml": "56401ba39e0b2bbc422cdae09a597a9be366be34b4a95d101a592b04f8def796",
+    "src/service_navfn/plugins.xml": "7068619fb5f3b75560fc4e3a2be76f6d3e3b78f14d1426b44b83fa61167fb248",
+    "src/service_navfn/package.xml": "a2e6ba43e7a966367ede9a2bc2fcc178bece9f30884e7b7e48ce2d080550103b",
+    "src/service_navfn/CMakeLists.txt": "a6475f2d9f2f25f6fc5aa909185d8246be36bb468461c699d3fa5dc3ffcd0969",
+    "scripts/run_mapping_motion.py": "d53d35816c435e745602d1ea3129e60950ca02b01521022814971b5eb5aaf1e8",
+    "scripts/run_cleaning.py": "4309865ad9f2f74b67a9908d64b13879e12005a524019cd1c7030701a7b3b9f2",
+    "scripts/development_detector.sh": "c331b395978c12d66d9f32ab7519ff268b600e6e4ab2aa2beb72631a24139fea",
+    "requirements-vision-ubuntu-gpu.txt": "f0e85eca9ab3ee7b3dcd9a3ba6e76f0c0d9d7256e5dcffd7d5892d389bb82995",
+    "ui/index.html": "7e3c31feb3923238031e5baa632cfdbc19946a5c6eb431d421012b3249cabfed",
+    "ui/app.js": "3fca8132c8eb51649bf6bfa8e1950712946843e844326f6a6ab51113fa1d1a6d",
+    "ui/style.css": "d3b99f568fa1e94d94dfc9b9ad28eaeaecc3347e08f12f1ca5761c4f95e30bf9",
+    "scenes/aws_house/r0_v1/maps/house.pgm": "fd3b7f0c4924354c084b802e3110ef0d845ccb47a71799cc018ce9b64c0eaa53"
+  },
+  "capture_exit": 0,
+  "capture_summary": {
+    "status": "completed",
+    "method": "Read-only capture during successful stationary Nav2 poses",
+    "source_route": "/home/willmatic/桌面/semantic_object_search/results/development/demo_two_rooms_20261123/living_banana/route.json",
+    "poses": [
+      [
+        1.2,
+        -0.5,
+        -1.32
+      ],
+      [
+        2.7,
+        -1.8,
+        3.04
+      ]
+    ],
+    "limits": {
+      "xy_m": 0.2,
+      "yaw_rad": 0.15,
+      "stationary_wall_seconds": 0.25
+    },
+    "captures": {
+      "000": {
+        "stamp_ns": 928376000000,
+        "frame": "camera_optical_frame",
+        "k": [
+          1131.2017905548396,
+          0.0,
+          640.0,
+          0.0,
+          1131.2017905548394,
+          480.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "depth_encoding": "32FC1",
+        "fixed_frame": "map",
+        "transform": {
+          "xyz": [
+            1.0950830126328621,
+            -0.5217142781899641,
+            1.0000193382212246
+          ],
+          "xyzw": [
+            -0.1425721560053535,
+            0.7767666253781915,
+            -0.6034111348554977,
+            0.11046172351978685
+          ]
+        },
+        "reference_pose": [
+          1.2,
+          -0.5,
+          -1.32
+        ],
+        "measured_base_pose": [
+          1.1141268512992977,
+          -0.44070542958339254,
+          -1.2080980066769138
+        ],
+        "position_error_m": 0.10435537239961797,
+        "yaw_error_rad": 0.11190199332308626,
+        "navigation_status": 4,
+        "goal_id": [
+          253,
+          104,
+          60,
+          204,
+          119,
+          250,
+          66,
+          252,
+          146,
+          10,
+          158,
+          74,
+          120,
+          248,
+          120,
+          209
+        ],
+        "stationary_wall_seconds": 0.3792403219999869
+      },
+      "001": {
+        "stamp_ns": 1031250000000,
+        "frame": "camera_optical_frame",
+        "k": [
+          1131.2017905548396,
+          0.0,
+          640.0,
+          0.0,
+          1131.2017905548394,
+          480.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "depth_encoding": "32FC1",
+        "fixed_frame": "map",
+        "transform": {
+          "xyz": [
+            2.659740058394702,
+            -1.6477673765430119,
+            1.0000428830874075
+          ],
+          "xyzw": [
+            0.5599906341644856,
+            0.5568418993546801,
+            -0.4321282866520925,
+            -0.43543395899522636
+          ]
+        },
+        "reference_pose": [
+          2.7,
+          -1.8,
+          3.04
+        ],
+        "measured_base_pose": [
+          2.7283631554560075,
+          -1.694246261196647,
+          3.135208199588892
+        ],
+        "position_error_m": 0.10949119534606186,
+        "yaw_error_rad": 0.09520819958889204,
+        "navigation_status": 4,
+        "goal_id": [
+          161,
+          58,
+          64,
+          169,
+          83,
+          8,
+          64,
+          31,
+          162,
+          142,
+          44,
+          128,
+          221,
+          76,
+          172,
+          135
+        ],
+        "stationary_wall_seconds": 0.3423342269998102
+      }
+    },
+    "planned": 2,
+    "limitations": [
+      "Reference poses are matched to measured TF; action status supplies an ID/status, not the goal request pose.",
+      "Visibility uses the measured optical TF, not the reference pose."
+    ],
+    "elapsed_wall_seconds": 138.1979603499999,
+    "missing": []
+  },
+  "final_state": {
+    "session_id": "20261124T035814_578280Z_f52b173a",
+    "ready": true,
+    "busy": false,
+    "control_uncertain": false
+  }
+}

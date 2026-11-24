@@ -10,11 +10,11 @@ import sys
 import numpy as np
 from PIL import Image
 from scipy.ndimage import distance_transform_edt, label
-import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'src/semantic_search'))
 from semantic_search.rooms import contains, room_at, validate_rooms
+from semantic_search.map_resources import resolve_map
 
 
 def main():
@@ -26,8 +26,9 @@ def main():
     plan = json.loads((ROOT / args.plan).read_text())
     rooms = json.loads((ROOT / plan['rooms_file']).read_text())
     validate_rooms(rooms)
-    metadata = yaml.safe_load((ROOT / plan['map_file']).read_text())
-    image = np.asarray(Image.open((ROOT / plan['map_file']).parent / metadata['image']))
+    resource = resolve_map(ROOT, yaml_path=plan['map_file'])
+    metadata = resource['metadata']
+    image = np.asarray(Image.open(resource['image']))
     probability = (255-image.astype(float))/255
     if metadata.get('negate', 0):
         probability = 1-probability

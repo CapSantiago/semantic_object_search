@@ -1,0 +1,75 @@
+{
+  "status": "passed",
+  "session": "20261124T052056_236752Z_be7bb4a8",
+  "primer_heading_exit": 0,
+  "primer": {
+    "status": "passed",
+    "evaluation": {
+      "passed": true,
+      "expected": 1,
+      "actual": 1,
+      "checks": {
+        "task_completed": true,
+        "count": true,
+        "position": true,
+        "unique_ids": true,
+        "map_metres": true,
+        "room": true,
+        "required_surfaces": true,
+        "measured_arrivals": true,
+        "saved": true,
+        "memory_saved": true,
+        "return_passed": true,
+        "configured_route": true,
+        "full_observation_plan": true,
+        "full_observation_data": true,
+        "no_history_count": true,
+        "persisted_result": true,
+        "observed_hits": true,
+        "svg_ids": true
+      },
+      "position_limit_m": 0.2,
+      "errors": [
+        {
+          "id": 1,
+          "reference": "living_banana_1",
+          "xy_error_m": 0.10572915008792598
+        }
+      ],
+      "arrivals": [
+        {
+          "index": 0,
+          "passed": true,
+          "xy_error_m": 0.10620861194478522,
+          "yaw_error_rad": 0.08920525930905197
+        },
+        {
+          "index": 1,
+          "passed": true,
+          "xy_error_m": 0.08269641744302991,
+          "yaw_error_rad": 0.09598796431178247
+        }
+      ]
+    },
+    "independent_dock": {
+      "position_m": 0.10412373567980075,
+      "yaw_rad": 0.016069032909768483
+    }
+  },
+  "movement_heading_exit": 0,
+  "memory_reload_exit": 0,
+  "fixture_restore": {
+    "returncode": 0,
+    "stdout": "data: true\n\n",
+    "stderr": "",
+    "pose": [
+      1.6385239973664285,
+      -1.592656502872705,
+      0.36715369001409276,
+      0,
+      0,
+      0.0
+    ],
+    "purpose": "Restore original frozen layout after memory evidence; no post-restore presence assertion"
+  }
+}

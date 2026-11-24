@@ -1,0 +1,1532 @@
+{
+  "stage": "C020",
+  "date": "2026-11-21",
+  "formal_admitted_categories": [
+    "cup",
+    "bottle",
+    "chair"
+  ],
+  "method": "Actual Gazebo RGB-D and GPU tasks; post-run category-specific one-to-one position checks",
+  "assets": {
+    "total": 12,
+    "lock": "resources/assets.lock.json",
+    "new": [
+      "ycb_apple",
+      "ycb_banana",
+      "ycb_orange"
+    ]
+  },
+  "configuration": {
+    "rooms": "src/semantic_search/config/rooms_aws_house_objects_v1.json",
+    "layout": "scenes/aws_house/layout_objects_v2.json",
+    "camera_height_m": 1.2,
+    "camera_pitch_rad": 0.4,
+    "model": "yolov8n-seg.pt",
+    "device": "cuda:0",
+    "image_size": 640,
+    "confidence": 0.35,
+    "iou": 0.3
+  },
+  "prior_attempts": [
+    {
+      "session": "20261120T172641_355412Z_287a3291",
+      "outcome": "unrequested_console_exit_sender_unknown",
+      "report": "results/development/objects_v1/report.json"
+    },
+    {
+      "session": "20261120T173250_475595Z_ed9a9fc2",
+      "outcome": "bowl_found_book_phone_not_found_before_texture_fix",
+      "report": "results/development/objects_v1/high_camera/report.json"
+    },
+    {
+      "session": "20261120T174838_607801Z_305d1435",
+      "outcome": "startup_failed_MTL_trailing_whitespace",
+      "report": "results/development/objects_v2/startup_failure.json"
+    },
+    {
+      "session": "20261120T175232_326903Z_03a6f625",
+      "outcome": "render_mismatch_and_runner_exit_143_sender_unknown",
+      "report": "results/development/objects_v2/report.json"
+    }
+  ],
+  "rendering_fix": {
+    "code": "src/semantic_search/semantic_search/development.py",
+    "changes": [
+      "MTL texture filename whitespace",
+      "isolated OBJ/MTL filenames, material identifiers and texture resource names"
+    ],
+    "observed_rgb": "results/development/objects_v2/material_isolation/frames/000/rgb.png",
+    "old_incorrect_rgb": "results/development/objects_v2/frames/000/rgb.png",
+    "limitation": "All asset appearances still need individual checks; two fruit labels are confused in n model."
+  },
+  "result_audit": {
+    "status": "development_failed",
+    "purpose": "development_probe_not_formal_admission",
+    "session_id": "20261120T180139_758436Z_5649697e",
+    "position_limit_m": 0.25,
+    "method": "post_run_rotated_asset_centres_and_one_to_one_class_matching",
+    "cases": [
+      {
+        "category": "apple",
+        "mode": "find",
+        "task_id": "2da7adcd-81ee-42cb-b9ed-2dab435426dd",
+        "status": "found",
+        "count": 1,
+        "expected_count": 1,
+        "checks": {
+          "result_status": true,
+          "count": true,
+          "correct_class_position": false
+        },
+        "passed": false,
+        "positions": [
+          {
+            "reference": "objects_v2_kitchen_apple",
+            "xy_error_m": 1.339132352005949
+          }
+        ],
+        "evidence": "results/sessions/20261120T180139_758436Z_5649697e/requests/7d916bbae5fb4a9eb5e1cfa2169729cc/console_result.json"
+      },
+      {
+        "category": "banana",
+        "mode": "find",
+        "task_id": "9a7736e2-184f-4667-a426-e140466c15ac",
+        "status": "found",
+        "count": 1,
+        "expected_count": 1,
+        "checks": {
+          "result_status": true,
+          "count": true,
+          "correct_class_position": true
+        },
+        "passed": true,
+        "positions": [
+          {
+            "reference": "objects_v2_kitchen_banana",
+            "xy_error_m": 0.05745789986472991
+          }
+        ],
+        "evidence": "results/sessions/20261120T180139_758436Z_5649697e/requests/59085694b4c24f43a159a89bbab0ae4a/console_result.json"
+      },
+      {
+        "category": "bowl",
+        "mode": "count",
+        "task_id": "2d6eea0b-0116-436b-a474-b171ac651eb9",
+        "status": "completed",
+        "count": 1,
+        "expected_count": 2,
+        "checks": {
+          "result_status": true,
+          "count": false,
+          "correct_class_position": true
+        },
+        "passed": false,
+        "positions": [
+          {
+            "reference": "objects_kitchen_patterned_bowl",
+            "xy_error_m": 0.04352786965373674
+          }
+        ],
+        "evidence": "results/sessions/20261120T180139_758436Z_5649697e/requests/77875f8c130145c9b86294019b3b2f40/console_result.json"
+      },
+      {
+        "category": "book",
+        "mode": "find",
+        "task_id": "42b25718-2e55-47fb-bbcf-428a4fedf8ea",
+        "status": "found",
+        "count": 1,
+        "expected_count": 1,
+        "checks": {
+          "result_status": true,
+          "count": true,
+          "correct_class_position": true
+        },
+        "passed": true,
+        "positions": [
+          {
+            "reference": "objects_v2_living_book",
+            "xy_error_m": 0.09744671768982414
+          }
+        ],
+        "evidence": "results/sessions/20261120T180139_758436Z_5649697e/requests/52a28f38707e4444bb1525a2f9a9806e/console_result.json"
+      },
+      {
+        "category": "cell phone",
+        "mode": "find",
+        "task_id": "7ab9a7b2-e269-4184-bdb5-638182d50c2a",
+        "status": "not_found",
+        "count": 0,
+        "expected_count": 1,
+        "checks": {
+          "result_status": false,
+          "count": false,
+          "correct_class_position": true
+        },
+        "passed": false,
+        "positions": [],
+        "evidence": "results/sessions/20261120T180139_758436Z_5649697e/requests/a22b2d66323d412eb509c62342edadc2/console_result.json"
+      },
+      {
+        "category": "orange",
+        "mode": "find",
+        "task_id": "1a64b420-be10-4bc1-bb38-ac569bd1b550",
+        "status": "found",
+        "count": 1,
+        "expected_count": 1,
+        "checks": {
+          "result_status": true,
+          "count": true,
+          "correct_class_position": true
+        },
+        "passed": true,
+        "positions": [
+          {
+            "reference": "objects_v2_kitchen_orange",
+            "xy_error_m": 0.05254016913876902
+          }
+        ],
+        "evidence": "results/development/objects_v2/material_isolation/orange_console.json"
+      }
+    ],
+    "passed": 3,
+    "total": 6,
+    "limitation": "One layout, no stability claim. Truth used only after robot results."
+  },
+  "source_sha256": {
+    "scenes/aws_house/layout_objects_v2.json": "4b926c0909ba40bf33324aee96e49ba29958088108be5776350a00dd003d3790",
+    "src/semantic_search/config/rooms_aws_house_objects_v1.json": "67cf0df43b1b3afab7cc248e4c47091cb6bfe17c2da6efc508faa6f8db362e3c",
+    "src/semantic_search/semantic_search/objects.py": "f88b1d57118e80eb81509da97be136181950862340e5b99577e3d2827e2e41f7",
+    "src/semantic_search/semantic_search/search_node.py": "53ba7247a3252b83a0582e8ee31303ba8359b9c8ddf03cb921d3c9b754a5792d",
+    "src/semantic_search/semantic_search/development.py": "bd2efe990bfa20830009542ae1f1966a4383a2d4496923218db6559073b9b889"
+  },
+  "shutdown": "results/sessions/20261120T180139_758436Z_5649697e/shutdown.json",
+  "regression": {
+    "engineering_passed": 203,
+    "skipped": 10,
+    "spark_dsg_passed": 3,
+    "build_packages_passed": 2
+  },
+  "active_observation": {
+    "stage": "C021",
+    "status": "subtask_passed_system_incomplete",
+    "session": "20261120T181137_196801Z_da8caab5",
+    "task_id": "83720a97-4ee5-417b-ab10-f79de154379d",
+    "result_status": "partial",
+    "count": 2,
+    "source": "results/sessions/20261120T181137_196801Z_da8caab5/tasks/20261120T181609_549679Z/result.json",
+    "count_positions_passed": true,
+    "xy_errors_m": [
+      0.0397869965386792,
+      0.05172254720226022
+    ],
+    "arrivals_passed": true,
+    "arrivals": [
+      {
+        "index": 0,
+        "passed": true,
+        "xy_error_m": 0.07034302028441458,
+        "yaw_error_rad": 0.09670117508791076
+      },
+      {
+        "index": 1,
+        "passed": true,
+        "xy_error_m": 0.09937689313270773,
+        "yaw_error_rad": 0.09480923942951047
+      },
+      {
+        "index": 2,
+        "passed": true,
+        "xy_error_m": 0.10194827607773853,
+        "yaw_error_rad": 0.09742384017058939
+      },
+      {
+        "index": 3,
+        "passed": true,
+        "xy_error_m": 0.10640813389660668,
+        "yaw_error_rad": 0.0934652187736944
+      },
+      {
+        "index": 4,
+        "passed": true,
+        "xy_error_m": 0.09327202770342215,
+        "yaw_error_rad": 0.09664191816859093
+      },
+      {
+        "index": 5,
+        "passed": true,
+        "xy_error_m": 0.10115676838875029,
+        "yaw_error_rad": 0.09674472920238597
+      },
+      {
+        "index": 6,
+        "passed": true,
+        "xy_error_m": 0.1007988406963657,
+        "yaw_error_rad": 0.09595979390816976
+      },
+      {
+        "index": 7,
+        "passed": true,
+        "xy_error_m": 0.0736292289402448,
+        "yaw_error_rad": 0.09485807507826904
+      },
+      {
+        "index": 8,
+        "passed": true,
+        "xy_error_m": 0.11016593419890147,
+        "yaw_error_rad": 0.09617347964393663
+      },
+      {
+        "index": 9,
+        "passed": true,
+        "xy_error_m": 0.10441903094084204,
+        "yaw_error_rad": 0.09202600316303489
+      },
+      {
+        "index": 10,
+        "passed": true,
+        "xy_error_m": 0.09863858768111558,
+        "yaw_error_rad": 0.09435945542992741
+      },
+      {
+        "index": 11,
+        "passed": true,
+        "xy_error_m": 0.0738481016417222,
+        "yaw_error_rad": 0.09726055531655264
+      },
+      {
+        "index": 12,
+        "passed": true,
+        "xy_error_m": 0.1149781774681578,
+        "yaw_error_rad": 0.10064326493707343
+      },
+      {
+        "index": 13,
+        "passed": true,
+        "xy_error_m": 0.05960537903034753,
+        "yaw_error_rad": 0.09749777637013526
+      },
+      {
+        "index": 14,
+        "passed": true,
+        "xy_error_m": 0.05125943975472476,
+        "yaw_error_rad": 0.09613757297504623
+      },
+      {
+        "index": 15,
+        "passed": true,
+        "xy_error_m": 0.11712158226764285,
+        "yaw_error_rad": 0.0976212823452598
+      }
+    ],
+    "geometric_coverage": {
+      "method": "measured_rgbd_visibility_and_bounded_next_view",
+      "sample_heights_m": [
+        0.15,
+        0.45,
+        0.85,
+        1.25
+      ],
+      "samples": 1172,
+      "observed_samples": 850,
+      "observed_fraction": 0.7252559726962458,
+      "target_fraction": 0.85,
+      "additional_views": 6,
+      "maximum_additional_views": 6,
+      "frames": 136,
+      "stop_reason": "view_budget_exhausted",
+      "decisions": [
+        {
+          "pose": [
+            7.115000245496631,
+            -1.7549999422580003,
+            -1.5707963267948966
+          ],
+          "predicted_new_samples": 47,
+          "utility": 26.941233202823817,
+          "observed_samples": 677
+        },
+        {
+          "pose": [
+            6.415000235065818,
+            -2.454999952688813,
+            1.5707963267948966
+          ],
+          "predicted_new_samples": 45,
+          "utility": 27.346232537035537,
+          "observed_samples": 722
+        },
+        {
+          "pose": [
+            8.515000266358257,
+            1.045000099465251,
+            2.356194490192345
+          ],
+          "predicted_new_samples": 43,
+          "utility": 17.303112157934027,
+          "observed_samples": 767
+        },
+        {
+          "pose": [
+            8.515000266358257,
+            2.4450001203268767,
+            -3.141592653589793
+          ],
+          "predicted_new_samples": 19,
+          "utility": 11.818839728751781,
+          "observed_samples": 808
+        },
+        {
+          "pose": [
+            8.515000266358257,
+            2.4450001203268767,
+            -1.5707963267948966
+          ],
+          "predicted_new_samples": 6,
+          "utility": 5.061272468506679,
+          "observed_samples": 827
+        },
+        {
+          "pose": [
+            7.115000245496631,
+            -1.7549999422580003,
+            -2.356194490192345
+          ],
+          "predicted_new_samples": 12,
+          "utility": 4.612734717490951,
+          "observed_samples": 834
+        }
+      ],
+      "full_room_coverage_verified": false,
+      "limitations": [
+        "Known free grid samples at four heights; furniture interiors are not evaluated.",
+        "Geometric visibility does not prove recognition or absence.",
+        "2-D occlusion prediction is conservative; coverage updates use measured depth only."
+      ],
+      "error": null
+    },
+    "additional_observed_samples": 173,
+    "fraction_before": 0.5776450511945392,
+    "first_confirmed_viewpoint": {
+      "1": 0,
+      "2": 9
+    },
+    "causality": "Both objects confirmed within original 10 views; count gain cannot be attributed to active observation. Measured geometry gain only.",
+    "artifacts_saved": "saved",
+    "elapsed_wall_seconds": 239.91956255399964,
+    "limitations": [
+      "One layout and one run; not class admission or stability acceptance.",
+      "Coverage target .85 not reached."
+    ],
+    "shutdown": "results/sessions/20261120T181137_196801Z_da8caab5/shutdown.json"
+  },
+  "same_frame_model_comparison": {
+    "status": "completed_development_only",
+    "source_report": "results/development/objects_v2/model_comparison/report.json",
+    "sha256": "92ff2b918dcd5a2fc420c4c29d33fd72eef4211513da988e88955ff68b6fa128",
+    "method": "Same frozen RGB-D frames, CPU FP32; background simulator active; timing is diagnostic only",
+    "frames_per_configuration": 8,
+    "results": [
+      {
+        "model": "yolov8n-seg.pt",
+        "model_sha256": "a7cd8f929e1903d78a12a48efecab430209f18dc46cb96c3599a5980c63c423c",
+        "image_size": 640,
+        "evaluation": {
+          "cup": {
+            "within_25cm": 2,
+            "outside_25cm": 0,
+            "instances": [
+              "kitchen_yellow_mug"
+            ]
+          },
+          "bowl": {
+            "within_25cm": 2,
+            "outside_25cm": 0,
+            "instances": [
+              "objects_kitchen_patterned_bowl"
+            ]
+          },
+          "bottle": {
+            "within_25cm": 2,
+            "outside_25cm": 0,
+            "instances": [
+              "kitchen_mustard_bottle"
+            ]
+          },
+          "apple": {
+            "within_25cm": 0,
+            "outside_25cm": 1,
+            "instances": []
+          }
+        }
+      },
+      {
+        "model": "yolov8n-seg.pt",
+        "model_sha256": "a7cd8f929e1903d78a12a48efecab430209f18dc46cb96c3599a5980c63c423c",
+        "image_size": 1280,
+        "evaluation": {
+          "cup": {
+            "within_25cm": 3,
+            "outside_25cm": 0,
+            "instances": [
+              "kitchen_yellow_mug",
+              "living_yellow_mug"
+            ]
+          },
+          "bowl": {
+            "within_25cm": 2,
+            "outside_25cm": 0,
+            "instances": [
+              "objects_kitchen_patterned_bowl"
+            ]
+          },
+          "banana": {
+            "within_25cm": 1,
+            "outside_25cm": 0,
+            "instances": [
+              "objects_v2_kitchen_banana"
+            ]
+          },
+          "bottle": {
+            "within_25cm": 2,
+            "outside_25cm": 0,
+            "instances": [
+              "kitchen_mustard_bottle"
+            ]
+          },
+          "apple": {
+            "within_25cm": 1,
+            "outside_25cm": 2,
+            "instances": [
+              "objects_v2_kitchen_apple"
+            ]
+          }
+        }
+      },
+      {
+        "model": "yolov8s-seg.pt",
+        "model_sha256": "0bac0770b55e5eb5b76a61bc535673288dcec36c2bc0cd25ee0d584c632f3413",
+        "image_size": 640,
+        "evaluation": {
+          "cup": {
+            "within_25cm": 2,
+            "outside_25cm": 0,
+            "instances": [
+              "kitchen_yellow_mug"
+            ]
+          },
+          "bowl": {
+            "within_25cm": 3,
+            "outside_25cm": 0,
+            "instances": [
+              "objects_kitchen_patterned_bowl",
+              "objects_kitchen_plain_bowl"
+            ]
+          },
+          "bottle": {
+            "within_25cm": 2,
+            "outside_25cm": 0,
+            "instances": [
+              "kitchen_mustard_bottle"
+            ]
+          },
+          "banana": {
+            "within_25cm": 1,
+            "outside_25cm": 0,
+            "instances": [
+              "objects_v2_kitchen_banana"
+            ]
+          },
+          "apple": {
+            "within_25cm": 1,
+            "outside_25cm": 1,
+            "instances": [
+              "objects_v2_kitchen_apple"
+            ]
+          },
+          "book": {
+            "within_25cm": 0,
+            "outside_25cm": 1,
+            "instances": []
+          }
+        }
+      },
+      {
+        "model": "yolov8s-seg.pt",
+        "model_sha256": "0bac0770b55e5eb5b76a61bc535673288dcec36c2bc0cd25ee0d584c632f3413",
+        "image_size": 1280,
+        "evaluation": {
+          "cup": {
+            "within_25cm": 4,
+            "outside_25cm": 0,
+            "instances": [
+              "kitchen_yellow_mug",
+              "living_yellow_mug"
+            ]
+          },
+          "bowl": {
+            "within_25cm": 2,
+            "outside_25cm": 0,
+            "instances": [
+              "objects_kitchen_patterned_bowl"
+            ]
+          },
+          "bottle": {
+            "within_25cm": 2,
+            "outside_25cm": 0,
+            "instances": [
+              "kitchen_mustard_bottle"
+            ]
+          },
+          "banana": {
+            "within_25cm": 1,
+            "outside_25cm": 0,
+            "instances": [
+              "objects_v2_kitchen_banana"
+            ]
+          },
+          "apple": {
+            "within_25cm": 1,
+            "outside_25cm": 1,
+            "instances": [
+              "objects_v2_kitchen_apple"
+            ]
+          }
+        }
+      }
+    ],
+    "conclusion": "s/640 sees both candidate bowls in these frames; apple/orange false positives remain. Frames do not cover all planned room views. No new category admitted; online candidate validation pending."
+  },
+  "native_wide_screen": {
+    "stage": "C024",
+    "status": "five_zone_development_screen_has_failures",
+    "native_camera": {
+      "width": 1280,
+      "height": 960,
+      "hfov_rad": 1.4,
+      "height_m": 1.2,
+      "pitch_rad": 0.15,
+      "model": "yolov8s-seg.pt",
+      "input": 1280,
+      "confidence": 0.35,
+      "iou": 0.3,
+      "device": "cuda:0",
+      "sensor_validation": "passed"
+    },
+    "cases": [
+      {
+        "source": "results/development/objects_v3/native_wide/report.json",
+        "session": "20261121T025606_382881Z_3187533c",
+        "request": {
+          "request_id": "34b3161f15474d468787123effe55cf4",
+          "mode": "count",
+          "room": "kitchen",
+          "category": "bowl"
+        },
+        "expected": 2,
+        "actual": 2,
+        "quantity_matches": true,
+        "elapsed_seconds": 131.95,
+        "position_acceptance": "not_asserted_by_quantity_screen",
+        "formal_admission": false
+      },
+      {
+        "source": "results/development/objects_v3/native_wide/continuation/report.json",
+        "session": "20261121T032325_671204Z_3d3aff75",
+        "request": {
+          "request_id": "b2b27597453b47299751440d760aa864",
+          "mode": "count",
+          "room": "bedroom",
+          "category": "bed"
+        },
+        "expected": 1,
+        "actual": 1,
+        "quantity_matches": true,
+        "elapsed_seconds": 164.98,
+        "position_acceptance": "not_asserted_by_quantity_screen",
+        "formal_admission": false
+      },
+      {
+        "source": "results/development/objects_v3/native_wide/continuation/report.json",
+        "session": "20261121T032325_671204Z_3d3aff75",
+        "request": {
+          "request_id": "48762ddcf71d493aa5aa8a33cd7b2fbe",
+          "mode": "count",
+          "room": "gym",
+          "category": "sports ball"
+        },
+        "expected": 1,
+        "actual": 1,
+        "quantity_matches": true,
+        "elapsed_seconds": 226.73,
+        "position_acceptance": "not_asserted_by_quantity_screen",
+        "formal_admission": false
+      },
+      {
+        "source": "results/development/objects_v3/native_wide/continuation/report.json",
+        "session": "20261121T032325_671204Z_3d3aff75",
+        "request": {
+          "request_id": "d0df902819e645de910b2a49b804792e",
+          "mode": "count",
+          "room": "utility",
+          "category": "sports ball"
+        },
+        "expected": 1,
+        "actual": 0,
+        "quantity_matches": false,
+        "elapsed_seconds": 154.45,
+        "position_acceptance": "not_asserted_by_quantity_screen",
+        "formal_admission": false
+      },
+      {
+        "source": "results/development/objects_v3/native_wide/continuation/living_retry/report.json",
+        "session": "20261121T032325_671204Z_3d3aff75",
+        "request": {
+          "request_id": "46a058b8fa3346c6a302486e465199b2",
+          "mode": "count",
+          "room": "living",
+          "category": "cup"
+        },
+        "expected": 2,
+        "actual": 2,
+        "quantity_matches": true,
+        "elapsed_seconds": 193.76,
+        "position_acceptance": "not_asserted_by_quantity_screen",
+        "formal_admission": false
+      }
+    ],
+    "quantity_matches": 4,
+    "total": 5,
+    "formal_admission": false,
+    "issues": [
+      {
+        "issue": "utility_ball_not_detected",
+        "actual": 0,
+        "expected": 1
+      },
+      {
+        "issue": "bedroom_phone_unconfirmed",
+        "valid_detection_frames": 1,
+        "same_frozen_image_cpu_gpu_agree": true,
+        "passive_survey_required_hits": 3,
+        "search_required_hits": 2,
+        "independent_phone_search_in_this_screen": false
+      },
+      {
+        "issue": "depicted_apple_in_photo_counted_as_physical",
+        "capture": "/home/willmatic/桌面/semantic_object_search/results/development/objects_v3/native_wide/continuation/survey/captures/12a43f23-735c-4962-9297-fc691506f126/1/rgb.png"
+      },
+      {
+        "issue": "chair_parts_duplicate_and_furniture_visible_surface_center_bias",
+        "resolved": false
+      }
+    ],
+    "interruptions": [
+      {
+        "report": "results/development/objects_v3/native_wide/report.json",
+        "reason": "console_exit_during_first_living_task_sender_unknown",
+        "shutdown": "results/sessions/20261121T025606_382881Z_3187533c/shutdown.json"
+      },
+      {
+        "report": "results/development/objects_v3/native_wide/continuation/report.json",
+        "reason": "transient_readiness_409_before_living_submission",
+        "retry": "results/development/objects_v3/native_wide/continuation/living_retry/report.json"
+      }
+    ],
+    "offline_models": {
+      "models": [
+        "yolov8s-seg.pt",
+        "yolo11m-seg.pt",
+        "yoloe-11s-seg-pf.pt"
+      ],
+      "frames": 3,
+      "conclusion": "No comprehensive improvement; refrigerator and fruit issues remain; default unchanged"
+    },
+    "sources": [
+      {
+        "path": "results/development/objects_v3/native_wide/report.json",
+        "sha256": "ddc0d088b0374630f5810fec974fd2823ebccdf00cbaf1d49e55d08360e1ee0b"
+      },
+      {
+        "path": "results/development/objects_v3/native_wide/continuation/report.json",
+        "sha256": "edc4c4c94454bf30abfeb81f2ecc6d4e7dc1ee3930ec8c4554370a281457583b"
+      },
+      {
+        "path": "results/development/objects_v3/native_wide/continuation/living_retry/report.json",
+        "sha256": "6b2bf36a909a4baae24df287e9987db481206e50f1ff2b92adab1d9a795fcf50"
+      },
+      {
+        "path": "results/development/objects_v3/native_wide/sensor_validation.json",
+        "sha256": "7f05538bccf70a2f0f4e45681dd5734be686a7c2bfca732555c0ac670af35ba7"
+      },
+      {
+        "path": "results/development/objects_v3/native_wide/model_comparison.json",
+        "sha256": "fcbe17a3cc233184317c869fa59ddda168ed8ac22ce1d3910300059cb16e5215"
+      },
+      {
+        "path": "results/development/objects_v3/native_wide/open_vocabulary_comparison.json",
+        "sha256": "9fea412c158274c7ebf1388e889218013ae13c929b175946f618c45c29904648"
+      },
+      {
+        "path": "results/development/objects_v3/native_wide/gpu_frame_comparison.json",
+        "sha256": "69ff9f57a9af39f7854adbeb05440b59d03bf860851451542fdd0550ebd71f4e"
+      },
+      {
+        "path": "results/development/objects_v3/native_wide/surface_probe.json",
+        "sha256": "1f3d42eedd5b6a4a55cd531c1d63d82695b04cd7976648b71f0d7a49edadcede"
+      },
+      {
+        "path": "results/development/objects_v3/native_wide/continuation/survey/report.json",
+        "sha256": "8dadfab2062515362e6265913702279d8946cf69627c728dcdb79505b553e1d7"
+      }
+    ],
+    "limitations": [
+      "Single layout and single executions; no cross-layout stability conclusion.",
+      "Quantity matches do not establish valid identity, localization or whole-room coverage.",
+      "Ground-truth counts supplied only to post-run evaluation, never to robot decisions."
+    ]
+  },
+  "support_surface_probe": {
+    "stage": "C024",
+    "status": "single_execution_and_artifact_regression_checked",
+    "formal_category_admission": false,
+    "session": "20261121T040718_113508Z_1de0819e",
+    "configuration": {
+      "domain": 67,
+      "ign_partition": "semantic_session_1de0819ea6a44d5cb92405a6c3df3c04",
+      "target_categories": [
+        "cup",
+        "bottle",
+        "chair",
+        "bowl",
+        "book",
+        "cell phone",
+        "vase",
+        "tv",
+        "refrigerator",
+        "couch",
+        "bed",
+        "dining table",
+        "apple",
+        "banana",
+        "orange",
+        "sports ball"
+      ],
+      "candidate_categories": [
+        "bowl",
+        "book",
+        "cell phone",
+        "vase",
+        "tv",
+        "refrigerator",
+        "couch",
+        "bed",
+        "dining table",
+        "apple",
+        "banana",
+        "orange",
+        "sports ball"
+      ],
+      "headless": true,
+      "scene_id": "aws_house_console_1de0819e",
+      "layout": "scenes/aws_house/layout_objects_v3.json",
+      "rooms": "src/semantic_search/config/rooms_aws_house_objects_v1.json",
+      "navigation": "src/semantic_search/config/nav2_safety.yaml",
+      "sensor_reliability": "reliable",
+      "model": "yolov8s-seg.pt",
+      "reject_clipped_detections": true,
+      "validate_object_size": true,
+      "camera_height": 1.2,
+      "camera_pitch": 0.15,
+      "camera_resolution": "1280x960",
+      "camera_horizontal_fov": 1.4,
+      "active_observation": true,
+      "navigation_safety": true,
+      "cleaning_position_goals": false,
+      "detector": {
+        "device": "cuda:0",
+        "python_env": ".venv-gpu",
+        "image_size": 1280,
+        "confidence": 0.35,
+        "iou": 0.3,
+        "half": false
+      }
+    },
+    "search_required_hits": 2,
+    "passive_survey_required_hits": 3,
+    "find": {
+      "request": {
+        "request_id": "ae694ef267a042d5aee3dd6551c91650",
+        "mode": "find",
+        "room": "bedroom",
+        "category": "cell phone"
+      },
+      "expected_count": 1,
+      "status": "completed",
+      "result_status": "found",
+      "count": 1,
+      "count_matches": true,
+      "task_id": "30e3dca5-4653-4154-b545-ff6590dcae32",
+      "elapsed_wall_seconds": 47.31,
+      "evidence": "results/sessions/20261121T040718_113508Z_1de0819e/requests/ae694ef267a042d5aee3dd6551c91650/console_result.json",
+      "error": null
+    },
+    "count": {
+      "request": {
+        "request_id": "da3280025d444a3ab8bbaafdd16d5508",
+        "mode": "count",
+        "room": "bedroom",
+        "category": "cell phone"
+      },
+      "expected_count": 1,
+      "status": "completed",
+      "result_status": "completed",
+      "count": 1,
+      "count_matches": true,
+      "task_id": "cbe71147-e010-465e-a5c1-c13f85f7d7a2",
+      "elapsed_wall_seconds": 271.12,
+      "evidence": "results/sessions/20261121T040718_113508Z_1de0819e/requests/da3280025d444a3ab8bbaafdd16d5508/console_result.json",
+      "error": null
+    },
+    "phone_xy_reference_m": [
+      -9.05,
+      1.63
+    ],
+    "phone_xy_offset_m": 0.1241343744970473,
+    "position_offset_is_calibration_only": true,
+    "arrival_audit": {
+      "limits": {
+        "xy_m": 0.2,
+        "yaw_rad": 0.15
+      },
+      "source": "docs/evidence/p123_gpu_acceptance_20261118.json:formal.criteria.arrival_audit_limits",
+      "passed": 16,
+      "total": 16,
+      "max_xy_m": 0.11457152591085581,
+      "max_yaw_rad": 0.10137163129736226
+    },
+    "geometric_coverage": {
+      "method": "measured_rgbd_visibility_and_bounded_next_view",
+      "sample_heights_m": [
+        0.15,
+        0.45,
+        0.85,
+        1.25
+      ],
+      "samples": 1012,
+      "observed_samples": 872,
+      "observed_fraction": 0.8616600790513834,
+      "observed_before_supplement": 698,
+      "new_samples_from_supplement": 174,
+      "target_fraction": 0.85,
+      "additional_views": 6,
+      "tentative_recheck_views": 0,
+      "support_surface_views": 2,
+      "maximum_semantic_views": 2,
+      "maximum_tentative_recheck_views": 2,
+      "maximum_additional_views": 6,
+      "frames": 121,
+      "stop_reason": "view_budget_exhausted",
+      "decisions": [
+        {
+          "source": "active_visibility",
+          "pose": [
+            -2.6849999005347485,
+            -1.0549999318271874,
+            2.356194490192345
+          ],
+          "predicted_new_samples": 71,
+          "utility": 43.657007922351255,
+          "observed_samples": 698
+        },
+        {
+          "source": "measured_support_surface",
+          "pose": [
+            -7.584999973550438,
+            1.745000109896064,
+            3.0740115604175036
+          ],
+          "tentative_id": null,
+          "measured_hint_id": 1,
+          "measured_hint_position": [
+            -8.983284895953657,
+            1.8396418601394742,
+            0.4856653350132419
+          ],
+          "utility": 0.2908058045560419,
+          "observed_samples": 771,
+          "predicted_new_samples": null
+        },
+        {
+          "source": "measured_support_surface",
+          "pose": [
+            -7.584999973550438,
+            1.045000099465251,
+            2.624810104103639
+          ],
+          "tentative_id": null,
+          "measured_hint_id": 1,
+          "measured_hint_position": [
+            -8.983284895953657,
+            1.8396418601394742,
+            0.4856653350132419
+          ],
+          "utility": 0.49608573521298366,
+          "observed_samples": 780,
+          "predicted_new_samples": null
+        },
+        {
+          "source": "active_visibility",
+          "pose": [
+            -7.584999973550438,
+            1.045000099465251,
+            -2.356194490192345
+          ],
+          "predicted_new_samples": 42,
+          "utility": 36.40801681999723,
+          "observed_samples": 783
+        },
+        {
+          "source": "active_visibility",
+          "pose": [
+            -6.8849999631196255,
+            -0.3549999213963746,
+            2.356194490192345
+          ],
+          "predicted_new_samples": 30,
+          "utility": 17.38377120922015,
+          "observed_samples": 827
+        },
+        {
+          "source": "active_visibility",
+          "pose": [
+            -6.184999952688813,
+            -0.3549999213963746,
+            0.0
+          ],
+          "predicted_new_samples": 24,
+          "utility": 15.983305631809701,
+          "observed_samples": 856
+        }
+      ],
+      "full_room_coverage_verified": false,
+      "limitations": [
+        "Known free grid samples at four heights; furniture interiors are not evaluated.",
+        "Geometric visibility does not prove recognition or absence.",
+        "Tentative-target frustum predictions require actual depth and recognition after arrival.",
+        "2-D occlusion prediction is conservative; coverage updates use measured depth only."
+      ],
+      "error": null
+    },
+    "valid_target_frames_by_source": {
+      "configured": 44
+    },
+    "memory": {
+      "records": 1,
+      "persistent_id": "b9281253cdfd4d60a7280a17f53f0d45",
+      "observed_tasks": 2,
+      "graph_available": true
+    },
+    "early_cancel": {
+      "canceled": true,
+      "artifacts_saved": true
+    },
+    "ui": {
+      "browser": "158.0",
+      "wide": {
+        "width": 1440,
+        "scroll": 1428,
+        "memory": "12 条记录",
+        "health": "仿真数据就绪定位与导航就绪视觉数据就绪运动防护就绪Gazebo运行中导航运行中视觉检测运行中搜索服务运行中RViz未启用防碰撞运行中",
+        "taskText": null,
+        "tableInspectionText": true,
+        "hasMemory": true,
+        "conflict": true
+      },
+      "narrow": {
+        "width": 500,
+        "scroll": 488,
+        "memory": "12 条记录",
+        "health": "仿真数据就绪定位与导航就绪视觉数据就绪运动防护就绪Gazebo运行中导航运行中视觉检测运行中搜索服务运行中RViz未启用防碰撞运行中",
+        "taskText": null,
+        "tableInspectionText": true,
+        "hasMemory": true,
+        "conflict": true
+      },
+      "selection": {
+        "selected": 1,
+        "pressed": "true",
+        "labelDrawn": true,
+        "expanded": true
+      },
+      "checks": {
+        "selection_valid": true,
+        "wide_no_overflow": true,
+        "narrow_no_overflow": true,
+        "memory_visible": true,
+        "class_conflict_visible": true
+      }
+    },
+    "cleanup": {
+      "runtime": [],
+      "observer": "stopped"
+    },
+    "prior_attempts": {
+      "report": "results/development/objects_v3/native_wide/active_target_recheck/report.json",
+      "phone": "not_found despite 86.56% geometric samples",
+      "utility": "canceled after repeated navigation no-progress before observation; not a visual trial",
+      "artifact_bug": "no sampling grid existed before cancel but Console required coverage_samples.json; fixed and actual early-cancel passed"
+    },
+    "limitations": [
+      "One layout, one successful finding and one full count; stability and class admission not established.",
+      "All 44 valid phone observation frames came from configured views. The two actual support-surface views had zero phone projections.",
+      "New views increased geometric samples, not the demonstrated phone count.",
+      "Phone was found before supplements; cannot attribute finding to new policy.",
+      "Target-cue-specific rechecks did not trigger in these actual missions; algorithm tests alone passed that branch."
+    ],
+    "sources": [
+      {
+        "path": "results/development/objects_v3/native_wide/support_inspection/report.json",
+        "sha256": "2c2b2c4cb3a7dc06e3e6fe7eb7a3dc24427722b57a232206c6a4fe59df13fdbc"
+      },
+      {
+        "path": "results/development/objects_v3/native_wide/support_inspection/count/report.json",
+        "sha256": "d41fa0c056e575ced7c50d9069ba7e0ac884a5e1c2a6645980406952cb85f3c1"
+      },
+      {
+        "path": "results/development/objects_v3/native_wide/support_inspection/early_cancel.json",
+        "sha256": "9aaad4a570d01d425022df11715ffc19fe61100a7e9d5cbf3dbb10b7d85343c9"
+      },
+      {
+        "path": "results/development/objects_v3/native_wide/support_inspection/memory_check.json",
+        "sha256": "c83cc2e20a4162b3cdc797696b4b9938c3cc0f2a7032a4a4009b2f9df3860b5c"
+      },
+      {
+        "path": "results/development/objects_v3/native_wide/support_inspection/ui_check.json",
+        "sha256": "da386259f999f95c4d09ddaebe25e2ea3b1e80e315657413431af38e6f44fa6d"
+      },
+      {
+        "path": "results/development/objects_v3/native_wide/support_inspection/survey/report.json",
+        "sha256": "a876fd712df6a4a7274c02e3e3aec5fc030bbf194fc0b81953e7597d247c6b7a"
+      },
+      {
+        "path": "results/sessions/20261121T040718_113508Z_1de0819e/tasks/20261121T041519_355914Z/result.json",
+        "sha256": "e735d36d17933a0c5caa182bc6ec6f788552dba85c87840665d6275f7866dc14"
+      },
+      {
+        "path": "results/sessions/20261121T040718_113508Z_1de0819e/session.json",
+        "sha256": "87db80cfc4b0d47a4dbf9d5929312c5ff594c1c74a52c8cdbe44816077948ea6"
+      },
+      {
+        "path": "results/sessions/20261121T040718_113508Z_1de0819e/shutdown.json",
+        "sha256": "40b1329a2e075032d09d031db2e784cb180ca220a4e1b4f1394bad02cb15b280"
+      }
+    ]
+  },
+  "memory_phone_move": {
+    "stage": "C029",
+    "date_local": "2026-11-21",
+    "status": "live_memory_update_and_cold_restore_passed_phone_count_failed",
+    "scope": "Real phone moved from bedroom to living in a separate scene layout; old history flagged by complete empty count, new live perception creates spatial record, cold restart and repeated observation verified.",
+    "layout": "results/development/semantic_phone_move/layout_moved.json",
+    "layout_sha256": "b0f3c31758e5bf4312c7d9344cc28bdb0f53c84107990cbeb91bca76906ae7f3",
+    "scenario_changes": "results/development/semantic_phone_move/scenario_changes.json",
+    "first_session": "results/sessions/20261121T072140_528724Z_015bb299",
+    "cold_session": "results/sessions/20261121T072829_353834Z_2f494a41",
+    "namespace": "393ef03cd855b09feaa4a055dd957feca9d9000edc5c00ba1c00a95ac20c2f03",
+    "previous_memory_id": "b9281253cdfd4d60a7280a17f53f0d45",
+    "living_memory_id": "3a7b17ccca5f465f985f8dd6aa306ddc",
+    "first_checks": {
+      "old_id_restored": true,
+      "namespace_preserved": true,
+      "bedroom_complete_empty": true,
+      "old_record_needs_verification": true,
+      "old_position_and_evidence_preserved": true,
+      "living_found": true,
+      "new_spatial_record": true,
+      "all_task_artifacts_saved": true
+    },
+    "cold_checks": {
+      "cold_restore": true,
+      "completed_single_count": false,
+      "same_living_record": true,
+      "old_pending_unchanged": true,
+      "artifacts_saved": true
+    },
+    "tasks": [
+      {
+        "request_id": "phone_move_bedroom_count_01",
+        "mode": "count",
+        "room": "bedroom",
+        "task_id": "a436a25e-4731-4da9-84db-bd6d6ef0eb6f",
+        "status": "not_found",
+        "count": 0,
+        "elapsed_wall_seconds": 142.49800641499996,
+        "save_status": "saved"
+      },
+      {
+        "request_id": "phone_move_living_find_01",
+        "mode": "find",
+        "room": "living",
+        "task_id": "e26f174f-8fc5-496d-9b38-4b28ec6d0ff1",
+        "status": "found",
+        "count": 1,
+        "elapsed_wall_seconds": 115.83300865799993,
+        "save_status": "saved"
+      },
+      {
+        "request_id": "phone_move_living_count_cold_01",
+        "mode": "count",
+        "room": "living",
+        "task_id": "316e1317-f635-4c69-8471-1baf2ad49d9e",
+        "status": "completed",
+        "count": 2,
+        "expected": 1,
+        "elapsed_wall_seconds": 121.764780471,
+        "save_status": "saved"
+      }
+    ],
+    "reports": {
+      "first": "results/development/semantic_phone_move/report.json",
+      "cold": "results/development/semantic_phone_move/cold_report.json",
+      "find_position": "results/development/semantic_phone_move/posthoc_position.json",
+      "count_audit": "results/development/semantic_phone_move/count_audit.json",
+      "graph_after_find": "results/development/semantic_phone_move/graph_after_find.json",
+      "graph_after_count": "results/development/semantic_phone_move/graph_after_count.json"
+    },
+    "count_failure": {
+      "status": "failed_count_2_for_1_due_to_tablet_classification",
+      "expected_mobile_phones": 1,
+      "predicted_count": 2,
+      "result_status": "completed",
+      "task_source": [
+        "/home/willmatic/桌面/semantic_object_search/results/sessions/20261121T072829_353834Z_2f494a41/tasks/20261121T073101_100424Z/result.json"
+      ],
+      "tablet": {
+        "source": "third_party/aws_small_house/worlds/small_house.world",
+        "name": "Tablet_01_001",
+        "asset": "aws_robomaker_residential_Tablet_01",
+        "world_origin": [
+          1.57283,
+          -1.775857,
+          0.40179
+        ],
+        "false_record": {
+          "id": 2,
+          "x": 1.4966114215446586,
+          "y": -1.8128427495656863,
+          "z": 0.3891211810429858,
+          "hits": 64
+        },
+        "xy_distance_to_original_tablet_origin_m": 0.08471845945653567
+      },
+      "new_phone": {
+        "actual": {
+          "id": 1,
+          "x": 1.1517627621748028,
+          "y": -1.6479360897371877,
+          "z": 0.3531458067196469,
+          "hits": 64
+        },
+        "expected_reference_xy": [
+          1.18,
+          -1.59
+        ],
+        "xy_error_m": 0.06445100537642688
+      },
+      "evidence": {
+        "projection_clusters": "results/development/semantic_phone_move/projection_clusters.json",
+        "reprobe_rgb": "results/development/semantic_phone_move/ambiguous_view/000/rgb.png",
+        "reprobe_frame": "results/development/semantic_phone_move/ambiguous_view/000/frame.json",
+        "reprobe_detections": "results/development/semantic_phone_move/ambiguous_view/000/detections.json",
+        "reprobe_geometry": "results/development/semantic_phone_move/ambiguous_view/000/phone_geometry.json",
+        "curated_image": "docs/evidence/phone_tablet_confusion_20261121.png"
+      },
+      "conclusion": "At one configured view, two simultaneous independent detection masks and two spatial projections correspond to added phone and original AWS tablet. The false phone class is not a duplicate landmark of the real phone. Evaluation-only source/world pose never enters detection, merging or current counting.",
+      "reprobe_note": "New frame after task at the same configured view, not a saved original task RGB frame. Same locked model/confidence/IoU/GPU FP32 used; original results and scene kept unchanged.",
+      "geometry": [
+        {
+          "score": 0.6542760729789734,
+          "box": [
+            833.1434326171875,
+            684.4088134765625,
+            893.8980712890625,
+            712.8604736328125
+          ],
+          "geometry": [
+            [
+              1.0739539673589131,
+              -1.6223069779729924,
+              0.3493508394238187
+            ],
+            [
+              0.06679442934159585,
+              0.13730472544791805,
+              0.01217494055265872
+            ]
+          ]
+        },
+        {
+          "score": 0.5544000267982483,
+          "box": [
+            766.3396606445312,
+            616.2318725585938,
+            824.8862915039062,
+            643.3815307617188
+          ],
+          "geometry": [
+            [
+              1.4640218904105669,
+              -1.8216649728005643,
+              0.3858486055834169
+            ],
+            [
+              0.10531907752476033,
+              0.1691442239144152,
+              0.010160114227783068
+            ]
+          ]
+        }
+      ]
+    },
+    "cleanup": {
+      "first_shutdown": "results/sessions/20261121T072140_528724Z_015bb299/shutdown.json",
+      "cold_normal_shutdown_missing": true,
+      "cold_terminal_exit_code": 143,
+      "external_receipt": "results/development/semantic_phone_move/cold_external_cleanup.json",
+      "remaining_owned_processes": [],
+      "note": "After requested SIGINT, cold console exited143 without normal shutdown receipt. Signal sender not traced.29 remaining processes verified by UID/token/start_ticks and externally signaled via pidfd; all removed. Do not call cold close normal."
+    },
+    "limitations": [
+      "Phone remains an unadmitted candidate; three independent layouts, five formal repeats, and frozen localization criteria still pending.",
+      "One old needs_verification plus new observed record is spatial memory update, not physical reidentification.",
+      "Persistent false tablet record from actual result is retained; memory is not manually corrected with scene truth.",
+      "No memory-guided navigation or runtime benefit comparison added."
+    ],
+    "validation_tool_issue": "First offline GPU probe ran in restricted sandbox without visible CUDA and failed; same probe rerun with host GPU access succeeded. Not an online detector failure."
+  },
+  "visible_phone_demo": {
+    "status": "visible_demo_executed_system_left_running",
+    "session": "results/sessions/20261121T091504_795614Z_d88cce53",
+    "request_id": "visible_phone_find_20261121_01",
+    "task_id": "c406a69c-750e-4718-90a6-aaefb3a1bbc1",
+    "count": 1,
+    "elapsed_wall_seconds": 10.890084737999132,
+    "objects": [
+      {
+        "id": 1,
+        "x": 1.140267403893338,
+        "y": -1.6094609654253174,
+        "z": 0.3580846181366314,
+        "hits": 2
+      }
+    ],
+    "report": "results/development/visible_phone_demo/report.json",
+    "url": "http://127.0.0.1:8767",
+    "left_running_for_user": true,
+    "limitations": [
+      "Phone is explicitly enabled as an unadmitted candidate. This find run confirms one current detection, not full inventory or resolution of tablet confusion.",
+      "No memory-guided search or efficiency comparison is claimed."
+    ]
+  },
+  "service_chair_recheck": {
+    "date_local": "2026-11-21",
+    "scope": "Post-task evaluation during charging/navigation regression; no new admission",
+    "candidate": {
+      "session": "results/sessions/20261121T114132_861536Z_4757d1c6",
+      "request_id": "reference_kitchen_count_01",
+      "actual_count": 5,
+      "expected_count": 4,
+      "quantity_passed": false,
+      "evidence": "results/development/service_motion_20261121/lane_reference_candidate/chair_count_audit.json"
+    },
+    "default_cold": {
+      "session": "results/sessions/20261121T121613_680499Z_60b3ddbf",
+      "request_id": "final_default_chair_count",
+      "actual_count": 4,
+      "expected_count": 4,
+      "quantity_location_passed": true,
+      "max_xy_error_m": 0.13606133265748638,
+      "evidence": "results/development/service_motion_20261121/final_checks/smoke_default_audit.json"
+    },
+    "limitations": [
+      "Candidate duplicate physical identity not confirmed. Original result/database unchanged.",
+      "A single default cold recheck does not replace historical formal repetitions or admit additional categories."
+    ]
+  },
+  "kitchen_two_surfaces": {
+    "date_local": "2026-11-22",
+    "status": "subtask_passed_with_initial_interruption_preserved",
+    "stage_summary": "results/development/kitchen_two_surfaces_20261122/stage_summary.json",
+    "find_count": 1,
+    "full_cup_count": 2,
+    "position_errors_m": [
+      0.13173189779336975,
+      0.03949100051478721
+    ],
+    "position_limit_m": 0.2,
+    "required_areas": [
+      "dining_table",
+      "corner_worktop"
+    ],
+    "camera_frames": [
+      {
+        "source": "results/development/kitchen_two_surfaces_20261122/captures/000/rgb.png",
+        "selected": "docs/evidence/kitchen_dining_rgb_20261122.png",
+        "sha256": "5e5ab702133614a6e8a91bbadc08b5578b06324b114a5190e8f91651199d3689"
+      },
+      {
+        "source": "results/development/kitchen_two_surfaces_20261122/captures/001/rgb.png",
+        "selected": "docs/evidence/kitchen_stove_side_rgb_20261122.png",
+        "sha256": "9732dc74378937fe4b7b6117c958f98d9655b09051e9bd7650e174a8b5dd7cdc"
+      },
+      {
+        "source": "results/development/kitchen_two_surfaces_20261122/captures/002/rgb.png",
+        "selected": "docs/evidence/kitchen_worktop_rgb_20261122.png",
+        "sha256": "bffb8a2ec5ade76620fe85e488b980d88143ed9ac46165c3f7f8404cbe480e4c"
+      }
+    ],
+    "final_audit": "results/development/kitchen_two_surfaces_20261122/final_audit.json",
+    "original_failure": "results/development/kitchen_two_surfaces_20261122/report.json",
+    "microphone": "not_tested",
+    "formal_admitted_categories": [
+      "cup",
+      "bottle",
+      "chair"
+    ]
+  },
+  "bedroom_nightstand": {
+    "stage": "C039",
+    "summary": "results/development/bedroom_nightstand_20261122/stage_summary.json",
+    "first_layout": "scenes/aws_house/layout_service_surfaces_v1.json",
+    "retry_layout": "scenes/aws_house/layout_service_surfaces_v2.json",
+    "retry_result": "results/development/bedroom_nightstand_20261122/surface_retry/report.json",
+    "rgbd": "results/development/bedroom_nightstand_20261122/captures_retry/report.json",
+    "passed": false,
+    "count": 1,
+    "expected": 2,
+    "size_rejected_bedside_frames": 31,
+    "synchronized_bedside_frames": 32,
+    "return_passed": true,
+    "promoted": false,
+    "depth_filter_recheck": {
+      "stage": "C040",
+      "summary": "results/development/cleaning_efficiency_20261122/stage_summary.json",
+      "report": "results/development/cleaning_efficiency_20261122/report.json",
+      "passed": true,
+      "count": 2,
+      "expected": 2,
+      "position_errors_m": [
+        0.13242446003898253,
+        0.04297328076599027
+      ],
+      "return_passed": true,
+      "sizes_not_relaxed": true,
+      "capture": "results/development/cleaning_efficiency_20261122/captures/report.json",
+      "default_promoted": true,
+      "limits": "One new bedside placement case; original v1/v2 failures and formal category repeat requirements retained."
+    }
+  },
+  "integrated_expansion_c041": {
+    "status": "in_progress",
+    "calibration": "results/development/integrated_expansion_20261122/calibration_a/report.json",
+    "profile": "v7/v1_a,S1280/native1280x960,height1,pitch.25",
+    "results": [
+      {
+        "room": "kitchen",
+        "category": "bowl",
+        "expected": 2,
+        "actual": 2,
+        "position_limit_m": 0.2,
+        "errors": [
+          {
+            "id": 1,
+            "reference": "expanded_counter_bowl",
+            "xy_error_m": 0.020434039820387218
+          },
+          {
+            "id": 2,
+            "reference": "expanded_table_bowl",
+            "xy_error_m": 0.04183739508081259
+          }
+        ],
+        "passed": true
+      },
+      {
+        "room": "kitchen",
+        "category": "apple",
+        "expected": 2,
+        "actual": 0,
+        "position_limit_m": 0.2,
+        "errors": [],
+        "passed": false
+      },
+      {
+        "room": "bedroom",
+        "category": "book",
+        "expected": 2,
+        "actual": 1,
+        "position_limit_m": 0.2,
+        "errors": [
+          {
+            "id": 1,
+            "reference": "expanded_nightstand_book",
+            "xy_error_m": 0.09772292731655391
+          }
+        ],
+        "passed": false
+      },
+      {
+        "room": "utility",
+        "category": "sports ball",
+        "expected": 1,
+        "actual": 0,
+        "position_limit_m": 0.2,
+        "errors": [],
+        "passed": false
+      },
+      {
+        "room": "gym",
+        "category": "sports ball",
+        "expected": 1,
+        "actual": 0,
+        "position_limit_m": 0.2,
+        "errors": [],
+        "passed": false
+      }
+    ],
+    "replay": "results/development/integrated_expansion_20261122/ball_replay_evaluation.json",
+    "next_candidates": "v8/v2 a,b,c; not yet live",
+    "prompt_b": {
+      "report": "results/development/integrated_expansion_20261122/formal_b_prompt/report.json",
+      "passed": 10,
+      "total": 10,
+      "admission_upgraded": false
+    },
+    "prompt_c": {
+      "report": "results/development/integrated_expansion_20261122/formal_c_prompt/report.json",
+      "passed": 7,
+      "total": 10,
+      "failed_full_counts": [
+        "bowl2/3",
+        "apple4/3",
+        "utilityball1/3"
+      ],
+      "all_return_passed": true
+    },
+    "corrected_c": {
+      "status": "running",
+      "session": "20261122T123150_726261Z_6970dd00",
+      "report": "results/development/integrated_expansion_20261122/formal_c_corrected/report.json",
+      "changes": [
+        "counter bowl moved due mesh collision",
+        "utility one farther view added, originals retained"
+      ],
+      "same_counts_and_thresholds": true
+    },
+    "geometry_evidence": [
+      "results/development/integrated_expansion_20261122/counter_mesh_collision.json",
+      "results/development/integrated_expansion_20261122/corrected_c_design_check.json",
+      "results/development/integrated_expansion_20261122/v10_static_views_check.json"
+    ]
+  }
+}

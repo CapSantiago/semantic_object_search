@@ -1,75 +1,65 @@
-# 提前资源部署记录
+# 运行资源与部署状态
 
-更新：2026-11-09。用户授权提前下载/部署后续必要资源。本轮进行下载、解包、版本固定、文件校验、软件安装和依赖导入完整性检查，**未运行 Gazebo、导航比较、识别推理、录音或训练实验**。主线开发顺序见 [DEPLOYMENT_PLAN.md](DEPLOYMENT_PLAN.md)。
+更新：2026-11-24。本页维护资源位置、恢复方法和适配状态；功能完成以[验证概览](DEVELOPMENT_VALIDATION.md)为准，优先级以[总计划](DEPLOYMENT_PLAN.md)为准。资源锁是版本与校验值的依据。
 
-2026-11-16 增量：用户另行授权自主实现及本地验证，后续开发已开展独立仿真与感知/导航试验，见 HANDOFF.md；本页下方“不实验”和 `preparation_status.json` 的 8 项状态描述仍对应 11 月 9 日准备阶段。当前另新增一个 `yellow_mug` 杯型兼容性候选，`assets.lock.json` 共 9 项，已下载/校验不等于识别通过。未更换模型权重、发行版或视觉依赖。
+## 当前已准备内容
 
-本页“已准备”描述当前开发机状态。GitHub 只保存源码、锁定清单和精选证据，不包含 `.venv*`、下载缓存、原生库及模型数据。新机器先按 [GITHUB_DEPLOYMENT.md](GITHUB_DEPLOYMENT.md) 恢复运行资源；离线重建需要另行复制 `downloads/`，仅克隆仓库不能直接使用 `--offline`。
-
-## 已准备内容
-
-| 内容 | 位置与版本 | 当前边界 |
+| 内容 | 位置与版本依据 | 已有进展与待验收内容 |
 |---|---|---|
-| 8 个目标模型 | `third_party/target_assets/`；锁定清单 `resources/assets.lock.json` | 已下载、解包、校验归档与 SDF；没有插入现有场景，没有识别/碰撞验收 |
-| 官方相机描述参考 | `third_party/realsense_ros_reference/realsense2_description/`；commit `7a87097c499e3b0b69518d54a8e7a9ac1924e87c` | 已取回模型、URDF、LICENSE/NOTICE；没有替换当前相机、没有构建真实相机驱动 |
-| CPU 语音环境 | `.venv-voice/`；`requirements-voice-ubuntu-cpu.txt` 全量固定版本 | 与 `.venv` 视觉环境分离；软件依赖可导入，麦克风和识别质量未验收 |
-| Whisper small 离线数据 | `resources/models/faster-whisper-small/`；HF revision `536b0662742c02347bc0e980a01041f333bce120` | 约 464 MiB，数据文件校验通过；没有实例化模型或执行推理 |
-| 原生音频库 | `resources/native/`，Ubuntu `libportaudio2` 19.6.0-1.1 | 官方 deb 在项目内解包，由 voice 环境加载，系统包数据库未修改 |
-| 导航候选插件 | 系统已有 Smac、MPPI、RPP，Nav2 1.1.20 | 只核对安装版本，没有更换 Dijkstra+DWB，也没有比较结果 |
-| 语音离线 wheels | `downloads/voice_wheels/` | 缓存固定版本依赖，用于相同 Ubuntu/Python 平台重建 |
+| 12项目标资源 | `third_party/target_assets/`；`resources/assets.lock.json` | 杯、瓶、碗、书、手机及YCB水果已入候选布局；正式仍三类，其余按常用区域验收 |
+| AWS住宅及原baseline | `third_party/`；`resources/runtime.lock.json` | 家庭场景、传感器与三类基线已实测，原场景/历史地图保留 |
+| 文件底图注册与校验 | `config/map_resources.json`、`semantic_search/map_resources.py` | C035统一主图/兼容选择、导航与充电绑定及独立新版本保存；冷建图恢复/感知记忆回归通过，原12份地图未改；7类空间视图及真实DSG关系图统一导出已实现；局部代价图UI仍待接入 |
+| 视觉环境与权重 | `.venv`、`.venv-gpu`；`requirements-vision-ubuntu-*.txt`、`runtime.lock.json` | 默认GPU n/640、CPU保留；s与YOLOE免提示已有候选实跑，YOLO11m仅离线，文本YOLOE书/球辅助为显式候选，碗书所选布局通过，更多布局与重复暂缓 |
+| 语义场景图库 | `.venv-semantic`；`requirements-semantic.txt` | Spark-DSG1.1.3接入并通过真实任务保存/重载；厨房杯移动单次现场核验及SQLite/真实DSG重载通过；合格查找收益仍未验收 |
+| 相机组件与描述参考 | 项目SDF/TF；`resources/camera_reference.lock.json` | 1m/.25rad组件已有回归，原生宽视场为候选；RealSense参考未作为真实硬件驱动启用 |
+| 离线语音环境与Whisper small | `.venv-voice`、`resources/models/faster-whisper-small/`；语音依赖及模型锁 | 合成音频已完成转写和任务测试，真人麦克风仍最后联调 |
+| 音频库与离线wheels | `resources/native/`、`downloads/voice_wheels/`；对应锁文件 | 支持同平台恢复；新机器需重新创建虚拟环境 |
+| 导航与运动保护 | ROS Humble组件及项目配置 | 继续使用Dijkstra+DWB；CollisionMonitor/时效保护为候选，最终配置按4项日常场景验证 |
+| 固定充电设施 | `config/charging_station.json`及development内置几何 | 地图双SHA、固定设施/出生/公共返航已接入；五区与建图恢复后回充已有实测。清扫覆盖与条带验收另见验证概览，不与充电设施准备状态混用 |
+| 导航比较候选 | 已安装Smac、MPPI、RPP | 算法比较暂缓，当前版本完成后再评估 |
 
-语音环境关键版本：faster-whisper 1.2.1、CTranslate2 4.8.5、sounddevice 0.5.6、NumPy 1.26.4。完整闭包以锁定文件为准。语音模型为 `Systran/faster-whisper-small` 的 CTranslate2 数据；来源、固定 revision 和文件 SHA-256 在 `resources/voice_model.lock.json`。其原始模型卡保留在本地模型目录。
+12项资源包含多个同类外观，不等于12个正式通过类别；住宅家具继续复用原资产，16类保留为后续扩展目录，不作答辩前提。源版本、许可及散列见各锁文件和[SOURCES.md](SOURCES.md)，逐类进度和验收区域见[TARGET_CATALOG.md](TARGET_CATALOG.md)。
 
-本机音频包镜像下载出现 TLS 故障，且没有无密码 sudo；已改为从 Ubuntu 官方软件池下载并在项目中解包。依赖导入检查在实际主机环境通过，未请求管理员密码，未改变系统音频配置。
+## 目标资源与适配
 
-## 目标模型明细
+- 杯：`plastic_cup`、`blue_mug`、`yellow_mug`；原蓝杯混淆和塑料杯漏检记录保留。
+- 瓶：`mustard_bottle`、`water_bottle`；水瓶GLB已通过Assimp5.2.0临时转OBJ、轴向与纹理适配，并在Fortress渲染。原GLB保留，OBJ漫反射近似不能完整复现PBR。
+- 碗、书和手机：`bowl`、`patterned_bowl`、`book`、`mobile_phone`；已入候选场景；碗/书所选布局寻找与计数通过，更多变化布局/重复暂缓，手机仍按原候选状态。
+- 水果：`ycb_apple`、`ycb_banana`、`ycb_orange`；官方Google16k扫描、派生SDF及CC BY4.0署名已锁定，苹果/橙子混淆仍待处理。
+- 原住宅提供椅子、电视、冰箱、沙发、床、餐桌、花瓶和球等。哑铃等后续类别按总计划另行评估。
 
-| 模型目录 | 对应候选类别 | 固定版本 |
-|---|---|---|
-| `plastic_cup` | cup | OpenRobotics Plastic Cup v3 |
-| `blue_mug` | cup | GoogleResearch Cole_Hardware_Mug_Classic_Blue v1 |
-| `mustard_bottle` | bottle | Gambit Mustard Bottle v2 |
-| `water_bottle` | bottle | iche033 Water Bottle v3，GLB 适配待核对 |
-| `bowl` | bowl | OpenRobotics Bowl v4 |
-| `patterned_bowl` | bowl | GoogleResearch Cole_Hardware_Bowl_Scirocco_YellowBlue v1 |
-| `book` | book | GoogleResearch Eat_to_Live…Book v1 |
-| `mobile_phone` | cell phone | OpenRobotics Samsung J8 Black v9 |
+当前功能联调默认使用v6/service_surfaces_v2：厨房餐桌/操作台、卧室书桌/床头柜；原v4/v5与各布局保留。v5→v6只改观察路线，不改房间几何，复用v5语义namespace；v4历史namespace仍保留。答辩预检显式使用service_bowl_book_v1/v14、S1280/1280×960和书/球辅助；默认配方不自动切换。显式image点云候选每启动独立校准后使用既有深度图，原生点云默认保留，相关时效范围见验证概览。相机、目标、地图和图层共用当前场景版本；各类地图输出按[统一底图方案](DEPLOYMENT_PLAN.md#地图数据与输出视图)派生。
 
-8 个模型对应 5 个类别的资产，不是 8 个已可调用类别。现有 AWS 里的椅子、花瓶、电视、冰箱、沙发、床和餐桌可作为其他候选来源，准入顺序见 [TARGET_CATALOG.md](TARGET_CATALOG.md)。Google 扫描模型、GLB 和 Fuel 模型的 URI、尺度、材质及碰撞仍需后续适配；不能把下载完成称作已兼容验收。
+## 检查与恢复
 
-## 检查与重建
-
-在项目根目录执行完整性检查，只读取文件和已安装包元数据，不启动功能实验：
+新机器先按[GITHUB_DEPLOYMENT.md](GITHUB_DEPLOYMENT.md)准备系统依赖并执行`bash scripts/deploy.sh`。GitHub保存源码、锁文件和精选证据，虚拟环境、缓存与权重需恢复；当前未发布改动及部署验证版本见交接。
 
 ```bash
-python3 scripts/verify_resources.py
-```
-
-本轮额外使用 `--check-baseline` 对照准备前的文件散列，确认原导航参数、场景注册、AWS 房间、机器人启动定义、视觉依赖、既有地图与当前视觉权重未变。该快照只用于本次准备操作的隔离检查；后续有意开发相机时，不应把它当作禁止功能修改的永久规则。
-
-资源缺失时按固定清单重取目标资产：
-
-```bash
-python3 scripts/prepare_target_assets.py
-```
-
-在已有 Python 3.10、pip 和 ROS 基础系统的同平台机器上，可从已缓存文件重建独立语音环境：
-
-```bash
+# 核心资源与已准备的候选模型：只核验，不联网
+python3 scripts/prepare_runtime.py --check
+python3 scripts/prepare_runtime.py --check --model yolov8s-seg.pt
+# 按需要恢复某个布局的资源
+python3 scripts/prepare_target_assets.py --layout scenes/aws_house/layout_objects_v3.json
+# 独立语义环境
+bash scripts/prepare_semantic.sh
+# 同平台且已复制离线缓存时，重建语音环境
 bash scripts/prepare_voice.sh --offline
 ```
 
-去掉 `--offline` 可从固定来源补下载缺失资源。虚拟环境绑定机器和路径，换目录/机器时应重建；这里没有缓存整套 Ubuntu/ROS 系统安装包。相机参考源码的固定版本和角色在 `resources/camera_reference.lock.json`，不需要在当前工作空间构建它。
+`prepare_runtime.py --model <锁定模型名>`会恢复所选候选权重，在线启动目前只支持n/s。`prepare_target_assets.py --asset <ID>`可单独准备目标。去掉语音脚本的`--offline`可下载固定来源的缺失文件；离线部署需另行复制缓存，虚拟环境须在目标机器重建。
 
-`scripts/voice.sh` 是为 P4 准备的本地离线模型启动入口，执行后会加载识别模型并进入录音流程，**本轮没有执行**。`voice_env.sh` 只作用于调用它的语音终端，不改现有视觉启动方式。
+`scripts/verify_resources.py`用于文件/依赖完整性核验，其准备阶段状态字段不代表当前功能验收。`--check-baseline`对照的是早期准备快照，仅适合追溯当时操作。`scripts/voice.sh`会开始实际录音，本轮文档维护不启动它。
 
-## 完整性记录与后续工作
+## 历史准备记录
 
-`resources/preparation_status.json` 保存准备检查结果，`downloads/voice_dependency_check.log` 保留依赖导入记录。检查成功仅表示文件/软件准备就绪，以下工作仍未开展：
+2026-11-09最初准备8项Fuel资源，11月16日加入白黄杯成为9项，11月21日加入3种YCB水果成为12项。`resources/preparation_status.json`及`downloads/voice_dependency_check.log`保留早期准备结论；当时未运行仿真、识别或录音，后续功能实测见验证概览。
 
-- 将新增物品布置到指定房间/支撑面、扩展运行白名单并验收。
-- 将参考相机改造成完整仿真传感器组件，验证多点视野、碰撞和覆盖。
-- 麦克风录音、真实语音识别和人工端到端任务验证。
-- 新导航/视觉算法比较、训练和默认算法切换。
+早期本机音频下载曾遇TLS故障且无免密sudo，随后从Ubuntu官方软件池下载并在项目内解包，未修改系统音频配置。参考相机源码与课程原件保留，当前不需要编译真实RealSense驱动或切换Gazebo发行版。
 
-后续按总计划 P1 开始开发，先完成当前配置下任务三、四的 G0，再推进任务一/G1、任务二及集成验收/G2，之后开展算法比较。2026-11-14 已将任务一、二融入现有总计划；本页下载和依赖准备记录不表示新增功能已经实现。
+C041文本辅助使用官方`yoloe-11s-seg.pt`（27,803,986字节，资源锁SHA256）与仓库内`resources/ball_prompts_v1.npz`（37,093字节、模型绑定与SHA核验）。词表及来源见`resources/vision_prompts_v1.json`，通过Ultralytics官方`save_prompt_embeddings/load_prompt_embeddings`复用。恢复命令为`python3 scripts/prepare_runtime.py --model yoloe-11s-seg.pt`，`--check`仅核验。600MB `mobileclip_blt.ts`用于离线编码开发，已按官方发布SHA校验并单独忽略Git；正式推理直接加载冻结向量，不依赖编码器、CLIP分词包或联网。开发分词包和固定CLIP提交、源码archive散列及过程失败保留在集中证据/recipe；没有改变主Torch或Ultralytics版本，也没有训练新模型。类别词与模型可输出标签不代表已通过端到端验收。
+
+
+C041显式body候选新增`src/service_navfn`，依赖现有Nav2 Humble的`nav2_navfn_planner`、`nav2_costmap_2d`、`pluginlib`开发头文件/库，不增加模型、场景或地图资产。使用同一`bash scripts/build.sh`构建三包；原Nav2算法和原地图资源保留。原生适配的真实收益以HANDOFF实跑记录为准。
+
+
+2026-11-23清除修复不增加模型/资产或依赖：复用既有NumPy、sensor_msgs与Nav2体素层。仿真启动从真实相机clip/far显式配置独立清除流，默认关闭无标定补射线；改动后运行同一build.sh。旧标障输入及历史配置/数据保留；当前清除与连续导航通过不代替重复计数稳定性验收，见HANDOFF。

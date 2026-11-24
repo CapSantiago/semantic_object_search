@@ -56,6 +56,33 @@
       "owner": "GoogleResearch",
       "name": "Room_Essentials_Mug_White_Yellow",
       "note": "R0 compatibility asset after blue mug cup/bowl confusion. Fixed-layout validation is recorded separately in docs/maintained/DEVELOPMENT_VALIDATION.md; formal G0 remains incomplete."
+    },
+    {
+      "id": "ycb_apple",
+      "category": "apple",
+      "owner": "YCB",
+      "name": "013_apple",
+      "source": "ycb",
+      "archive_url": "https://ycb-benchmarks.s3.amazonaws.com/data/google/013_apple_google_16k.tgz",
+      "note": "Official CC BY 4.0 Google 16k scan; static SDF adapter, rendering and recognition require validation."
+    },
+    {
+      "id": "ycb_banana",
+      "category": "banana",
+      "owner": "YCB",
+      "name": "011_banana",
+      "source": "ycb",
+      "archive_url": "https://ycb-benchmarks.s3.amazonaws.com/data/google/011_banana_google_16k.tgz",
+      "note": "Official CC BY 4.0 Google 16k scan; static SDF adapter, rendering and recognition require validation."
+    },
+    {
+      "id": "ycb_orange",
+      "category": "orange",
+      "owner": "YCB",
+      "name": "017_orange",
+      "source": "ycb",
+      "archive_url": "https://ycb-benchmarks.s3.amazonaws.com/data/google/017_orange_google_16k.tgz",
+      "note": "Official CC BY 4.0 Google 16k scan; static SDF adapter, rendering and recognition require validation."
     }
   ]
 }

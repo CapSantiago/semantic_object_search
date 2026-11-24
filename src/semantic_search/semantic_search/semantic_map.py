@@ -6,18 +6,17 @@ from pathlib import Path
 import numpy as np
 from scipy.optimize import linear_sum_assignment
 
-
-OBJECT_ALIASES = {
-    'chair': ('椅子', 'chair', 'chairs'),
-    'cup': ('杯子', '水杯', 'cup', 'cups'),
-    'bottle': ('瓶子', '水瓶', '可乐', 'bottle', 'bottles'),
-}
+from .objects import admitted_aliases, aliases_for
 
 
-def parse_command(text, rooms):
+OBJECT_ALIASES = admitted_aliases()
+
+
+def parse_command(text, rooms, categories=None):
     """Accept constrained text or a validated JSON task from an input adapter."""
     import re
 
+    aliases = aliases_for(categories)
     text = text.strip()
     if text.startswith('{'):
         try:
@@ -39,8 +38,8 @@ def parse_command(text, rooms):
         room, category = task.get('room'), task.get('category')
         if not isinstance(room, str) or room not in rooms:
             raise ValueError('任务 room 必须是当前场景配置中的房间 ID。')
-        if not isinstance(category, str) or category not in OBJECT_ALIASES:
-            raise ValueError('任务 category 必须为 chair、cup 或 bottle。')
+        if not isinstance(category, str) or category not in aliases:
+            raise ValueError('任务 category 当前支持：' + '、'.join(aliases) + '。')
         return mode, room, category
 
     text = text.lower()
@@ -53,8 +52,8 @@ def parse_command(text, rooms):
         return alias in text
 
     room_ids = [key for key, room in rooms.items() if any(map(includes, room['aliases']))]
-    categories = [key for key, aliases in OBJECT_ALIASES.items() if any(map(includes, aliases))]
-    if len(room_ids) != 1 or len(categories) != 1:
+    matched = [key for key, names in aliases.items() if any(map(includes, names))]
+    if len(room_ids) != 1 or len(matched) != 1:
         raise ValueError('请指定且仅指定一个支持的房间和物品，例如：去厨房统计椅子。')
     if any(map(includes, ('统计', '清点', '有几个', '多少', 'count'))):
         mode = 'count'
@@ -62,7 +61,7 @@ def parse_command(text, rooms):
         mode = 'find'
     else:
         raise ValueError('请使用“找”或“统计”指令。')
-    return mode, room_ids[0], categories[0]
+    return mode, room_ids[0], matched[0]
 
 
 @dataclass

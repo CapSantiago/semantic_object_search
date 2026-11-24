@@ -7,6 +7,16 @@ import sys
 ROOT=Path(__file__).resolve().parents[1]
 
 
+def test_reference_center_rotates_asset_geometry_for_flat_objects():
+    import math
+    import pytest
+    from scripts.validation.audit_search_results import target_reference
+    target = dict(id='phone',category='cell phone',room='room',asset='phone',
+                  pose=[2.,3.,.75,-math.pi/2,0,0])
+    assets = {'phone':dict(min=[-.04,-.008,0],max=[.04,0,.16])}
+    assert target_reference(target,assets)['xy']==pytest.approx([2.,3.08])
+
+
 def test_arrival_audit_rejects_missing_tf_and_pose_error():
     from scripts.validation.audit_search_results import audit_arrivals
     limits=dict(xy_m=.2,yaw_rad=.15)

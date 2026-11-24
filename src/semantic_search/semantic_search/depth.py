@@ -4,6 +4,7 @@ from math import isfinite
 import numpy as np
 import cv2
 from scipy.spatial.transform import Rotation
+from .ball_geometry import sphere_center
 
 
 def truncated_box(center_x, center_y, width, height, image_width, image_height, margin=2.):
@@ -31,11 +32,17 @@ def compatible_size(category, extent):
         return True
     if len(extent)!=3 or not all(isfinite(v) and v>=0 for v in extent):
         return False
+    # A tiny segmented patch (e.g. a cooker knob) is insufficient evidence
+    # for the supported cups. Require at least 4 cm of observed 3-D extent;
+    # clipped/occluded cups must be confirmed from another view. This does
+    # not enlarge, fill or reposition the measured instance.
+    if category == 'cup' and max(extent) < .04:
+        return False
     horizontal, height = limits[category]
     return float(np.hypot(extent[0],extent[1]))<=horizontal and extent[2]<=height
 
 
-def instance_geometry(image, polygon, k, translation, quaternion, scale=1.0):
+def instance_geometry(image, polygon, k, translation, quaternion, scale=1.0, *, category=None):
     """Estimate a map-frame centre from the visible instance's 3-D extent.
 
     Unlike a single surface sample, this uses both seat/back and side surfaces.
@@ -59,13 +66,24 @@ def instance_geometry(image, polygon, k, translation, quaternion, scale=1.0):
     near = np.quantile(z, .1)
     keep = (z >= near-.1) & (z <= near+.7)
     u, v, z = u[keep], v[keep], z[keep]
+    if category in ('cup', 'bottle'):
+        # Small-object masks can include background through a handle or along
+        # an antialiased silhouette. Reject depth outliers before estimating
+        # extent; do not trim to the class-size limit or alter that limit.
+        # Broad continuous surfaces (e.g. a bin mistaken for a cup) retain
+        # their full depth distribution and must still pass compatible_size.
+        q1,q3=np.quantile(z,[.25,.75])
+        spread=max(float(q3-q1),.01)
+        foreground=(z>=q1-1.5*spread) & (z<=q3+1.5*spread)
+        u,v,z=u[foreground],v[foreground],z[foreground]
     camera_points = np.column_stack(((u-cx)*z/fx, (v-cy)*z/fy, z))
     points = Rotation.from_quat(quaternion).apply(camera_points) + translation
     points = points[(points[:, 2] > .08) & (points[:, 2] < 2.)]
     if len(points) < 20:
         return None
     bounds=np.quantile(points, [.1, .9], axis=0)
-    return (tuple(float(value) for value in bounds.mean(axis=0)),
+    fitted=sphere_center(points) if category=='sports ball' else None
+    return (fitted or tuple(float(value) for value in bounds.mean(axis=0)),
             tuple(float(value) for value in bounds[1]-bounds[0]))
 
 

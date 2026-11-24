@@ -16,6 +16,7 @@ from sensor_msgs.msg import CameraInfo, Image
 from tf2_ros import Buffer, TransformListener
 from yolo_msgs.msg import DetectionArray
 from semantic_search.sensor_qos import sensor_qos_profile
+from semantic_search.objects import OBJECTS
 
 
 def main():
@@ -23,7 +24,7 @@ def main():
     parser.add_argument('output')
     parser.add_argument('--fixed-frame', default='map', help='Use odom for sensor-only calibration without AMCL')
     parser.add_argument('--skip-frames', type=int, default=0, help='Discard initial synchronized frames after a pose change')
-    parser.add_argument('--category', choices=['chair','cup','bottle'],
+    parser.add_argument('--category', choices=list(OBJECTS),
                         help='Wait for an online detection and include its synchronized RGB-D frame')
     parser.add_argument('--min-instances', type=int, default=1,
                         help='Minimum simultaneous detections when --category is used')

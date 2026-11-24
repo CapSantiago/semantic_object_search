@@ -55,6 +55,178 @@ class RuntimeTests(unittest.TestCase):
         self.assertEqual(second.snapshot()['simulation']['state'], 'not_started')
         self.assertEqual(second.snapshot()['rviz']['state'], 'disabled')
 
+    def test_depth_projection_source_is_explicit_and_forwarded_to_simulation(self):
+        native=self.make_runtime()
+        self.assertEqual(native.config['depth_cloud_source'],'native')
+        self.assertIn('depth_cloud_source:=native',native.command('simulation'))
+        native.close(graceful_seconds=0)
+        image=self.make_runtime(depth_cloud_source='image')
+        self.assertEqual(image.config['depth_cloud_source'],'image')
+        self.assertIn('depth_cloud_source:=image',image.command('simulation'))
+
+    def test_unknown_depth_projection_source_is_rejected_before_locking(self):
+        with self.assertRaisesRegex(ValueError,'点云来源'):
+            self.make_runtime(depth_cloud_source='unverified')
+        self.make_runtime()
+
+    def test_navigation_map_selection_is_recorded_and_frozen_with_its_image(self):
+        from semantic_search.map_resources import resolve_map
+        config=self.root/'src/semantic_search/config';config.mkdir(parents=True)
+        (config/'map_resources.json').write_text(json.dumps({'version':1,'maps':{
+            'aws_house_v1':{'yaml':'maps/house.yaml','compatible_yaml':[]}}}))
+        folder=self.root/'maps';folder.mkdir()
+        (folder/'house.yaml').write_text('image: house.pgm\nresolution: 0.05\norigin: [0,0,0]\n')
+        (folder/'house.pgm').write_bytes(b'P5\n1 1\n255\n\xff')
+        def dependencies(runtime):runtime.map_resource=resolve_map(runtime.root,map_id='aws_house_v1')
+        with patch.object(Runtime,'_check_dependencies',dependencies):runtime=self.make_runtime(check_dependencies=True)
+        self.assertEqual(runtime.config['map'],'maps/house.yaml')
+        self.assertIn('map:='+str(folder/'house.yaml'),runtime.command('navigation'))
+        metadata=json.loads((runtime.session_dir/'session.json').read_text())
+        self.assertEqual(metadata['config']['map_resource']['image_sha256'],runtime.map_resource['image_sha256'])
+        frozen=runtime.session_dir/metadata['configuration_snapshots']['maps/house.pgm']
+        original=frozen.read_bytes();(folder/'house.pgm').write_bytes(b'new-version')
+        self.assertEqual(frozen.read_bytes(),original)
+
+    def test_explicit_candidate_categories_reach_the_search_process_and_session_record(self):
+        runtime = self.make_runtime(candidate_categories=['bowl','cell phone','bowl'])
+        self.assertEqual(runtime.config['candidate_categories'],['bowl','cell phone'])
+        self.assertEqual(runtime.config['target_categories'],['cup','bottle','chair','bowl','cell phone'])
+        command = runtime.command('search')
+        parameter = next(item for item in command if item.startswith('target_categories:='))
+        self.assertEqual(json.loads(parameter.split(':=',1)[1]), runtime.config['target_categories'])
+        recorded = json.loads((runtime.session_dir/'session.json').read_text())
+        self.assertEqual(recorded['config']['candidate_categories'],['bowl','cell phone'])
+        runtime.close(graceful_seconds=0)
+        with self.assertRaises(ValueError):
+            self.make_runtime(candidate_categories=['dumbbell'])
+
+    def test_candidate_camera_is_recorded_and_passed_to_simulation_and_tf_builder(self):
+        runtime=self.make_runtime(camera_height=1.2,camera_pitch=.4,
+                                  camera_resolution='1280x960',camera_fov=1.4)
+        self.assertIn('camera_height:=1.2',runtime.command('simulation'))
+        self.assertIn('camera_pitch:=0.4',runtime.command('simulation'))
+        self.assertEqual(runtime.config['camera_height'],1.2)
+        self.assertIn('image_width:=1280',runtime.command('simulation'))
+        self.assertIn('image_height:=960',runtime.command('simulation'))
+        self.assertIn('camera_hfov:=1.4',runtime.command('simulation'))
+        runtime.close(graceful_seconds=0)
+        for options in (dict(camera_height=float('nan')),dict(camera_height=2),dict(camera_pitch=-.1),
+                        dict(camera_resolution='4k'),dict(camera_fov=float('nan'))):
+            with self.assertRaises(ValueError):
+                self.make_runtime(**options)
+
+    def test_local_cleaning_recovery_is_explicitly_recorded_and_defaults_off(self):
+        for enabled in (False, True):
+            runtime = self.make_runtime(cleaning_local_recovery=enabled)
+            self.assertEqual(runtime.config['cleaning_local_recovery'], enabled)
+            metadata = json.loads((runtime.session_dir/'session.json').read_text())
+            self.assertEqual(metadata['config']['cleaning_local_recovery'], enabled)
+            runtime.close(graceful_seconds=0)
+
+    def test_budget_cleaning_selection_is_recorded_and_defaults_off(self):
+        for options, expected in (({},False),({'cleaning_budget_selection':True},True)):
+            runtime=self.make_runtime(**options)
+            self.assertEqual(runtime.config['cleaning_budget_selection'],expected)
+            metadata=json.loads((runtime.session_dir/'session.json').read_text())
+            self.assertEqual(metadata['config']['cleaning_budget_selection'],expected)
+            runtime.close(graceful_seconds=0)
+
+    def test_narrow_transit_rooms_cannot_start_with_the_circle_profile(self):
+        source=self.root/'rooms.json'
+        source.write_bytes((ROOT/'src/semantic_search/config/rooms_aws_house_v12_body_transit.json').read_bytes())
+        with self.assertRaisesRegex(ValueError,'必须同时显式启用'):
+            self.make_runtime(rooms_file='rooms.json')
+        runtime=self.make_runtime(rooms_file='rooms.json',body_footprint=True)
+        self.assertEqual(runtime.config['rooms'],'rooms.json')
+        metadata=json.loads((runtime.session_dir/'session.json').read_text())
+        frozen=runtime.session_dir/metadata['configuration_snapshots']['rooms.json']
+        self.assertEqual(frozen.read_bytes(),source.read_bytes())
+
+    def test_body_footprint_is_explicit_recorded_and_not_combined_with_safety(self):
+        baseline=self.make_runtime()
+        self.assertFalse(baseline.config['body_footprint'])
+        baseline.close(graceful_seconds=0)
+        candidate=self.make_runtime(body_footprint=True)
+        self.assertTrue(candidate.config['body_footprint'])
+        self.assertEqual(candidate.config['navigation'],'src/semantic_search/config/nav2_body_footprint.yaml')
+        self.assertIn('params_file:='+str(self.root/candidate.config['navigation']),candidate.command('navigation'))
+        candidate.close(graceful_seconds=0)
+        with self.assertRaisesRegex(ValueError,'分别启用'):
+            self.make_runtime(body_footprint=True,navigation_safety=True)
+
+    def test_navigation_safety_selects_the_protected_simulator_input_and_costmaps(self):
+        runtime=self.make_runtime(navigation_safety=True)
+        self.assertIn('velocity_topic:=/cmd_vel_safe',runtime.command('simulation'))
+        self.assertIn('navigation_safety.launch.py',runtime.command('safety'))
+        self.assertTrue(runtime.config['navigation_safety'])
+        self.assertEqual(runtime.config['navigation'],'src/semantic_search/config/nav2_safety.yaml')
+        self.assertIn('params_file:='+str(self.root/'src/semantic_search/config/nav2_safety.yaml'),
+                      runtime.command('navigation'))
+        self.assertEqual(runtime.snapshot()['safety']['state'],'not_started')
+
+    def test_charging_config_is_map_bound_frozen_and_explicitly_passed(self):
+        import hashlib
+        station=json.loads((ROOT/'src/semantic_search/config/charging_station.json').read_text())
+        folder=self.root/'maps';folder.mkdir()
+        (folder/'house.yaml').write_text('image: house.pgm\nresolution: 0.05\norigin: [0, 0, 0]\n')
+        (folder/'house.pgm').write_bytes(b'isolated-map')
+        station['map_yaml']='maps/house.yaml'
+        station['map_sha256']={key:hashlib.sha256((folder/name).read_bytes()).hexdigest()
+            for key,name in [('yaml','house.yaml'),('image','house.pgm')]}
+        source=self.root/'src/semantic_search/config/charging_station.json';source.parent.mkdir(parents=True)
+        source.write_text(json.dumps(station));runtime=self.make_runtime()
+        self.assertTrue(runtime.config['charging_station_enabled'])
+        frozen=runtime.charging_station_file
+        self.assertEqual(json.loads(frozen.read_text()),station)
+        self.assertEqual(runtime.env['SEMANTIC_CHARGING_CONFIG'],str(frozen))
+        self.assertIn('charging_file:='+str(frozen),runtime.command('simulation'))
+        station['map_pose']=[99.,99.,0.];source.write_text(json.dumps(station))
+        self.assertEqual(runtime.charging_station['map_pose'],[-1.8,-4.,0.])
+        runtime.close(graceful_seconds=0)
+        disabled=self.make_runtime(charging_station=False,env={'SEMANTIC_CHARGING_CONFIG':'foreign'})
+        self.assertIsNone(disabled.charging_station)
+        self.assertNotIn('SEMANTIC_CHARGING_CONFIG',disabled.env)
+
+    def test_candidate_model_and_input_size_are_explicit_and_fingerprinted(self):
+        (self.root/'yolov8s-seg.pt').write_bytes(b'isolated-test-model')
+        runtime=self.make_runtime(model='yolov8s-seg.pt',image_size=1280)
+        self.assertIn('model:='+str(self.root/'yolov8s-seg.pt'),runtime.command('detector'))
+        self.assertIn('image_size:=1280',runtime.command('detector'))
+        stored=json.loads((runtime.session_dir/'session.json').read_text())
+        self.assertIn('yolov8s-seg.pt',stored['source_sha256'])
+        self.assertEqual(stored['config']['detector']['image_size'],1280)
+
+    def test_ball_auxiliary_is_explicit_passed_and_frozen_without_replacing_primary(self):
+        self.assertFalse(any('ball_model:=' in p for p in self.make_runtime().command('detector')))
+        self.runtimes[-1].close(graceful_seconds=0)
+        name='yoloe-11s-seg-pf.pt'
+        (self.root/name).write_bytes(b'isolated-test-auxiliary')
+        runtime=self.make_runtime(ball_model=name)
+        command=runtime.command('detector')
+        self.assertIn('ball_model:='+str(self.root/name),command)
+        self.assertIn('model:='+str(self.root/'yolov8n-seg.pt'),command)
+        stored=json.loads((runtime.session_dir/'session.json').read_text())
+        self.assertIn(name,stored['source_sha256'])
+        self.assertEqual(stored['config']['detector']['ball_max_rate_hz'],2.)
+        with self.assertRaises(ValueError):self.make_runtime(ball_model='unlocked.pt')
+
+    def test_prompted_auxiliary_freezes_embeddings_and_keeps_primary_model(self):
+        name='yoloe-11s-seg.pt';(self.root/name).write_bytes(b'isolated-prompted-model')
+        resource=self.root/'resources';resource.mkdir()
+        (resource/'ball_prompts_v1.npz').write_bytes(b'isolated-embeddings')
+        (resource/'vision_prompts_v1.json').write_text('{}')
+        runtime=self.make_runtime(auxiliary_model=name,auxiliary_categories=['book','sports ball'])
+        command=runtime.command('detector')
+        self.assertIn('model:='+str(self.root/'yolov8n-seg.pt'),command)
+        self.assertIn('auxiliary_model:='+str(self.root/name),command)
+        self.assertIn('auxiliary_prompts:='+str(resource/'ball_prompts_v1.npz'),command)
+        stored=json.loads((runtime.session_dir/'session.json').read_text())
+        key='resources/ball_prompts_v1.npz'
+        self.assertIn(key,stored['configuration_snapshots'])
+        self.assertEqual((runtime.session_dir/stored['configuration_snapshots'][key]).read_bytes(),b'isolated-embeddings')
+        with self.assertRaises(ValueError):self.make_runtime(ball_model='yoloe-11s-seg-pf.pt',auxiliary_model=name)
+        with self.assertRaises(ValueError):self.make_runtime(auxiliary_model=name,auxiliary_categories=['apple'])
+
     def test_dependency_and_display_failure_release_locks(self):
         with self.assertRaisesRegex(RuntimeError, '运行资源缺失'):
             self.make_runtime(check_dependencies=True)
@@ -63,6 +235,19 @@ class RuntimeTests(unittest.TestCase):
             self.make_runtime(headless=False, env={})
         runtime = self.make_runtime()
         self.assertTrue(runtime.session_dir.is_dir())
+
+    def test_session_retains_the_actual_navigation_config_after_later_edits(self):
+        source = self.root/'src/semantic_search/config/nav2_safety.yaml'
+        source.parent.mkdir(parents=True)
+        source.write_text('robot_radius: 0.25\n')
+        runtime = self.make_runtime(navigation_safety=True)
+        stored = json.loads((runtime.session_dir/'session.json').read_text())
+        name = str(source.relative_to(self.root))
+        snapshot = runtime.session_dir/stored['configuration_snapshots'][name]
+        source.write_text('robot_radius: 0.30\n')
+        self.assertEqual(snapshot.read_text(),'robot_radius: 0.25\n')
+        import hashlib
+        self.assertEqual(hashlib.sha256(snapshot.read_bytes()).hexdigest(),stored['source_sha256'][name])
 
     def test_different_projects_cannot_own_the_same_ros_domain(self):
         first = self.make_runtime()
@@ -103,14 +288,14 @@ class RuntimeTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             self.make_runtime(rooms_file='../missing.json')
         runtime=self.make_runtime()
-        self.assertEqual(runtime.config['rooms'],'src/semantic_search/config/rooms_aws_house_v4.json')
+        self.assertEqual(runtime.config['rooms'],'src/semantic_search/config/rooms_aws_house_v6.json')
 
     def test_current_candidate_arguments_are_explicit(self):
         runtime = self.make_runtime()
         simulation = runtime.command('simulation')
         self.assertIn('gui:=false', simulation)
-        self.assertIn('layout_file:=scenes/aws_house/layout_r0_yellow_v1.json', simulation)
-        self.assertIn('rooms_file:='+str(self.root/'src/semantic_search/config/rooms_aws_house_v4.json'),
+        self.assertIn('layout_file:=scenes/aws_house/layout_service_surfaces_v2.json', simulation)
+        self.assertIn('rooms_file:='+str(self.root/'src/semantic_search/config/rooms_aws_house_v6.json'),
                       runtime.command('search'))
         for component in ('search','detector'):
             self.assertIn('sensor_reliability:=reliable', runtime.command(component))

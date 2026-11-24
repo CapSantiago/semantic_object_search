@@ -72,3 +72,35 @@ def test_size_prior_rejects_cup_shaped_bin_but_accepts_supported_small_objects()
         [100.,0.,50.,0.,100.,50.,0.,0.,1.],[1.,2.,0.],[0.,0.,0.,1.])
     np.testing.assert_allclose(geometry[0],[1,2,1],atol=.01)
     assert geometry[1][0]>.4 and geometry[1][1]>.4
+
+
+def test_tiny_cooker_patch_is_not_sufficient_cup_geometry():
+    from semantic_search.depth import compatible_size
+    # Actual same-session false cup: cooker knob, 33 repeated observations.
+    assert not compatible_size('cup', [.0101192756, .0233925402, .0271309658])
+    # Small but measurable cup support remains eligible at any orientation.
+    for extent in ([.041, .025, .03], [.025, .041, .03], [.025, .03, .041]):
+        assert compatible_size('cup', extent)
+    assert compatible_size('bottle', [.02, .02, .03])  # Unchanged category.
+
+
+def test_small_instance_removes_background_depth_without_shrinking_a_large_object():
+    from semantic_search.depth import compatible_size, instance_geometry
+    k=[500.,0.,50.,0.,500.,50.,0.,0.,1.]
+    polygon=[(30,30),(69,30),(69,69),(30,69)]
+    depth=np.full((100,100),1.6,dtype=np.float32)
+    depth[30:35,30:70]=2.0  # 12.5% background admitted by a mask edge/handle.
+    original=instance_geometry(depth,polygon,k,[0,0,-.5],[0,0,0,1])
+    cleaned=instance_geometry(depth,polygon,k,[0,0,-.5],[0,0,0,1],category='cup')
+    assert not compatible_size('cup',original[1])
+    assert compatible_size('cup',cleaned[1])
+    assert abs(cleaned[0][2]-1.1)<1e-6
+    # A genuinely broad continuous surface must remain oversized: the depth
+    # filter must not crop it until it fits the cup prior.
+    broad=np.tile(np.linspace(1.3,1.8,100,dtype=np.float32),(100,1))
+    broad_k=[100.,0.,50.,0.,100.,50.,0.,0.,1.]
+    g=instance_geometry(broad,polygon,broad_k,[0,0,0],[0,0,0,1],category='cup')
+    assert not compatible_size('cup',g[1])
+    # Large furniture keeps the original estimator, including valid separated
+    # front/back surfaces.
+    assert instance_geometry(depth,polygon,k,[0,0,-.5],[0,0,0,1],category='chair')==original

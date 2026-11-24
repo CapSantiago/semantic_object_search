@@ -3,25 +3,29 @@
 import argparse
 import json
 from pathlib import Path
+import sys
 
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
-import yaml
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / 'src/semantic_search'))
+from semantic_search.map_resources import resolve_map
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('result')
-    parser.add_argument('--map', default='maps/course_house.yaml')
+    parser.add_argument('--map', type=Path, help='Explicit map version; default is the registered baseline map')
     parser.add_argument('--output', default='results/validation/semantic_map.png')
     args = parser.parse_args()
     result = json.loads(Path(args.result).read_text())
-    map_file = Path(args.map)
-    info = yaml.safe_load(map_file.read_text())
+    resource = resolve_map(ROOT, yaml_path=args.map) if args.map else resolve_map(ROOT, map_id='baseline_v1')
+    info = resource['metadata']
     if abs(info['origin'][2]) > 1e-6:
         raise ValueError('PNG preview expects the axis-aligned course map; use semantic_map.svg for rotated maps')
-    image = plt.imread(map_file.parent / info['image'])
+    image = plt.imread(resource['image'])
     height, width = image.shape[:2]
     x, y, _ = info['origin']
     resolution = info['resolution']

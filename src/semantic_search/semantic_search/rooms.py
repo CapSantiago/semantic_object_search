@@ -49,7 +49,23 @@ def belongs_to(rooms, target, x, y):
 
 def observation_views(room, category):
     """Optional tabletop category views; archived configurations keep their route."""
-    return room.get('category_views', {}).get(category, room['views'])
+    route=room.get('category_views', {}).get(category, room['views'])
+    if not room.get('inspection_views'):return route
+    ordered=[p for poses in room['inspection_views'].values() for p in poses]+route
+    return [p for i,p in enumerate(ordered) if p not in ordered[:i]]
+
+
+def inspection_coverage(room, diagnostics):
+    """Configured areas require actual arrival, dwell and usable sensor input."""
+    groups=[]
+    for name,poses in room.get('inspection_views',{}).items():
+        matching=[[v for v in diagnostics if all(abs(a-b)<1e-6 for a,b in zip(v['pose'],pose))]
+                  for pose in poses]
+        complete=all(any(observation_coverage([v])['viewpoints_observed']==1 for v in views)
+                     for views in matching)
+        groups.append(dict(id=name,name=room.get('inspection_labels',{}).get(name,name),
+                           completed=complete,required_views=len(poses)))
+    return dict(required=bool(groups),completed=all(g['completed'] for g in groups),groups=groups)
 
 
 def observation_coverage(viewpoints):
@@ -141,6 +157,10 @@ def validate_rooms(rooms):
         categories = room.get('category_views', {})
         if not isinstance(categories, dict) or any(not isinstance(k,str) or not v for k,v in categories.items()):
             raise ValueError(f'{key}: invalid category observation views')
-        for pose in room['views'] + [p for views in categories.values() for p in views]:
+        inspection=room.get('inspection_views',{})
+        if (not isinstance(inspection,dict) or any(not isinstance(k,str) or not k or
+                not isinstance(v,list) or not v for k,v in inspection.items())):
+            raise ValueError(f'{key}: invalid required inspection views')
+        for pose in room['views'] + [p for views in categories.values() for p in views] + [p for views in inspection.values() for p in views]:
             if len(pose) != 3 or not all(isfinite(v) for v in pose):
                 raise ValueError(f'{key}: invalid observation pose')
