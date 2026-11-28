@@ -151,3 +151,24 @@ def test_precision_docking_controller_and_goal_checker_share_xy_threshold():
         assert params['DockingPath']['xy_goal_tolerance']==params['docking_goal_checker']['xy_goal_tolerance']
     action=ET.parse(ROOT/'src/semantic_search/config/navigate_docking.xml').find('.//FollowPath')
     assert action.get('controller_id')=='DockingPath' and action.get('goal_checker_id')=='docking_goal_checker'
+
+
+def test_docking_progress_candidate_changes_only_its_goal_distance_weight():
+    folder=ROOT/'src/semantic_search/config'
+    baseline=yaml.safe_load((folder/'nav2_depth.yaml').read_text())
+    candidate=yaml.safe_load((folder/'nav2_depth_docking_progress.yaml').read_text())
+    base=baseline['controller_server']['ros__parameters']['DockingPath']
+    dock=candidate['controller_server']['ros__parameters']['DockingPath']
+    assert dock['GoalDist.scale']>base['GoalDist.scale']
+    dock['GoalDist.scale']=base['GoalDist.scale']
+    assert candidate==baseline
+
+
+def test_sim_localization_candidate_only_changes_four_motion_noise_coefficients():
+    folder=ROOT/'src/semantic_search/config'
+    before=yaml.safe_load((folder/'nav2_depth_docking_progress.yaml').read_text())
+    after=yaml.safe_load((folder/'nav2_depth_sim_localization.yaml').read_text())
+    for key in ('alpha1','alpha2','alpha3','alpha4'):
+        assert 0 < after['amcl']['ros__parameters'][key] < before['amcl']['ros__parameters'][key]
+        after['amcl']['ros__parameters'][key]=before['amcl']['ros__parameters'][key]
+    assert after==before

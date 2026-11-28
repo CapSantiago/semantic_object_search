@@ -1,0 +1,191 @@
+{
+  "status": "passed_current_sim_localization_voice_workflow",
+  "session": "20261124T174126_297245Z_342edf93",
+  "transcript": "请先去 客厅 寻找 香蕉 然后 去 客厅 统计 香蕉。",
+  "preview": [
+    "去 客厅 寻找 香蕉（寻找一个）",
+    "去 客厅 统计 香蕉（完整巡视计数）"
+  ],
+  "sequence": {
+    "id": "31b1247c-68b4-4f65-a604-d9150dcb777f",
+    "command": "请先去 客厅 寻找 香蕉 然后 去 客厅 统计 香蕉。",
+    "state": "completed",
+    "tasks": [
+      {
+        "id": "sequence_0840d1cf14c24ec9affc4ccbc450e81f",
+        "command": "去 客厅 寻找 香蕉",
+        "canonical": "{\"category\": \"banana\", \"mode\": \"find\", \"room\": \"living\"}",
+        "kind": "search",
+        "state": "completed"
+      },
+      {
+        "id": "sequence_f2cc2232178f4e999fec99916eb4710d",
+        "command": "去 客厅 统计 香蕉",
+        "canonical": "{\"category\": \"banana\", \"mode\": \"count\", \"room\": \"living\"}",
+        "kind": "search",
+        "state": "completed"
+      }
+    ]
+  },
+  "children": [
+    {
+      "id": "sequence_0840d1cf14c24ec9affc4ccbc450e81f",
+      "mode": "find",
+      "state": "completed",
+      "evaluation": {
+        "passed": true,
+        "expected": 1,
+        "actual": 1,
+        "checks": {
+          "task_completed": true,
+          "count": true,
+          "position": true,
+          "unique_ids": true,
+          "map_metres": true,
+          "room": true,
+          "required_surfaces": true,
+          "measured_arrivals": true,
+          "saved": true,
+          "memory_saved": true,
+          "return_passed": true,
+          "configured_route": true,
+          "found": true,
+          "persisted_result": true,
+          "observed_hits": true,
+          "svg_ids": true
+        },
+        "position_limit_m": 0.2,
+        "errors": [
+          {
+            "id": 1,
+            "reference": "living_banana_1",
+            "xy_error_m": 0.0468004828421821
+          }
+        ],
+        "arrivals": [
+          {
+            "index": 0,
+            "passed": true,
+            "xy_error_m": 0.11663793346055158,
+            "yaw_error_rad": 0.09802319238380754
+          }
+        ]
+      },
+      "independent_dock": {
+        "position_m": 0.11751440478755658,
+        "yaw_rad": 0.043303508524866086,
+        "age": 0.008433341979980469,
+        "passed": true
+      }
+    },
+    {
+      "id": "sequence_f2cc2232178f4e999fec99916eb4710d",
+      "mode": "count",
+      "state": "completed",
+      "evaluation": {
+        "passed": true,
+        "expected": 1,
+        "actual": 1,
+        "checks": {
+          "task_completed": true,
+          "count": true,
+          "position": true,
+          "unique_ids": true,
+          "map_metres": true,
+          "room": true,
+          "required_surfaces": true,
+          "measured_arrivals": true,
+          "saved": true,
+          "memory_saved": true,
+          "return_passed": true,
+          "configured_route": true,
+          "full_observation_plan": true,
+          "full_observation_data": true,
+          "no_history_count": true,
+          "persisted_result": true,
+          "observed_hits": true,
+          "svg_ids": true
+        },
+        "position_limit_m": 0.2,
+        "errors": [
+          {
+            "id": 1,
+            "reference": "living_banana_1",
+            "xy_error_m": 0.03291029241747263
+          }
+        ],
+        "arrivals": [
+          {
+            "index": 0,
+            "passed": true,
+            "xy_error_m": 0.10613137967215881,
+            "yaw_error_rad": 0.09893916569702843
+          },
+          {
+            "index": 1,
+            "passed": true,
+            "xy_error_m": 0.10058062989010552,
+            "yaw_error_rad": 0.09818592842170215
+          }
+        ]
+      },
+      "independent_dock": {
+        "position_m": 0.11600197787293326,
+        "yaw_rad": 0.046361612632276866,
+        "age": 0.002820253372192383,
+        "passed": true
+      }
+    }
+  ],
+  "cloud": {
+    "cloud": {
+      "count": 1218,
+      "max_gap": 0.16912461600077222,
+      "gaps_over_point4": 0,
+      "max_source_age": 0.09200000000001296
+    },
+    "scan": {
+      "count": 761,
+      "max_gap": 0.25007289799941645,
+      "gaps_over_point4": 0,
+      "max_source_age": 0.058000000000006935
+    },
+    "fresh_checks": 78232,
+    "stale_checks": 0
+  },
+  "cancel_checks": {
+    "parent_canceled": true,
+    "child_canceled": true,
+    "second_skipped": true,
+    "no_second_dispatch": true,
+    "control_confirmed": true,
+    "fresh_native_stop": true
+  },
+  "cancel_cloud": {
+    "cloud": {
+      "count": 27,
+      "max_gap": 0.20469755100020848,
+      "gaps_over_point4": 0,
+      "max_source_age": 0.08800000000002228
+    },
+    "scan": {
+      "count": 17,
+      "max_gap": 0.24568233799982409,
+      "gaps_over_point4": 0,
+      "max_source_age": 0.04599999999999227
+    },
+    "fresh_checks": 1765,
+    "stale_checks": 0
+  },
+  "raw_sha256": {
+    "/home/willmatic/桌面/semantic_object_search/results/development/workflows_20261124/voice_localization_noise/audit.json": "b80a4795a063ce37dcd07f803e36c552a0e0a6fa0a2cb0375cecf557ed13a660",
+    "/home/willmatic/桌面/semantic_object_search/results/development/workflows_20261124/voice_localization_noise/cancel_ready/cancel_audit.json": "5fce56b368a7356889fd7213816626a18b09f13eef3004aa578bc5ba4586f20b",
+    "/home/willmatic/桌面/semantic_object_search/results/development/workflows_20261124/cleaning_localization_noise/feature_audit.json": "f26835d445950d1e0505606e4b8d80f6fcc7befd29365ddb2d97dc3916c6401e",
+    "/home/willmatic/桌面/semantic_object_search/results/development/workflows_20261124/cleaning_localization_noise/exports/audit.json": "5e21fca0955c35ef4e5d083d9289dd1fd1e6a6002f2bfc310e8382dbc21a85a1",
+    "/home/willmatic/桌面/semantic_object_search/results/development/workflows_20261124/localization_noise/cleanup.json": "b756eb12b6e521c4e9dc9f53838d1f4daf3d46269c2ac326e570ecfba7b1d7a0"
+  },
+  "limits": [
+    "Synthetic audio through real MediaRecorder is not human microphone acceptance.",
+    "Each child retains its own saved result and automatic docking; no cross-restart resume."
+  ]
+}

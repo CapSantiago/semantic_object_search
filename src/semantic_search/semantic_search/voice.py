@@ -6,9 +6,17 @@ from pathlib import Path
 
 SAMPLE_RATE = 16000
 MAX_AUDIO_SECONDS = 12
+from .objects import OBJECTS
 COMMAND_WORDS = '厨房 客厅 卧室 健身房 健身区 杂物间 杯子 水杯 瓶子 椅子 清扫 打扫 扫地'
 COMMAND_PROMPT = ('请用简体中文记录家庭机器人指令。'
                   '常用词包括厨房、客厅、卧室、健身区、杂物间、寻找、统计、杯子、水杯、瓶子、椅子、清扫。')
+# Shared vocabulary is a transcription prior, never a result or inventory.
+COMPOUND_WORDS = ('请先去 先去 然后去 再去 去 前往 寻找 统计 清扫 回充 '
+                  '厨房 客厅 卧室 健身房 健身区 杂物间 杯子 水杯 瓶子 椅子 清扫 ' +
+                  ' '.join(item.name for item in OBJECTS.values()))
+COMPOUND_PROMPT = ('请用简体中文逐字记录家庭机器人口令，不回答。口令可能是“请先去……，然后去……”或“先去……，再去……”。'
+                   '房间包括厨房、餐厅、客厅、卧室、健身区、杂物间。物品包括' +
+                   '、'.join(item.name for item in OBJECTS.values()) + '。')
 
 
 def read_recording(path):
@@ -47,7 +55,23 @@ def transcribe(model, samples, context='navigation'):
     segments, _ = model.transcribe(samples, language='zh', vad_filter=True,
                                    condition_on_previous_text=False,
                                    initial_prompt=prompt, hotwords=words)
-    return ''.join(segment.text for segment in segments).strip()
+    text = ''.join(segment.text for segment in segments).strip()
+    if context=='navigation' and text:
+        from .task_sequence import split_sequence
+        try:parts=split_sequence(text)
+        except ValueError:parts=None
+        if parts:
+            # A bounded second decode for explicit ordered speech. Keep the
+            # existing single-task and mapping decode unchanged. Never repair
+            # homophones by replacing words after recognition.
+            segments, _ = model.transcribe(samples, language='zh',vad_filter=True,
+                condition_on_previous_text=False,initial_prompt=COMPOUND_PROMPT,
+                hotwords=COMPOUND_WORDS,temperature=0,beam_size=10)
+            candidate=''.join(segment.text for segment in segments).strip()
+            try:
+                if split_sequence(candidate):return candidate
+            except ValueError:pass
+    return text
 
 
 def main():

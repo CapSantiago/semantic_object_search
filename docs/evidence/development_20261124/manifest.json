@@ -36,6 +36,51 @@
     "runtime_cleanup.json": {
       "local_source": "results/development/demo_two_rooms_20261123/semantic_followup/living_banana/publication_runtime_cleanup.json",
       "sha256": "e6a6868faeffa4b9b3a33ef643b8dd36d015516ad5aaf01c90cc7b07e25e487c"
+    },
+    "workflow_semantic.json": {
+      "sha256": "8873e74ae868d66e53d146a10a324d358b334e5df2236a2286e818237dbf1064"
+    },
+    "docking_refresh_mapping.json": {
+      "sha256": "f2591ef09e37c0ebbd18b8330373d0c4550879fe455ca489b6cd049076081298"
+    },
+    "semantic_memory_cold_recovery.json": {
+      "sha256": "5e697a72bbf2ee21fdd652685bb7e2bda03feddc11a9eb8d7cee353af7455564"
+    },
+    "workflow_cleaning.json": {
+      "sha256": "1228d710720c509f6549ed3dcde50fa887921c3455c0fbbce0d239a750af18ef"
+    },
+    "workflow_voice.json": {
+      "sha256": "fd5fc4a8fc66d26c6e76291ca3942d88ebe6d2faee2c350222f420d07e55dda9"
+    },
+    "workflow_closeout_incomplete.json": {
+      "sha256": "197c91ce5731e9f1eac5656890760bd8c9faf9ed65e06b0c6901fb4620997eee"
+    },
+    "workflow_engineering.json": {
+      "sha256": "db1db821bc70dd0847dde4d07e38765c4dd1cf3cc5c93fc4fd08aeb2fcdb019f"
+    },
+    "docking_refresh_previous_failure.json": {
+      "sha256": "ca1c319d643806f552647f9b29f24b9033a43e842c8763097ef19542be1b1827"
+    },
+    "workflow_completion.json": {
+      "sha256": "e3be9a5af0406218c566167f969ae935fe8974894e1402768c34ee4063cb3f32"
+    },
+    "semantic_memory_abba.json": {
+      "sha256": "338bef7d41ccb996106f4882a5b6e25bc61b704cf526c679a1b5fbeedc03a39d"
+    },
+    "docking_refresh_followup_failed.json": {
+      "sha256": "cc61c23edf04394b14b91fb8eff51c52486536c46a6a6185bb9ded798a543193"
+    },
+    "workflow_cleaning_docking_failed.json": {
+      "sha256": "f5994bf2d8e68e67be9b189acf6cdb516dc80cf27f7e6c710128388ce516ae30"
+    },
+    "semantic_memory_benefit_update.json": {
+      "sha256": "a026b0665cccf4d98df80a18ac1b52e02c579a61059f47f68553cc6fa1c5402a"
+    },
+    "workflow_voice_localization.json": {
+      "sha256": "78bdbb6a7875c7003e04b491abcbbc702fb4a4380bd8ba2ac351ef6b2b3d7bc5"
+    },
+    "semantic_memory_graph_reload.json": {
+      "sha256": "621d790a119dad2f63865a1ef2bec76a188bd288806d7a3c99c7ad60a257d25e"
     }
   }
 }

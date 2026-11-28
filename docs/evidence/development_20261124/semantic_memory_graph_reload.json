@@ -1,0 +1,27 @@
+{
+  "status": "passed",
+  "checks": {
+    "sqlite_equals_api": true,
+    "graph_same_revision": true,
+    "graph_same_namespace": true,
+    "graph_all_records": true,
+    "graph_record_fields": true,
+    "physical_identity_not_fabricated": true
+  },
+  "session": "20261124T140843_741610Z_3c78306e",
+  "source_revision": "162:2026-11-24T14:10:20.681338+00:00",
+  "objects": 54,
+  "graph_nodes": 60,
+  "graph_edges": 59,
+  "find_history_used": true,
+  "find_actual_prefix_differs_from_baseline": true,
+  "limits": [
+    "Single physical banana is evaluator knowledge only; semantic memory does not establish physical reidentification.",
+    "ABBA correctness, timing, distance and full source timing are audited separately for this same scenario."
+  ],
+  "source_sha256": {
+    "cold_count/report.json": "a0b7c77091a777bb40c404d7a3769ad6f495396fdb67a2247fdcb5cc5f9cb671",
+    "cold_graph/after_all_memory.json": "63be74d785b47cb406dfc39bb5f45af77891080d2d0c20c39df0f6594982d2e7",
+    "cold_graph/after_graph.json": "27cbf7e3d2fbc6bdaf471ad8f467e574ea8faaf239630a00e4d641f8e2e58b0c"
+  }
+}

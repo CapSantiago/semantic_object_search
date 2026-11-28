@@ -330,6 +330,9 @@ class Search(Node):
             event['viewpoint_source'] = self.viewpoint_diagnostics[self.view].get('source','configured')
         config=getattr(self,'rooms',{}).get(room,{})
         event['memory_guidance']=getattr(self,'memory_guidance',dict(used=False))
+        from .memory_trace import guidance_trace
+        event['memory_trace']=guidance_trace(event['memory_guidance'],
+            self.viewpoint_diagnostics,count=len(self.landmarks.confirmed))
         event['inspection_coverage']=inspection_coverage(config,self.viewpoint_diagnostics)
         if self.view<len(self.views):
             for key,poses in config.get('inspection_views',{}).items():
@@ -625,6 +628,9 @@ class Search(Node):
                       elapsed_wall_seconds=monotonic()-self.started_wall)
         result['coverage'] = observation_coverage(self.viewpoint_diagnostics)
         result['memory_guidance']=getattr(self,'memory_guidance',dict(used=False,counts_from_history=False))
+        from .memory_trace import guidance_trace
+        result['memory_trace']=guidance_trace(result['memory_guidance'],
+            self.viewpoint_diagnostics,count=len(objects))
         result['inspection_coverage'] = inspection_coverage(getattr(self,'rooms',{}).get(room,{}),self.viewpoint_diagnostics)
         if status in ('found','completed','not_found') and not result['inspection_coverage']['completed']:
             status='partial'

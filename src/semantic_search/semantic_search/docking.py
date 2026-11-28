@@ -14,7 +14,8 @@ def load_station(path, root, *, check_map=True, active_map=None):
     if not path.resolve().is_relative_to(root):
         raise ValueError('充电配置必须位于项目目录内。')
     station=json.loads(path.read_text())
-    if type(station.get('precision_docking',False)) is not bool:
+    if any(type(station.get(k,False)) is not bool for k in
+           ('precision_docking','refresh_localization_before_dock')):
         raise ValueError('停靠精度候选标志必须为布尔值。')
     if station.get('version')!=1 or station.get('frame_id')!='map' or station.get('simulation_only') is not True:
         raise ValueError('充电配置版本、坐标系或模拟充电标志无效。')
@@ -63,6 +64,7 @@ def dock_at(worker, target, deadline, *, exit_pose=None, can_exit=None):
             worker.go(exit_pose,cutoff,timeout=timeout,purpose='room_exit')
     timeout=transit_timeout(current or target,target,minimum=50.)
     returned=worker.go(target,deadline,timeout=timeout,purpose='dock')
+    station=getattr(worker,'station',None)or{}
     current=worker.pose()
     measured=(current is not None and math.dist(current[:2],target[:2])<=RETURN_POSITION_M and
               abs(math.remainder(current[2]-target[2],2*math.pi))<=RETURN_YAW_RAD)
@@ -72,6 +74,24 @@ def dock_at(worker, target, deadline, *, exit_pose=None, can_exit=None):
             bearing=math.atan2(y-current[1],x-current[0])
             worker.go((x,y,bearing),deadline,timeout=12.,purpose='dock_approach')
         returned=worker.go(target,deadline,timeout=12.,purpose='dock_alignment')
+    if (returned and station.get('precision_docking') and station.get('refresh_localization_before_dock')
+            and (current:=worker.pose()) and math.dist(current[:2],target[:2])<=.75
+            and deadline-time.monotonic()>=8.):
+        # A single forced scan can retain a biased particle mean. Collect at
+        # most three native updates inside the same original three seconds.
+        # No pose hints or simulator poses are sent.
+        refresh_deadline=min(deadline,time.monotonic()+3.)
+        updated=False
+        for _ in range(3):
+            if refresh_deadline-time.monotonic()<.3:break
+            if not worker.refresh_docking_localization(refresh_deadline):break
+            updated=True;current=worker.pose()
+        if updated:
+            current=worker.pose()
+            if current and (math.dist(current[:2],target[:2])>.05 or
+                           abs(math.remainder(current[2]-target[2],2*math.pi))>.10):
+                returned=worker.go(target,deadline,timeout=12.,purpose='dock_alignment')
+                current=worker.pose()
     worker.wait_for(lambda:worker.parked() and worker.pose(),5)
     worker.final_pose=worker.pose()
     if worker.final_pose is None:raise ValueError('停靠后定位不可用。')

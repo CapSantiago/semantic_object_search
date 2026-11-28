@@ -202,9 +202,11 @@ C034默认开发配置将激光二维层与深度体素层独立按最大值融�
 
 控制台状态分开表示启动阶段、组件是否存活、ROS数据是否就绪、任务执行状态及文件保存状态。`running`仅表示进程或任务在运行，不能视为完成；物品坐标仍为map米制坐标。传感器或TF过期会阻止新任务，停止按钮保留。没有收到可信任务终态时阻止新任务并提示重启，避免控制权不明时继续执行。
 
-显式候选`--precision-docking`加载`charging_station_precision.json`：仅dock/dock_alignment/dock_approach使用`navigate_docking.xml`、`DockingPath`及`docking_goal_checker`，位置执行目标.05m、完整朝向.10rad；到达位置阶段后由原生rotation shim完成朝向控制；原独立回充验收.15m/.15rad及停稳门槛保持。一般观察与清扫目标不切换该检查器。新控制器复用原DWB运动/避障参数，参数重写输出禁止YAML别名，避免Humble原生解析失败。该候选是否通过以实测为准，默认充电配置保留。
+显式候选`--precision-docking`加载`charging_station_precision.json`：仅dock/dock_alignment/dock_approach使用`navigate_docking.xml`、`DockingPath`及`docking_goal_checker`，位置执行目标.05m、完整朝向.10rad；到达位置阶段后由原生rotation shim完成朝向控制；原独立回充验收.15m/.15rad及停稳门槛保持。一般观察与清扫目标不切换该检查器。新控制器复用原DWB运动/避障参数，参数重写输出禁止YAML别名，避免Humble原生解析失败。该候选是否通过以实测为准，默认充电配置保留。 当前本地后续候选还可由充电配置`refresh_localization_before_dock`请求最多3次`/request_nomotion_update`：仅精确候选、普通或恢复停靠结束后、距目标≤.75m且至少剩8秒时触发；多次请求共用总刷新等待≤3秒，必须收到请求之后的新AMCL源戳/接收时间、仍新鲜且停稳的位姿，并等待TF与该定位测量在1cm/.01rad内一致（AMCL的未来TF时间戳可能使消息先到），不能只凭Empty服务应答。若刷新后偏差>.05m或>.10rad，再在原截止内微调一次（≤12秒）；所有最终独立验收门槛保持。`return_result/clean_result.docking_localization_updates`分别保留请求、来源戳、前后定位与不可用原因；不读取仿真真值，也不设置initialpose。
 
-显式试验`--memory-guidance --memory-safe-approach`可在真实历史与新鲜同几何global costmap可用时，从已知自由且静态间距≥.35m、当前同连通区提议至多一个`memory_safe_approach`核验点；它只表示优先核验，不确认物品存在。`memory_guidance.verification_views[].planning`保留实际栅格/可用掩码压缩数据、来源戳、当前位姿、预测耗时供独立重算。预测至少比最快固定点短10%才提议，所有固定回退点保留；有必巡前缀时不新增此类点。数据不满足时沿用既有历史排序，计数路线/现场hits/定位门槛不改。收益必须由同基线实际耗时与独立路程验证。
+普通`--memory-guidance`若有真实≥2帧、距历史物品.8–2.2m的成功可选固定视点，先按该实际观测排序，不再抢先插入无成功依据的新朝向；远距历史近点核验能力保留。所有必巡前缀/固定回退保持，计数仍完整现场巡视。新部署无历史时按正常路线；完成真实任务后才有可复用记录。所选客厅案例两组收益通过，不能视作所有场景必然提速。
+
+显式试验`--memory-guidance --memory-safe-approach`默认关闭。新policy_version=2只从真实历史成功视点（至少2帧现场关联）邻近.75m内生成一个核验点：沿用≥.35m已知自由间距、当前安全连通区；历史状态必须last_observed，无分类冲突，观察距离不超过成功距离加半格量化误差，方向变化≤45°，未知格拒绝、目标附近二维遮挡预测不劣于原成功视点。它不保证新视野可识别，必须到场完整驻留/现场hits确认。模型至少预测省1秒才试，仅作为候选选择启发式，不替代原正确性、20cm和实测两组收益要求；旧10%估计门槛属于失败v1启发式，不是验收标准。计数、必巡前缀及全部固定回退不变。verification_views[].planning保留真实历史视点任务/帧数、实际地图与可用掩码/时间戳，验收器重算并核对历史来源；缺数据退回原策略。旧v1仅用于原收据重算，原失败不改写。
 
 `robot_runtime.py`负责项目/ROS域锁、独立会话目录及进程清理；`robot_monitor.py`只读订阅和生命周期查询。退出仅处理带本次所有权标记的进程，核对UID、启动标识并使用pidfd，包含导航包装脚本另起的进程组。普通浏览器不继承此标记。
 
@@ -266,3 +268,25 @@ C041原条带小缺口：默认主遍历后优先`required_stripe_repair`，针�
 统一导图沿用`POST /api/map/export`：`{}`或`{"view":"cost"}`保留原全局代价导出；新增`occupancy`、`rooms`、`semantic`、`observations`、`clean_trace`、`clean_coverage`、`relations`。每次返回本会话allowlist下PNG/SVG/原始JSON。`map_export_views`为能力清单，旧后台隐藏新下拉。`semantic`/`relations`可用`room`/`category`过滤；`observations`/`clean_*`用本会话`task_id`（省略则当前任务），不能传文件路径或访问其他会话。清扫仅已结束且保存完整原栅格/报告的任务可导出，原partial不改。
 
 `shared_map_view_v1`保留原底图、分区、所选任务和必要源数据；`captured_at`为快照导出时间，图上写“导出”，各源保留原始sim戳/修订/会话，不声称同步采集。语义图M-空间ID和#任务编号分开，历史不作现场库存；观察图灰圈为目标，绿色位姿/方向必须来自有效实测到达及停留数据。清扫原始map/resolution/origin、floor/eligible/covered格数须一致，定位断点不连线，非目标房间不涂成不可达；关系图须核验真实Spark-DSG的家庭—房间、房间—物品边和记忆修订，缺证据返回409。导出不派发运动或重规划，不支持局部odom代价直接当map。
+
+## 明确顺序任务与核验解释（2026-11-24首版）
+
+`POST /api/task`沿用`request_id,command`，导航模式支持“先去厨房统计杯子，再去卧室找书”等2–3项明确顺序句式。整句全部规范化成功才启动任何子任务；子任务使用独立ID、原报告和原自动回充。只有completed且saved才继续，partial/失败/取消/未知控制终态终止余项；停止按钮取消当前任务及余项。相同父request_id与原文重试不重派。`GET /api/state.sequence`给出父ID/原文/状态及子项ID、文字、canonical、kind、state；会话`sequences/<id>.json`保存回执。没有队列断点续作；重启不自动派发未完任务。建图模式仍单条运动控制。真人转写仍先显示文字再由用户提交。
+
+搜索进度和结果新增`memory_trace`：历史只读坐标/时间/状态、真实成功来源task_id/frames、逐点到达/完整驻留/有效投影及本次确认数。它解释记录，不判断物理身份或可靠缺失；计数仍现场完整巡视，不从历史补数。清扫进度新增`cleaning_phases`及当前有限补扫`supplement`的measured_new_cells/elapsed_seconds；受阻条带是曾受阻记录，不等于永久不可达。字段的实际使用及验收范围见DEVELOPMENT_VALIDATION.md。
+
+`POST /api/task/preview`接受同一`request_id,command`，导航模式返回`sequence`及每项`command,parsed`，只读解析、无任务或进程启动。UI对组合指令先展示清单，点击“执行以上任务”才调用原`/api/task`；提交时仍完整重验，文本或会话改变使预览失效。预览不是跨会话可恢复任务。
+
+精确回充在普通深度配置下单独选用`nav2_depth_docking_progress.yaml`，相对`nav2_depth.yaml`只将DockingPath.GoalDist.scale从24改为96，避免终点附近原地小转评分长期优于合法前进；普通FollowPath/CleaningPath与障碍代价、碰撞约束、速度均不变。body_footprint/navigation_safety候选不自动混用此文件。参数加载不等于停靠通过，仍核对独立位置/朝向与停稳。
+
+清扫进度和结果附`coverage_layer`：地图frame/width/height/resolution/origin、原始signed-int8栅格字节SHA256、实际eligible/covered的RLE和格数，以及带时效的原生代价禁行RLE。UI仅在当前底图几何与`data_sha256`一致时叠加；绿色为实刷，黄色为原可扫未扫，红色仅为当前native≥99禁行，过期即不绘制红层。终态标记结束快照，不把曾受阻格称永久不可达，不用场景真值减分母。`cleaning_phases`的增量来自真实covered掩膜，UI由原resolution换算m²；不是规划面积。
+
+离线语音保持原单任务/建图解码；首次文本已满足明确组合句式时，至多追加一次共享目录和顺序词提示的确定性解码（temperature=0、beam_size=10），仅保留仍能完整拆分的真实ASR原文，不替换同音词。识别后仍须预览确认，不按类别真值补全指令。
+
+只读时效验证器`cloud_continuity.py --ready-file <独立文件>`提供派发前就绪握手：至少预热3秒，且10秒内收到新鲜原生时钟/深度云/激光后才写一次ready；未就绪失败退出。原始启动数据和startup_checks单列保留，measurement_started_wall之后所有检查连续计入，后续断流不重新预热。未传该选项时保持原3秒统计方式。调用方必须在ready之后派任务，不能事后使用此模式裁去任务内超界。
+
+该只读观察器可加`--journal <新JSONL文件>`，持续保存原始cloud/scan、startup和全部measurement检查，每秒flush；最终JSON仍保存完整统计。流水用于诊断中断，缺少任务末端/接触完整性时仍不得据部分流水判通过。长时本地验证采用独立唯一validation owner、有界supervisor及接触检查点；进程退出来源未知时保留not_accepted，不推定机器人失败或安全通过。
+
+`--sim-localization-candidate`为显式仿真运动模型校准，只支持普通深度＋precision_docking。session.config记录sim_localization_candidate及实际navigation文件，configuration_snapshots冻结原生OdometryPublisher模型；alpha1–4从.2隔离为.02，alpha5、测量模型、设施位置/地图、控制和验收门槛保留。输入仍是已有/odom与scan，没有新的物品真值或运行时位姿提示；候选是否准入以独立物理停靠及相关任务为准。
+
+本轮最终收据workflow_completion.json区分专项通过与原清扫partial。运行结束的真实缓存DOM已核对；保存任务还通过只读HTTP回放调用原导出方法检查，代价使用记录时的仿真时间并标历史。该回放只是验证工具，不是实时机器人会话或新的可执行任务入口。

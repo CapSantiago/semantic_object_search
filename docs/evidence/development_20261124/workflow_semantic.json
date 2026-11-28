@@ -1,0 +1,459 @@
+{
+  "status": "passed_representative_semantic_closed_loop",
+  "session": "20261124T151511_281213Z_61397ff6",
+  "trials": [
+    {
+      "case": "primer",
+      "count": 1,
+      "task_id": "b9e2e866-2510-44f9-af0f-8cd7ae25b7a4",
+      "checks": {
+        "observer_healthy": true,
+        "original_task_succeeded": true,
+        "mandatory_surfaces_observed": true,
+        "returned_to_dock": true,
+        "native_settled": true,
+        "no_recorded_contact": true,
+        "no_external_cancel": true,
+        "ui_observation_fresh": true,
+        "independent_world_dock": true,
+        "fresh_sensor_checks": true,
+        "observer_clean": true
+      },
+      "independent_dock": {
+        "position_m": 0.09776814172112021,
+        "yaw_rad": 0.029811087137518594
+      },
+      "source": {
+        "cloud": {
+          "count": 698,
+          "max_gap": 0.19662635600070644,
+          "gaps_over_point4": 0,
+          "max_source_age": 0.09200000000000585
+        },
+        "scan": {
+          "count": 436,
+          "max_gap": 0.24660232099995483,
+          "gaps_over_point4": 0,
+          "max_source_age": 0.054000000000002046
+        },
+        "fresh_checks": 44831,
+        "stale_checks": 0
+      },
+      "localization_updates": [
+        {
+          "before": [
+            -1.8330856536488875,
+            -3.977675589264223,
+            0.027838481756059595
+          ],
+          "status": "updated",
+          "phase": "tf_coherence",
+          "requested_stamp_ns": 106320000000,
+          "requested_wall": 7009.776790298,
+          "after": [
+            -1.8409482050633674,
+            -3.9749463346907006,
+            0.028361935498528005
+          ],
+          "measurement": {
+            "stamp_ns": 106400000000,
+            "received_wall": 7009.888046378,
+            "pose": [
+              -1.8480091323884125,
+              -3.9819992987581556,
+              0.025424647089824143
+            ],
+            "variance": [
+              0.03955360235812444,
+              0.04383382527234936,
+              0.06442839014544618
+            ]
+          }
+        }
+      ],
+      "raw": "results/development/workflows_20261124/semantic_service/primer/report.json",
+      "sha256": "3bfa75c2286fc4f3b79cc61cadbb6f67cdca557f25f301ad876ee87480fc35a7"
+    },
+    {
+      "case": "guided_find",
+      "count": 1,
+      "task_id": "95bfdd81-463c-462b-8a10-9293957cebfb",
+      "checks": {
+        "observer_healthy": true,
+        "original_task_succeeded": true,
+        "mandatory_surfaces_observed": true,
+        "returned_to_dock": true,
+        "native_settled": true,
+        "no_recorded_contact": true,
+        "no_external_cancel": true,
+        "ui_observation_fresh": true,
+        "independent_world_dock": true,
+        "fresh_sensor_checks": true,
+        "observer_clean": true
+      },
+      "independent_dock": {
+        "position_m": 0.10400230457412109,
+        "yaw_rad": 0.017375533764002738
+      },
+      "source": {
+        "cloud": {
+          "count": 801,
+          "max_gap": 0.17479005499990308,
+          "gaps_over_point4": 0,
+          "max_source_age": 0.10400000000001342
+        },
+        "scan": {
+          "count": 501,
+          "max_gap": 0.24986497999998392,
+          "gaps_over_point4": 0,
+          "max_source_age": 0.054000000000002046
+        },
+        "fresh_checks": 51484,
+        "stale_checks": 0
+      },
+      "localization_updates": [
+        {
+          "before": [
+            -1.81461994598187,
+            -3.995051335427962,
+            0.0012240462421925194
+          ],
+          "status": "updated",
+          "phase": "tf_coherence",
+          "requested_stamp_ns": 210740000000,
+          "requested_wall": 7115.082602514,
+          "after": [
+            -1.8178501460788932,
+            -3.978874284157792,
+            -0.013362579606084236
+          ],
+          "measurement": {
+            "stamp_ns": 210800000000,
+            "received_wall": 7115.156609293,
+            "pose": [
+              -1.8243907729951325,
+              -3.9731160748654917,
+              -0.005794188161289729
+            ],
+            "variance": [
+              0.029226924937663323,
+              0.05003761863634537,
+              0.04661871067362285
+            ]
+          }
+        }
+      ],
+      "raw": "results/development/workflows_20261124/semantic_service/guided_find/report.json",
+      "sha256": "4ff1c8514d5e14dc9a4d0fe687ab9cf4bca1f005236fdbc43205554a974fa0c3"
+    },
+    {
+      "case": "movement/moved_find",
+      "count": 1,
+      "task_id": "1bbf55a0-fbe4-4feb-8a6f-c618dc685ff6",
+      "checks": {
+        "observer_healthy": true,
+        "original_task_succeeded": true,
+        "mandatory_surfaces_observed": true,
+        "returned_to_dock": true,
+        "native_settled": true,
+        "no_recorded_contact": true,
+        "no_external_cancel": true,
+        "ui_observation_fresh": true,
+        "independent_world_dock": true,
+        "fresh_sensor_checks": true,
+        "observer_clean": true
+      },
+      "independent_dock": {
+        "position_m": 0.10465674353010056,
+        "yaw_rad": 0.056653352248835026
+      },
+      "source": {
+        "cloud": {
+          "count": 559,
+          "max_gap": 0.18224650899992412,
+          "gaps_over_point4": 0,
+          "max_source_age": 0.09600000000000364
+        },
+        "scan": {
+          "count": 349,
+          "max_gap": 0.25069368700042105,
+          "gaps_over_point4": 0,
+          "max_source_age": 0.0519999999999925
+        },
+        "fresh_checks": 35886,
+        "stale_checks": 0
+      },
+      "localization_updates": [
+        {
+          "before": [
+            -1.858651931165667,
+            -3.9615899342531504,
+            -0.03406111807131697
+          ],
+          "status": "updated",
+          "phase": "tf_coherence",
+          "requested_stamp_ns": 283860000000,
+          "requested_wall": 7188.935049586,
+          "after": [
+            -1.8738310459453924,
+            -3.9627682469289245,
+            -0.027716592795326067
+          ],
+          "measurement": {
+            "stamp_ns": 284000000000,
+            "received_wall": 7189.111748392,
+            "pose": [
+              -1.8757037820781985,
+              -3.9687167709327187,
+              -0.018436990505004882
+            ],
+            "variance": [
+              0.03813006355509163,
+              0.0600317466728395,
+              0.06221904836523687
+            ]
+          }
+        }
+      ],
+      "raw": "results/development/workflows_20261124/semantic_service/movement/moved_find/report.json",
+      "sha256": "5ba761140888f42f3e9905b3e8d2b5164355a5b8fec1de614e30eece1fc829f7"
+    },
+    {
+      "case": "movement/moved_count",
+      "count": 1,
+      "task_id": "dd792104-cff7-49d9-9397-124cc251017b",
+      "checks": {
+        "observer_healthy": true,
+        "original_task_succeeded": true,
+        "mandatory_surfaces_observed": true,
+        "returned_to_dock": true,
+        "native_settled": true,
+        "no_recorded_contact": true,
+        "no_external_cancel": true,
+        "ui_observation_fresh": true,
+        "independent_world_dock": true,
+        "fresh_sensor_checks": true,
+        "observer_clean": true
+      },
+      "independent_dock": {
+        "position_m": 0.11554855814457411,
+        "yaw_rad": 0.10992715382905854
+      },
+      "source": {
+        "cloud": {
+          "count": 809,
+          "max_gap": 0.1708764559998599,
+          "gaps_over_point4": 0,
+          "max_source_age": 0.10200000000003229
+        },
+        "scan": {
+          "count": 505,
+          "max_gap": 0.2476006260003487,
+          "gaps_over_point4": 0,
+          "max_source_age": 0.053999999999973625
+        },
+        "fresh_checks": 51951,
+        "stale_checks": 0
+      },
+      "localization_updates": [
+        {
+          "before": [
+            -1.8326428772503924,
+            -3.9724096725208105,
+            0.0359470665087401
+          ],
+          "status": "updated",
+          "phase": "tf_coherence",
+          "requested_stamp_ns": 391840000000,
+          "requested_wall": 7297.769266178,
+          "after": [
+            -1.815296081009786,
+            -3.995980250764391,
+            0.07233941342533069
+          ],
+          "measurement": {
+            "stamp_ns": 392000000000,
+            "received_wall": 7297.959533415,
+            "pose": [
+              -1.8080743008491589,
+              -4.001279938179482,
+              0.06867104294721989
+            ],
+            "variance": [
+              0.025287720138370773,
+              0.03381664007052265,
+              0.05466155542347895
+            ]
+          }
+        }
+      ],
+      "raw": "results/development/workflows_20261124/semantic_service/movement/moved_count/report.json",
+      "sha256": "b87f754792c219c124d4745ce25f0e6029aeaacce716a2b63c8da40487104ef2"
+    }
+  ],
+  "memory_checks": {
+    "latest_record_count": true,
+    "latest_from_current_count": true,
+    "original_position_history_exists": true,
+    "old_position_records_marked_pending": true,
+    "latest_near_declared_new_position": true,
+    "current_counts_not_from_history": true
+  },
+  "graph": {
+    "status": "passed",
+    "checks": {
+      "sqlite_equals_api": true,
+      "graph_same_revision": true,
+      "graph_same_namespace": true,
+      "graph_all_records": true,
+      "graph_record_fields": true,
+      "physical_identity_not_fabricated": true
+    },
+    "session": "20261124T151511_281213Z_61397ff6",
+    "source_revision": "169:2026-11-24T15:21:13.970885+00:00",
+    "objects": 54,
+    "graph_nodes": 60,
+    "graph_edges": 59,
+    "find_history_used": true,
+    "find_actual_prefix_differs_from_baseline": true,
+    "limits": [
+      "Single physical banana is evaluator knowledge only; semantic memory does not establish physical reidentification.",
+      "ABBA correctness, timing, distance and full source timing are audited separately for this same scenario."
+    ],
+    "source_sha256": {
+      "movement/audit.json": "d3525986ac8ca65a42bd16a1460a0b5968cd7e2e801bc2ee89b0b90b8f42679c",
+      "movement/after_all_memory.json": "f93fb6d4490f235dad33e20a644a1f8549c50927b24b4d1c2f57775de2c91a51",
+      "movement/after_graph.json": "b673a2961ea753ed072799f0d1298bcd8ea3615bb09444c47736945de5a5b219"
+    }
+  },
+  "live_browser_trace": "results/development/workflows_20261124/semantic_trace_live.json",
+  "limits": [
+    "One same-runtime representative loop; no all-room or physical reidentification claim.",
+    "Original ABBA search benefit remains its separately frozen evidence.",
+    "Old source/dock failures preserved; pre-discovery service fix does not establish all Action/DDS failures resolved.",
+    "Additional layout correct but .4843s slower; no universal speed claim. Warm20.03cm failure preserved."
+  ],
+  "additional_layout": {
+    "status": "passed_correctness_and_boundary_verified",
+    "scope": "One additional moved physical layout; no universal speed requirement",
+    "trials": [
+      {
+        "enabled": false,
+        "status": "passed",
+        "evaluation": {
+          "passed": true,
+          "expected": 1,
+          "actual": 1,
+          "checks": {
+            "task_completed": true,
+            "count": true,
+            "position": true,
+            "unique_ids": true,
+            "map_metres": true,
+            "room": true,
+            "required_surfaces": true,
+            "measured_arrivals": true,
+            "saved": true,
+            "memory_saved": true,
+            "return_passed": true,
+            "configured_route": true,
+            "found": true,
+            "persisted_result": true,
+            "observed_hits": true,
+            "svg_ids": true
+          },
+          "position_limit_m": 0.2,
+          "errors": [
+            {
+              "id": 1,
+              "reference": "living_banana_1",
+              "xy_error_m": 0.17528255277983898
+            }
+          ],
+          "arrivals": [
+            {
+              "index": 0,
+              "passed": true,
+              "xy_error_m": 0.11796567469479305,
+              "yaw_error_rad": 0.11848762579665073
+            }
+          ]
+        },
+        "seconds": 32.04239712799972,
+        "visited": 1,
+        "order_changed": null,
+        "history_used": false
+      },
+      {
+        "enabled": true,
+        "status": "passed",
+        "evaluation": {
+          "passed": true,
+          "expected": 1,
+          "actual": 1,
+          "checks": {
+            "task_completed": true,
+            "count": true,
+            "position": true,
+            "unique_ids": true,
+            "map_metres": true,
+            "room": true,
+            "required_surfaces": true,
+            "measured_arrivals": true,
+            "saved": true,
+            "memory_saved": true,
+            "return_passed": true,
+            "configured_route": true,
+            "found": true,
+            "persisted_result": true,
+            "observed_hits": true,
+            "svg_ids": true
+          },
+          "position_limit_m": 0.2,
+          "errors": [
+            {
+              "id": 1,
+              "reference": "living_banana_1",
+              "xy_error_m": 0.14535481796558541
+            }
+          ],
+          "arrivals": [
+            {
+              "index": 0,
+              "passed": true,
+              "xy_error_m": 0.09688865584069312,
+              "yaw_error_rad": 0.09811295877414206
+            }
+          ]
+        },
+        "seconds": 32.52666275200045,
+        "visited": 1,
+        "order_changed": false,
+        "history_used": true
+      }
+    ],
+    "parameter_updates": [
+      {
+        "enabled": false,
+        "returncode": 0,
+        "stdout": "successful: memory_guidance=false\n",
+        "stderr": ""
+      },
+      {
+        "enabled": true,
+        "returncode": 0,
+        "stdout": "successful: memory_guidance=true\n",
+        "stderr": ""
+      },
+      {
+        "enabled": true,
+        "returncode": 0,
+        "stdout": "successful: memory_guidance=true\n",
+        "stderr": ""
+      }
+    ],
+    "seconds_saved": -0.48426562400072726,
+    "measured_speed_gain": false,
+    "interpretation": "Benefit depends on layout and baseline visibility; this pair does not replace the original ABBA evidence."
+  }
+}

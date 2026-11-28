@@ -53,6 +53,7 @@ class Console:
         self.mode_worker = None
         self.jobs, self.job, self.validation = {}, None, None
         self.artifacts, self.known_task_ids = {}, set()
+        self.sequences, self.sequence = {}, None
         self.uncertain = False
         self.worker = None
         self.watchers = {}
@@ -121,6 +122,7 @@ class Console:
             return dict(session_id=self.runtime.session_dir.name, phase=self.phase, error=self.error, mode=self.mode,
                         ready=self.readiness(telemetry) and not busy, busy=busy,
                         components=self.runtime.snapshot(), telemetry=telemetry,
+                        sequence=copy.deepcopy(self.sequence),
                         task=public(self.job), history=history, validation=public(self.validation),
                         rooms=copy.deepcopy(self.rooms), rooms_frame_id="map", rooms_file=self.rooms_file,
                         output_directory=str(self.runtime.session_dir), control_uncertain=self.uncertain,
@@ -439,6 +441,11 @@ class Console:
     def submit(self, payload):
         with self.lock:
             kind = 'search'
+            from semantic_search.task_sequence import split_sequence
+            if self.mode!='mapping' and isinstance(payload,dict) and 'command' in payload:
+                try:parts=split_sequence(payload['command'])
+                except ValueError as error:raise ApiError(400,str(error)) from error
+                if parts:return self._submit_sequence(payload,parts)
             if self.mode=='mapping':
                 from semantic_search.mapping_control import parse_motion
                 request_id,text = payload.get('request_id'),payload.get('command')
@@ -457,11 +464,103 @@ class Console:
                 request_id, text, command = self.normalize(payload)
                 mode=json.loads(command)['mode']
                 if mode in ('clean','return'):kind=mode
+            if request_id in self.sequences:
+                raise ApiError(409,'该request_id已被组合任务使用。')
             if request_id in self.jobs:
                 if self.jobs[request_id]['_signature'] != command:
                     raise ApiError(409, '同一request_id不能用于不同任务。')
                 return self.snapshot()
             return self._start_job(request_id,kind,text,command)
+
+    def _sequence_rows(self, parts):
+        rows=[]
+        for part in parts:
+            child_id='sequence_'+uuid4().hex
+            _,text,command=self.normalize(dict(request_id=child_id,command=part))
+            mode=json.loads(command)['mode']
+            rows.append(dict(id=child_id,command=text,canonical=command,
+                kind=mode if mode in ('clean','return') else 'search',state='pending'))
+        return rows
+
+    def preview(self, payload):
+        from semantic_search.task_sequence import split_sequence
+        with self.lock:
+            if self.mode!='navigation':raise ApiError(409,'组合预览只用于导航任务。')
+            if not isinstance(payload,dict) or set(payload)!={'request_id','command'}:
+                raise ApiError(400,'请提供request_id和中文指令。')
+            request_id=payload['request_id']
+            if not isinstance(request_id,str) or not re.fullmatch(r'[A-Za-z0-9_-]{8,80}',request_id):
+                raise ApiError(400,'请提供有效的request_id。')
+            try:parts=split_sequence(payload['command'])
+            except ValueError as error:raise ApiError(400,str(error)) from error
+            if parts:
+                rows=self._sequence_rows(parts)
+                return dict(sequence=True,tasks=[dict(command=r['command'],parsed=json.loads(r['canonical'])) for r in rows])
+            _,text,command=self.normalize(payload)
+            return dict(sequence=False,tasks=[dict(command=text,parsed=json.loads(command))])
+
+    def _submit_sequence(self, payload, parts):
+        # Caller owns the same lock as terminal handling and cancellation.
+        request_id=payload.get('request_id')
+        if set(payload)!={'request_id','command'}:
+            raise ApiError(400,'组合任务只接受文字与request_id。')
+        if not isinstance(request_id,str) or not re.fullmatch(r'[A-Za-z0-9_-]{8,80}',request_id):
+            raise ApiError(400,'请提供有效的request_id。')
+        if request_id in self.sequences:
+            if self.sequences[request_id]['command']!=payload['command']:
+                raise ApiError(409,'同一request_id不能用于不同任务。')
+            return self.snapshot()
+        if request_id in self.jobs:
+            raise ApiError(409,'该request_id已被其他任务使用。')
+        if self.job and self.job['state'] not in TERMINAL:
+            raise ApiError(409,'已有任务执行中，请等待结束或停止。')
+        # Validate every clause before starting any motion. Child IDs do not
+        # depend on user text and cannot collide with a prior request.
+        rows=self._sequence_rows(parts)
+        if not self.readiness(self.monitor.snapshot()):
+            raise ApiError(409,'机器人尚未就绪，请等待或检查状态。')
+        sequence=dict(id=request_id,command=payload['command'],state='running',tasks=rows)
+        self.sequences[request_id]=self.sequence=sequence
+        self._launch_sequence_child(sequence,rows[0])
+        return self.snapshot()
+
+    def _launch_sequence_child(self, sequence, child):
+        try:
+            self._start_job(child['id'],child['kind'],child['command'],child['canonical'])
+            child['state']=self.jobs[child['id']]['state']
+        except Exception as error:
+            child['state']='failed'
+            sequence.update(state='failed',error=str(error))
+            for item in sequence['tasks']:
+                if item['state']=='pending':item['state']='skipped'
+        self._save_sequence(sequence)
+
+    def _save_sequence(self, sequence):
+        try:write_json(self.runtime.session_dir/'sequences'/(sequence['id']+'.json'),sequence)
+        except OSError as error:
+            sequence.update(state='failed',error='组合任务回执保存失败：'+str(error))
+            for item in sequence['tasks']:
+                if item['state']=='pending':item['state']='skipped'
+
+    def _advance_sequence(self, row):
+        sequence=self.sequence
+        if not sequence:return
+        child=next((v for v in sequence['tasks'] if v['id']==row['id']),None)
+        if child is None:return
+        child['state']=row['state']
+        if sequence['state']!='running':
+            self._save_sequence(sequence)
+            return
+        if (row['state']!='completed' or row.get('save_status')!='saved' or
+                self.uncertain or self.stopping.is_set()):
+            sequence['state']='canceled' if row['state']=='canceled' else 'failed'
+            for item in sequence['tasks']:
+                if item['state']=='pending':item['state']='skipped'
+        else:
+            following=next((v for v in sequence['tasks'] if v['state']=='pending'),None)
+            if following:self._launch_sequence_child(sequence,following)
+            else:sequence['state']='completed'
+        self._save_sequence(sequence)
 
     def save_mapping(self):
         with self.lock:
@@ -804,6 +903,7 @@ class Console:
             row.update(state=state,result=result,error=error,artifacts=artifacts,save_status=save_status,
                        returncode=process.returncode,_ended=time.monotonic())
             self._save_job(row)
+            self._advance_sequence(row)
 
     def _save_job(self,row):
         """Best-effort receipt; a write failure must remain visible in the UI."""
@@ -830,6 +930,11 @@ class Console:
 
     def cancel(self):
         with self.lock:
+            if self.sequence and self.sequence['state']=='running':
+                self.sequence['state']='canceled'
+                for child in self.sequence['tasks']:
+                    if child['state']=='pending':child['state']='skipped'
+                self._save_sequence(self.sequence)
             if self.job and self.job['state'] not in TERMINAL:
                 if self.job['state']!='canceling':
                     self.job['state']='canceling'
@@ -977,6 +1082,7 @@ def handler_for(console):
                 except (ValueError,UnicodeError):raise ApiError(400,'无效JSON。')
                 if not isinstance(data,dict):raise ApiError(400,'请求必须为JSON对象。')
                 if self.path=='/api/task':result=console.submit(data)
+                elif self.path=='/api/task/preview':result=console.preview(data)
                 elif self.path=='/api/cancel':result=console.cancel()
                 elif self.path=='/api/validate':result=console.validate()
                 elif self.path=='/api/mode':result=console.switch_mode(data)
@@ -1020,6 +1126,8 @@ def main():
     parser.add_argument('--cleaning-local-recovery',action='store_true',help='清扫近程恢复实验选项；默认关闭，尚未改善覆盖')
     parser.add_argument('--cleaning-budget-selection',action='store_true',help='清扫收益调度实验；默认关闭，整房覆盖及回充未通过')
     parser.add_argument('--no-charging-station',action='store_true',help='历史起点/返航回归时显式关闭固定充电处')
+    parser.add_argument('--sim-localization-candidate',action='store_true',
+                        help='显式仿真候选：校准原生无噪声里程计的AMCL运动模型，待验收')
     parser.add_argument('--precision-docking',action='store_true',help='显式候选：仅停靠采用5cm执行目标，验收仍15cm')
     parser.add_argument('--model',choices=('yolov8n-seg.pt','yolov8s-seg.pt'),default='yolov8n-seg.pt',
                         help='显式选择已锁定权重，默认n；s只用于候选对照')
@@ -1055,7 +1163,8 @@ def main():
                         cleaning_position_goals=args.cleaning_position_goals,
                         cleaning_local_recovery=args.cleaning_local_recovery,
                         cleaning_budget_selection=args.cleaning_budget_selection,
-                        charging_station=not args.no_charging_station,precision_docking=args.precision_docking)
+                        charging_station=not args.no_charging_station,precision_docking=args.precision_docking,
+                        sim_localization_candidate=args.sim_localization_candidate)
         # Only ROS selectors belong to the parent. Browser processes must not
         # inherit the ownership token used to clean up this robot's children.
         for key in ('ROS_DOMAIN_ID','SEMANTIC_ROS_DOMAIN_ID','ROS_LOCALHOST_ONLY','IGN_PARTITION'):

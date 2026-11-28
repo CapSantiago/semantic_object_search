@@ -1,0 +1,1615 @@
+{
+  "status": "passed",
+  "scope": "Actual translation, turns and revisiting a local route; saved map independently reloaded, original navigation restored; not whole-house mapping or human voice.",
+  "tasks": [
+    {
+      "id": "mapping_preflight_3fa60cfb50",
+      "kind": "motion",
+      "command": "前进",
+      "state": "completed",
+      "result": {
+        "request_id": "mapping_preflight_3fa60cfb50",
+        "command": "forward",
+        "source": "console",
+        "status": "completed",
+        "message": "本次短时运动结束，已停车。",
+        "speed_m_s": 0.12
+      },
+      "error": null,
+      "artifacts": [
+        {
+          "name": "任务请求",
+          "url": "/api/artifact?id=df7fc742763747e8f52864f5740544bd",
+          "kind": "json"
+        },
+        {
+          "name": "运动回执",
+          "url": "/api/artifact?id=43fdbe96964fcaa6b3ec61b9a50b1a3f",
+          "kind": "json"
+        }
+      ],
+      "save_status": "saved",
+      "returncode": 0,
+      "elapsed_seconds": 2.01
+    },
+    {
+      "id": "mapping_preflight_1b2d72ac22",
+      "kind": "motion",
+      "command": "前进",
+      "state": "completed",
+      "result": {
+        "request_id": "mapping_preflight_1b2d72ac22",
+        "command": "forward",
+        "source": "console",
+        "status": "completed",
+        "message": "本次短时运动结束，已停车。",
+        "speed_m_s": 0.12
+      },
+      "error": null,
+      "artifacts": [
+        {
+          "name": "任务请求",
+          "url": "/api/artifact?id=22d2422f556d26885f3e1dd508625b07",
+          "kind": "json"
+        },
+        {
+          "name": "运动回执",
+          "url": "/api/artifact?id=00e5891c9a108db73ca22839de6c9204",
+          "kind": "json"
+        }
+      ],
+      "save_status": "saved",
+      "returncode": 0,
+      "elapsed_seconds": 1.91
+    },
+    {
+      "id": "mapping_preflight_bb7992c66d",
+      "kind": "motion",
+      "command": "前进",
+      "state": "completed",
+      "result": {
+        "request_id": "mapping_preflight_bb7992c66d",
+        "command": "forward",
+        "source": "console",
+        "status": "completed",
+        "message": "本次短时运动结束，已停车。",
+        "speed_m_s": 0.12
+      },
+      "error": null,
+      "artifacts": [
+        {
+          "name": "任务请求",
+          "url": "/api/artifact?id=fba619a6f88f38721557411221f0c6fa",
+          "kind": "json"
+        },
+        {
+          "name": "运动回执",
+          "url": "/api/artifact?id=100c36de3ffeb5866973db58b4c93817",
+          "kind": "json"
+        }
+      ],
+      "save_status": "saved",
+      "returncode": 0,
+      "elapsed_seconds": 2.92
+    },
+    {
+      "id": "mapping_preflight_f0c1e3d427",
+      "kind": "motion",
+      "command": "左转",
+      "state": "completed",
+      "result": {
+        "request_id": "mapping_preflight_f0c1e3d427",
+        "command": "left",
+        "source": "console",
+        "status": "completed",
+        "message": "本次短时运动结束，已停车。",
+        "speed_m_s": 0.12
+      },
+      "error": null,
+      "artifacts": [
+        {
+          "name": "任务请求",
+          "url": "/api/artifact?id=515aa6d00250e6643419bb2373483d9c",
+          "kind": "json"
+        },
+        {
+          "name": "运动回执",
+          "url": "/api/artifact?id=0f80fd77086a101b469167153e9030db",
+          "kind": "json"
+        }
+      ],
+      "save_status": "saved",
+      "returncode": 0,
+      "elapsed_seconds": 1.91
+    },
+    {
+      "id": "mapping_preflight_5b20f5ed11",
+      "kind": "motion",
+      "command": "左转",
+      "state": "completed",
+      "result": {
+        "request_id": "mapping_preflight_5b20f5ed11",
+        "command": "left",
+        "source": "console",
+        "status": "completed",
+        "message": "本次短时运动结束，已停车。",
+        "speed_m_s": 0.12
+      },
+      "error": null,
+      "artifacts": [
+        {
+          "name": "任务请求",
+          "url": "/api/artifact?id=950d8e03ca5c504cddf4bdab404483aa",
+          "kind": "json"
+        },
+        {
+          "name": "运动回执",
+          "url": "/api/artifact?id=ca46362c1dd61a2c9731bbac7914dae8",
+          "kind": "json"
+        }
+      ],
+      "save_status": "saved",
+      "returncode": 0,
+      "elapsed_seconds": 2.02
+    },
+    {
+      "id": "mapping_preflight_a46dba2f1b",
+      "kind": "motion",
+      "command": "前进",
+      "state": "completed",
+      "result": {
+        "request_id": "mapping_preflight_a46dba2f1b",
+        "command": "forward",
+        "source": "console",
+        "status": "completed",
+        "message": "本次短时运动结束，已停车。",
+        "speed_m_s": 0.12
+      },
+      "error": null,
+      "artifacts": [
+        {
+          "name": "任务请求",
+          "url": "/api/artifact?id=674b68c5558f5225ab243e6ee449d0cd",
+          "kind": "json"
+        },
+        {
+          "name": "运动回执",
+          "url": "/api/artifact?id=e4e06946ba8e356ead7d009f1bbda682",
+          "kind": "json"
+        }
+      ],
+      "save_status": "saved",
+      "returncode": 0,
+      "elapsed_seconds": 2.92
+    },
+    {
+      "id": "mapping_preflight_945b5bc98a",
+      "kind": "motion",
+      "command": "前进",
+      "state": "completed",
+      "result": {
+        "request_id": "mapping_preflight_945b5bc98a",
+        "command": "forward",
+        "source": "console",
+        "status": "completed",
+        "message": "本次短时运动结束，已停车。",
+        "speed_m_s": 0.12
+      },
+      "error": null,
+      "artifacts": [
+        {
+          "name": "任务请求",
+          "url": "/api/artifact?id=32c721c541975694370bbb3ba93aa4cc",
+          "kind": "json"
+        },
+        {
+          "name": "运动回执",
+          "url": "/api/artifact?id=634121f23ee0f390a8e87f922ae1bfd9",
+          "kind": "json"
+        }
+      ],
+      "save_status": "saved",
+      "returncode": 0,
+      "elapsed_seconds": 1.91
+    },
+    {
+      "id": "mapping_preflight_c8008670c0",
+      "kind": "motion",
+      "command": "前进",
+      "state": "completed",
+      "result": {
+        "request_id": "mapping_preflight_c8008670c0",
+        "command": "forward",
+        "source": "console",
+        "status": "completed",
+        "message": "本次短时运动结束，已停车。",
+        "speed_m_s": 0.12
+      },
+      "error": null,
+      "artifacts": [
+        {
+          "name": "任务请求",
+          "url": "/api/artifact?id=9c1052acbb9adcad9085ccd7959bd5b1",
+          "kind": "json"
+        },
+        {
+          "name": "运动回执",
+          "url": "/api/artifact?id=842397d389854cd15c2122a13eeab48b",
+          "kind": "json"
+        }
+      ],
+      "save_status": "saved",
+      "returncode": 0,
+      "elapsed_seconds": 1.91
+    },
+    {
+      "id": "mapping_preflight_60d32c6b06",
+      "kind": "motion",
+      "command": "左转",
+      "state": "completed",
+      "result": {
+        "request_id": "mapping_preflight_60d32c6b06",
+        "command": "left",
+        "source": "console",
+        "status": "completed",
+        "message": "本次短时运动结束，已停车。",
+        "speed_m_s": 0.12
+      },
+      "error": null,
+      "artifacts": [
+        {
+          "name": "任务请求",
+          "url": "/api/artifact?id=ef1ebdd49f1bf896385256825a523ad4",
+          "kind": "json"
+        },
+        {
+          "name": "运动回执",
+          "url": "/api/artifact?id=b7073e9f16218cabcde9bcaca42bb0ee",
+          "kind": "json"
+        }
+      ],
+      "save_status": "saved",
+      "returncode": 0,
+      "elapsed_seconds": 3.92
+    },
+    {
+      "id": "mapping_preflight_d2776b5c42",
+      "kind": "motion",
+      "command": "左转",
+      "state": "completed",
+      "result": {
+        "request_id": "mapping_preflight_d2776b5c42",
+        "command": "left",
+        "source": "console",
+        "status": "completed",
+        "message": "本次短时运动结束，已停车。",
+        "speed_m_s": 0.12
+      },
+      "error": null,
+      "artifacts": [
+        {
+          "name": "任务请求",
+          "url": "/api/artifact?id=0344b329caf47b4292876fbb6568b47a",
+          "kind": "json"
+        },
+        {
+          "name": "运动回执",
+          "url": "/api/artifact?id=0b4e551feb4fdb2648543c3db83a498d",
+          "kind": "json"
+        }
+      ],
+      "save_status": "saved",
+      "returncode": 0,
+      "elapsed_seconds": 2.92
+    },
+    {
+      "id": "mapping_preflight_fd83eb6dc7",
+      "kind": "motion",
+      "command": "前进",
+      "state": "completed",
+      "result": {
+        "request_id": "mapping_preflight_fd83eb6dc7",
+        "command": "forward",
+        "source": "console",
+        "status": "completed",
+        "message": "本次短时运动结束，已停车。",
+        "speed_m_s": 0.12
+      },
+      "error": null,
+      "artifacts": [
+        {
+          "name": "任务请求",
+          "url": "/api/artifact?id=27176c4a88b5252a3891d6047d7bdaa6",
+          "kind": "json"
+        },
+        {
+          "name": "运动回执",
+          "url": "/api/artifact?id=8c778cb8fcbdad39077844c86e95287e",
+          "kind": "json"
+        }
+      ],
+      "save_status": "saved",
+      "returncode": 0,
+      "elapsed_seconds": 2.92
+    },
+    {
+      "id": "mapping_preflight_8bb401b0b8",
+      "kind": "motion",
+      "command": "前进",
+      "state": "completed",
+      "result": {
+        "request_id": "mapping_preflight_8bb401b0b8",
+        "command": "forward",
+        "source": "console",
+        "status": "completed",
+        "message": "本次短时运动结束，已停车。",
+        "speed_m_s": 0.12
+      },
+      "error": null,
+      "artifacts": [
+        {
+          "name": "任务请求",
+          "url": "/api/artifact?id=d4acc115e8020c5dddde11ae6e055b5d",
+          "kind": "json"
+        },
+        {
+          "name": "运动回执",
+          "url": "/api/artifact?id=9409692562911c1da489cb2c1785abe1",
+          "kind": "json"
+        }
+      ],
+      "save_status": "saved",
+      "returncode": 0,
+      "elapsed_seconds": 2.23
+    },
+    {
+      "id": "mapping_preflight_934fd59099",
+      "kind": "motion",
+      "command": "前进",
+      "state": "completed",
+      "result": {
+        "request_id": "mapping_preflight_934fd59099",
+        "command": "forward",
+        "source": "console",
+        "status": "completed",
+        "message": "本次短时运动结束，已停车。",
+        "speed_m_s": 0.12
+      },
+      "error": null,
+      "artifacts": [
+        {
+          "name": "任务请求",
+          "url": "/api/artifact?id=6ec05a96be6722a0640c2cca9dc38448",
+          "kind": "json"
+        },
+        {
+          "name": "运动回执",
+          "url": "/api/artifact?id=1a89babba4f4c30fae248fa3ac630f63",
+          "kind": "json"
+        }
+      ],
+      "save_status": "saved",
+      "returncode": 0,
+      "elapsed_seconds": 2.01
+    },
+    {
+      "id": "mapping_preflight_e369e399d2",
+      "kind": "motion",
+      "command": "左转",
+      "state": "completed",
+      "result": {
+        "request_id": "mapping_preflight_e369e399d2",
+        "command": "left",
+        "source": "console",
+        "status": "completed",
+        "message": "本次短时运动结束，已停车。",
+        "speed_m_s": 0.12
+      },
+      "error": null,
+      "artifacts": [
+        {
+          "name": "任务请求",
+          "url": "/api/artifact?id=e18eb96c2c61c8eb9be3ef262ff51bda",
+          "kind": "json"
+        },
+        {
+          "name": "运动回执",
+          "url": "/api/artifact?id=8007f519c74f1617b34a94d4fa9c56ba",
+          "kind": "json"
+        }
+      ],
+      "save_status": "saved",
+      "returncode": 0,
+      "elapsed_seconds": 2.34
+    },
+    {
+      "id": "mapping_preflight_6b15890b6c",
+      "kind": "motion",
+      "command": "左转",
+      "state": "completed",
+      "result": {
+        "request_id": "mapping_preflight_6b15890b6c",
+        "command": "left",
+        "source": "console",
+        "status": "completed",
+        "message": "本次短时运动结束，已停车。",
+        "speed_m_s": 0.12
+      },
+      "error": null,
+      "artifacts": [
+        {
+          "name": "任务请求",
+          "url": "/api/artifact?id=eef780bb036017352695c9a2211d9020",
+          "kind": "json"
+        },
+        {
+          "name": "运动回执",
+          "url": "/api/artifact?id=82d6617e036df40495d9ec9009decc40",
+          "kind": "json"
+        }
+      ],
+      "save_status": "saved",
+      "returncode": 0,
+      "elapsed_seconds": 2.02
+    },
+    {
+      "id": "mapping_preflight_9e3ca41541",
+      "kind": "motion",
+      "command": "前进",
+      "state": "completed",
+      "result": {
+        "request_id": "mapping_preflight_9e3ca41541",
+        "command": "forward",
+        "source": "console",
+        "status": "completed",
+        "message": "本次短时运动结束，已停车。",
+        "speed_m_s": 0.12
+      },
+      "error": null,
+      "artifacts": [
+        {
+          "name": "任务请求",
+          "url": "/api/artifact?id=6648ea2fc8aa468b7648c0a3e91e2175",
+          "kind": "json"
+        },
+        {
+          "name": "运动回执",
+          "url": "/api/artifact?id=52a1a9eb78c51ec736d62e3d18e7a2da",
+          "kind": "json"
+        }
+      ],
+      "save_status": "saved",
+      "returncode": 0,
+      "elapsed_seconds": 1.92
+    },
+    {
+      "id": "mapping_preflight_804beeabef",
+      "kind": "motion",
+      "command": "前进",
+      "state": "completed",
+      "result": {
+        "request_id": "mapping_preflight_804beeabef",
+        "command": "forward",
+        "source": "console",
+        "status": "completed",
+        "message": "本次短时运动结束，已停车。",
+        "speed_m_s": 0.12
+      },
+      "error": null,
+      "artifacts": [
+        {
+          "name": "任务请求",
+          "url": "/api/artifact?id=b5e14e5244165681b4a78031626c28e6",
+          "kind": "json"
+        },
+        {
+          "name": "运动回执",
+          "url": "/api/artifact?id=4181ca5fb9b71477bcd90c3050dc7fbb",
+          "kind": "json"
+        }
+      ],
+      "save_status": "saved",
+      "returncode": 0,
+      "elapsed_seconds": 2.92
+    },
+    {
+      "id": "mapping_preflight_ca22268af6",
+      "kind": "motion",
+      "command": "前进",
+      "state": "completed",
+      "result": {
+        "request_id": "mapping_preflight_ca22268af6",
+        "command": "forward",
+        "source": "console",
+        "status": "completed",
+        "message": "本次短时运动结束，已停车。",
+        "speed_m_s": 0.12
+      },
+      "error": null,
+      "artifacts": [
+        {
+          "name": "任务请求",
+          "url": "/api/artifact?id=c7e164addbeabe359648f8a2117c5e18",
+          "kind": "json"
+        },
+        {
+          "name": "运动回执",
+          "url": "/api/artifact?id=adf46f3b3a1c64c7993d4de321bcefc8",
+          "kind": "json"
+        }
+      ],
+      "save_status": "saved",
+      "returncode": 0,
+      "elapsed_seconds": 2.22
+    },
+    {
+      "id": "mapping_preflight_3d847fdef3",
+      "kind": "motion",
+      "command": "左转",
+      "state": "completed",
+      "result": {
+        "request_id": "mapping_preflight_3d847fdef3",
+        "command": "left",
+        "source": "console",
+        "status": "completed",
+        "message": "本次短时运动结束，已停车。",
+        "speed_m_s": 0.12
+      },
+      "error": null,
+      "artifacts": [
+        {
+          "name": "任务请求",
+          "url": "/api/artifact?id=5ded63d11cfb2a22c727b14bf60b8240",
+          "kind": "json"
+        },
+        {
+          "name": "运动回执",
+          "url": "/api/artifact?id=faa42297724dd1aa3894151eada3fc2d",
+          "kind": "json"
+        }
+      ],
+      "save_status": "saved",
+      "returncode": 0,
+      "elapsed_seconds": 3.02
+    },
+    {
+      "id": "mapping_preflight_f8cb98d172",
+      "kind": "motion",
+      "command": "左转",
+      "state": "completed",
+      "result": {
+        "request_id": "mapping_preflight_f8cb98d172",
+        "command": "left",
+        "source": "console",
+        "status": "completed",
+        "message": "本次短时运动结束，已停车。",
+        "speed_m_s": 0.12
+      },
+      "error": null,
+      "artifacts": [
+        {
+          "name": "任务请求",
+          "url": "/api/artifact?id=85c0185b6ab9cc7df771b61eb9bcf164",
+          "kind": "json"
+        },
+        {
+          "name": "运动回执",
+          "url": "/api/artifact?id=ca169a85ac082628f05cdee30672b761",
+          "kind": "json"
+        }
+      ],
+      "save_status": "saved",
+      "returncode": 0,
+      "elapsed_seconds": 3.92
+    },
+    {
+      "id": "mapping_preflight_17158134f2",
+      "kind": "motion",
+      "command": "停止",
+      "state": "completed",
+      "result": {
+        "request_id": "mapping_preflight_17158134f2",
+        "command": "stop",
+        "source": "console",
+        "status": "completed",
+        "message": "停止请求已处理。",
+        "speed_m_s": 0.12
+      },
+      "error": null,
+      "artifacts": [
+        {
+          "name": "任务请求",
+          "url": "/api/artifact?id=519e62e1e112253423a6f472fa91c52f",
+          "kind": "json"
+        },
+        {
+          "name": "运动回执",
+          "url": "/api/artifact?id=aa96e0d3682438548abc7d276b99536a",
+          "kind": "json"
+        }
+      ],
+      "save_status": "saved",
+      "returncode": 0,
+      "elapsed_seconds": 1.42
+    },
+    {
+      "id": "ec8b8fca00f847c4be48c7c97e481ed7",
+      "kind": "map_save",
+      "command": "保存建图地图",
+      "state": "completed",
+      "result": {
+        "status": "completed",
+        "message": "已保存 YAML 和 PGM 地图。"
+      },
+      "error": null,
+      "artifacts": [
+        {
+          "name": "任务请求",
+          "url": "/api/artifact?id=3dd7f6e54db07763edc7aa200f3245af",
+          "kind": "json"
+        },
+        {
+          "name": "地图 YAML",
+          "url": "/api/artifact?id=b99403d8be37ae9cd7491e5af1debbfe",
+          "kind": "yaml"
+        },
+        {
+          "name": "地图 PGM",
+          "url": "/api/artifact?id=02f1eb8376d1946d00c5258bcc26e613",
+          "kind": "pgm"
+        }
+      ],
+      "save_status": "saved",
+      "returncode": 0,
+      "elapsed_seconds": 1.71
+    },
+    {
+      "id": "e1a5a2e01350414e97ee9ec7217181ab",
+      "kind": "return",
+      "command": "建图结束，返回充电处",
+      "state": "completed",
+      "result": {
+        "status": "completed",
+        "message": "已返回充电处并进入模拟充电。",
+        "charging_station_id": "home_dock",
+        "frame_id": "map",
+        "initial_pose": [
+          -1.7323556114404377,
+          -4.060608203620063,
+          0.25904947849014887
+        ],
+        "return_target_pose": [
+          -1.8,
+          -4.0,
+          0.0
+        ],
+        "final_pose": [
+          -1.8012064041707918,
+          -4.013147747345935,
+          0.003467506792729417
+        ],
+        "return_state": "simulated_charging",
+        "return_error": {
+          "position_m": 0.013202979637030975,
+          "yaw_rad": 0.003467506792729417,
+          "stationary_seconds": 0.68
+        },
+        "navigation_settled": true,
+        "docking_localization_updates": [
+          {
+            "before": [
+              -1.7968346063378764,
+              -4.01088673822551,
+              0.0016817562463950983
+            ],
+            "status": "updated",
+            "requested_stamp_ns": 139820000000,
+            "requested_wall": 458.485863615,
+            "after": [
+              -1.8012064041707918,
+              -4.013147747345935,
+              0.003467506792729417
+            ],
+            "measurement": {
+              "stamp_ns": 140000000000,
+              "received_wall": 458.71295727,
+              "pose": [
+                -1.8183350405283858,
+                -4.028661310622998,
+                0.022853229485366805
+              ],
+              "variance": [
+                0.026354104839187098,
+                0.026996956021200447,
+                0.042333367444214356
+              ]
+            }
+          }
+        ],
+        "elapsed_seconds": 9.31,
+        "distance_m": 0.188,
+        "discovery_warmup_seconds": 2.0,
+        "startup_ready_after_seconds": 2.001016786999969,
+        "odom_distance_m": 0.085,
+        "trace_preview": [
+          [
+            -1.732,
+            -4.061,
+            "returning",
+            false
+          ],
+          [
+            -1.731,
+            -4.06,
+            "returning",
+            true
+          ],
+          [
+            -1.729,
+            -4.06,
+            "returning",
+            true
+          ],
+          [
+            -1.727,
+            -4.059,
+            "returning",
+            true
+          ],
+          [
+            -1.724,
+            -4.058,
+            "returning",
+            true
+          ],
+          [
+            -1.721,
+            -4.056,
+            "returning",
+            true
+          ],
+          [
+            -1.718,
+            -4.054,
+            "returning",
+            true
+          ],
+          [
+            -1.717,
+            -4.053,
+            "returning",
+            true
+          ],
+          [
+            -1.717,
+            -4.053,
+            "returning",
+            true
+          ],
+          [
+            -1.717,
+            -4.053,
+            "returning",
+            true
+          ],
+          [
+            -1.715,
+            -4.051,
+            "returning",
+            true
+          ],
+          [
+            -1.714,
+            -4.049,
+            "returning",
+            true
+          ],
+          [
+            -1.717,
+            -4.045,
+            "returning",
+            true
+          ],
+          [
+            -1.719,
+            -4.041,
+            "returning",
+            true
+          ],
+          [
+            -1.718,
+            -4.039,
+            "returning",
+            true
+          ],
+          [
+            -1.723,
+            -4.038,
+            "returning",
+            true
+          ],
+          [
+            -1.73,
+            -4.036,
+            "returning",
+            true
+          ],
+          [
+            -1.73,
+            -4.036,
+            "returning",
+            true
+          ],
+          [
+            -1.732,
+            -4.037,
+            "returning",
+            true
+          ],
+          [
+            -1.735,
+            -4.037,
+            "returning",
+            true
+          ],
+          [
+            -1.735,
+            -4.036,
+            "returning",
+            true
+          ],
+          [
+            -1.735,
+            -4.033,
+            "returning",
+            true
+          ],
+          [
+            -1.734,
+            -4.028,
+            "returning",
+            true
+          ],
+          [
+            -1.734,
+            -4.024,
+            "returning",
+            true
+          ],
+          [
+            -1.734,
+            -4.021,
+            "returning",
+            true
+          ],
+          [
+            -1.734,
+            -4.02,
+            "returning",
+            true
+          ],
+          [
+            -1.734,
+            -4.019,
+            "returning",
+            true
+          ],
+          [
+            -1.752,
+            -4.032,
+            "returning",
+            true
+          ],
+          [
+            -1.764,
+            -4.039,
+            "returning",
+            true
+          ],
+          [
+            -1.765,
+            -4.035,
+            "returning",
+            true
+          ],
+          [
+            -1.767,
+            -4.03,
+            "returning",
+            true
+          ],
+          [
+            -1.769,
+            -4.027,
+            "returning",
+            true
+          ],
+          [
+            -1.769,
+            -4.027,
+            "returning",
+            true
+          ],
+          [
+            -1.769,
+            -4.026,
+            "returning",
+            true
+          ],
+          [
+            -1.769,
+            -4.025,
+            "returning",
+            true
+          ],
+          [
+            -1.769,
+            -4.025,
+            "returning",
+            true
+          ],
+          [
+            -1.769,
+            -4.024,
+            "returning",
+            true
+          ],
+          [
+            -1.768,
+            -4.024,
+            "returning",
+            true
+          ],
+          [
+            -1.768,
+            -4.023,
+            "returning",
+            true
+          ],
+          [
+            -1.768,
+            -4.023,
+            "returning",
+            true
+          ],
+          [
+            -1.767,
+            -4.022,
+            "returning",
+            true
+          ],
+          [
+            -1.767,
+            -4.021,
+            "returning",
+            true
+          ],
+          [
+            -1.766,
+            -4.021,
+            "returning",
+            true
+          ],
+          [
+            -1.769,
+            -4.021,
+            "returning",
+            true
+          ],
+          [
+            -1.776,
+            -4.021,
+            "returning",
+            true
+          ],
+          [
+            -1.778,
+            -4.021,
+            "returning",
+            true
+          ],
+          [
+            -1.777,
+            -4.02,
+            "returning",
+            true
+          ],
+          [
+            -1.775,
+            -4.022,
+            "returning",
+            true
+          ],
+          [
+            -1.772,
+            -4.022,
+            "returning",
+            true
+          ],
+          [
+            -1.772,
+            -4.022,
+            "returning",
+            true
+          ],
+          [
+            -1.77,
+            -4.023,
+            "returning",
+            true
+          ],
+          [
+            -1.766,
+            -4.025,
+            "returning",
+            true
+          ],
+          [
+            -1.766,
+            -4.025,
+            "returning",
+            true
+          ],
+          [
+            -1.77,
+            -4.024,
+            "returning",
+            true
+          ],
+          [
+            -1.779,
+            -4.022,
+            "returning",
+            true
+          ],
+          [
+            -1.781,
+            -4.021,
+            "returning",
+            true
+          ],
+          [
+            -1.781,
+            -4.021,
+            "returning",
+            true
+          ],
+          [
+            -1.791,
+            -4.015,
+            "returning",
+            true
+          ],
+          [
+            -1.797,
+            -4.011,
+            "returning",
+            true
+          ],
+          [
+            -1.797,
+            -4.011,
+            "returning",
+            true
+          ]
+        ]
+      },
+      "error": null,
+      "artifacts": [
+        {
+          "name": "任务请求",
+          "url": "/api/artifact?id=5ed532c449571fcc4eeb0c4ec1303c16",
+          "kind": "json"
+        },
+        {
+          "name": "返航报告",
+          "url": "/api/artifact?id=88539cca854bd2b1c3843a53063ef86d",
+          "kind": "json"
+        },
+        {
+          "name": "实际返航轨迹",
+          "url": "/api/artifact?id=fb3578f9fdb153a923f77aa102d19c95",
+          "kind": "json"
+        }
+      ],
+      "save_status": "saved",
+      "return": {
+        "status": "completed",
+        "message": "已返回充电处并进入模拟充电。",
+        "charging_station_id": "home_dock",
+        "frame_id": "map",
+        "initial_pose": [
+          -1.7323556114404377,
+          -4.060608203620063,
+          0.25904947849014887
+        ],
+        "return_target_pose": [
+          -1.8,
+          -4.0,
+          0.0
+        ],
+        "final_pose": [
+          -1.8012064041707918,
+          -4.013147747345935,
+          0.003467506792729417
+        ],
+        "return_state": "simulated_charging",
+        "return_error": {
+          "position_m": 0.013202979637030975,
+          "yaw_rad": 0.003467506792729417,
+          "stationary_seconds": 0.68
+        },
+        "navigation_settled": true,
+        "docking_localization_updates": [
+          {
+            "before": [
+              -1.7968346063378764,
+              -4.01088673822551,
+              0.0016817562463950983
+            ],
+            "status": "updated",
+            "requested_stamp_ns": 139820000000,
+            "requested_wall": 458.485863615,
+            "after": [
+              -1.8012064041707918,
+              -4.013147747345935,
+              0.003467506792729417
+            ],
+            "measurement": {
+              "stamp_ns": 140000000000,
+              "received_wall": 458.71295727,
+              "pose": [
+                -1.8183350405283858,
+                -4.028661310622998,
+                0.022853229485366805
+              ],
+              "variance": [
+                0.026354104839187098,
+                0.026996956021200447,
+                0.042333367444214356
+              ]
+            }
+          }
+        ],
+        "elapsed_seconds": 9.31,
+        "distance_m": 0.188,
+        "discovery_warmup_seconds": 2.0,
+        "startup_ready_after_seconds": 2.001016786999969,
+        "odom_distance_m": 0.085,
+        "trace_preview": [
+          [
+            -1.732,
+            -4.061,
+            "returning",
+            false
+          ],
+          [
+            -1.731,
+            -4.06,
+            "returning",
+            true
+          ],
+          [
+            -1.729,
+            -4.06,
+            "returning",
+            true
+          ],
+          [
+            -1.727,
+            -4.059,
+            "returning",
+            true
+          ],
+          [
+            -1.724,
+            -4.058,
+            "returning",
+            true
+          ],
+          [
+            -1.721,
+            -4.056,
+            "returning",
+            true
+          ],
+          [
+            -1.718,
+            -4.054,
+            "returning",
+            true
+          ],
+          [
+            -1.717,
+            -4.053,
+            "returning",
+            true
+          ],
+          [
+            -1.717,
+            -4.053,
+            "returning",
+            true
+          ],
+          [
+            -1.717,
+            -4.053,
+            "returning",
+            true
+          ],
+          [
+            -1.715,
+            -4.051,
+            "returning",
+            true
+          ],
+          [
+            -1.714,
+            -4.049,
+            "returning",
+            true
+          ],
+          [
+            -1.717,
+            -4.045,
+            "returning",
+            true
+          ],
+          [
+            -1.719,
+            -4.041,
+            "returning",
+            true
+          ],
+          [
+            -1.718,
+            -4.039,
+            "returning",
+            true
+          ],
+          [
+            -1.723,
+            -4.038,
+            "returning",
+            true
+          ],
+          [
+            -1.73,
+            -4.036,
+            "returning",
+            true
+          ],
+          [
+            -1.73,
+            -4.036,
+            "returning",
+            true
+          ],
+          [
+            -1.732,
+            -4.037,
+            "returning",
+            true
+          ],
+          [
+            -1.735,
+            -4.037,
+            "returning",
+            true
+          ],
+          [
+            -1.735,
+            -4.036,
+            "returning",
+            true
+          ],
+          [
+            -1.735,
+            -4.033,
+            "returning",
+            true
+          ],
+          [
+            -1.734,
+            -4.028,
+            "returning",
+            true
+          ],
+          [
+            -1.734,
+            -4.024,
+            "returning",
+            true
+          ],
+          [
+            -1.734,
+            -4.021,
+            "returning",
+            true
+          ],
+          [
+            -1.734,
+            -4.02,
+            "returning",
+            true
+          ],
+          [
+            -1.734,
+            -4.019,
+            "returning",
+            true
+          ],
+          [
+            -1.752,
+            -4.032,
+            "returning",
+            true
+          ],
+          [
+            -1.764,
+            -4.039,
+            "returning",
+            true
+          ],
+          [
+            -1.765,
+            -4.035,
+            "returning",
+            true
+          ],
+          [
+            -1.767,
+            -4.03,
+            "returning",
+            true
+          ],
+          [
+            -1.769,
+            -4.027,
+            "returning",
+            true
+          ],
+          [
+            -1.769,
+            -4.027,
+            "returning",
+            true
+          ],
+          [
+            -1.769,
+            -4.026,
+            "returning",
+            true
+          ],
+          [
+            -1.769,
+            -4.025,
+            "returning",
+            true
+          ],
+          [
+            -1.769,
+            -4.025,
+            "returning",
+            true
+          ],
+          [
+            -1.769,
+            -4.024,
+            "returning",
+            true
+          ],
+          [
+            -1.768,
+            -4.024,
+            "returning",
+            true
+          ],
+          [
+            -1.768,
+            -4.023,
+            "returning",
+            true
+          ],
+          [
+            -1.768,
+            -4.023,
+            "returning",
+            true
+          ],
+          [
+            -1.767,
+            -4.022,
+            "returning",
+            true
+          ],
+          [
+            -1.767,
+            -4.021,
+            "returning",
+            true
+          ],
+          [
+            -1.766,
+            -4.021,
+            "returning",
+            true
+          ],
+          [
+            -1.769,
+            -4.021,
+            "returning",
+            true
+          ],
+          [
+            -1.776,
+            -4.021,
+            "returning",
+            true
+          ],
+          [
+            -1.778,
+            -4.021,
+            "returning",
+            true
+          ],
+          [
+            -1.777,
+            -4.02,
+            "returning",
+            true
+          ],
+          [
+            -1.775,
+            -4.022,
+            "returning",
+            true
+          ],
+          [
+            -1.772,
+            -4.022,
+            "returning",
+            true
+          ],
+          [
+            -1.772,
+            -4.022,
+            "returning",
+            true
+          ],
+          [
+            -1.77,
+            -4.023,
+            "returning",
+            true
+          ],
+          [
+            -1.766,
+            -4.025,
+            "returning",
+            true
+          ],
+          [
+            -1.766,
+            -4.025,
+            "returning",
+            true
+          ],
+          [
+            -1.77,
+            -4.024,
+            "returning",
+            true
+          ],
+          [
+            -1.779,
+            -4.022,
+            "returning",
+            true
+          ],
+          [
+            -1.781,
+            -4.021,
+            "returning",
+            true
+          ],
+          [
+            -1.781,
+            -4.021,
+            "returning",
+            true
+          ],
+          [
+            -1.791,
+            -4.015,
+            "returning",
+            true
+          ],
+          [
+            -1.797,
+            -4.011,
+            "returning",
+            true
+          ],
+          [
+            -1.797,
+            -4.011,
+            "returning",
+            true
+          ]
+        ],
+        "state": "completed"
+      },
+      "returncode": 0,
+      "elapsed_seconds": 9.95
+    }
+  ],
+  "session": "20261124T132526_841306Z_0a59f324",
+  "measured_turn_rad": 0.8253764721856229,
+  "local_route": {
+    "forward_translation_m": 2.1498807353950475,
+    "total_turn_rad": 6.537599016126256,
+    "revisit_distance_m": 0.09331076356407249,
+    "start_xy": [
+      -1.8000569248191611,
+      -3.999999999952411
+    ],
+    "end_xy": [
+      -1.7304476358060432,
+      -4.062140530043475
+    ]
+  },
+  "reloaded_map": {
+    "width": 373,
+    "height": 221,
+    "resolution": 0.05000000074505806,
+    "cells": 82433,
+    "unknown_cells": 72286,
+    "exact_grid_equal": true,
+    "method": "Actual isolated lifecycle map_server, original G1 method"
+  },
+  "reload_exit": 0,
+  "mapping_chain_passed": true,
+  "independent_world_dock": {
+    "position_m": 0.0984824696861536,
+    "yaw_rad": 0.0069545357602616206
+  },
+  "saved_map_artifacts": [
+    {
+      "kind": "yaml",
+      "bytes": 120,
+      "sha256": "b30e3dfb8af4e9fdd3ce6b8d8239530fcbeabb5e13698260430bfa14f39fe54a"
+    },
+    {
+      "kind": "pgm",
+      "bytes": 82448,
+      "sha256": "3c1515616aa08550368b0d63bef3eca85c7bde2f625556eb2165cadbfd9f43dd"
+    }
+  ],
+  "registered_maps_unchanged": true,
+  "no_recorded_contact": true,
+  "final_state": {
+    "session_id": "20261124T132526_841306Z_0a59f324",
+    "mode": "navigation",
+    "ready": true,
+    "busy": false,
+    "control_uncertain": false
+  },
+  "cloud_returncode": 0,
+  "cloud_summary": {
+    "cloud": {
+      "count": 958,
+      "max_gap": 0.16363565000000335,
+      "gaps_over_point4": 0,
+      "max_source_age": 0.08400000000000318
+    },
+    "scan": {
+      "count": 599,
+      "max_gap": 0.2531142729999942,
+      "gaps_over_point4": 0,
+      "max_source_age": 0.05799999999999983
+    },
+    "fresh_checks": 61571,
+    "stale_checks": 0
+  }
+}

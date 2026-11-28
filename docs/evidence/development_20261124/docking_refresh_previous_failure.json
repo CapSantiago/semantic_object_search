@@ -1,0 +1,33 @@
+{
+  "basis": "Posthoc diagnosis only; native simulator odometry is not passed to robot control or used to alter reported map coordinates",
+  "source": "results/development/demo_two_rooms_20261123/cleaning_followup/ball_trial/local_replan/utility_priority/motion/samples.jsonl",
+  "source_sha256": "5a5162c6eac75bc3c3e20fb8ef6796fa9fe6e19657a5df16948262f142787c0d",
+  "stamp": 1192.604,
+  "map_pose": [
+    -1.7767960857877236,
+    -3.9581229685956107,
+    -0.02969426295788873
+  ],
+  "odom_pose": [
+    -1.6395423396826567,
+    -3.9897192481561485,
+    0.0024908115338819776
+  ],
+  "map_to_odom": [
+    -0.009742351197684717,
+    -0.023230416431009655,
+    -0.03218602492437651
+  ],
+  "reconstructed_map_xy": [
+    -1.7768265631916762,
+    -3.9581220477775854
+  ],
+  "reconstruction_error_m": 3.049131118079066e-05,
+  "map_odom_position_disagreement_m": 0.14084358594533805,
+  "map_dock_error_m": 0.0478759584135387,
+  "independent_world_error_m": 0.16078667423947418,
+  "limits": [
+    "Exact agreement explains coordinate discrepancy, not why AMCL acquired that error.",
+    "Does not establish that no-motion refresh will improve localization; live validation required."
+  ]
+}

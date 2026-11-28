@@ -6,6 +6,7 @@ freshness calculations use monotonic receipt time plus the observed /clock.
 """
 from copy import deepcopy
 import json
+import hashlib
 import math
 import os
 import threading
@@ -57,7 +58,9 @@ def map_payload(message):
         raise ValueError('Invalid map origin')
     return dict(available=True, width=width, height=height, resolution=resolution,
                 origin=dict(x=x, y=y, yaw=yaw_from_quaternion(info.origin.orientation)),
-                data=[int(value) for value in message.data], frame_id=message.header.frame_id,
+                data=[int(value) for value in message.data],
+                data_sha256=hashlib.sha256(bytes(int(v)&255 for v in message.data)).hexdigest(),
+                frame_id=message.header.frame_id,
                 stamp_seconds=stamp_seconds(message.header.stamp))
 
 

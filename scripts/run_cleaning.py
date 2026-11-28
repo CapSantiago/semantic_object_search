@@ -50,6 +50,9 @@ class CleaningRun(NavigationRun):
         self.segment_attempts=[];self.coverage_observations=[]
         self.remaining_stop_reason='route_and_repairs_exhausted'
         self.cleaning_phases=[]
+        self.coverage_display=None
+        self.supplement_started=None
+        self.supplement_start_cells=None
         station_file=getattr(args,'station_config',None)
         self.station=load_station(station_file,ROOT) if station_file else None
         self.dock_pose=tuple(self.station['map_pose']) if self.station else None
@@ -401,6 +404,22 @@ class CleaningRun(NavigationRun):
 
 
 
+    def display_coverage(self):
+        if self.sweep is None:return None
+        from semantic_search.coverage_layer import CoverageDisplay
+        if self.coverage_display is None:self.coverage_display=CoverageDisplay(self.sweep)
+        cost=self.costmap;blocked=cost_stamp=None
+        if (cost is not None and self.costmap_ready() and cost.header.frame_id=='map'
+                and (cost.info.height,cost.info.width)==self.sweep.occupancy.shape
+                and abs(cost.info.resolution-self.sweep.resolution)<1e-6
+                and math.dist((cost.info.origin.position.x,cost.info.origin.position.y),self.sweep.origin[:2])<1e-6
+                and abs(yaw(cost.info.origin.orientation)-self.sweep.origin[2])<1e-6):
+            blocked=np.asarray(cost.data).reshape(self.sweep.occupancy.shape)>=99
+            cost_stamp=Time.from_msg(cost.header.stamp).nanoseconds/1e9
+        return self.coverage_display.snapshot(self.sweep.covered,
+            stamp_seconds=self.node.get_clock().now().nanoseconds/1e9,
+            blocked=blocked,cost_stamp_seconds=cost_stamp)
+
     def progress(self):
         step = max(1,math.ceil(len(self.trace)/350))
         preview, previous = [], -1
@@ -413,9 +432,13 @@ class CleaningRun(NavigationRun):
             previous = index
         return dict(request_id=self.args.output.name,room=self.args.room,stage=self.stage,frame_id='map',
                     goals_total=self.planned_goals, goals_finished=self.finished_goals,
-                    blocked_lanes=self.skipped_lanes,
+                    blocked_lanes=self.skipped_lanes,coverage_layer=self.display_coverage(),
                     coverage=self.sweep.metrics() if self.sweep else None, trace_preview=preview,
                     spatial_coverage=self.sweep.spatial_coverage(self.original_route) if self.sweep else None,
+                    cleaning_phases=self.cleaning_phases,
+                    supplement=(dict(elapsed_seconds=time.monotonic()-self.supplement_started,
+                        measured_new_cells=int(self.sweep.covered.sum())-self.supplement_start_cells)
+                        if self.stage=='supplementing' and self.supplement_started is not None else None),
                     return_state=self.return_state)
 
 
@@ -730,6 +753,8 @@ class CleaningRun(NavigationRun):
                     cutoff=min(cutoff,time.monotonic()+supplement)
                     self.stage='supplementing'
                     before=int(self.sweep.covered.sum());phase_start=time.monotonic()
+                    self.supplement_start_cells=before
+                    self.supplement_started=phase_start
                     self.record_navigation('local_supplement_start',self.available(),
                         dedicated_budget_seconds=supplement,
                         actual_remaining_seconds=cutoff-time.monotonic())
@@ -813,6 +838,7 @@ class CleaningRun(NavigationRun):
             remaining_lane_attempts=self.segment_attempts,
             coverage_observations=self.coverage_observations,
             cleaning_phases=self.cleaning_phases,
+            docking_localization_updates=self.docking_localization_updates,
             route_selection=('budget_aware_seed_and_remaining' if getattr(self.args,'budget_selection',False)
                              else 'seeded_route_then_reachable_remaining_lanes'),
             budget_selection_enabled=getattr(self.args,'budget_selection',False),

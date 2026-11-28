@@ -1,0 +1,344 @@
+{
+  "status": "failed",
+  "scope": "One public return after idle Python-source update; same navigation server/config, not another cold-root or long-cleaning acceptance",
+  "actual_source_overrides": {
+    "scripts/navigation_client.py": "1be217559a1d749e5abebbafa50ab8ce1fc2a1e0acaa18a7553d671e7359837a",
+    "src/semantic_search/semantic_search/docking.py": "afbb4edf0551140aed89b999cb29d7dc375f72b584f3f620479200696bd4bd0e"
+  },
+  "task": {
+    "id": "dock_refresh_tf_followup",
+    "kind": "return",
+    "command": "返回充电处",
+    "state": "completed",
+    "result": {
+      "status": "completed",
+      "message": "已返回充电处并进入模拟充电。",
+      "charging_station_id": "home_dock",
+      "frame_id": "map",
+      "initial_pose": [
+        -1.8183350405283858,
+        -4.028661310622998,
+        0.022853229485366805
+      ],
+      "return_target_pose": [
+        -1.8,
+        -4.0,
+        0.0
+      ],
+      "final_pose": [
+        -1.8205645873604939,
+        -4.029540243041028,
+        0.022344935746632245
+      ],
+      "return_state": "simulated_charging",
+      "return_error": {
+        "position_m": 0.03599344679563755,
+        "yaw_rad": 0.022344935746632245,
+        "stationary_seconds": 1.42
+      },
+      "navigation_settled": true,
+      "docking_localization_updates": [
+        {
+          "before": [
+            -1.8183350405283858,
+            -4.028661310622998,
+            0.022853229485366805
+          ],
+          "status": "updated",
+          "requested_stamp_ns": 264080000000,
+          "requested_wall": 583.524636457,
+          "after": [
+            -1.8205645873604939,
+            -4.029540243041028,
+            0.022344935746632245
+          ],
+          "measurement": {
+            "stamp_ns": 264200000000,
+            "received_wall": 583.656303146,
+            "pose": [
+              -1.829478532984293,
+              -4.03304556903734,
+              0.020311760791693986
+            ],
+            "variance": [
+              0.024532070391423133,
+              0.02628081093045509,
+              0.039578975846531445
+            ]
+          }
+        }
+      ],
+      "elapsed_seconds": 3.52,
+      "distance_m": 0.0,
+      "discovery_warmup_seconds": 2.0,
+      "startup_ready_after_seconds": 2.0019615559999693,
+      "odom_distance_m": 0.0,
+      "trace_preview": [
+        [
+          -1.818,
+          -4.029,
+          "returning",
+          false
+        ],
+        [
+          -1.818,
+          -4.029,
+          "returning",
+          true
+        ],
+        [
+          -1.818,
+          -4.029,
+          "returning",
+          true
+        ],
+        [
+          -1.818,
+          -4.029,
+          "returning",
+          true
+        ],
+        [
+          -1.818,
+          -4.029,
+          "returning",
+          true
+        ],
+        [
+          -1.818,
+          -4.029,
+          "returning",
+          true
+        ],
+        [
+          -1.818,
+          -4.029,
+          "returning",
+          true
+        ],
+        [
+          -1.818,
+          -4.029,
+          "returning",
+          true
+        ],
+        [
+          -1.818,
+          -4.029,
+          "returning",
+          true
+        ],
+        [
+          -1.818,
+          -4.029,
+          "returning",
+          true
+        ],
+        [
+          -1.818,
+          -4.029,
+          "returning",
+          true
+        ],
+        [
+          -1.818,
+          -4.029,
+          "returning",
+          true
+        ]
+      ]
+    },
+    "error": null,
+    "artifacts": [
+      {
+        "name": "任务请求",
+        "url": "/api/artifact?id=9b494a7811818e997b092b2fa5df8923",
+        "kind": "json"
+      },
+      {
+        "name": "返航报告",
+        "url": "/api/artifact?id=66369160a24e23347002f2dee4ebd4f6",
+        "kind": "json"
+      },
+      {
+        "name": "实际返航轨迹",
+        "url": "/api/artifact?id=201879fcc67414b6a8dc295054a657d2",
+        "kind": "json"
+      }
+    ],
+    "save_status": "saved",
+    "return": {
+      "status": "completed",
+      "message": "已返回充电处并进入模拟充电。",
+      "charging_station_id": "home_dock",
+      "frame_id": "map",
+      "initial_pose": [
+        -1.8183350405283858,
+        -4.028661310622998,
+        0.022853229485366805
+      ],
+      "return_target_pose": [
+        -1.8,
+        -4.0,
+        0.0
+      ],
+      "final_pose": [
+        -1.8205645873604939,
+        -4.029540243041028,
+        0.022344935746632245
+      ],
+      "return_state": "simulated_charging",
+      "return_error": {
+        "position_m": 0.03599344679563755,
+        "yaw_rad": 0.022344935746632245,
+        "stationary_seconds": 1.42
+      },
+      "navigation_settled": true,
+      "docking_localization_updates": [
+        {
+          "before": [
+            -1.8183350405283858,
+            -4.028661310622998,
+            0.022853229485366805
+          ],
+          "status": "updated",
+          "requested_stamp_ns": 264080000000,
+          "requested_wall": 583.524636457,
+          "after": [
+            -1.8205645873604939,
+            -4.029540243041028,
+            0.022344935746632245
+          ],
+          "measurement": {
+            "stamp_ns": 264200000000,
+            "received_wall": 583.656303146,
+            "pose": [
+              -1.829478532984293,
+              -4.03304556903734,
+              0.020311760791693986
+            ],
+            "variance": [
+              0.024532070391423133,
+              0.02628081093045509,
+              0.039578975846531445
+            ]
+          }
+        }
+      ],
+      "elapsed_seconds": 3.52,
+      "distance_m": 0.0,
+      "discovery_warmup_seconds": 2.0,
+      "startup_ready_after_seconds": 2.0019615559999693,
+      "odom_distance_m": 0.0,
+      "trace_preview": [
+        [
+          -1.818,
+          -4.029,
+          "returning",
+          false
+        ],
+        [
+          -1.818,
+          -4.029,
+          "returning",
+          true
+        ],
+        [
+          -1.818,
+          -4.029,
+          "returning",
+          true
+        ],
+        [
+          -1.818,
+          -4.029,
+          "returning",
+          true
+        ],
+        [
+          -1.818,
+          -4.029,
+          "returning",
+          true
+        ],
+        [
+          -1.818,
+          -4.029,
+          "returning",
+          true
+        ],
+        [
+          -1.818,
+          -4.029,
+          "returning",
+          true
+        ],
+        [
+          -1.818,
+          -4.029,
+          "returning",
+          true
+        ],
+        [
+          -1.818,
+          -4.029,
+          "returning",
+          true
+        ],
+        [
+          -1.818,
+          -4.029,
+          "returning",
+          true
+        ],
+        [
+          -1.818,
+          -4.029,
+          "returning",
+          true
+        ],
+        [
+          -1.818,
+          -4.029,
+          "returning",
+          true
+        ]
+      ],
+      "state": "completed"
+    },
+    "returncode": 0,
+    "elapsed_seconds": 4.17
+  },
+  "independent_dock": {
+    "position_m": 0.0984824696861536,
+    "yaw_rad": 0.0069545357602616206
+  },
+  "checks": {
+    "task_completed": true,
+    "fresh_native": true,
+    "stopped": true,
+    "no_contact": true,
+    "world_position": true,
+    "world_yaw": true,
+    "new_localization": true,
+    "coherent_tf": true
+  },
+  "cloud_exit": 0,
+  "cloud_summary": {
+    "cloud": {
+      "count": 29,
+      "max_gap": 0.41414716899998893,
+      "gaps_over_point4": 1,
+      "max_source_age": 0.06400000000002137
+    },
+    "scan": {
+      "count": 20,
+      "max_gap": 0.4360305970000127,
+      "gaps_over_point4": 1,
+      "max_source_age": 0.040000000000020464
+    },
+    "fresh_checks": 1927,
+    "stale_checks": 37
+  },
+  "contacts": []
+}

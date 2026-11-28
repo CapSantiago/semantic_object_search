@@ -1,0 +1,123 @@
+{
+  "status": "failed",
+  "checks": {
+    "durable_journal_matches_full_checks": true,
+    "observer_ready_before_dispatch": true,
+    "observer_processes_clean": true,
+    "contact_observer_healthy": true,
+    "actual_overlay_equals_frozen_masks": true,
+    "exact_frozen_brush_repaint": true,
+    "supplement_has_actual_gain": true,
+    "supplement_delta_equals_real_trace": true,
+    "supplement_within_bounded_budget": true,
+    "total_within_900_seconds": true,
+    "all_native_ball_patches_seen": true,
+    "centres_outside_ball_interiors": true,
+    "actual_brush_gain_after_obstacles": true,
+    "body_contacts_absent": true,
+    "sources_fresh": true,
+    "actual_actions_stopped_and_ordered": true,
+    "map_docked": true,
+    "independent_docked": false,
+    "navigation_settled": true,
+    "original_denominator": true,
+    "partial_preserved": true
+  },
+  "full_cleaning_accepted": false,
+  "result_status": "partial",
+  "coverage": {
+    "floor_cells": 10363,
+    "eligible_cells": 9336,
+    "covered_cells": 7688,
+    "uncovered_cells": 1648,
+    "excluded_floor_cells": 1027,
+    "coverage_fraction": 0.8234790059982862,
+    "covered_area_m2": 19.22,
+    "repeated_area_m2": 12.5425,
+    "repeated_coverage_fraction": 0.537382176520994
+  },
+  "spatial_coverage": {
+    "basis": "measured_brush_coverage_of_original_stripe_centerlines",
+    "completed": false,
+    "planned_lanes": 29,
+    "covered_lanes": 28,
+    "incomplete_lanes": [
+      {
+        "lane_id": 14,
+        "centerline_cells": 9,
+        "covered_centerline_cells": 8,
+        "completed": false
+      }
+    ]
+  },
+  "phases": [
+    {
+      "phase": "primary",
+      "elapsed_seconds": 522.1929560750013,
+      "measured_new_cells": 7229,
+      "navigation_ready": true
+    },
+    {
+      "phase": "local_supplement",
+      "elapsed_seconds": 180.92454495399943,
+      "measured_new_cells": 459,
+      "navigation_ready": false
+    }
+  ],
+  "independent_dock": {
+    "position_m": 0.16357572658339112,
+    "yaw_rad": 0.08626084788103455,
+    "source_age_seconds": 0.0,
+    "age_wall_seconds": 5.040499854658265e-05,
+    "passed": false
+  },
+  "measured_new_cells_after_obstacles": 7688,
+  "minimum_native_centre_distance_m": [
+    0.5938588043595853,
+    0.5814359915457316,
+    0.6454875684141511
+  ],
+  "display_coverage_layer": {
+    "data_sha256": "e764ee3c3b2912111e1c1af7ac0ae27ad3d5f8026497bc0ca8321bd2064ac866",
+    "covered_cells": 7688,
+    "eligible_cells": 9336
+  },
+  "limits": [
+    "Explanatory workflow pass does not upgrade partial cleaning or mark missing stripes complete.",
+    "Native occupied patches are spatial sensor evidence, not semantic ball identities.",
+    "Truth used only for posthoc fixture evaluation."
+  ],
+  "session": "20261124T163536_658340Z_aa0efed1",
+  "task_id": "demo_utility_clean_03",
+  "ui_status": "passed",
+  "exports_status": "passed_actual_http_exports",
+  "source_summary": {
+    "cloud": {
+      "count": 6202,
+      "max_gap": 0.2036997320010414,
+      "gaps_over_point4": 0,
+      "max_source_age": 0.10200000000008913
+    },
+    "scan": {
+      "count": 3876,
+      "max_gap": 0.27264782800011744,
+      "gaps_over_point4": 0,
+      "max_source_age": 0.06600000000003092
+    },
+    "fresh_checks": 398489,
+    "stale_checks": 0
+  },
+  "full_tests": {
+    "passed": 565,
+    "skipped": 38,
+    "seconds": 23.23,
+    "log": "results/development/workflows_20261124/final_tests_ros.log"
+  },
+  "raw_sha256": {
+    "results/development/workflows_20261124/cleaning_durable/feature_audit.json": "a90431a78be6ad20bc8a75a68e27e525713b94e89f65fc61c256a605bbdd5060",
+    "results/development/workflows_20261124/cleaning_durable/utility/independent_dock.json": "782b46a01efad2ba9cca13e5fc092235cae4b830d0d34941fccb922c619bb4a9",
+    "results/development/workflows_20261124/cleaning_durable/utility/audit.json": "ad6cbca48c8f327480424a309e8c9235a119ff438b86c823ee4a4d7991c2ec5f",
+    "results/development/workflows_20261124/cleaning_durable/exports/audit.json": "d0a850042015bd8debd9912b1b59f3e8ed20a95cb2c9eaeea80332d21393cc12",
+    "results/development/workflows_20261124/ui_cleaning.json": "af13d3dbbb14b9ee98638be21e475414342224372bb68afc459f4284d9950f88"
+  }
+}

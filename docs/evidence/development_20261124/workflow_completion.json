@@ -1,0 +1,189 @@
+{
+  "status": "completed_three_representative_workflows_and_stopped",
+  "semantic": "docs/evidence/development_20261124/workflow_semantic.json",
+  "voice": "docs/evidence/development_20261124/workflow_voice_localization.json",
+  "cleaning": "docs/evidence/development_20261124/workflow_cleaning.json",
+  "current_session": "20261124T174126_297245Z_342edf93",
+  "export_scope": "Current saved-task readonly HTTP replay, actual terminal cached browser DOM, and unchanged implementation independently verified through prior live HTTP.",
+  "actual_parameters": {
+    "/amcl": {
+      "alpha1": 0.02,
+      "alpha2": 0.02,
+      "alpha3": 0.02,
+      "alpha4": 0.02,
+      "alpha5": 0.2
+    },
+    "/controller_server": {
+      "DockingPath.GoalDist.scale": 96.0,
+      "DockingPath.xy_goal_tolerance": 0.05,
+      "docking_goal_checker.xy_goal_tolerance": 0.05,
+      "FollowPath.GoalDist.scale": 24.0,
+      "CleaningPath.GoalDist.scale": 24.0,
+      "DockingPath.BaseObstacle.scale": 0.02
+    }
+  },
+  "source_frozen_count": 90,
+  "source_changed_since_freeze": [],
+  "tests": {
+    "passed": 568,
+    "skipped": 38,
+    "seconds": 13.9,
+    "log": "/home/willmatic/桌面/semantic_object_search/results/development/workflows_20261124/localization_noise/full_tests.log"
+  },
+  "build_log": "/home/willmatic/桌面/semantic_object_search/results/development/workflows_20261124/localization_noise/build_final.log",
+  "cleanup": {
+    "status": "stopped_owned_runtime_and_validation_browser",
+    "session": "20261124T174126_297245Z_342edf93",
+    "observed_robot_already_stopped": true,
+    "robot_shutdown_trigger": "Not determined; native task and full external audit completed before normal shutdown receipt.",
+    "shutdown": {
+      "closed_utc": "2026-11-24T17:58:50.049099+00:00",
+      "elapsed_wall_seconds": 4.788366509001207,
+      "status": "stopped",
+      "remaining_owned_processes": [],
+      "signals": [
+        {
+          "name": "rviz",
+          "pid": 125545,
+          "signal": "SIGINT"
+        },
+        {
+          "name": "search",
+          "pid": 125544,
+          "signal": "SIGINT"
+        },
+        {
+          "name": "detector",
+          "pid": 125542,
+          "signal": "SIGINT"
+        },
+        {
+          "name": "navigation",
+          "pid": 125291,
+          "signal": "SIGINT"
+        },
+        {
+          "name": "simulation",
+          "pid": 124727,
+          "signal": "SIGINT"
+        },
+        {
+          "pid": 124727,
+          "signal": "SIGTERM"
+        },
+        {
+          "pid": 124752,
+          "signal": "SIGTERM"
+        },
+        {
+          "pid": 124780,
+          "signal": "SIGTERM"
+        },
+        {
+          "pid": 124782,
+          "signal": "SIGTERM"
+        },
+        {
+          "pid": 124784,
+          "signal": "SIGTERM"
+        },
+        {
+          "pid": 124786,
+          "signal": "SIGTERM"
+        },
+        {
+          "pid": 124788,
+          "signal": "SIGTERM"
+        },
+        {
+          "pid": 124791,
+          "signal": "SIGTERM"
+        },
+        {
+          "pid": 124793,
+          "signal": "SIGTERM"
+        },
+        {
+          "pid": 124884,
+          "signal": "SIGTERM"
+        },
+        {
+          "pid": 124885,
+          "signal": "SIGTERM"
+        },
+        {
+          "pid": 125542,
+          "signal": "SIGTERM"
+        },
+        {
+          "pid": 125544,
+          "signal": "SIGTERM"
+        },
+        {
+          "pid": 125545,
+          "signal": "SIGTERM"
+        },
+        {
+          "pid": 125616,
+          "signal": "SIGTERM"
+        },
+        {
+          "pid": 125618,
+          "signal": "SIGTERM"
+        },
+        {
+          "pid": 125651,
+          "signal": "SIGTERM"
+        },
+        {
+          "pid": 125652,
+          "signal": "SIGTERM"
+        }
+      ],
+      "exit_codes": {
+        "simulation": -15,
+        "navigation": 130,
+        "detector": -15,
+        "search": -15,
+        "rviz": -15,
+        "request_0e96ccdc242c56cdbc82ded4c80542a9": 0,
+        "request_de74aa56f045ad6f23d00816305bd5d1": 0,
+        "return_de74aa56f045ad6f23d00816305bd5d1": 0,
+        "request_ee25a038a2142dbe7fdcdcc228ee26ef": 0,
+        "return_ee25a038a2142dbe7fdcdcc228ee26ef": 0,
+        "request_acd910106296954154b3e37e6135c4e5": 130,
+        "request_b81d34ba77036843a7fb2d964f86393f": 1
+      },
+      "ownership": "UID + unique inherited token + start_ticks + pidfd"
+    },
+    "owned_remaining": [],
+    "validation_remaining": [],
+    "driver_remaining": 0,
+    "browser_session_closed": true,
+    "geckodriver_pid": 124754,
+    "robot_http_closed": true,
+    "recorded_export_http_closed": true
+  },
+  "raw_sha256": {
+    "/home/willmatic/桌面/semantic_object_search/results/development/workflows_20261124/voice_localization_noise/audit.json": "b80a4795a063ce37dcd07f803e36c552a0e0a6fa0a2cb0375cecf557ed13a660",
+    "/home/willmatic/桌面/semantic_object_search/results/development/workflows_20261124/voice_localization_noise/cancel_ready/cancel_audit.json": "5fce56b368a7356889fd7213816626a18b09f13eef3004aa578bc5ba4586f20b",
+    "/home/willmatic/桌面/semantic_object_search/results/development/workflows_20261124/cleaning_localization_noise/feature_audit.json": "f26835d445950d1e0505606e4b8d80f6fcc7befd29365ddb2d97dc3916c6401e",
+    "/home/willmatic/桌面/semantic_object_search/results/development/workflows_20261124/cleaning_localization_noise/exports/audit.json": "5e21fca0955c35ef4e5d083d9289dd1fd1e6a6002f2bfc310e8382dbc21a85a1",
+    "/home/willmatic/桌面/semantic_object_search/results/development/workflows_20261124/localization_noise/cleanup.json": "b756eb12b6e521c4e9dc9f53838d1f4daf3d46269c2ac326e570ecfba7b1d7a0",
+    "results/development/workflows_20261124/localization_noise/final_process_check.json": "ea6c0ed88e55073b7c7abee63730f38fcff5a98295f22a33fce780ad58fd0dde"
+  },
+  "limits": [
+    "Representative semantic, speech and cleaning cases have their own recorded sessions; no claim of universal whole-system stability.",
+    "Raw partial cleaning remains partial; explanation workflow acceptance is separate from full room cleaning.",
+    "Simulation motion-noise candidate is explicit and default off; no transfer claim to real wheel odometry.",
+    "All prior docking, source and observer-interruption failures remain unmodified.",
+    "No physical object re-identification, all16 categories, full-house or human microphone acceptance.",
+    "No PPT, commit or push in this goal."
+  ],
+  "final_process_check": {
+    "known_workflow_processes_remaining": [],
+    "robot_http_closed": true,
+    "test_driver_http_closed": true,
+    "port_check": "TCP connection refused; HTTP errors are not treated as closure"
+  }
+}

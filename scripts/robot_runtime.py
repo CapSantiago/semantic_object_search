@@ -92,7 +92,7 @@ class Runtime:
                  camera_resolution='640x480',camera_fov=1.02974,cleaning_position_goals=False,
                  cleaning_local_recovery=False, charging_station=True, cleaning_budget_selection=False,
                  memory_guidance=False,ball_model=None,auxiliary_model=None,auxiliary_categories=None,
-                 body_footprint=False,depth_cloud_source='native',precision_docking=False,memory_safe_approach=False):
+                 body_footprint=False,depth_cloud_source='native',precision_docking=False,memory_safe_approach=False,sim_localization_candidate=False):
         if depth_cloud_source not in ('native','image'):
             raise ValueError('导航点云来源必须为native或image。')
         if (camera_resolution not in ('640x480','1280x960') or type(camera_fov) not in (int,float)
@@ -121,6 +121,13 @@ class Runtime:
         self.navigation_file = ('src/semantic_search/config/nav2_safety.yaml' if self.navigation_safety
                                 else 'src/semantic_search/config/nav2_body_footprint.yaml' if self.body_footprint
                                 else 'src/semantic_search/config/nav2_depth.yaml')
+        if precision_docking and not body_footprint and not navigation_safety:
+            self.navigation_file='src/semantic_search/config/nav2_depth_docking_progress.yaml'
+        if sim_localization_candidate and (not precision_docking or body_footprint or navigation_safety):
+            raise ValueError('仿真定位候选仅支持普通深度配置并显式启用精确回充。')
+        self.sim_localization_candidate=bool(sim_localization_candidate)
+        if self.sim_localization_candidate:
+            self.navigation_file='src/semantic_search/config/nav2_depth_sim_localization.yaml'
         if type(image_size) is not int or image_size not in (640,960,1280):
             raise ValueError('视觉输入尺寸必须为640、960或1280。')
         if (any(type(value) not in (int,float) or not math.isfinite(value)
@@ -199,6 +206,7 @@ class Runtime:
                                memory_guidance=bool(memory_guidance),
                                memory_safe_approach=bool(memory_safe_approach),
                                precision_docking=bool(precision_docking),
+                               sim_localization_candidate=self.sim_localization_candidate,
                                navigation_safety=bool(navigation_safety),body_footprint=self.body_footprint,
                                cleaning_position_goals=bool(cleaning_position_goals),
                                cleaning_local_recovery=bool(cleaning_local_recovery),
@@ -252,6 +260,8 @@ class Runtime:
                               'src/semantic_search/config/navigate_docking.xml',
                               'src/semantic_search/config/navigate_service_through_poses.xml',
                               'scenes/aws_house/spatial_v4.json'}
+            if self.sim_localization_candidate:
+                frozen_configs.add('third_party/tb3_fortress/turtlebot3/models/turtlebot3/model.sdf')
             if self.navigation_safety:
                 frozen_configs.add('src/semantic_search/config/collision_monitor.yaml')
             if self.charging_station:
@@ -259,6 +269,7 @@ class Runtime:
             if self.auxiliary_prompts:
                 frozen_configs.update((self.auxiliary_prompts,'resources/vision_prompts_v1.json','resources/runtime.lock.json'))
             for name in (self.config['layout'], self.config['rooms'], self.config['navigation'],
+                         *(['third_party/tb3_fortress/turtlebot3/models/turtlebot3/model.sdf']if self.sim_localization_candidate else []),
                          self.config['model'], *([self.auxiliary_model] if self.auxiliary_model else []),
                          *([self.auxiliary_prompts,'resources/vision_prompts_v1.json','resources/runtime.lock.json'] if self.auxiliary_prompts else []),
                          'src/semantic_search/semantic_search/search_node.py',
@@ -274,6 +285,11 @@ class Runtime:
                          'src/semantic_search/semantic_search/objects.py',
                          'src/semantic_search/semantic_search/semantic_memory.py',
                          'src/semantic_search/semantic_search/memory_guidance.py',
+                         'src/semantic_search/semantic_search/memory_trace.py',
+                         'src/semantic_search/semantic_search/coverage_layer.py',
+                         'src/semantic_search/semantic_search/task_sequence.py',
+                         'src/semantic_search/semantic_search/voice.py',
+                         'scripts/voice.sh','scripts/voice_env.sh','resources/voice_model.lock.json',
                          'src/semantic_search/semantic_search/memory_approach.py',
                          'scripts/validation/memory_guidance_trials.py',
                          'scripts/validation/target_stability.py',
@@ -391,6 +407,13 @@ class Runtime:
                 if (spec['path']!=self.auxiliary_prompts or
                         hashlib.sha256((self.root/self.auxiliary_prompts).read_bytes()).hexdigest()!=spec['sha256']):
                     raise RuntimeError('辅助提示嵌入与资源锁不一致。')
+        if self.sim_localization_candidate:
+            import xml.etree.ElementTree as ET
+            model=self.root/'third_party/tb3_fortress/turtlebot3/models/turtlebot3/model.sdf'
+            plugin=ET.parse(model).find(".//plugin[@name='ignition::gazebo::systems::OdometryPublisher']")
+            if (plugin is None or plugin.findtext('odom_topic')!='/odom'
+                    or float(plugin.findtext('gaussian_noise','0'))!=0):
+                raise RuntimeError('仿真定位候选要求现有无附加噪声的原生/odom来源。')
         self.map_resource=resolve_map(self.root,map_id='aws_house_v1')
 
     def _acquire_lock(self, path):

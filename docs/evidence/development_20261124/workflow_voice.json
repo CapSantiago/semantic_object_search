@@ -1,0 +1,218 @@
+{
+  "status": "passed_representative_voice_sequence",
+  "session": "20261124T163536_658340Z_aa0efed1",
+  "input_type": "synthetic_audio_through_actual_MediaRecorder",
+  "transcript": "请先去 客厅 寻找 香蕉 然后 去 客厅 统计 香蕉。",
+  "preview": [
+    "去 客厅 寻找 香蕉（寻找一个）",
+    "去 客厅 统计 香蕉（完整巡视计数）"
+  ],
+  "sequence": {
+    "id": "83a2bea1-2a71-4b7f-92b4-87483bffe405",
+    "command": "请先去 客厅 寻找 香蕉 然后 去 客厅 统计 香蕉。",
+    "state": "completed",
+    "tasks": [
+      {
+        "id": "sequence_a0de9497862243f1b5de6bc120eab1e6",
+        "command": "去 客厅 寻找 香蕉",
+        "canonical": "{\"category\": \"banana\", \"mode\": \"find\", \"room\": \"living\"}",
+        "kind": "search",
+        "state": "completed"
+      },
+      {
+        "id": "sequence_ec224d922fac44bda6990b85826c955e",
+        "command": "去 客厅 统计 香蕉",
+        "canonical": "{\"category\": \"banana\", \"mode\": \"count\", \"room\": \"living\"}",
+        "kind": "search",
+        "state": "completed"
+      }
+    ]
+  },
+  "children": [
+    {
+      "id": "sequence_a0de9497862243f1b5de6bc120eab1e6",
+      "mode": "find",
+      "state": "completed",
+      "evaluation": {
+        "passed": true,
+        "expected": 1,
+        "actual": 1,
+        "checks": {
+          "task_completed": true,
+          "count": true,
+          "position": true,
+          "unique_ids": true,
+          "map_metres": true,
+          "room": true,
+          "required_surfaces": true,
+          "measured_arrivals": true,
+          "saved": true,
+          "memory_saved": true,
+          "return_passed": true,
+          "configured_route": true,
+          "found": true,
+          "persisted_result": true,
+          "observed_hits": true,
+          "svg_ids": true
+        },
+        "position_limit_m": 0.2,
+        "errors": [
+          {
+            "id": 1,
+            "reference": "living_banana_1",
+            "xy_error_m": 0.1297205992483918
+          }
+        ],
+        "arrivals": [
+          {
+            "index": 0,
+            "passed": true,
+            "xy_error_m": 0.11987285597531537,
+            "yaw_error_rad": 0.09748681840046247
+          }
+        ]
+      },
+      "independent_dock": {
+        "position_m": 0.12805251736545567,
+        "yaw_rad": 0.02920985148375731,
+        "age": 0.010981082916259766,
+        "passed": true
+      }
+    },
+    {
+      "id": "sequence_ec224d922fac44bda6990b85826c955e",
+      "mode": "count",
+      "state": "completed",
+      "evaluation": {
+        "passed": true,
+        "expected": 1,
+        "actual": 1,
+        "checks": {
+          "task_completed": true,
+          "count": true,
+          "position": true,
+          "unique_ids": true,
+          "map_metres": true,
+          "room": true,
+          "required_surfaces": true,
+          "measured_arrivals": true,
+          "saved": true,
+          "memory_saved": true,
+          "return_passed": true,
+          "configured_route": true,
+          "full_observation_plan": true,
+          "full_observation_data": true,
+          "no_history_count": true,
+          "persisted_result": true,
+          "observed_hits": true,
+          "svg_ids": true
+        },
+        "position_limit_m": 0.2,
+        "errors": [
+          {
+            "id": 1,
+            "reference": "living_banana_1",
+            "xy_error_m": 0.1496080578828296
+          }
+        ],
+        "arrivals": [
+          {
+            "index": 0,
+            "passed": true,
+            "xy_error_m": 0.11590962232974635,
+            "yaw_error_rad": 0.09770423168615894
+          },
+          {
+            "index": 1,
+            "passed": true,
+            "xy_error_m": 0.05117280785703802,
+            "yaw_error_rad": 0.09635874273893652
+          }
+        ]
+      },
+      "independent_dock": {
+        "position_m": 0.12200467410097732,
+        "yaw_rad": 0.09227235545052005,
+        "age": 0.014941692352294922,
+        "passed": true
+      }
+    }
+  ],
+  "no_contacts": true,
+  "cloud": {
+    "cloud": {
+      "count": 1343,
+      "max_gap": 0.16782728100042732,
+      "gaps_over_point4": 0,
+      "max_source_age": 0.09399999999999409
+    },
+    "scan": {
+      "count": 839,
+      "max_gap": 0.26712679699994624,
+      "gaps_over_point4": 0,
+      "max_source_age": 0.07000000000005002
+    },
+    "fresh_checks": 86239,
+    "stale_checks": 0
+  },
+  "cancel": {
+    "checks": {
+      "parent_canceled": true,
+      "child_canceled": true,
+      "second_skipped": true,
+      "no_second_dispatch": true,
+      "control_confirmed": true,
+      "fresh_native_stop": true
+    },
+    "source": "actual_UI_stop_button",
+    "cloud": {
+      "cloud": {
+        "count": 37,
+        "max_gap": 0.1516738730006182,
+        "gaps_over_point4": 0,
+        "max_source_age": 0.07400000000006912
+      },
+      "scan": {
+        "count": 24,
+        "max_gap": 0.23354448600002797,
+        "gaps_over_point4": 0,
+        "max_source_age": 0.04200000000003001
+      },
+      "fresh_checks": 2382,
+      "stale_checks": 0
+    },
+    "ready_before_dispatch_seconds": 0.08722066879272461,
+    "invalid_clause_status": 400,
+    "whole_sentence_validation_prevents_motion": true
+  },
+  "browser": {
+    "sequence": {
+      "hidden": false,
+      "text": "组合任务 · 已完成\n去 客厅 寻找 香蕉 · 已完成\n去 客厅 统计 香蕉 · 已完成\n按顺序执行，每项沿用自动回充；停止或未完成时终止后续任务。",
+      "session_id": "20261124T163536_658340Z_aa0efed1",
+      "status": "passed"
+    },
+    "semantic": {
+      "hidden": false,
+      "text": "记忆引导 · 现场核验\n\n已根据真实历史调整巡视顺序；保留全部配置回退点。\n\n历史 M-f3bfc8 · (1.53, -1.60) m · 最后观测位置 · 2026/11/25 00:39:53\n\n历史 M-568f23 · (0.86, -1.89) m · 待核验 · 2026/11/24 23:17:47\n\n历史 M-628678 · (0.97, -1.52) m · 待核验 · 2026/11/24 13:26:22\n\n历史 M-edbf81 · (1.93, -1.89) m · 待核验 · 2026/11/24 12:15:48\n\n观察点 1 · 历史成功视点 · 已完成观察，有有效投影\n\n查看 3 份历史观测依据\n\n观察点 2 · 历史成功视点 · 尚未执行（保留回退）\n\n查看 3 份历史观测依据\n\n本次现场已确认 1 个；历史记录不计入数量。\n\n未取得投影不表示物品已消失；位置变化以物品档案中的现场更新为准。",
+      "details": 2,
+      "all_sources_initially_collapsed": true,
+      "task_id": "sequence_a0de9497862243f1b5de6bc120eab1e6",
+      "session_id": "20261124T163536_658340Z_aa0efed1",
+      "status": "passed"
+    }
+  },
+  "raw": {
+    "results/development/workflows_20261124/voice_cost_retry/audit.json": "8f8f023f012c9c72a98ad245c19927f66f12a47ae3838b19d4d24662164e363b",
+    "results/development/workflows_20261124/voice_cost_retry/cancel_ready/cancel_audit.json": "338cc7da1b3aa54501f6355de6807ba9ae978a490399c7275dbd61083159d72c",
+    "results/development/workflows_20261124/voice_cost_retry/cancel_audit.json": "be32e4294fc3d5412356699a2a24c2c88cf6102950728b46501c0866d46b0160",
+    "results/development/workflows_20261124/voice_cost/audit.json": "e73cf7bb914979f9fb058132d8dc231c683d2f3de708201c6d0309aa36f9e699"
+  },
+  "limits": [
+    "Synthetic speech is not a human microphone acceptance.",
+    "One selected two-task sequence; arbitrary wording and cross-room repetitions are not accepted.",
+    "Each child still returns to dock; no route-sharing or restart-resume.",
+    "Earlier voice_cost source outage and initial cancel observer-startup failure remain failed; readiness mode records all startup data and never filters later outages.",
+    "Mapping stop audio remains a known ASR limitation, with original decoder retained."
+  ]
+}

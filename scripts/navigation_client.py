@@ -4,7 +4,8 @@ import time
 
 from action_msgs.msg import GoalStatus
 from nav2_msgs.action import NavigateToPose, FollowPath
-from geometry_msgs.msg import PoseStamped
+from geometry_msgs.msg import PoseStamped, PoseWithCovarianceStamped
+from std_srvs.srv import Empty
 from nav_msgs.msg import Odometry, Path as NavigationPath
 import rclpy
 from rclpy.action import ActionClient
@@ -44,6 +45,9 @@ class NavigationRun:
         self.tf=Buffer();self.listener=TransformListener(self.tf,self.node)
         self.client=ActionClient(self.node,NavigateToPose,'/navigate_to_pose')
         self.path_client=ActionClient(self.node,FollowPath,'/follow_path')
+        # Discover the refresh service during the existing client warm-up,
+        # rather than creating its DDS endpoints at the final parked pose.
+        self.localization_client=self.node.create_client(Empty,'/request_nomotion_update')
         self.node.create_subscription(Odometry,'/odom',self.receive_odom,qos_profile_sensor_data)
         self.started=time.monotonic();self.deadline=self.started+args.timeout
         self.start_pose=self.final_pose=None
@@ -53,10 +57,58 @@ class NavigationRun:
         self.trace,self.goals=[],[];self.distance=0.
         self.stage='planning';self.settled=True
         self.return_state='not_attempted';self.return_errors=None
+        self.docking_localization_updates=[];self.latest_localization=None
+        self.node.create_subscription(PoseWithCovarianceStamped,'/amcl_pose',
+                                      self.receive_localization,qos_profile_sensor_data)
         self.next_report=self.next_sample=0.;self.last_pose_wall=self.started;self.sample_gap=False
         self.progress_filename='return_progress.json'
         self.last_plan=None
         self.node.create_subscription(NavigationPath,'/plan',self.receive_plan,1)
+
+    def receive_localization(self,message):
+        p=message.pose.pose.position;q=message.pose.pose.orientation
+        values=[p.x,p.y,yaw(q),*[message.pose.covariance[i] for i in (0,7,35)]]
+        if message.header.frame_id!='map' or not all(math.isfinite(v) for v in values):return
+        self.latest_localization=dict(stamp_ns=Time.from_msg(message.header.stamp).nanoseconds,
+            received_wall=time.monotonic(),pose=values[:3],variance=values[3:])
+
+    def refresh_docking_localization(self,deadline):
+        """Request one normal laser update, requiring new measured AMCL data."""
+        event=dict(before=self.pose(),status='not_requested')
+        self.docking_localization_updates.append(event)
+        if not self.parked() or event['before'] is None:return False
+        remaining=lambda:max(0.,min(3.,deadline-time.monotonic()))
+        client=self.localization_client
+        try:
+            event['phase']='service_discovery'
+            if not client.service_is_ready():
+                self.wait_for(client.service_is_ready,remaining())
+            event.update(requested_stamp_ns=self.node.get_clock().now().nanoseconds,
+                         requested_wall=time.monotonic(),status='requested')
+            future=client.call_async(Empty.Request())
+            event['phase']='service_reply'
+            self.wait_for(future.done,remaining());future.result()
+            event['phase']='new_measurement'
+            # The service acknowledgement alone does not prove a new scan
+            # was consumed, or a new localized pose was published.
+            self.wait_for(lambda:self.latest_localization is not None
+                and self.latest_localization['stamp_ns']>=event['requested_stamp_ns']
+                and self.latest_localization['received_wall']>=event['requested_wall']
+                and self.pose() is not None and self.parked(),remaining())
+            # AMCL postdates map->odom. A fresh message can arrive before
+            # its correction is visible in the latest common base TF.
+            measurement=dict(self.latest_localization)
+            def coherent_pose():
+                pose=self.pose()
+                return (pose is not None and self.parked()
+                    and math.dist(pose[:2],measurement['pose'][:2])<=.01
+                    and abs(math.remainder(pose[2]-measurement['pose'][2],2*math.pi))<=.01)
+            event['phase']='tf_coherence'
+            self.wait_for(coherent_pose,remaining())
+            event.update(status='updated',after=self.pose(),measurement=measurement)
+            return True
+        except (TimeoutError,RuntimeError) as error:
+            event.update(status='unavailable',error=str(error));return False
 
     def receive_plan(self, message):
         if not message.poses:

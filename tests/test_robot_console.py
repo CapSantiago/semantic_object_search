@@ -710,3 +710,66 @@ def test_invalid_supplement_budget_never_starts_motion(console,seconds):
     assert_api_error(500,lambda:console.submit(dict(request_id='supplement_bad_01',mode='clean',room='gym')))
     assert not console.runtime.calls
     assert console.snapshot()['task']['state']=='failed'
+
+
+def test_sequence_validates_all_clauses_before_start(console):
+    with pytest.raises(module.ApiError):
+        console.submit(dict(request_id='sequence_bad',command='先去厨房找杯子，再发射火箭'))
+    assert not console.runtime.calls
+
+
+def test_sequence_serial_completion_and_idempotency(console):
+    payload=dict(request_id='sequence_good',command='先去厨房找杯子，再去卧室统计杯子')
+    console.submit(payload)
+    assert len(console.runtime.calls)==1
+    sequence=console.sequence
+    first=console.job
+    console.submit(payload)
+    assert len(console.runtime.calls)==1
+    # This callback runs only after the real watcher has finished persistence
+    # and the existing return-to-dock stage.
+    first.update(state='completed',save_status='saved')
+    with console.lock:console._advance_sequence(first)
+    assert len(console.runtime.calls)==2
+    second=console.job
+    assert second['id']!=first['id'] and sequence['tasks'][0]['state']=='completed'
+    second.update(state='completed',save_status='saved')
+    with console.lock:console._advance_sequence(second)
+    assert sequence['state']=='completed'
+    assert json.loads((console.runtime.session_dir/'sequences/sequence_good.json').read_text())['state']=='completed'
+
+
+@pytest.mark.parametrize('failure', ['failed','partial','canceled'])
+def test_sequence_failure_does_not_dispatch_next(console,failure):
+    console.submit(dict(request_id='sequence_fail',command='先去厨房找杯子，再去卧室找杯子'))
+    console.job.update(state=failure,save_status='saved')
+    with console.lock:console._advance_sequence(console.job)
+    assert len(console.runtime.calls)==1
+    assert console.sequence['tasks'][1]['state']=='skipped'
+
+
+def test_sequence_cancel_prevents_dispatch_after_late_success(console):
+    console.submit(dict(request_id='sequence_stop',command='先去厨房找杯子，再去卧室找杯子'))
+    console.cancel()
+    console.job.update(state='completed',save_status='saved')
+    with console.lock:console._advance_sequence(console.job)
+    assert console.sequence['state']=='canceled'
+    assert len(console.runtime.calls)==1
+    assert console.sequence['tasks'][1]['state']=='skipped'
+
+
+def test_sequence_preview_has_no_side_effects(console):
+    payload=dict(request_id='preview_sequence',command='先去厨房找杯子，再去卧室统计杯子')
+    preview=console.preview(payload)
+    assert preview['sequence']
+    assert [v['parsed']['mode'] for v in preview['tasks']]==['find','count']
+    assert not console.runtime.calls and console.job is None and console.sequence is None
+    with pytest.raises(module.ApiError):
+        console.preview(dict(payload,command='先去厨房找杯子，再发射火箭'))
+    assert not console.runtime.calls
+
+
+def test_unprefixed_sequence_cannot_silently_drop_find_clause(console):
+    p=console.preview(dict(request_id='unprefixed_sequence',command='去厨房找杯子然后去厨房统计杯子'))
+    assert p['sequence'] and [v['parsed']['mode']for v in p['tasks']]==['find','count']
+    assert not console.runtime.calls

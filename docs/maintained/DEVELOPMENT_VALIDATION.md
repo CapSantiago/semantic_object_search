@@ -1,5 +1,34 @@
 # 当前验证概览
 
+2026-11-28 答辩结束后暂停。已将主要案例的指标、原始会话、独立验收和范围说明汇入[答辩实测收据](../evidence/defense_20261126.json)。删除的原始媒体可按本机清理清单识别。历史核验结论对应当时可读取的原件。
+
+2026-11-26补充取材见[独立实录目录](../../results/答辩补充实录_20261126/00_取用说明.md)。68e63ae8厨房新录使用网页提交，原路线置箱后原生感知占据、北侧实走、11/11方向、2杯、回充，代表案例与独立数量/定位通过。2bb3a6dd单香蕉移位后同轮实际RGB与有效投影同戳、完整计数1、旧位置待核验、新位置来自当前计数、独立定位10.65cm，各检查通过。ed2cc64f真人双香蕉顺序找1/数2、各保存回充。首项独立验收过，次项仅一处独立定位误差20.87cm超原20cm，完整独立验收未过。答辩仅取双香蕉语音版，首次单香蕉语音实录随原始会话留档。保留两次单香蕉移位采集失败，不覆盖旧合格和失败资料。关系页为61397ff6实际数据经项目原生网页只读回看，三例清扫俯视为对应真实原帧取景。未重制旧ZIP。
+
+2026-11-26跨对话资料打包：精选素材原字节复制至`results/PPT制作交接包_20261126/`，同名ZIP仅含必要文档和收据。实际解压SHA、全部精选原件一致和包内HTML/文档链接核对通过，[打包核验](../../results/defense_curation_20261126/PPT交接包核验.json)。未启动仿真、补采或制作新PPT，不增加功能验收结论。
+
+
+2026-11-26九主题精选完成：[直接取用](../../results/答辩精选素材_20261126/打开这里_素材目录.html)，28张主图＋19张完整UI＋4段100–110秒短片。47PNG/4MP4全解码、无重复、原件SHA/完整网页尺寸和本地链接核对通过；真实Firefox离线加载通过。收据：[素材核验](../../results/defense_curation_20261126/精选素材最终核验.json)、[离线浏览](../../results/defense_curation_20261126/离线浏览核验.json)、[最终关闭](../../results/defense_curation_20261126/最终进程复核.json)。未制作新PPT，不代表生产源码整机回归。
+
+精选补采：96ffe3d3各一次合成语音前进/左转经实际录音转写确认，重复运动与停止用真实控制台；平移2.138m/转向6.503rad/重访8.82cm，71040格独立重载相同、原底图不变、导航恢复和回充8.12cm/.036rad、80343源检查0过期、接触0，[完整局部流程通过](../../results/defense_curation_20261126/语音建图/trial/audit.json)。不是全屋建图、全程语音或真人麦克风。四种日常实录关键图已补，[源图与判据](../../results/defense_curation_20261126/日常避障/精选截图.json)；室内移动让行近停2.80秒后继续任务，持续堵路安全反馈过但整体partial/返航受阻。第一次无让行、重复合成左转误识别和工具提交竞态失败保留，未改产品识别规则或验收门槛。仿真、GUI、录制及临时浏览器均关闭。
+
+以下为全量库与此前开发记录，最新取材优先以上精选包。
+
+2026-11-26独立素材收尾：十主题新库[主选入口](../../results/defense_materials_20261125/selected.html)与[案例配套](../../results/defense_materials_20261125/cases.html)已整理，909项标注、677PNG/21MP4全解码、13项主选索引完整起止UI、187份原件源SHA及离线三页面加载通过；这是素材核验，不是本轮重跑全部工程回归。所属仿真/GUI/录制/浏览器关闭，未制作PPT。收据见[素材最终核验](../../results/defense_materials_20261125/00_总索引与使用说明/素材最终核验.json)、[离线浏览](../../results/defense_materials_20261125/00_总索引与使用说明/离线浏览核验.json)、[最终关闭](../../results/defense_materials_20261125/11_验证数据与局限/补齐批次/voice_final_retry/final_material_closeout.json)。
+
+新实跑：卧室80.95%/19of19/completed；普通杂物间有限补录8627/9336=92.41%、25of26、短带9格只扫7格，native5.66cm/来源0过期但仍partial；新增三球7500/9336=80.33%、20of29，主7229＋补271格/180.90秒、来源409312检查0过期/native5.26cm，仍partial。新厨房无箱/途中放箱配对均count2、原11姿态和双支撑面不变，完整来源窗177318检查0过期、自主北侧轨迹已复核；blocked原生XY4.24cm，轨迹无原生yaw，地图yaw不得冒充独立世界姿态。建图新完整局部流程/native8.96cm通过；厨房碗count2、瓶/椅find1、卧室书count2及其独立位置/来源/回充通过。
+
+语义补拍：15268bbc独立移动find数量/定位通过，但停靠15.070cm>15cm失败、夹具恢复；6d0c0fe5引导find原运行审计passed，但独立物品XY21.05cm>20cm，完整链failed，未继续其移动。原输入配方被当前启动器自动选为`nav2_depth_docking_progress.yaml`，不是完全相同的旧613冻结导航配置；旧ABBA与变化/真实DSG重载合格证据单列复用，新原始录像不冒充旧收益。语音采集最初因工具写死导航名在录音前退出，保留单帧坏封装；修正采集工具按实际冻结配置校验后，15268bbc真实MediaRecorder/ASR/预览/串行find1与count1/各回充passed，独立10.18cm/.0332rad与13.68cm/.1203rad，来源0过期。真人未验。
+
+2026-11-25素材批次已结束并暂停：新[素材索引](../../results/defense_materials_20261125/index.html)及[案例配套](../../results/defense_materials_20261125/cases.html)按原始截图、完整UI、地图/相机导出和图表分类。0148三球82.83%/20of29仍partial（补456格/180.76秒）；厨房新绕行配对仅合格任务窗通过，准备期4次超界与全窗failed保留。最新状态/缺口在[批次说明](../../results/defense_materials_20261125/00_总索引与使用说明/收尾状态与待补项.md)，不替代下方开发验收或泛化要求。
+
+本轮三项专项已完成并停止，详见[完成总收据](../evidence/development_20261124/workflow_completion.json)。语义代表闭环/独立布局收益边界保持原证据；当前显式仿真定位候选下，真实录合成语音→预览→两任务/保存/回充以及移动中整队停止通过（native11.75/11.60cm，78232源检查0），[语音收据](../evidence/development_20261124/workflow_voice_localization.json)。05三球主7218格＋补219格(0.5475m²)/46.92秒，整例640.45秒；原刷盘/RLE同底图、native绕行/续扫、接触/心跳、327939源检查0、动作停稳/顺序、native停靠7.17cm/.05246rad等21项专项过。[补扫与解释收据](../evidence/development_20261124/workflow_cleaning.json)。**原79.6594%/18of29，因navigation_recovery_failed提前返航，仍partial，完整清扫标准未过**；不把专项通过升级为全房清扫。真实运行及结束缓存DOM已核对；运行结束后05历史数据经只读HTTP回放调用既有导出代码，三图PNG/SVG/JSON逐项匹配，代价明确标历史；旧03真实运行HTTP导出另过，两轮相关导出源码相同。568过/38跳过13.90秒、正式三包build1.15秒、90冻结文件一致。所有本轮机器人/GUI/浏览器/回放服务关闭、所属残留空。原03 native16.36cm、02观察丢失、2.5cm/192失败等原收据保留，未降低门槛，不宣称普遍稳定性或定位根因已完全解决。
+
+
+第三项最新：[客厅语义收益与变化核验](../evidence/development_20261124/semantic_memory_benefit_update.json)。两组ABBA四次数量/20cm/独立停靠/里程计质量过，191610次源检查0；记忆分别省26.26/19.71秒、4.26/4.13m，搜索均值55.90→32.92秒（41.11%）。收益是优先复用真实成功固定视点、少走一个无效视点；原正常基线不变，无历史补数。实际移物约72cm后find1及现场更新正确；热态count1保存正确但返航未知终态保护关闭，原整项failed未改判。显式已移动变体冷启动前读到旧位置待核验/唯一新位置最后观测，再完整count1、定位11.16cm/实际停靠13.98cm/源62172检查0、SQLite与真实Spark-DSG独立重载单次通过。新点开放布局收益失败及遮挡v1失败均保留；不是所有位置或连续热态稳定通过。最新工程540过/38跳过20.55秒、三包2.11秒。
+
+
+发布后新增：显式停靠刷新候选下，局部建图实际平移2.14988m、转向6.53760rad、重访.09331m，保存/独立重载82433格逐格相同、原地图不变、导航恢复/独立停靠.09848m/接触0/61571源检查0，[本轮完整单次通过](../evidence/development_20261124/docking_refresh_mapping.json)。随后增加AMCL消息与TF一致性等待；相关公共回充新观测/一致性/停稳/物理停靠过，但37次源时效超界，[整项failed保留](../evidence/development_20261124/docking_refresh_followup_failed.json)。不证明长清扫停靠改善，原18.03cm/16.08cm失败仍保留。工程538过/38跳过17.24秒，三包1.31秒。
+
 
 本轮恢复项目开发与验证，暂停PPT制作。最新四项状态如下；下方旧轮次保留其冻结配置和失败范围。
 
@@ -20,7 +49,7 @@
 
 ## 答辩素材入口
 
-最新交付：[13页可编辑答辩PPT](../../results/development/demo_two_rooms_20261123/delivery_preflight/defense_deck_styled/defense_presentation.pptx) · [PDF](../../results/development/demo_two_rooms_20261123/delivery_preflight/defense_deck_styled/defense_presentation.pdf) · [完整ZIP](../../results/development/demo_two_rooms_20261123/delivery_preflight/defense_deck.zip)。已串联统一架构、四基础任务、两区清扫/北侧绕行/现场计数、语义变化核验、7类空间图/关系图和共享深度输入，原生325段可编辑文字、原图嵌入；真实Office重新打开导出、13页总览及修正页核对通过，522项ZIP文件SHA全部通过。两原始4倍UI视频另附，未嵌入PPT，不作相机或完整任务视频；团队信息/真人验收仍待补，未最终提交。原8页素材包保留。[演示稿审计](../../results/development/demo_two_rooms_20261123/delivery_preflight/defense_deck_styled/audit.json) · [打包收据](../../results/development/demo_two_rooms_20261123/delivery_preflight/defense_deck_archive_audit.json)。
+此前历史交付：[13页可编辑答辩PPT](../../results/development/demo_two_rooms_20261123/delivery_preflight/defense_deck_styled/defense_presentation.pptx) · [PDF](../../results/development/demo_two_rooms_20261123/delivery_preflight/defense_deck_styled/defense_presentation.pdf) · [完整ZIP](../../results/development/demo_two_rooms_20261123/delivery_preflight/defense_deck.zip)。已串联统一架构、四基础任务、两区清扫/北侧绕行/现场计数、语义变化核验、7类空间图/关系图和共享深度输入，原生325段可编辑文字、原图嵌入；真实Office重新打开导出、13页总览及修正页核对通过，522项ZIP文件SHA全部通过。两原始4倍UI视频另附，未嵌入PPT，不作相机或完整任务视频；团队信息/真人验收仍待补，未最终提交。原8页素材包保留。[演示稿审计](../../results/development/demo_two_rooms_20261123/delivery_preflight/defense_deck_styled/audit.json) · [打包收据](../../results/development/demo_two_rooms_20261123/delivery_preflight/defense_deck_archive_audit.json)。
 
 合成计数有界复核已完整结束：[原审计](../../results/development/demo_two_rooms_20261123/delivery_preflight/synth_voice_count_followup/audit.json)。同343f根393.90秒、18/18方向完整驻留/观测，却只确认2/评估4，数量未过；匹配的两把XY .08357/.04770m在既有.30m内，整项position=false含完整匹配缺失，不误称两把均定位超限。地图回充完成、独立仿真停靠.155946m>.15仍失败；停稳.96秒/接触0/心跳、207899次源检查0、实际UI终态/浏览器清理过。strace与处理器本轮未收到停止信号；旧中断仍未定因，不称修复。数量缺项不能再归于本轮中断，不继续重跑或调参；真人与完整整机验收保持未完成。
 
@@ -507,3 +536,7 @@ Nav2使用本机原生Position/PoseProgress及RotationShim+DWB，local/behavior�
 床头柜仅修复杯/瓶掩膜深度IQR异常值过滤，尺寸先验/2hits/.20m标准不变。实际6/6巡视、6份RGB-D/TF，杯2/预期2，XY误差.13242/.04297m，168.75秒，回充.08543m/.09541rad/.46秒通过；床头柜32帧0尺寸拒绝。旧10张图保留书桌/厨房杯瓶接受及垃圾桶误识拒绝，当前namespace8物品/卧室杯2、SQLite/API一致、Spark-DSG14节点13边重载通过；不是16类或记忆收益验收。
 
 外部汇总器收尾退出143原因未知，原中间报告保留；控制台清扫本体正常结束，原JSON/轨迹/掩码完整，已从原产物恢复汇总。全程接触/最后motion原始采样未落盘，不据此宣称无接触通过；随后短程停车/回充补测通过、peak.34751m/s并增量保存原始样本。工程368通过/29条件跳过，两包构建；升级默认v6/service_surfaces_v2后33项针对性检查通过，并独立冷启动默认就绪。12份原地图与C035散列一致。试验会话已正常关闭，新默认会话a6a541fe留给用户联调。完整证据results/development/cleaning_efficiency_20261122/stage_summary.json，见既有[清扫](../evidence/cleaning_coverage_20261121.json)、[物品](../evidence/target_expansion_20261121.json)与[记忆](../evidence/semantic_memory_20261121.json)收据C040字段。
+
+## 2026-11-24：三项优化首版工程验证
+
+语义解释/明确顺序任务/补扫实测面板已实现，完整源码552过/38跳过13.55秒，Node渲染测试及两次真实guided收据只读重放通过。工程收据：`results/development/workflows_20261124/audit.json`。初次未完整加载ROS工作区的两次收集错误原日志保留。当前旧根不具备新鲜传感器/导航就绪，没有下发新任务；尚未新增机器人实跑/独立布局/组合语音验收，不替代原热态返航失败或三球partial。后续按总计划第5节顺序继续。

@@ -44,6 +44,7 @@ class ReturnRun(NavigationRun):
         result=dict(status=status,message=message,charging_station_id=self.station['id'],frame_id='map',
             initial_pose=self.start_pose,return_target_pose=self.target_pose,final_pose=self.final_pose,
             return_state=self.return_state,return_error=self.return_errors,navigation_settled=self.settled,
+            docking_localization_updates=self.docking_localization_updates,
             elapsed_seconds=round(time.monotonic()-self.started,2),distance_m=round(self.distance,3),
             discovery_warmup_seconds=2.,
             startup_ready_after_seconds=getattr(self,'startup_ready_after_seconds',None),

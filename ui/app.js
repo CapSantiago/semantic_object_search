@@ -31,6 +31,7 @@
   let state = null;
   let online = false;
   let mutationPending = false;
+  let previewPayload = null;
   let recording = null;
   let lastTranscriptId = null;
   const canRecord = Boolean(navigator.mediaDevices?.getUserMedia && window.MediaRecorder);
@@ -44,6 +45,7 @@
   let zoom = 1;
   let historyKey = '';
   let taskKey = '';
+  let cleaningRaster = null, cleaningRasterKey = '';
   let logBusy = false;
   const canvas = el('map');
   const ctx = canvas.getContext('2d');
@@ -244,6 +246,7 @@
     return selectedHistoryId ? (state.history || []).find((row) => row.id === selectedHistoryId) || state.task : state.task;
   }
   function renderTask() {
+    renderSequence();
     const task = selectedTask();
     const historical = Boolean(selectedHistoryId && task && task.id === selectedHistoryId);
     text('task-title', historical ? '历史任务' : '当前任务');
@@ -294,6 +297,8 @@
     if (task?.memory?.status === 'failed') feedback += ` ${task.memory.message}`;
     if (result?.memory_guidance?.used) feedback += '\n已参考历史位置安排现场核验，确认数量仅来自本次观测。';
     text('task-feedback', feedback);
+    renderMemoryTrace((result || progress)?.memory_trace);
+    renderCleaningPhases(cleaning ? (result || progress) : null);
     const coverage = cleaning ? cleanCoverage : result && result.coverage;
     el('coverage').hidden = !coverage;
     if (coverage && cleaning) {
@@ -326,6 +331,105 @@
     el('result-details').hidden = !result;
     text('result-json', result ? JSON.stringify(result, null, 2) : '');
     drawMap();
+  }
+  function buildCleaningRaster(layer, grid, includeBlocked) {
+    if (!layer || !grid || !layer.data_sha256 || layer.data_sha256!==grid.data_sha256 ||
+        layer.frame_id!==grid.frame_id || layer.width!==grid.width || layer.height!==grid.height ||
+        Math.abs(layer.resolution-grid.resolution)>1e-6 ||
+        ['x','y','yaw'].some(k=>!finite(layer.origin?.[k]) || Math.abs(layer.origin[k]-grid.origin[k])>1e-6)) return null;
+    const n=layer.width*layer.height;
+    if (!Number.isInteger(n) || n<1 || n>2000000) return null;
+    const decode=runs=>{
+      if (!Array.isArray(runs)) return null;
+      const mask=new Uint8Array(n); let end=0;
+      for (const pair of runs) {
+        if (!Array.isArray(pair) || pair.length!==2) return null;
+        const [start,length]=pair;
+        if (!Number.isInteger(start)||!Number.isInteger(length)||start<end||length<1||start+length>n) return null;
+        mask.fill(1,start,start+length);end=start+length;
+      }
+      return mask;
+    };
+    const eligible=decode(layer.eligible_runs),covered=decode(layer.covered_runs),blocked=decode(layer.blocked_runs);
+    if (!eligible || !covered || !blocked || eligible.reduce((a,b)=>a+b,0)!==layer.eligible_cells ||
+        covered.reduce((a,b)=>a+b,0)!==layer.covered_cells || covered.some((v,i)=>v&&!eligible[i]) ||
+        blocked.some((v,i)=>v&&!eligible[i])) return null;
+    const raster=document.createElement('canvas');raster.width=layer.width;raster.height=layer.height;
+    const context=raster.getContext('2d'),pixels=context.createImageData(layer.width,layer.height);
+    for(let i=0;i<n;i++) {
+      if (!eligible[i]) continue;
+      const color=includeBlocked&&blocked[i]?[211,62,54,200]:covered[i]?[22,132,125,125]:[242,190,63,130];
+      const y=Math.floor(i/layer.width),x=i%layer.width;
+      pixels.data.set(color,((layer.height-1-y)*layer.width+x)*4);
+    }
+    context.putImageData(pixels,0,0);return raster;
+  }
+  function renderCleaningPhases(data) {
+    const box=el('cleaning-phases'); box.replaceChildren(); box.hidden=!data;
+    if (!data) return;
+    const line=value=>{const p=document.createElement('p');p.textContent=value;box.append(p);};
+    const delta=cells=>{
+      const area=finite(data.coverage_layer?.resolution)?cells*data.coverage_layer.resolution**2:null;
+      return `${cells} 格${area!==null?`（${area.toFixed(area>=.01?2:4)} m²）`:''}`;
+    };
+    const phases=data.cleaning_phases || [];
+    for (const phase of phases) {
+      line(`${phase.phase==='primary' ? '主扫' : '局部补扫'}：实际新增 ${delta(phase.measured_new_cells)}，用时 ${formatElapsed(phase.elapsed_seconds)}。`);
+    }
+    if (data.supplement) line(`局部补扫进行中：实际新增 ${delta(data.supplement.measured_new_cells)}，用时 ${formatElapsed(data.supplement.elapsed_seconds)}。`);
+    if (finite(data.blocked_lanes)) line(`执行中曾记录受阻条带 ${data.blocked_lanes} 条；不表示永久不可达。`);
+    line('覆盖只按实际刷盘轨迹计算；结合代价图、规划路径与实际轨迹查看绕行和剩余区域。');
+  }
+  function renderSequence() {
+    const box=el('task-sequence'), sequence=state?.sequence;
+    const task=selectedTask();
+    const relevant=sequence?.tasks.some(child=>child.id===task?.id);
+    box.hidden=!relevant; box.replaceChildren();
+    if (!relevant) return;
+    const title=document.createElement('h3');
+    title.textContent=`组合任务 · ${statusLabel(sequence.state)}`; box.append(title);
+    const list=document.createElement('ol'); box.append(list);
+    for (const child of sequence.tasks) {
+      const item=document.createElement('li');
+      item.textContent=`${child.command} · ${child.state==='skipped' ? '未执行' : statusLabel(child.state)}`;
+      list.append(item);
+    }
+    const note=document.createElement('small');
+    note.textContent=sequence.error || '按顺序执行，每项沿用自动回充；停止或未完成时终止后续任务。';
+    box.append(note);
+  }
+  function renderMemoryTrace(trace) {
+    const box = el('memory-trace');
+    box.replaceChildren(); box.hidden = !trace;
+    if (!trace) return;
+    const line = (value, tag = 'p') => {
+      const node = document.createElement(tag); node.textContent = value; box.append(node);
+    };
+    line('记忆引导 · 现场核验', 'h3');
+    line(trace.order_changed ? '已根据真实历史调整巡视顺序；保留全部配置回退点。' : '已参考历史；保留原巡视顺序。');
+    for (const record of trace.history || []) {
+      const xy = [record.x, record.y].map(v => finite(v) ? v.toFixed(2) : '—').join(', ');
+      line(`历史 M-${String(record.id).slice(0,6)} · (${xy}) m · ${record.state === 'needs_verification' ? '待核验' : '最后观测位置'}${record.last_seen ? ' · '+new Date(record.last_seen).toLocaleString('zh-CN',{hour12:false}) : ''}`);
+    }
+    for (const view of trace.views || []) {
+      const sources = view.historical_sources || [];
+      const reason = sources.length ? '历史成功视点' : '配置/补充观察点';
+      const status = view.dwell_completed ? (view.valid_projections > 0 ? '已完成观察，有有效投影' : '已完成观察，未取得有效目标投影') :
+        view.reached ? '已到达，核验尚未完成' : view.navigation_status ? `导航：${view.navigation_status}` : '尚未执行（保留回退）';
+      line(`观察点 ${view.index+1} · ${reason} · ${status}`);
+      if (sources.length) {
+        const details=document.createElement('details'), summary=document.createElement('summary');
+        summary.textContent=`查看 ${sources.length} 份历史观测依据`; details.append(summary);
+        for (const source of sources) {
+          const note=document.createElement('small');
+          note.textContent=`来源任务 ${source.task_id || '未记录'} · ${source.frames ?? '—'} 帧历史观测`;
+          details.append(note);
+        }
+        box.append(details);
+      }
+    }
+    line(`本次现场已确认 ${trace.live_confirmed_count} 个；历史记录不计入数量。`);
+    line('未取得投影不表示物品已消失；位置变化以物品档案中的现场更新为准。', 'small');
   }
   function renderHistory() {
     const history = Array.isArray(state.history) ? state.history : [];
@@ -635,6 +739,24 @@
       ctx.drawImage(costmapRaster,0,-layer.height*layerScale,layer.width*layerScale,layer.height*layerScale);ctx.restore();
       text('costmap-state',costFresh?'全局导航代价 · 实时更新':'上次导航代价（已过期）');
     } else text('costmap-state',showCost?'代价图不可用或已过期，当前仅显示底图':'共用同一张栅格底图');
+    const coverageTask=state && selectedTask();
+    const coverageLayer=state?.mode!=='mapping' && coverageTask?.kind==='clean' &&
+      (coverageTask.result || coverageTask.progress)?.coverage_layer;
+    el('cleaning-layer-control').hidden=!coverageLayer;
+    const showCoverage=coverageLayer && el('show-cleaning').checked;
+    el('cleaning-layer-note').hidden=!showCoverage;
+    if (showCoverage) {
+      const historical=!busyStates.has(coverageTask.state);
+      const costAge=state.telemetry.clock_seconds-coverageLayer.cost_stamp_seconds;
+      const showBlocked=coverageLayer.blocked_observation_available && (historical ||
+        online && state.telemetry.simulation_ready && finite(coverageLayer.cost_stamp_seconds) && costAge>=-.1 && costAge<=3);
+      const key=JSON.stringify([coverageTask.id,mapData.data_sha256,coverageLayer.covered_cells,coverageLayer.cost_stamp_seconds,showBlocked]);
+      if (key!==cleaningRasterKey) {cleaningRaster=buildCleaningRaster(coverageLayer,mapData,showBlocked);cleaningRasterKey=key;}
+      if (cleaningRaster) {
+        ctx.drawImage(cleaningRaster,offsetX,offsetY,mapData.width*scale,mapData.height*scale);
+        text('cleaning-layer-note',`绿=实际已扫，黄=可扫未覆盖；${showBlocked?(historical?'红=结束时受阻快照':'红=当前代价禁行'):'受阻观测不可用或已过期'}。受阻不等于永久不可达，原覆盖率分母不变。`);
+      } else text('cleaning-layer-note','清扫覆盖层与底图不匹配，未叠加。');
+    }
     if (state && state.rooms_frame_id === mapData.frame_id) {
       const definitions = state.rooms || {};
       if (state.mode!=='mapping' && el('show-regions').checked) for (const [id, room] of Object.entries(definitions)) {
@@ -914,7 +1036,7 @@
       }
     }
   }
-  el('task-form').addEventListener('submit', (event) => {
+  el('task-form').addEventListener('submit', async (event) => {
     event.preventDefault();
     if (!state || !state.ready || taskBusy() || mutationPending || !online || recording) return;
     const command = el('command').value.trim();
@@ -925,8 +1047,40 @@
     const body = command ? {command, request_id: requestId()} :
       {mode: el('mode').value, room: el('room').value, request_id: requestId()};
     if (!command && body.mode !== 'clean') body.category = el('category').value;
+    clearPreview();
+    if (command && state.mode==='navigation') {
+      const session=state.session_id;
+      mutationPending=true; refreshButtons();
+      try {
+        const preview=await api('/api/task/preview',body);
+        if (preview.sequence) {
+          previewPayload={body,session};
+          const list=el('task-preview-list'); list.replaceChildren();
+          for (const task of preview.tasks) {
+            const item=document.createElement('li');
+            const meaning={find:'寻找一个',count:'完整巡视计数',clean:'清扫',return:'回充'}[task.parsed.mode];
+            item.textContent=`${task.command}（${meaning}）`; list.append(item);
+          }
+          el('task-preview').hidden=false;
+          announce('请核对任务顺序和数量含义，再点击“执行以上任务”。');
+          return;
+        }
+      } catch (error) { announce(error.message,true); return; }
+      finally { mutationPending=false; refreshButtons(); }
+    }
     mutate('/api/task', body, '任务已提交，执行状态将在右侧更新。');
   });
+  function clearPreview() { previewPayload=null; el('task-preview').hidden=true; }
+  el('command').addEventListener('input',clearPreview);
+  el('execute-sequence').addEventListener('click',()=>{
+    if (!previewPayload || mutationPending || !state?.ready || !online || recording) return;
+    const preview=previewPayload;
+    if (preview.session!==state.session_id || preview.body.command!==el('command').value.trim()) {
+      clearPreview(); announce('指令或会话已变化，请重新预览。',true); return;
+    }
+    clearPreview(); mutate('/api/task',preview.body,'组合任务已提交。');
+  });
+  el('show-cleaning').addEventListener('change',drawMap);
   el('mode').addEventListener('change', refreshButtons);
   el('switch-mode').addEventListener('click', () => {
     const mode = state?.mode==='mapping' ? 'navigation' : 'mapping';

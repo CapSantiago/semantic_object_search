@@ -64,6 +64,22 @@ class RuntimeTests(unittest.TestCase):
         self.assertEqual(image.config['depth_cloud_source'],'image')
         self.assertIn('depth_cloud_source:=image',image.command('simulation'))
 
+    def test_sim_localization_candidate_is_explicit_and_separately_recorded(self):
+        base=self.make_runtime(precision_docking=True)
+        self.assertFalse(base.config['sim_localization_candidate'])
+        self.assertEqual(base.config['navigation'],'src/semantic_search/config/nav2_depth_docking_progress.yaml')
+        base.close(graceful_seconds=0)
+        candidate=self.make_runtime(precision_docking=True,sim_localization_candidate=True)
+        self.assertTrue(candidate.config['sim_localization_candidate'])
+        self.assertEqual(candidate.config['navigation'],'src/semantic_search/config/nav2_depth_sim_localization.yaml')
+
+    def test_sim_localization_candidate_rejects_unsupported_combinations_before_ownership(self):
+        for extra in ({},{'precision_docking':True,'body_footprint':True},
+                      {'precision_docking':True,'navigation_safety':True}):
+            with self.assertRaisesRegex(ValueError,'仿真定位候选'):
+                self.make_runtime(sim_localization_candidate=True,**extra)
+        self.make_runtime()
+
     def test_unknown_depth_projection_source_is_rejected_before_locking(self):
         with self.assertRaisesRegex(ValueError,'点云来源'):
             self.make_runtime(depth_cloud_source='unverified')

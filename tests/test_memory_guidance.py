@@ -107,3 +107,13 @@ def test_real_find_can_stop_at_three_views_while_full_fallback_is_retained(monke
     missing=copy.deepcopy(result);missing['viewpoint_diagnostics'].pop()
     assert not configured_route_matches(missing,room,'sports ball')
     assert not configured_route_matches(dict(result,status='not_found'),room,'sports ball')
+
+
+def test_proven_near_view_precedes_a_new_heading_at_a_nearer_but_unproven_site():
+    views=[[1.2,-.5,-1.32],[2.7,-1.8,3.04]]
+    history=[dict(id='actual_history',x=1.03,y=-1.96,z=.38,state='last_observed')]
+    observed=[dict(memory_id='actual_history',task_id='saved_observation',pose=views[1],frames=32)]
+    plan,e=prioritize_find_views(views,{},history,successful_views=observed)
+    assert plan==[views[1],views[0]]
+    assert e['added_viewpoints']==0 and e['counts_from_history']is False
+    assert e['basis']=='historical_successful_view_before_unverified_bearing'

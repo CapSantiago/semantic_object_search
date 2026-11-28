@@ -2,23 +2,9 @@
 
 适用于已经准备好依赖的本机：家庭场景、默认v6/service_surfaces_v2布局、实体相机支架和可靠传感器订阅。新机器先阅读 [部署说明](GITHUB_DEPLOYMENT.md)。无需手动激活视觉虚拟环境。
 
-## 答辩素材取用
+## 答辩后恢复运行
 
-优先取用[13页可编辑答辩演示稿](../../results/development/demo_two_rooms_20261123/delivery_preflight/defense_deck_styled/defense_presentation.pptx)、[PDF](../../results/development/demo_two_rooms_20261123/delivery_preflight/defense_deck_styled/defense_presentation.pdf)或[完整ZIP](../../results/development/demo_two_rooms_20261123/delivery_preflight/defense_deck.zip)：文字可编辑，原图嵌入，另附两段4倍UI片段和冻结证据。已实际Office打开/逐页核对；成员、学号、实际贡献和真人四功能仍待补。最新失败也在讲稿中，不能据此称全部验收。下方8页包仍保留为原始选材。
-
-按老师四章模板整理的[可编辑报告草稿DOCX](../../results/development/demo_two_rooms_20261123/delivery_preflight/report_draft/project_report_draft.docx)与[PDF预览](../../results/development/demo_two_rooms_20261123/delivery_preflight/report_draft/project_report_draft.pdf)已生成并实际打开核对。报告保留原图/证据范围和失败，姓名、学号与实际分工待填；不是真人麦克风通过记录或最终提交稿。
-
-打开[离线素材目录](../../results/development/demo_two_rooms_20261123/delivery_materials/index.html)，或解压同目录`delivery_materials.zip`后打开`index.html`。8张1920×1080 PNG可直接插入PPT，原图/视频和审计可单独取用，`manifest.json`保留原文件路径、SHA-256及5会话的冻结配置/源码。它是所选证据包，运行环境、模型和场景资产仍按部署说明恢复。
-
-目录注明各自真实会话与验收范围：三球清扫partial仅作限制/避障子项，记忆更新不代表合格提速，UI视频不当相机录像；不同会话不拼称连续任务。实际搬移离线浏览、500px及视频全解码通过，见[素材审计](../../results/development/demo_two_rooms_20261123/delivery_preflight/materials_browser/audit.json)。需要重新生成时使用新输出目录，脚本拒绝覆盖已有包：
-
-另提供[8页素材PPT](../../results/development/demo_two_rooms_20261123/delivery_preflight/presentation_materials.pptx)与[PDF预览](../../results/development/demo_two_rooms_20261123/delivery_preflight/presentation_materials.pdf)。均为已核验PNG整页置入的16:9素材页，可插页/重排，并非已写完的答辩叙事稿或可编辑图表；[实际Office打开与导出审计](../../results/development/demo_two_rooms_20261123/delivery_preflight/presentation_audit.json)核对8页与标准页面几何。
-
-```bash
-python3 scripts/package_demo_materials.py --output results/development/demo_materials_new
-```
-
-当前定位追加优化按用户安排暂缓，未新增AMCL候选；不因此升级image来源或语义收益的稳定性验收。当前配方的卧室书本连续文字预检find1/count2、两处必巡/≤.20m/接触0/时效0/回充通过；真人麦克风仍需实际联调。“找一本书”只找一个，需要全部用“统计卧室有多少本书”。
+项目暂缓开发。恢复时先核对当前交接与本机运行状态，启动一次新会话。答辩素材在本机的 `results/答辩精选素材_20261126/` 和 `results/答辩补充实录_20261126/`，原批采视频、逐帧截图和旧交接包已按清单清理。代表案例及限制见[答辩收据](../evidence/defense_20261126.json)。
 
 ## 厨房碗与卧室书的新增布局候选
 
@@ -119,6 +105,8 @@ C041补扫改为“保留主条带、未扫区域优先换方向短补扫”，�
 新增点位实验需同时显式加`--memory-guidance --memory-safe-approach`，默认关闭。2026-11-24客厅香蕉ABBA四次正确性通过，但新增点均无有效投影，有记忆两组反而慢18.56/24.90秒；不推荐把该实验作为收益展示。原记忆排序功能保留，移动核验与提速分开验收。
 
 `--precision-docking`为独立显式候选，仅充电处到达使用.05m执行目标和原生rotation shim最终朝向控制，独立验收仍.15m/.15rad及停稳；普通寻物/清扫控制参数保持。初版五次回充位置过、随后移动例终点朝向停滞失败，修复版以最新实测收据为准，不能凭配置称稳定通过。
+普通深度＋`--precision-docking`当前单独加载`nav2_depth_docking_progress.yaml`：只有DockingPath.GoalDist.scale=96（原24），其余导航/清扫及安全约束保留。body_footprint/navigation_safety配置不自动混用。可在会话session.json的navigation和配置快照核对实际文件；定位刷新最多3次、共用3秒截止且必须新AMCL+TF一致，不以服务应答替代验收。
+
 
 候选记忆引导可在启动时显式加`--memory-guidance`，默认关闭，实际收益尚在对照验证；它优先历史成功的可选视点，必要时在已有近点增加最多一个朝向；保留必巡前缀及全部配置回退，不改变计数路线，也不会用历史记录补数量。实际到访数与完整预留计划分别记录。
 
@@ -406,3 +394,24 @@ C041原条带小缺口：默认主遍历后优先`required_stripe_repair`，针�
 
 
 11月23日当前body/v12 gym另有`cleaning_turning_radius_m=.321`：只调整实际执行端点，最多沿原条带内收.15m；`execution_segment`保留原参考并记录入口转向判断，短段单点须实测原段全部刷到且停车才完成。原分母/原条带/预算不变。该显式候选最新整房56.615%/8/23未通过，所有试验根已停；Native Lattice仅在results内准备，尚未授权、没有可用产品启动开关，不能将其文档视作已部署。最新事实以HANDOFF和footprint_trial/audit.json为准。
+
+
+## 客厅语义记忆收益代表案例（2026-11-24）
+
+在已备齐S1280/YOLOE与布局资产的本机，沿用上方候选启动命令，布局选择`scenes/aws_house/layout_service_balls_banana_memory_occluded_v2.json`、房间选择`rooms_aws_house_v16_local_supplement.json`，候选类别含banana，开启`--memory-guidance`。本例使用成功固定视点排序，新增位置实验默认关闭。先实际“统计客厅有多少根香蕉”建立现场记忆，再“去客厅找一根香蕉”；固定点和现场确认门槛保持。已有实例先核对HANDOFF，不重复启动。
+
+原布局两组ABBA搜索均值55.90→32.92秒，数量与定位达标。移动后的复现变体为`layout_service_balls_banana_memory_occluded_moved_v2.json`；当前运行可能是此已移动版本，物品当前位置依实际感知。热态移动计数返航失败与冷恢复通过分开记录，[完整范围及失败](../evidence/development_20261124/semantic_memory_benefit_update.json)。不能把首次建立记忆的成本或返航从总任务耗时中隐去；上面的提速数字只针对已有真实历史时的搜索阶段。
+
+## 顺序任务首版与解释面板（待实跑验收）
+
+正常重启加载本轮源码后，可在文字框输入“先去厨房统计杯子，再去卧室找书”，也可录音转写、核对后提交。支持2–3条完整指令，先显示解析清单和“寻找一个/完整巡视计数”等含义；核对后点击“执行以上任务”，每项仍返回充电处，UI显示逐项状态。停止会取消余项，partial/失败会停止串联。首版源码回归通过，尚无本轮真实组合任务通过证据，不把旧单任务素材拼作连续执行。
+
+记忆引导任务在当前任务卡显示历史来源和现场核验过程；需要显式`--memory-guidance`，新增安全点实验仍默认关闭。主扫/补扫面板显示真实新增格数和用时。旧运行中的搜索节点不会因修改磁盘而热更新，应先核对空闲、正常关闭并冻结新会话；当前进程与就绪情况看HANDOFF。
+
+清扫时勾选地图“实际清扫覆盖”，可看绿已扫、黄可扫未扫和红当前原生代价禁行；底图几何或字节哈希不一致时拒绝叠加并显示原因，过期禁行不画。任务卡分列主扫与有限补扫的真实新增格数、面积和耗时；终态是结束快照，覆盖率达到80%但原条带未完成时仍可为partial。
+
+组合语音可用“请先去客厅寻找香蕉，然后去客厅统计香蕉。”（香蕉需显式开启候选且有对应布局）；转写后先看“寻找一个/完整巡视计数”清单，再执行。停止会取消当前项并跳过后续项，不自动续队列。当前自动音频验证使用合成语音，真人麦克风及任意措辞仍需独立联调。
+
+当前工作流已关闭仿真及测试浏览器。96/5cm与其显式仿真运动模型候选分开保留；旧03独立停靠16.36cm及2.5cm/192失败未改判。当前仿真候选短程两次及05三球独立停靠通过，05清扫仍79.66%/18of29的partial。不要把UI模拟充电、专项或工程通过当作完整清扫验收，范围见workflow_completion.json。
+
+仿真定位校准可在上述普通深度、`--precision-docking`配方后显式加`--sim-localization-candidate`。它加载nav2_depth_sim_localization.yaml，仅把AMCL alpha1–4设为.02，alpha5/激光模型/底图/充电处/控制与安全参数不变；默认关闭，不能与body/safety候选混用。启动要求既有OdometryPublisher的/odom无附加高斯噪声并冻结其model.sdf；该仿真假设不能直接迁移真实轮式里程计。短程两任务/停止与05三球补扫解释已通过；整房清扫仍partial，按workflow_completion.json说明范围。

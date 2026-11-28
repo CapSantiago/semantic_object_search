@@ -8,6 +8,10 @@ from semantic_search.memory_guidance import prioritize_find_views
 from semantic_search.semantic_memory import map_namespace
 
 
+def successes(prior,views):
+    return [dict(memory_id=prior['id'],task_id='actual_past_task',pose=views[1],frames=3)]
+
+
 def fixture():
     rooms={'room':{'bounds':[0.,0.,6.,6.],'views':[[4.8,4.8,-2.],[4.9,3.8,-3.]]}}
     grid=dict(available=True,frame_id='map',width=120,height=120,resolution=.05,
@@ -19,14 +23,14 @@ def fixture():
 def test_safe_approach_is_derived_from_grids_and_keeps_all_fallbacks():
     rooms,grid,prior,live,current=fixture();before=list(grid['data']);mask=live.copy()
     views=rooms['room']['views'];context=dict(rooms=rooms,room_id='room',grid=grid,available=live,current=current)
-    ordered,evidence=prioritize_find_views(views,rooms['room'],[prior],approach_context=context)
+    ordered,evidence=prioritize_find_views(views,rooms['room'],[prior],approach_context=context,successful_views=successes(prior,views))
     item=evidence['verification_views'][0]
     assert item['basis']=='observed_memory_safe_approach' and item['pose']==ordered[0]
     assert len(ordered)==len(views)+1 and all(v in ordered for v in views)
     assert evidence['counts_from_history'] is False
     assert item['planning']['clearance_m']>=.35
-    assert 1<=math.dist(item['pose'][:2],[prior['x'],prior['y']])<=2
-    assert item['planning']['estimated_approach_seconds']<.9*item['planning']['fastest_configured_estimate_seconds']
+    assert .8<=math.dist(item['pose'][:2],[prior['x'],prior['y']])<=2.2
+    assert item['planning']['estimated_approach_seconds']<item['planning']['fastest_configured_estimate_seconds']-1.
     assert verify_approach(item,views,rooms,'room',map_namespace(grid,rooms))
     assert grid['data']==before and np.array_equal(live,mask)
 
@@ -47,7 +51,7 @@ def test_unknown_barrier_cannot_be_used_as_free_space():
 
 def test_tampered_pose_empty_pose_and_wrong_map_are_rejected():
     rooms,grid,prior,live,current=fixture();views=rooms['room']['views']
-    item=propose_approach(views,rooms,'room',[prior],grid,live,current)
+    item=propose_approach(views,rooms,'room',[prior],grid,live,current,successful_views=successes(prior,views))
     changed=copy.deepcopy(item);changed['pose'][0]+=.02
     assert not verify_approach(changed,views,rooms,'room')
     changed=copy.deepcopy(item);changed['pose']=[]
@@ -61,3 +65,24 @@ def test_mandatory_inspection_and_invalid_history_keep_existing_plan():
     assert propose_approach(views,rooms,'room',[prior],grid,live,current) is None
     room.pop('inspection_views');prior['classification_conflict']=True
     assert propose_approach(views,rooms,'room',[prior],grid,live,current) is None
+
+
+def test_recorded_living_failure_reuses_actual_success_and_rejects_fabricated_provenance():
+    import json
+    from pathlib import Path
+    base=Path(__file__).parent/'fixtures';case=json.loads((base/'memory_approach_living.json').read_text());data=np.load(base/'memory_approach_living.npz')
+    grid=dict(case['grid'],data=data['occupancy'].tolist());args=(case['views'],case['rooms'],'living',case['history'],grid,data['available'],case['current'])
+    assert propose_approach(*args) is None
+    item=propose_approach(*args,successful_views=case['successful_views']);assert item is not None
+    ref=item['planning']['reference_successful_view'];prior=next(v for v in case['history']if v['id']==item['memory_id'])
+    assert prior['state']=='last_observed' and ref in case['successful_views']
+    assert math.dist(item['pose'][:2],ref['pose'][:2])<=.75
+    assert item['distance_m']<=math.dist(ref['pose'][:2],[prior['x'],prior['y']])+.025001
+    assert verify_approach(item,case['views'],case['rooms'],'living',successful_views=case['successful_views'])
+    forged=copy.deepcopy(item);forged['planning']['reference_successful_view']['task_id']='fabricated'
+    assert not verify_approach(forged,case['views'],case['rooms'],'living',successful_views=case['successful_views'])
+    pending=copy.deepcopy(case['history'])
+    for v in pending:v['state']='needs_verification'
+    assert propose_approach(case['views'],case['rooms'],'living',pending,grid,data['available'],case['current'],successful_views=case['successful_views'])is None
+    single=[dict(v,frames=1)for v in case['successful_views']]
+    assert propose_approach(*args,successful_views=single)is None

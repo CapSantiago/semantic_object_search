@@ -87,3 +87,74 @@ def test_localization_rejects_stale_wrong_frame_or_invalid_quaternion():
     msg.header.frame_id='wrong';assert not fresh_odometry(msg,20.,20.1,10.1)
     msg.header.frame_id='odom';msg.pose.pose.orientation.w=0.
     assert not fresh_odometry(msg,20.,20.1,10.1)
+
+
+def test_precision_refresh_realigns_only_after_a_new_measurement():
+    from semantic_search.docking import dock_at
+    for enabled,shift in [(False,.09),(True,.09),(True,.01)]:
+        calls=[];refresh=[];position=[.03,0.,0.]
+        def go(target,*args,**kwargs):
+            calls.append(kwargs['purpose']);position[:]=[.03,0.,0.];return True
+        def update(deadline):
+            refresh.append(deadline);position[0]=shift;return True
+        worker=SimpleNamespace(station=dict(precision_docking=True,refresh_localization_before_dock=enabled),
+            pose=lambda:tuple(position),go=go,refresh_docking_localization=update,
+            parked=lambda:True,wait_for=lambda *a,**k:None,odom_stamp=500_000_000,stationary_since=0)
+        assert dock_at(worker,(0.,0.,0.),time.monotonic()+120)
+        assert calls==(['dock','dock_alignment']if enabled and shift>.05 else ['dock'])
+        assert bool(refresh)==enabled
+
+
+def test_refresh_acknowledgement_without_new_amcl_measurement_is_not_success():
+    pytest.importorskip('rclpy')
+    from navigation_client import NavigationRun
+    for new,coherent in ((False,False),(True,True),(True,False)):
+        worker=NavigationRun.__new__(NavigationRun);worker.docking_localization_updates=[]
+        worker.pose=lambda:(.03,0.,0.);worker.parked=lambda:True;worker.latest_localization=None
+        future=SimpleNamespace(done=lambda:True,result=lambda:None)
+        def request(_):
+            if new:worker.latest_localization=dict(stamp_ns=100,received_wall=time.monotonic(),pose=[.03 if coherent else .3,0.,0.])
+            return future
+        client=SimpleNamespace(service_is_ready=lambda:True,call_async=request)
+        worker.localization_client=client
+        def create_late(*args):raise AssertionError('Must reuse pre-discovered service client')
+        destroyed=[];worker.node=SimpleNamespace(create_client=create_late,destroy_client=destroyed.append,
+            get_clock=lambda:SimpleNamespace(now=lambda:SimpleNamespace(nanoseconds=100)))
+        def wait(predicate,timeout):
+            assert 0<=timeout<=3.
+            if not predicate():raise TimeoutError('No new AMCL scan')
+        worker.wait_for=wait
+        assert worker.refresh_docking_localization(time.monotonic()+3.)==(new and coherent)
+        assert worker.docking_localization_updates[0]['status']==('updated'if new and coherent else'unavailable')
+        assert destroyed==[]
+
+
+def test_precision_refresh_is_bounded_by_one_shared_deadline():
+    from semantic_search.docking import dock_at
+    calls=[];deadlines=[];position=[.03,0.,0.]
+    def go(target,*args,**kwargs):
+        calls.append(kwargs['purpose']);position[:]=[.03,0.,0.];return True
+    def refresh(deadline):
+        deadlines.append(deadline);position[0]=.07+.02*len(deadlines);return True
+    w=SimpleNamespace(station=dict(precision_docking=True,refresh_localization_before_dock=True),
+        pose=lambda:tuple(position),go=go,refresh_docking_localization=refresh,
+        parked=lambda:True,wait_for=lambda *a,**k:None,odom_stamp=500_000_000,stationary_since=0)
+    before=time.monotonic();assert dock_at(w,(0.,0.,0.),before+120)
+    assert len(deadlines)==3 and len(set(deadlines))==1
+    assert deadlines[0]<=before+3.1
+    assert calls==['dock','dock_alignment']
+
+
+def test_recovered_dock_still_refreshes_before_claiming_charge():
+    from semantic_search.docking import dock_at
+    events=[];position=[.03,0.,0.]
+    def go(target,*args,**kwargs):
+        purpose=kwargs['purpose'];events.append(purpose);position[:]=[.03,0.,0.]
+        return purpose!='dock'
+    def refresh(deadline):events.append('fresh_scan');position[0]=.09;return True
+    w=SimpleNamespace(station=dict(precision_docking=True,refresh_localization_before_dock=True),
+        pose=lambda:tuple(position),go=go,refresh_docking_localization=refresh,
+        parked=lambda:True,wait_for=lambda *a,**k:None,odom_stamp=500_000_000,stationary_since=0)
+    assert dock_at(w,(0.,0.,0.),time.monotonic()+120)
+    assert events[:2]==['dock','dock_alignment']
+    assert events.count('fresh_scan')==3 and events[-1]=='dock_alignment'

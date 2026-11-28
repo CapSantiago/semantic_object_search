@@ -1,0 +1,234 @@
+{
+  "status": "incomplete_third_acceptance_runtime_stopped",
+  "goal_complete": false,
+  "semantic": "passed_representative_closed_loop_and_independent_boundary",
+  "voice": "passed_selected_sequence_preview_cancel_on_prior_96_candidate",
+  "cleaning": {
+    "status": "failed_independent_docking",
+    "coverage_fraction": 0.8234790059982862,
+    "covered_lanes": 28,
+    "planned_lanes": 29,
+    "supplement_new_cells": 459,
+    "supplement_area_m2": 1.1475,
+    "independent_dock": {
+      "position_m": 0.16357572658339112,
+      "yaw_rad": 0.08626084788103455,
+      "source_age_seconds": 0.0,
+      "age_wall_seconds": 5.040499854658265e-05,
+      "passed": false
+    },
+    "source_checks": 398489,
+    "source_stale_checks": 0,
+    "other_feature_checks_passed": true,
+    "ui": "passed",
+    "exports": "passed"
+  },
+  "tighter_experiment": {
+    "status": "failed",
+    "independent_docks": [
+      {
+        "position_m": 0.14624642570446367,
+        "yaw_rad": 0.0185710245854102,
+        "age": 0.007422685623168945,
+        "passed": true
+      },
+      {
+        "position_m": 0.151942066980721,
+        "yaw_rad": 0.014890630714005537,
+        "age": 0.01436471939086914,
+        "passed": false
+      }
+    ],
+    "source": {
+      "cloud": {
+        "count": 1471,
+        "max_gap": 0.4184327080001822,
+        "gaps_over_point4": 1,
+        "max_source_age": 0.12399999999999523
+      },
+      "scan": {
+        "count": 920,
+        "max_gap": 0.4354146759997093,
+        "gaps_over_point4": 1,
+        "max_source_age": 0.08199999999999363
+      },
+      "fresh_checks": 94447,
+      "stale_checks": 9
+    },
+    "not_promoted": true,
+    "restoration": {
+      "status": "restored_prior_96_candidate_after_tighter_short_trial_failed",
+      "restored_files": [
+        "src/semantic_search/config/nav2_depth_docking_progress.yaml",
+        "src/semantic_search/semantic_search/docking.py"
+      ],
+      "failed_trial": "results/development/workflows_20261124/voice_tighter/audit.json",
+      "limits": [
+        "2.5cm/192 experiment not promoted.",
+        "Baseline physical docking failure remains unresolved."
+      ]
+    }
+  },
+  "engineering": {
+    "tests_passed": 565,
+    "tests_skipped": 38,
+    "test_seconds": 15.16,
+    "test_log": "results/development/workflows_20261124/final_tests_restored.log",
+    "source_packages_built": 2,
+    "build_seconds": 1.12,
+    "build_log": "results/development/workflows_20261124/final_build_restored.log",
+    "ui_log": "results/development/workflows_20261124/final_ui_tests.log"
+  },
+  "cleanup": {
+    "session": "20261124T172607_662844Z_ed9592d5",
+    "before_busy": false,
+    "before_control_uncertain": false,
+    "browser_session_closed": true,
+    "console_pid": 118499,
+    "shutdown": {
+      "closed_utc": "2026-11-24T17:31:58.118324+00:00",
+      "elapsed_wall_seconds": 5.243736363998323,
+      "status": "stopped",
+      "remaining_owned_processes": [],
+      "signals": [
+        {
+          "name": "rviz",
+          "pid": 119469,
+          "signal": "SIGINT"
+        },
+        {
+          "name": "search",
+          "pid": 119466,
+          "signal": "SIGINT"
+        },
+        {
+          "name": "detector",
+          "pid": 119465,
+          "signal": "SIGINT"
+        },
+        {
+          "name": "navigation",
+          "pid": 119118,
+          "signal": "SIGINT"
+        },
+        {
+          "name": "simulation",
+          "pid": 118590,
+          "signal": "SIGINT"
+        },
+        {
+          "pid": 118590,
+          "signal": "SIGTERM"
+        },
+        {
+          "pid": 118616,
+          "signal": "SIGTERM"
+        },
+        {
+          "pid": 118621,
+          "signal": "SIGTERM"
+        },
+        {
+          "pid": 118623,
+          "signal": "SIGTERM"
+        },
+        {
+          "pid": 118625,
+          "signal": "SIGTERM"
+        },
+        {
+          "pid": 118627,
+          "signal": "SIGTERM"
+        },
+        {
+          "pid": 118629,
+          "signal": "SIGTERM"
+        },
+        {
+          "pid": 118631,
+          "signal": "SIGTERM"
+        },
+        {
+          "pid": 118633,
+          "signal": "SIGTERM"
+        },
+        {
+          "pid": 118716,
+          "signal": "SIGTERM"
+        },
+        {
+          "pid": 118717,
+          "signal": "SIGTERM"
+        },
+        {
+          "pid": 119465,
+          "signal": "SIGTERM"
+        },
+        {
+          "pid": 119466,
+          "signal": "SIGTERM"
+        },
+        {
+          "pid": 119469,
+          "signal": "SIGTERM"
+        },
+        {
+          "pid": 119540,
+          "signal": "SIGTERM"
+        },
+        {
+          "pid": 119542,
+          "signal": "SIGTERM"
+        },
+        {
+          "pid": 119577,
+          "signal": "SIGTERM"
+        },
+        {
+          "pid": 119578,
+          "signal": "SIGTERM"
+        }
+      ],
+      "exit_codes": {
+        "simulation": -15,
+        "navigation": 130,
+        "detector": -15,
+        "search": -15,
+        "rviz": -15,
+        "request_aa59e13b35e3f7d55c47b4e800269c68": 0,
+        "request_20bbe7a21a466346b4def91c39963353": 0,
+        "return_20bbe7a21a466346b4def91c39963353": 0,
+        "request_7ab3823290d739dfe24ef34f86dda3a0": 0,
+        "return_7ab3823290d739dfe24ef34f86dda3a0": 0
+      },
+      "ownership": "UID + unique inherited token + start_ticks + pidfd"
+    },
+    "owned_remaining": [],
+    "validation_remaining": [],
+    "geckodriver_pid": 45695,
+    "driver_remaining": 0,
+    "status": "stopped_owned_runtime_and_validation_browser"
+  },
+  "process_check": {
+    "known_workflow_processes_remaining": [],
+    "robot_http_closed": true,
+    "temporary_tts_removed": true
+  },
+  "decision": "Pending user choice: continue localization/docking work or close this round with third task unaccepted.",
+  "limits": [
+    "No reduction of15cm physical docking,20cm object localization, source freshness or raw cleaning denominator.",
+    "Cleaning partial remains partial, despite coverage above80%.",
+    "Synthetic speech does not replace human microphone acceptance.",
+    "Only the new192/2.5cm experiment was withdrawn; all prior project changes and original failures are retained.",
+    "No PPT, commit or push in this goal."
+  ],
+  "raw_sha256": {
+    "results/development/workflows_20261124/semantic_service/audit.json": "984d46e15ea0a3d8e4ee97af05ad23dfc3f618e0a2053a29599ed2996640bf25",
+    "results/development/workflows_20261124/voice_cost_retry/audit.json": "8f8f023f012c9c72a98ad245c19927f66f12a47ae3838b19d4d24662164e363b",
+    "results/development/workflows_20261124/voice_cost_retry/cancel_ready/cancel_audit.json": "338cc7da1b3aa54501f6355de6807ba9ae978a490399c7275dbd61083159d72c",
+    "results/development/workflows_20261124/cleaning_durable/feature_audit.json": "a90431a78be6ad20bc8a75a68e27e525713b94e89f65fc61c256a605bbdd5060",
+    "results/development/workflows_20261124/voice_tighter/audit.json": "26dfe9819195f61d57e48e74afd2a2abf83261e7936eee36ec2f0f9c2ee09988",
+    "results/development/workflows_20261124/cleanup.json": "3b7a18f97b2c31cd81c9fd456c6cd6ce2116eb4af5dfae9441a4e83903d6186c",
+    "results/development/workflows_20261124/final_process_check.json": "ec37ecfb22a240161a927dfca1729296ab812143104ec7c3c287519017374757"
+  }
+}

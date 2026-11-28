@@ -1,0 +1,327 @@
+{
+  "date": "2026-11-26",
+  "scope": "Representative defense runs in Gazebo. Physical hardware and broad category qualification were outside these runs.",
+  "kitchen_detour": {
+    "session": "20261126T111651_534152Z_68e63ae8",
+    "request_id": "fb0686d2-ccbe-4b0e-afab-fd627171c6ba",
+    "status": "passed",
+    "evaluation": {
+      "passed": true,
+      "expected": 2,
+      "actual": 2,
+      "checks": {
+        "task_completed": true,
+        "count": true,
+        "position": true,
+        "unique_ids": true,
+        "map_metres": true,
+        "room": true,
+        "required_surfaces": true,
+        "measured_arrivals": true,
+        "saved": true,
+        "memory_saved": true,
+        "return_passed": true,
+        "configured_route": true,
+        "full_observation_plan": true,
+        "full_observation_data": true,
+        "no_history_count": true,
+        "persisted_result": true,
+        "observed_hits": true,
+        "svg_ids": true
+      },
+      "position_limit_m": 0.2,
+      "errors": [
+        {
+          "id": 1,
+          "reference": "kitchen_yellow_mug",
+          "xy_error_m": 0.078960492973156
+        },
+        {
+          "id": 2,
+          "reference": "kitchen_worktop_yellow_mug",
+          "xy_error_m": 0.0837699342044866
+        }
+      ],
+      "arrivals": [
+        {
+          "index": 0,
+          "passed": true,
+          "xy_error_m": 0.11886922323412334,
+          "yaw_error_rad": 0.09501531600269097
+        },
+        {
+          "index": 1,
+          "passed": true,
+          "xy_error_m": 0.10712027751485077,
+          "yaw_error_rad": 0.09765656053119402
+        },
+        {
+          "index": 2,
+          "passed": true,
+          "xy_error_m": 0.11566136981645192,
+          "yaw_error_rad": 0.09720693194880525
+        },
+        {
+          "index": 3,
+          "passed": true,
+          "xy_error_m": 0.04617518763724323,
+          "yaw_error_rad": 0.09648896595500689
+        },
+        {
+          "index": 4,
+          "passed": true,
+          "xy_error_m": 0.10131419170829818,
+          "yaw_error_rad": 0.10330548207053727
+        },
+        {
+          "index": 5,
+          "passed": true,
+          "xy_error_m": 0.08924878633987508,
+          "yaw_error_rad": 0.09661151649434441
+        },
+        {
+          "index": 6,
+          "passed": true,
+          "xy_error_m": 0.10087575531871423,
+          "yaw_error_rad": 0.09976544753233663
+        },
+        {
+          "index": 7,
+          "passed": true,
+          "xy_error_m": 0.09079056188387508,
+          "yaw_error_rad": 0.10971859230491587
+        },
+        {
+          "index": 8,
+          "passed": true,
+          "xy_error_m": 0.08786627295727091,
+          "yaw_error_rad": 0.08659475380851256
+        },
+        {
+          "index": 9,
+          "passed": true,
+          "xy_error_m": 0.09521144615889512,
+          "yaw_error_rad": 0.10801846895315204
+        },
+        {
+          "index": 10,
+          "passed": true,
+          "xy_error_m": 0.11218639433097116,
+          "yaw_error_rad": 0.10827628795516242
+        }
+      ]
+    },
+    "observation_directions": [
+      11,
+      11
+    ],
+    "return_state": "simulated_charging",
+    "northward_delta_m_vs_historical_no_box": 3.782120584650776
+  },
+  "banana_relocation": {
+    "session": "20261126T113906_154345Z_2bb3a6dd",
+    "request_id": "demo_final_living_count_banana_after_count_938cd4b9",
+    "count": 1,
+    "evaluation": {
+      "passed": true,
+      "expected": 1,
+      "actual": 1,
+      "checks": {
+        "task_completed": true,
+        "count": true,
+        "position": true,
+        "unique_ids": true,
+        "map_metres": true,
+        "room": true,
+        "required_surfaces": true,
+        "measured_arrivals": true,
+        "saved": true,
+        "memory_saved": true,
+        "return_passed": true,
+        "configured_route": true,
+        "full_observation_plan": true,
+        "full_observation_data": true,
+        "no_history_count": true,
+        "persisted_result": true,
+        "observed_hits": true,
+        "svg_ids": true
+      },
+      "position_limit_m": 0.2,
+      "errors": [
+        {
+          "id": 1,
+          "reference": "living_banana_1",
+          "xy_error_m": 0.10648922992463296
+        }
+      ],
+      "arrivals": [
+        {
+          "index": 0,
+          "passed": true,
+          "xy_error_m": 0.11090173443041884,
+          "yaw_error_rad": 0.09729309441793688
+        },
+        {
+          "index": 1,
+          "passed": true,
+          "xy_error_m": 0.05669340021906189,
+          "yaw_error_rad": 0.09707213221104816
+        }
+      ]
+    },
+    "old_pending": true,
+    "new_from_count": true,
+    "source_subchecks": {
+      "observer_healthy": true,
+      "original_task_succeeded": true,
+      "mandatory_surfaces_observed": true,
+      "returned_to_dock": true,
+      "native_settled": true,
+      "no_recorded_contact": true,
+      "no_external_cancel": true,
+      "ui_observation_fresh": true,
+      "independent_world_dock": true,
+      "fresh_sensor_checks": true,
+      "observer_clean": true
+    },
+    "dock": {
+      "position_m": 0.14040622986298126,
+      "yaw_rad": 0.054041262958825574
+    }
+  },
+  "human_voice_queue": {
+    "session": "20261126T113341_776235Z_ed2cc64f",
+    "two_tasks_in_order": [
+      "sequence_344702895bfc491a8a8d65b65a545b4d",
+      "sequence_9dcb099b55e14db6864d9229c0878180"
+    ],
+    "overall_sequence_completed": true,
+    "tasks": {
+      "count": {
+        "request_id": "sequence_9dcb099b55e14db6864d9229c0878180",
+        "task_id": "d35bdc95-80c8-44a1-82fb-e58ac93f1dc0",
+        "count": 2,
+        "task_state": "completed",
+        "save_status": "saved",
+        "return_state": "simulated_charging",
+        "independent": {
+          "passed": false,
+          "expected": 2,
+          "actual": 2,
+          "checks": {
+            "task_completed": true,
+            "count": true,
+            "position": false,
+            "unique_ids": true,
+            "map_metres": true,
+            "room": true,
+            "required_surfaces": true,
+            "measured_arrivals": true,
+            "saved": true,
+            "memory_saved": true,
+            "return_passed": true,
+            "configured_route": true,
+            "full_observation_plan": true,
+            "full_observation_data": true,
+            "no_history_count": true,
+            "persisted_result": true,
+            "observed_hits": true,
+            "svg_ids": true
+          },
+          "position_limit_m": 0.2,
+          "errors": [
+            {
+              "id": 1,
+              "reference": "living_banana_2",
+              "xy_error_m": 0.178470869744797
+            },
+            {
+              "id": 2,
+              "reference": "living_banana_1",
+              "xy_error_m": 0.20868110548642851
+            }
+          ],
+          "arrivals": [
+            {
+              "index": 0,
+              "passed": true,
+              "xy_error_m": 0.1067283311986725,
+              "yaw_error_rad": 0.0968752927248342
+            },
+            {
+              "index": 1,
+              "passed": true,
+              "xy_error_m": 0.10807496208472071,
+              "yaw_error_rad": 0.10453484605301912
+            }
+          ]
+        }
+      },
+      "find": {
+        "request_id": "sequence_344702895bfc491a8a8d65b65a545b4d",
+        "task_id": "4f6a9228-8ca2-477e-8096-06802a5365ff",
+        "count": 1,
+        "task_state": "completed",
+        "save_status": "saved",
+        "return_state": "simulated_charging",
+        "independent": {
+          "passed": true,
+          "expected": 1,
+          "actual": 1,
+          "checks": {
+            "task_completed": true,
+            "count": true,
+            "position": true,
+            "unique_ids": true,
+            "map_metres": true,
+            "room": true,
+            "required_surfaces": true,
+            "measured_arrivals": true,
+            "saved": true,
+            "memory_saved": true,
+            "return_passed": true,
+            "configured_route": true,
+            "found": true,
+            "persisted_result": true,
+            "observed_hits": true,
+            "svg_ids": true
+          },
+          "position_limit_m": 0.2,
+          "errors": [
+            {
+              "id": 1,
+              "reference": "living_banana_2",
+              "xy_error_m": 0.15120903535286154
+            }
+          ],
+          "arrivals": [
+            {
+              "index": 0,
+              "passed": true,
+              "xy_error_m": 0.10647455846000362,
+              "yaw_error_rad": 0.09000858247836918
+            }
+          ]
+        }
+      }
+    }
+  },
+  "local_sources": [
+    {
+      "path": "results/答辩补充实录_20261126/采集证据/厨房新实录核验.json",
+      "sha256": "ceb1c8592b0b4b5af3168ddf8593912aa94aa0f879555f4be19053bcf137c885"
+    },
+    {
+      "path": "results/答辩补充实录_20261126/采集证据/香蕉移位本轮审计.json",
+      "sha256": "e71edc4ffafc7868d7cb5377c0ec04e4dc0177a309316d5c0ec41a7d20dd5f51"
+    },
+    {
+      "path": "results/答辩补充实录_20261126/采集证据/双香蕉/双香蕉独立验收.json",
+      "sha256": "0c4dbbbd8199f5bd7e5d6cc2decee656208adbf14df5b6c8c9020ab263c7ca5a"
+    },
+    {
+      "path": "results/答辩补充实录_20261126/采集证据/双香蕉/真人语音进度.json",
+      "sha256": "02e2f9ae6af76558178e4e4fd13f90b0251301e7bd3ec04f6603a7c93cf4624b"
+    }
+  ]
+}

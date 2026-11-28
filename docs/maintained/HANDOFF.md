@@ -1,14 +1,117 @@
 # 当前项目交接
 
-## 当前可续接摘要（2026-11-24）
+## 当前可续接摘要（2026-11-28）
 
-**当前工作（用户最新四项，原自动目标已清除）：** 暂停制作PPT与答辩资料，先完善项目。①杂物间三静置球主扫后前往漏扫块、现场局部重规划并补扫；用户确认允许最多额外3分钟、含返航总预算最多15分钟，不改覆盖/实际条带/安全门槛；②新增客厅香蕉寻找计数，资产已在本地，旧厨房find XY .05746m与S模型离线旁证支持优先选择，客厅两香蕉首轮find/count已通过，尚无多布局稳定性验收；③同条件语义记忆引导查找正确性/耗时路程对照，再移动核验更新；④有平移、转弯、重访的局部建图路线，保存/重载/恢复导航回充，用户确认本轮不要求整屋重建。grill-me与grilling已读，三项关键取舍已获明确回答（有限补扫、局部建图、安全记忆核验点），新物体由用户授权自主选择。原暂缓的三球/语义优化现按新指令恢复，未通过不升级。保存摘要不是宿主原生上下文压缩。
+**阶段状态。** 课程答辩已结束，开发暂缓。恢复时以唯一总计划为准，默认使用 v6 房间与 service_surfaces_v2 布局，精确停靠和仿真定位仍是显式候选。已知风险包括杂物间条带漏扫、候选识别与冷启动复测、真人串联计数的一处定位超限。
+
+**开发快照。** 本次整理提交包含顺序语音任务与停止传播、语义记忆核验轨迹、实走覆盖与补扫解释、精确停靠与仿真定位候选、控制台显示，以及相应配置、测试和历史收据。机器人运行仍从 scripts/start_robot.sh 启动。杯、瓶、椅冻结基线和原场景地图均可用于回归。
+
+**答辩实测。** 68e63ae8 厨房受阻后改走北侧，完成 11/11 个观测方向，确认 2 杯并回充。2bb3a6dd 香蕉移位后确认 1 个，旧位置待核验，新位置现场观测更新，独立定位误差 10.65 cm。ed2cc64f 真人双香蕉串联按顺序找 1、数 2 并分别保存回充，计数一处定位 20.87 cm 超原 20 cm 门槛。卧室代表覆盖 80.95% 完成，普通杂物间 92.41% 和三球杂物间 80.33% 均部分完成。语义引导 41.11% 提速限原合格遮挡布局的搜索阶段。见[本次答辩实测收据](../evidence/defense_20261126.json)及[验证概览](DEVELOPMENT_VALIDATION.md)。
+
+**本地清理。** 删除 1,359 个历史采集、录制及重复交接文件，约 3.91 GiB。保留九主题精选、补充实录成片、报告与会话审计、语义记忆库、模型环境、地图和测试输入。详细清单在本机 `results/maintenance/cleanup_20261128.json`，旧答辩取材脚本归入本机 `results/maintenance/defense_tools_20261126/`。当前素材入口是 `results/答辩精选素材_20261126/打开这里_素材目录.html` 与 `results/答辩补充实录_20261126/00_取用说明.md`。
+
+**续接。** 按[部署说明](GITHUB_DEPLOYMENT.md)和[运行指南](RUNNING.md)核对环境，再做选定案例的回归。以下按日期保留历史结果，其中的本机原件路径用于追溯，部分批采素材已清理。
+
+## 11 月 25–26 日的素材历史
+
+**本轮目标已完成：** 用户要求素材采集、整理、制作并在完成后关闭进程；独立库仍为`results/defense_materials_20261125/`（M），未制作PPT、未提交推送。唯一总计划DEPLOYMENT_PLAN；十主题＋验证局限按主选/历史/失败备查组织，不升级功能验收。运行例真实屏幕截图/录像，UI完整网页；地图/RGB可直接导出，原理/统计图单列，标注在旁侧。旧拼接建图阶段_08已在非选用目录。
+
+**入口与核验：** M/selected.html主选与贡献，index.html全库，cases.html运行例/UI/录像，00/选材导览.md、收尾状态与待补项.md。909项带来源/SHA标注，677PNG、21MP4全部解码和帧时间表一致；13项主选索引均有完整起止UI（流程和子任务有重合，不能当独立试验次数）。187份原件源SHA通过，离线index/cases/selected实际加载全部图片/21视频无错误，临时核验浏览器关闭。00/素材最终核验.json、离线浏览核验.json均passed。首版MP4有效无DTS包丢失问题以仅重建初始DTS/复制全部编码包修复；旧坏包/失败检查保留11非选用。最后一版图表文字位置已查看修整，增量文件核验再次passed；最终进程复核见11/补齐批次/最终进程复核.json。
+
+**现场已关闭：** 最终15268bbc（`20261125T163115_506677Z_15268bbc`）按本轮收尾正常停止；11/补齐批次/voice_final_retry/final_material_closeout.json为closed，shutdown所属残留[]。8767/4450/4451关闭；独立host ps无robot_console、Gazebo/RViz、录制/采集队列或4450驱动。早前111/fe56/383/61a2/6d0各根也已关闭。用户普通Firefox未关闭。早前20:23/20:43用户说无手动停止，来源仍未知，不以本轮主动关停解释。
+
+**本轮可用素材：** 01最终原始五区全景/完整机器人与传感器图取景已查看。03完整局部建图/native8.96cm、保存/独立逐格重载/恢复原图导航/回充通过，原始634帧录像与完整UI。05厨房bowl count2（最大XY3.43cm）、卧室book count2（XY4.20cm）、厨房bottle find1（XY4.16cm）、chair find1（XY14.05cm），各独立审计passed及完整UI/录像/实际导出齐；32张同戳有效投影RGB，双书95/63次投影仍2本及实测观察方向图。02另有三种地图页/近障0.60m/实际全局代价完整UI，09七类空间图另加关系图，非八套底图/同步时刻。参考文献/上游与原创贡献分列。
+
+**清扫真实状态：** 新111卧室6456/7975=80.95%、19of19/completed/native7.18cm、全部gates过。原新111杂物间91.36%/25of26仍partial；有限v14路线补录61a2为8627/9336=92.41%、25of26，lane18九格只刷7格，native5.66cm、来源/接触/冻结刷盘/停车过仍partial，不再重复补拍。旧92.74%/26of26是不同会话历史合格图表，不套新UI。fe新增三球80.81%/16of26有27stale，留失败；383低负载7500/9336=80.33%/20of29、797.72秒，主7229＋补271格/0.6775m²/180.90秒，来源409312检查0过期、native5.26cm/.1011rad，预算到达后回充仍partial。
+
+**综合绕行：** 06/证据/补齐完整UI，两次现场count2/原11方向/餐桌＋操作台/回充，blocked177318检查0过期、夹具恢复；实走北侧相对原客厅路线局部北移3.706m，不强加北侧航点，不要求进入健身区。新actual_pair与图表已检查；baseline native11.64cm，blocked nativeXY4.24cm、无保留world yaw，不能当完整独立姿态验收。四种日常只用一张历史代表任务窗关键图，.34秒是近停时长不是响应延迟。
+
+**语义证据分开：** 原合格两组ABBA55.90→32.92秒/41.11%、10.01→5.81m，仅原遮挡布局搜索阶段，四轮数量/XY/来源/native合格；已补实际odom搜索轨迹、6张原始RGB、原始report与odom入库。旧613同根建忆/移动约.717m/现场find/count及SQLite/真实DSG重载passed，变化状态图可用；无物理重识别或普遍提速。新fe建忆漏检保留非选用；383开放guided来源失败/移动find回充yaw失败保留非选用；6d0 primer通过、guided原运行passed但独立XY21.05cm>20cm，完整链failed，已补邻接evaluation.json避免索引误认。152独立移动现场数量/XY过但native15.07cm>15cm失败，恢复夹具，不继续其count。新输入配方实际被当前启动器自动选择docking_progress，非完全旧613导航冻结配置。独立移动与失败引导链不拼成连续成功，不做新收益主张。
+
+**语音已补齐通过：** 08/证据/补齐完整UI，152根实际MediaRecorder录合成WAV→ASR“请先去 客厅 寻找 香蕉 然后 去 客厅 统计 香蕉。”→整句预览→顺序find1/count1，各保存回充，独立dock10.18cm/.0332rad与13.68cm/.1203rad/全来源0过期passed。855帧原始录像、完整预览与终态UI齐；真人麦克风未验。前一次工具写死nav2_depth名在录音前退出/单帧坏包留08非选用，修正为核对实际冻结docking_progress配方，仅采集工具改动，未改产品或门槛。
+
+**文件轨迹与下一步：** 生产源码既有未提交改动保留；本阶段新增/修整scripts下prepare/supplement/index/guide/render/collect/select/plot/verify/repair/write_defense_*素材工具，M00/采集工具保留可复现包装/归属/录制源码；计划、RUNNING、DEVELOPMENT_VALIDATION及本摘要已更新。继续项目开发仍按唯一计划，普通/散落球短条带稳定性、语义跨运行定位/回充、真人麦克风及泛化等未过项保留。本轮不自动启动新仿真/制作PPT；用户后续选片时从selected.html取用，再明确幻灯片制作需求。
+
+## 续接摘要历史（原文保留，运行状态与下一步以上节为准）
+
+### 2026-11-25：素材补齐活动原摘要（已被当前摘要覆盖）
+
+
+**最新续接（23:25后，必须覆盖旧队列预期）：** fe56d30c新三球已partial/7544of9336=80.8055%、16/26条，主7099格＋补445格/180.46秒，native12.40cm过；全窗scan有2次>.4秒、27个stale检查（cloud maxgap.341、scan maxgap.439），原audit failed门槛保留，不能称合格整窗避障。时刻与后台媒体解码并行，相关但未证明因果；后续机器人任务结束前不再做重视频解码。
+
+**语义原遮挡布局本次漏检：** 07/证据/补齐完整UI/collection_audit failed。primer现场count0/期望1，完整两方向到达/源/回充过；第二视点只留到1帧banana候选（score.717、独立几何size_ok），未满足正式多帧确认，不能改为1或声称建立新记忆。key_route工具本身status failed却进程退出0，已由独立evaluate捕获，不用退出码当通过。依赖它的移动与voice没有执行。当前second_batch已转06/证据/补齐完整UI厨房配对：baseline completed2/driver passed，blocked约88秒/正在观测；务必等同一队列完成，不另派任务。
+
+**后续已排队（不是新计划）：** after_second独立PID45869（11/补齐批次/after_second_process.json）只等second_batch_collected_review_pending且root安全空闲后正常关fe根，启已保留/曾验证开放布局layout_service_balls_banana_memory_v1，先运行semantic_materials完整建忆/引导/移动核验（移动设计复用D/semantic_followup/living_banana/movement_design.json，实际移约.603m，eval用memory_moved_v1）。原漏检07目录/语义录像移“非选用_原遮挡布局建忆漏检”保留。开放布局若不满足原遮挡对照可见性，就不做新提速主张，旧41.11%仍只属原ABBA。语义通过才录08语音，评估布局已改匹配moved_v1。最后在04/证据/补齐三球完整UI_低负载复录再录三球，旧来源失败保留。新开放根SID尚未知，以launch.json和actual API核对。
+
+**文件核验最新：** 首版六段MP4编码包已完整恢复，第二阶段verify51678完成passed：436张PNG/13段MP4全部解码、帧时间表一致、errors[]；缓存按SHA。失败首版核验和旧MP4留11/非选用_首版MP4封装，不删除。根运行期间暂停重解码，最终全栈关闭后再--manifest。新素材仍未齐：语义/voice、当前配对终态与后续三球复录、普通杂物间v14正常路线单次补录尚未结束。不得结束本任务或虚报全部完成；最终关仿真/自有browser/driver并重建索引/导览/核验。
+
+**最新现场覆盖下方旧活动列表（23:10后）：** 11128c5e第一根已正常关闭、shutdown stopped/所属残留空，初次stop_stack因console_final稍后才写出报错，仅收尾工具竞态；文件已补齐。原phase_queue13424因此退出，不会再开根；resume_primary23790已完成第一批并退出。当前唯一根 **fe56d30c** / domain67 / 8767，console PID33715，配置同v16/S1280/image/书球辅助/precision/sim-localization/memory，但布局为原遮挡香蕉+三球 `layout_service_balls_banana_memory_occluded_v2.json`。归属11/补齐批次/semantic_and_balls/launch.json。独立second_batch PID35107（*_process.json有start_ticks）正录04/证据/补齐三球完整UI，约620秒、77.25%、supplementing；其后按脚本串行07建忆/ABBA/移动核验与真实DSG重载、08合成语音两任务、06厨房无箱/有箱配对。不要另插任务。
+
+**第一批补齐已实际通过：** 03/证据/补齐完整UI/trial/audit passed，native8.96cm/.0147rad，完整原生UI/原始录像已落盘；原父队列误中断那次保留03/证据/非选用_建图录制被父队列终止，不混用。05/证据/补齐完整UI四例厨房bowl count2（最大XY3.43cm/native8.80cm）、卧室book count2（XY4.20cm/native6.20cm）、厨房bottle find1（XY4.16cm）、chair find1（XY14.05cm）均driver与独立evaluate passed，各完整起止UI/原始视频/真实统一地图导出齐。32张RGB帧经同戳有效投影旁证选出（杯11/瓶10/碗4/书4/椅3）。本次双书#1三视点95次、#2两视点63次仍2本，新图表已生成；不是158帧或物理重识别。椅子任务有实际UI近障0.60m完整长图。
+
+**取景补齐：** 01/图片/最终原始场景现有原生全屏五区全景（GUI相机0,0,9.5，方向与地图一致）及MoveTo waffle＋原生缩远的完整模型/传感器图。过远/遮挡取景移01/证据/非选用_*，其他场景旧原件保留。当前raw GUI录像仍Gazebo+RViz并排，UI用headless Firefox native full-page；元数据00/browser_session_补齐.json，结束需关闭4450驱动/浏览器。临时PPT未做、未提交推送。
+
+**视频封装修复待最终全解码：** 新MKV原始均完整；首版PyAV跳过前2个无DTS但有效的视频包导致MP4缺2帧并损失首GOP解码，已由remux.py只重建初始解码时间戳、复制全部原编码包修复6段（normal6273/map634/book732/bottle789/bowl894/chair555），未重新编码。原坏MP4与失败核验保留11/非选用_首版MP4封装；script repair_defense_containers.py及旁remux.json可追溯。原始MKV不变。新map634帧全解码过；第二轮阶段verify exec51678运行中，媒体缓存按SHA增量，最终须所有录制作业停止后重建manifest再--manifest、离线浏览核验。首版68607核验failed保留，不能称全部文件最终通过。
+
+**新增整理脚本：** scripts/guide_defense_selection.py主选索引（非平行计划）、collect_defense_task_artifacts.py复制原始任务产物、select_defense_camera_frames.py只选真实同戳有效投影RGB、plot_defense_capture_results.py本次观察/去重/记忆对照图、verify_defense_collection.py缓存全解码、repair_defense_containers.py原编码包封装修复。原prepare/supplement/index已支持新图、全库native完整UI与主选/历史分级，但最终索引/导览未重建。第一普通杂物间91.36%/25of26仍partial；可以全部其他素材完成后，用保留v14正常路线单独有限补录一次，不在这处调参。所有素材仍未齐，必须继续本任务，最后关仿真并如实列未达项。
+
+**用户已恢复全部素材采集（2026-11-25，覆盖下方暂停摘要）：** 唯一根11128c5e/domain67/8767，显式v16/S1280/image/书球辅助/precision/sim-localization/memory，layout_service_bowl_book_v1（无新增球）。detached console PID7069，归属见新库11/补齐批次/normal_no_added_balls/launch.json。首个工具挂接录制exec87912意外143，损坏MP4移04/证据/补齐普通两区/非选用_录制被终止；其真实卧室最终81.87%/19of19/completed，完整起止UI及真实导出已保存，但外部观察窗未收尾，不当新整项验收。root未停，旧等待/相机/采样已停。
+
+**最新普通两区与队列（覆盖上一活动列表）：** 04/证据/补齐普通两区_独立采集已实际完成，normal_record2 PID12954退出0；连续6273帧MKV和同编码包转封MP4、完整任务起止UI、地图导出/外部审计均落盘。卧室6456/7975=80.95%、19/19、514.82秒、native7.18cm、全部case_gates过；无新增球杂物间8529/9336=91.36%、25/26、补扫后仍partial，native12.70cm过，原单次完整清扫门槛未过，不能称全部两区通过。原旧92.74%/26of26仍可作历史所选通过证据。
+
+**建图录制中断已定位为本轮操作：** 为补等待条件，向normal_queue2 PID12955发SIGINT时其已启动建图；subprocess.run把其recorder杀掉，actual mapping child PID22051仍运行并安全完成/恢复中。这是本轮队列调整错误，不是前一20:23/20:43根关闭未知事件。normal_queue3 PID22264因当时非ready退出，未派发第二任务。resume_primary PID23790会等实际建图终态/ready后，将03/证据/补齐完整UI与损坏流移“非选用_建图录制被父队列终止”，再用有结束落盘等待的after_normal重录完整建图→碗/书计数→瓶/椅寻找；不得另插任务。phase_queue PID13424仍等待该第一批finished，再采场景照片、正常关根并启三球/语义原遮挡场景，按second_batch串行后续。只读RGB-D scoped observer PID13761随初始会话结束自动停；浏览器00/browser_session_补齐.json。所有PID/start_ticks/命令11/补齐批次/*_process.json。不要再中断已有子任务的父队列。
+
+**工具与后续限制：** 00/采集工具/补齐批次已实现native完整网页截图、实际任务/历史选择配对、GUI相机取景、同编码包转封、checkpoint、已有任务审计包装与独立进程归属。新scripts/guide_defense_selection.py与select_defense_camera_frames.py用于选材/只取同戳有效投影RGB，索引脚本已支持全库完整UI与主选/历史区分；尚未最终重建。当前普通杂物间partial不在此反复调参，后续可用已验证v14正常路线独立有限补录一次；不得拿新partial的UI配旧92.74%冒充同次成功。所有素材补齐后仍须关闭仿真、浏览器、录制/队列，重建总索引、选材导览及文件/离线核验。
+
+**当前状态（本批素材收尾，按用户要求暂停）：** 2026-11-25独立素材库已整理并补采至0148fdd9结束。新根 `results/defense_materials_20261125/`，入口index.html、cases.html、00/收尾状态与待补项.md；未制作PPT、提交或推送。唯一总计划仍DEPLOYMENT_PLAN.md，既有开发改动/地图/失败不回退。后续须等用户恢复，不自动派发新任务。
+
+**最新截图规则：** 运行示例使用真实屏幕截图/原始录屏；UI须完整网页，不能截断地图、结果和侧栏。地图/机器人相机允许直接导出并注明来源，不要求原始桌面；原理/统计图单列图表。每例起止UI按实际任务ID配对，缺口如实登记。六张0148完整结束图已存02/图片/完整网页_0148，历史选择图明确标历史；完整开始图未齐，不能伪造开始状态或把视口备查图当完整交付。
+
+**本批实采事实：** 93c19e5c完整局部建图流程passed/native6.68cm；厨房碗count2、卧室书count2、客厅香蕉memory find1均passed/独立evaluate通过，记忆使用和排序改变不代表新增提速对照。0148三球主扫7277格＋补扫456格(1.14m²/180.76秒)，最终7733/9336=82.83%、20/29条、804.4秒，native回充13.85cm；预算耗尽后仍partial，完整条带未验过。08/证据/本轮补采_UI配套_0148合成语音find1/count1、各保存回充passed，真人未验。
+
+**本批综合绕行：** 06/证据/本轮配对_UI配套_0148，同起点/同原11观察姿态，无箱与途中放箱两次实际任务均计2并回充；新actual_pair实走北侧改线，北仅靠近健身区侧，无强加航点。blocked原观察器failed/driver1保留，4次来源过期均静止夹具准备期；沿既有任务窗方法、阈值不变，完整任务窗183155检查0超界，独立停靠11.16cm通过。collection_result明确合格任务范围，不称全运行时稳定验收。
+
+**现场已关闭：** 0148根按用户“当前采集完成后暂停”请求正常发送SIGINT，shutdown stopped/所属残留空；8767/4450/4451端口关闭，原录制/监视器/驱动均退出。11/停止信号诊断有stop_intent、console_signals、shutdown、console_final。最后已知SIGINT发送者属于本轮主动收尾；先前20:23/20:43中断用户明确未手动停止，触发来源仍未知，不能称已找到根因。离线核验临时浏览器随核验自动关闭；最终文件/离线浏览核验见00同名JSON：260项带标注素材、180张PNG、7段原始视频全解码/帧时间表一致，98份复用源SHA一致，索引和案例页离线图像加载无损坏；仅文件与浏览核验，不代表UI素材齐套。
+
+**工具与文件：** scripts/prepare_defense_collection.py独立复制/图表/manifest/离线索引；supplement_defense_collection.py补来源、冻结配置、真实数据图及原始采集登记；index_defense_cases.py按实际session/task配对UI/录像并列完整UI缺口。非选用拼接/中断素材保留但不入正式索引。已有原始录屏/布局工具归档00/采集工具，部分临时wrapper已不存在，不称完整采集工具链全部归档。
+
+**后续缺口（等待恢复后再排）：** 普通卧室/无新增球杂物间旧84.85%/92.74%证据可复用，本轮没有新原始视频及完整起止UI；语义变化与提速有旧证据/图表，但完整原始片段和起止UI仍需核对。部分场景/机器人原图取景偏远或不全，保留备查、未标最佳主图。全包文件核验不等于素材齐套或机器人新验收。有限补扫/总预算、15cm/.15rad停靠、来源.4秒等原门槛不变；真值仅设计/评估。
 
 证据简称：`D=results/development/demo_two_rooms_20261123`；`C=results/development/cloud_continuity_20261122/depth_image_candidate_20261124`。详细旧状态已原文移入本文件历史，以下为当前可执行事实。
 
-### 当前现场与下一小步
+### 本轮完成状态与现场
 
-**当前优先任务：** 用户要求快速收尾、检查并更新远程仓库，保证他人可本地部署；发布后继续开发，不是项目结束。不制作新PPT。此前四项开发安排保留，发布检查期间不启动新的机器人任务。
+**本轮三项专项已完成并停止：** “语义闭环→语音任务串联→清扫补扫与避障解释”的代表案例、必要回归及文档收尾完成；不是整项目、全屋清扫或全部类别正式验收。总收据`docs/evidence/development_20261124/workflow_completion.json`；详细`W=results/development/workflows_20261124`。原15cm/.15rad独立停靠、20cm物品定位、源.4秒、原清扫分母及180秒补扫/900秒总预算均未降低。无PPT、提交或推送，发布基点166ada0，既有改动/地图/失败保留。
+
+**现场已关闭：** 最后根342edf93（root exec79596）已在05任务和完整外部审计落盘后正常shutdown stopped，触发来源未定，不宣称修复所有运行时退出。机器人/Gazebo/RViz所属残留空；测试Firefox和4450驱动关闭，补扫supervisor及只读导出HTTP均退出。`W/localization_noise/cleanup.json`。全部旧根也已关闭，不能复用旧handle或盲启动。独立浏览器元数据在W/browser_session.json但会话已关闭，非运行凭证。完成后按用户要求不继续派任务。
+
+**第一项语义代表闭环通过：** 61397ff6同根完整count→记忆find→原生移动香蕉约.717m→find/count→SQLite/API与真实Spark-DSG独立重载，W/semantic_service/audit passed。四次native停靠9.78/10.40/10.47/11.56cm，移动后find/count XY18.02/7.03cm、各1个，源0/接触0；旧位置待核验、新位置来自现场，physical re-ID false。独立已移动布局variation_service正确性/回充/源过，无/有记忆32.04/32.53秒，未提速。原遮挡布局两组ABBA搜索平均55.90→32.92秒、10.01→5.81m（41.11%），仅原冻结配方和搜索阶段。精选workflow_semantic.json和semantic_memory_benefit_update.json，不能推广所有房间/物品。
+
+**第二项语音串联同当前候选通过：** W/voice_localization_noise/audit passed，真实MediaRecorder录合成WAV→ASR原文→只读预览→客厅香蕉find1/count1、完整两方向计数/保存/各回充；native停靠11.75/11.60cm、78232源检查0/接触0。cancel_ready/audit passed：坏第二句400且整句不派发，移动中实际UI停止，当前取消/后项skipped且无request目录，新鲜native停车、1765源检查0。当前真实Firefox组合/历史面板过，localization_noise/ui_sequence和ui_semantic。精选workflow_voice_localization.json；旧96候选通过仍在workflow_voice.json。2–3项整句预校验/幂等/同锁串行，completed且saved才继续；失败/partial/取消/未知终态停止余项，每项回充，不跨重启续作。合成不当真人，mapping stop旧误识和快速组合失败保留。
+
+**第三项补扫与避障解释专项通过，整房清扫仍partial：** W/cleaning_localization_noise/feature_audit共21项全过。05主扫7218格/525.56秒，补扫219格(0.5475m²)/46.92秒；7437/9336=79.6594%、18/29条、640.45秒。因navigation_recovery_failed提前返航，仍1899格未扫，未达到完整清扫80%/全部条带标准，不改判。原刷盘重算/RLE/底图SHA、native三球占据/实走绕开/继续扫、机身接触0/完整心跳、327939源检查0、动作停稳/顺序、地图及native独立停靠7.17cm/.05246rad均过。解释专项通过与整房清扫通过分开，符合既定两组证据安排。精选workflow_cleaning.json；05原始partial和所有未扫区域保留。
+
+**UI和输出核对：** 实跑补扫面板与颜色图层通过，运行结束后的真实浏览器缓存也已收到并准确显示05终态、7218＋219格及结束禁行快照（未注入页面数据）；localization_noise/ui_cleaning_durable_live与ui_cleaning。运行先关闭，05数据通过只读HTTP回放调用既有真实导出函数，clean_trace/clean_coverage/历史native代价各PNG/SVG/JSON与原结果/trace/NPZ逐项一致；回放明确标历史/无机器人，不伪装实时。旧03真实运行HTTP导出另已通过，export_implementation_check证实业务方法及导出模块未变。结果均在cleaning_localization_noise/exports/，不称一次连续全运行时验收。
+
+**当前保留的改动与配方：** memory_trace.py/搜索节点/UI解释真实历史、逐点驻留/投影和现场数；task_sequence.py、只读preview/队列落盘；coverage_layer.py/run_cleaning.py给实际掩膜RLE、底图字节SHA、主/补扫真实增量和带时效native禁行，底图不符拒叠、过期红不画、终态结束快照。验证器ready-file至少3秒/最多10秒等原生clock/cloud/scan新鲜后才派发，启动数据保留、随后不断窗，journal与最终完整检查一致。Runtime/Console新默认关闭`--sim-localization-candidate`，仅普通深度＋precision，nav2_depth_sim_localization.yaml只在96/5cm基础改AMCL alpha1–4为.02（原.2），alpha5/激光模型/地图/设施/控制/安全不变；启动核验无附加噪声的既有/odom模型并冻结model.sdf，未新加真值或位姿提示。实际GetParameters已核对，90个冻结文件与工作区逐项相同。该候选仅证明本轮仿真配方通过，不迁移真实轮里程计、不称全部定位根因已解。568过/38跳过13.90秒、正式scripts/build.sh三包1.15秒，Node既有渲染/栅格回归及真实UI通过。接口/运行/来源已同步。
+
+**失败保留和后续限制：** 原03补459格/82.35%/28of29但native16.36cm，workflow_cleaning_docking_failed保持failed；02工具exit143/全窗观察丢失保持not_accepted；2.5cm/192实验短程14.62/15.19cm且9源超界未准入，已恢复96/5cm。早期Action回复/物品定位/源超界、无收益布局和构建/环境工具失败均保留，不用新成功抹去。下一步仅等用户新任务：完整清扫恢复/条带、真人麦克风、物理重识别、更多独立布局等尚待完善；不自动扩大16类/全屋/算法比较或重开PPT。状态摘要不等于宿主原生上下文压缩。
+
+### 上一阶段基础与历史限制
+
+**当前优先任务：** 用户最新明确重点优化第三项：语义记忆引导查找＋变化核验，优先证明同样准确而实际更快。沿用总计划，不再先扩展停靠或清扫优化。发布基点166ada0，本轮修改继续留本地。
+
+- **第三项已补齐代表性收益与变化证据，连续热态稳定性仍未过：** 总收据`D/semantic_followup/living_banana/occluded_v2/summary.json`，公开精选`docs/evidence/development_20261124/semantic_memory_benefit_update.json`。同一客厅单香蕉变化布局、同根/同模型/导航/正常两固定视点，ABBA两组：无记忆56.37/55.44秒、10.02/10.00m；记忆30.11/35.73秒、5.76/5.87m，分别省26.26/19.71秒和4.26/4.13m，搜索阶段平均快41.11%。四次均现场1个、XY≤.1612m/独立停靠≤.1252m、接触0/里程计质量过，191610源检查0。历史来源均从真实已保存观测核对，无删改SQLite历史或真值任务输入。收益来自已成功固定视点优先，不使用新增位置实验。
+- **当前实现：** 普通memory_guidance在有真实≥2帧且距离.8–2.2m的成功可选视点时先重排该点，不再先插无成功依据的近点朝向；必巡/完整回退/完整计数不变。显式新增点policy_version=2只在真实成功点附近.75m、间距≥.35m、安全连通且观察距离/二维遮挡预测不劣时提议；第一开放布局两组一慢5.48秒/一快.87秒，未取得一致收益，新点仍默认关闭。旧失败/旧v1重算逻辑保留。真实旧帧地图/历史夹具及新排序回归后540过/38跳过20.55秒、三包2.11秒。
+- **移动核验与热态失败分开：** 同一原生香蕉实体实际移约.717m，历史引导find1/XY.15890m及独立回充通过；完整count1/XY.13113m、两点数据/保存/记忆图更新均过，但返航send_goal回复超时、终态/停车未确认，触发保护停栈。原movement/audit.json与moved_count/report.json仍failed，未改判。navigation.log明确有Failed to send goal response；未修DDS机制。a1322763根shutdown stopped/所属残留空后才恢复。
+- **冷态变化恢复单次通过：** 新根显式加载`layout_service_balls_banana_memory_occluded_moved_v2.json`，未手工修记忆；发送新任务之前已确认旧位置needs_verification、仅1条新位置last_observed且图可读。随后完整count1/XY.11163m、两固定点/源62172检查0/独立停靠.13980m/.04388rad通过，SQLite/API与真实Spark-DSG重载修订/坐标/状态全字段一致。证据`occluded_v2/cold_recovery_audit.json`与`cold_graph/independent_update_audit.json`。这证明持久更新与冷恢复，不等于原热态返航已修，不宣称物理身份重识别。
+- **当前现场：** 3c78306e/domain67/8767/Gazebo+RViz，root exec8979，显式已移动布局/S1280/image/书球辅助/普通memory_guidance/精确停靠；新增点实验关闭。冷恢复driver37391已exit0；收益driver58168已exit0；原热态移动driver84045已exit1，恢复物理夹具未成功是因保护已关世界，原数据保留。当前世界由明确已移动布局重建，与最新现场记忆一致；最终API在`occluded_v2/final_state.json`为ready/idle/无uncertain。没有在未知终态时继续派发任务或盲重启。
+- **其余失败保留：** 第一开放布局新点能识别（两次32投影）但收益未过，calibrated/audit.json保持failed；遮挡v1瓶子也挡第二视点，HTTP查询超时/父验证器KeyError、efa根关闭记录保留，v2只移开瓶子后才实测得出第一点0/第二点31投影并做对照。各布局结果不混称同配方稳定。
+- **发布后当前小阶段已记录（长任务问题仍未解）：** 新增显式精确回充的一次有界原生激光定位更新，必须新AMCL消息到达且静止TF与该测量在1cm/.01rad内一致才算updated；服务应答不算成功。只在原deadline内做必要微调，默认充电配置/AMCL参数/15cm与.15rad验收不变。完整538过/38跳过17.24秒，三包1.31秒；源码改动留本地，发布基点166ada0不变。
+- **前一停靠阶段现场（已关闭）：** 0a59f324/domain67/8767/Gazebo+RViz根，root exec95253已正常关闭；建图driver35374已exit0，后续回充driver96512已exit1，两个cloud观察器均exit0，未再派发运动。最终API状态在`D/docking_refresh/final_state.json`；后续启动/任务前仍须核对现场，不凭摘要盲重启。
+- **局部建图闭环首次本轮完整通过：** `D/mapping_loop/docking_refresh/audit.json`passed，平移2.14988m/转向6.53760rad/重访.09331m，保存373×221=82433格并由独立map_server重载逐格一致，原地图哈希不变；恢复导航、独立停靠.098482m/.006955rad、接触0、61571源检查0通过。原f52的18.03cm失败不替换。新激光更新实际发生，但该版新AMCL到达时TF仍滞后约2.31cm，随后已加一致性等待。
+- **最新TF一致性回充复测整体failed：** `D/docking_refresh/followup_audit.json`，同根idle后明确记录Python源码覆盖SHA，公共“返回充电处”，现场停稳/接触0/独立停靠.098482m/.006955rad、新AMCL源戳及TF一致性全部过；cloud/scan最大gap .414/.436秒、1927次检查中37次超.4秒，整项失败保留。没有把这些点裁去或降门槛，不称稳定通过。此例底盘未实质移动，不能证明刷新改善物理停靠，更不能替代长清扫复测。
+- **旧失败诊断：** `D/docking_refresh/previous_failure_diagnosis.json`中同步map/odom/TF解释坐标差14.084cm，二维重建残差.0305mm；它解释同位置两个误差，不证明AMCL为何偏差或如何消除。三个精选原收据已同步到`docs/evidence/development_20261124/docking_refresh_*.json`。
 
 - **现场已收尾：** be7bb4a8串行driver已failed退出，清扫已终态/停稳，后续建图未派发。中断后8767拒绝连接、控制台PID不存在，未见shutdown收据；按唯一UID/token/start_ticks核对所属残留为空，未盲重启。公开副本`docs/evidence/development_20261124/runtime_cleanup.json`，完整本机证据保留。
 - **三球补扫最新：** `D/cleaning_followup/ball_trial/local_replan/utility_priority/`，主扫6792格/605.27秒，补扫净增696格/180.07秒；总7488/9336=80.2057%、15/23条、847.73秒，cleaning_budget_exhausted/partial。原刷盘重画、动作停稳/接触0、431638源检查0通过；地图停靠4.79cm但独立仿真16.0787cm>.15，整项未过。原首轮80.69%/20of27、补扫274格保留；初始条带/现场状态不同，不称严格因果或稳定改善。
@@ -18,7 +121,7 @@
 - **源码和工程：** 分阶段有限补扫/v16、真实失败快照选择测试、客厅香蕉布局、记忆安全点显式试验、精确回充最终朝向候选均已实现。536通过/38条件跳过18.90秒，三包2.03秒，diff/py_compile过。精确回充候选三次短任务独立位置过，但长清扫仍超15cm，尚不升级默认；不得放宽门槛。原参数别名启动失败/首版朝向停滞/UI终态不新鲜/DDS验证器发现等待失败均保留。
 - **发布检查已完成：** main开发快照将按用户授权提交并推送，Git HEAD/远程状态以本轮发布收据为准。隔离源码536过/38跳过15.36秒、原生3过、全新三包build/install9.59秒，CPU网页/导航/感知就绪及10秒传感器检查过，未执行移动任务；临时根已stopped/残留空。复用锁定资源缓存及现有依赖，完整CPU依赖重装因官方轮下载超时/重试过慢未完成，未称换机验收。已补依赖清单、下载超时/重试、移除验证脚本本机固定路径，精选收据在`docs/evidence/deployment_20261124/audit.json`。没有修改原失败结果或删除本地成果，发布后继续开发。
 
-- **发布后下一步：** 保留现有唯一总计划与三项已确认取舍（补扫≤180秒/总≤900秒、局部建图闭环、安全核验点可实验）；先排查长任务定位/物理停靠偏差，再补建图返航相关复测。记忆新增点先解决实际可观测性再谈收益，不机械重跑；三球完整条带仍欠缺。真人麦克风、更多布局稳定性仍未完成，16类/全屋不是交付前提。
+- **下一步沿用唯一总计划且继续聚焦第三项：** 先把真实历史视点优先、现场确认与失效回退的过程在UI中解释清楚，并在独立变化布局复核收益边界；保持当前case全部原证据。热态Action回复超时作为相关稳定性缺口保留，不能用冷恢复当修复。清扫完整条带、真人麦克风及更多布局仍未验收，不重新扩张16类/全屋门槛；未经另行要求不制作PPT。本轮代码和精选收据留本地，发布基点166ada0不变。
 
 ### 此前已完成与可交付内容
 
@@ -58,7 +161,7 @@
 
 **剩余与约束：** 真人四功能、当前合成链路预检、报告实际成员贡献/答辩素材最终取舍、间歇热态断流/准备期源时效风险仍未完。原P1–P3三类100分批案例/57异常、G0/G1合成自动验收为历史冻结证据；最近旧合成找杯XY.206539m失败不能当通过。保持一份逻辑底图、历史/兼容地图/失败；真值仅布置和事后评估，不进感知/路线/补数；物品位置用真实map观测，历史不当库存，任务编号/M-ID/物理身份区分。保护大量既有未提交改动，不commit/push/reset/清理旧成果；仅清理本轮临时进程/夹具。关键取舍先grill-me+grilling，每轮≤3问；目前两个待答是人工可用性与报告事实，不是新验收取舍。
 
-## 续接摘要历史（原文保留，运行状态与下一步以上节为准）
+
 
 ### 2026-11-24：发布收尾前的开发现场摘要（历史）
 
@@ -845,3 +948,32 @@ C/stationary_probe已实际加入/移除箱体：native代价0→100→0、模�
 当前保持暂停。恢复后按[总计划第5节](DEPLOYMENT_PLAN.md#5-当前进度与下一步)，先处理清扫覆盖与受阻恢复，同步打磨语义地图和现场核验，穿插常用区域16类与4项日常避障，随后整机回归、部署与报告、最后真人麦克风。完成标准沿用总计划，不重复访谈已确定的决定。
 
 技能位于`skills/`，发现入口`.agents/skills`保留；当前通过读取SKILL.md执行context-compression与grill-me/grilling。保存状态摘要不等于执行宿主原生上下文压缩。仅在出现影响执行或验收的新取舍时提问，每轮最多3个独立问题。
+
+
+## 历史：2026-11-25本批素材采集过程快照（由上方最终状态取代）
+
+**当前工作：** 用户2026-11-25已转入答辩PPT准备，本轮已按确认计划开始独立素材整理与补采；此前“不制作PPT”仅属于已结束的开发回合，不覆盖新指令。三项专项开发与代表案例验证已完成，现场保持关闭；完整清扫等限制见下文。唯一总计划仍是DEPLOYMENT_PLAN.md。沿用有限补扫最多180秒、含返航最多900秒，以及原定位/计数/停靠/安全门槛。旧布局/地图/失败与既有工作区成果保留；真值仅场景设计与独立评估，不进入感知、搜索或补数。保存摘要不是宿主原生上下文压缩。
+
+**当前真实现场更新（素材采集继续）：** 93c19e5c在2026-11-25 12:43:04 UTC（本地20:43）再次正常关闭，触发来源未知，用户已明确回答两次均未手动停止。其三例厨房碗count/卧室书count/客厅香蕉memory find均passed且独立evaluate通过，开始/结束UI均已保存；其中记忆used/order_changed为true，现场1个/native10.52cm。完整建图UI配套passed/native6.68cm，也有开始/结束UI。后续语音ASR正确但第一个child随整栈关闭而canceled，audit ConnectionResetError，不能当完整串联通过；原始录像移08/证据/非选用_UI配套补录中断。93根所属残留空，root74675、recorders70874/77637/46397及UI monitor39014均已退出，旧UI manifest保留。
+
+为只读追踪停止发送者，已以**独立进程**启动0148fdd9/domain67/8767，原相同v16/已移动单香蕉三球配方；**无exec root handle**，tracer PID48164，start_ticks与完整命令见 `新素材根/11_验证数据与局限/停止信号诊断/launch.json`，输出runtime.log，控制台主进程的SIGINT/SIGTERM/SIGHUP仅记录于console_signals.log，未跟踪ROS子进程或系统调用。截至最新检查该信号文件仍空；不称已证明根因或修复。结束时须按PID/start_ticks和session核验、给该tracer的实际console子进程SIGINT正常关闭，核对shutdown残留空。
+
+**0148活动作业：** UI monitor exec91201（/tmp/defense_case_ui_0148.py，输出00/案例UI配套_0148fdd9/，旧93监视器已停）；三球清扫原始录屏exec66201，受审计wrapper/tmp/clean_balls_ui.py，实际04/证据/本轮三球_UI配套_0148/utility/，保留原刷盘、.4秒与15cm/.15rad门槛/180秒补扫/900秒总预算；当前约448秒、6130/9336、仍sweeping。阶段图采集exec56351（/tmp/clean_stage_pictures.py），主扫/补扫/返航UI和原始桌面写04/图片/三球过程_0148。排队exec77292（/tmp/voice_after_clean_0148.py），只有清扫recording child0且API安全空闲才会执行08/证据/本轮补采_UI配套_0148/run.py语音串联并保存开始/结束UI；前置失败不派发。不要插入其他任务。driver47609/原生PID19059及headless Firefox仍属本次，元数据00/browser_session.json。
+
+**采集工具新增：** scripts/index_defense_cases.py生成cases.html与00/案例配套清单.json/csv，按实际session+任务ID关联UI与原始录像，缺图明确列出；scripts/supplement_defense_collection.py已改按相邻state/recording动态提取新采来源，不能写死1a来源。尚未最终执行全包索引与SHA/视频解码。后续先等0148清扫/语音终态；再补普通两区清扫/综合绕行等必要素材和UI缺口，或据真实失败标记未齐，不能假装全部完成。采集结束仍须关闭仿真、browser、driver及监视器。用户明确原始截图：不裁切/拼接/加标题背景，标注旁侧说明；流程/统计图另存图表。
+
+**最新续接现场与新增要求（2026-11-25素材任务仍进行）：** 用户又要求每个展示例子有对应开始/结束UI原始截图。已实现独立采集监视器 `/tmp/defense_case_ui.py`，只对实际UI截图，不注入状态，按任务ID写 `新素材根/00_总索引与使用说明/案例UI配套/<taskID>/UI_开始/结束.png` 及同刻state.json、ui_manifest.json；整段流程另用/tmp/defense_named_ui.py保存案例级UI。首次1a根建图/语音成功时未按此新要求采集完整UI配对，故作为备查，不冒充齐套。
+
+1a99287c根在新厨房放箱任务4/11时整栈关闭，shutdown stopped/所属残留空，触发来源未定；console_final任务canceled/saved/现场2杯但巡视未全。新无箱baseline通过，放箱观察器HTTP超时failed，夹具无法在关闭世界清理；世界进程均已退出。该配对录像移到06/证据/非选用_本轮配对中断录像，collection_summary.json保留未验收。原D/route_pair成功不变。旧1a root exec47783和pair recorder28355已退出。
+
+核对无残留后已启动新根 **93c19e5c/domain67/8767**，root exec74675，配置与1a相同（S1280/image/书球辅助/v16/已移动单香蕉三球布局/precision/sim-localization/memory）。driver47609及headless Firefox仍在，元数据00/browser_session.json，音频autoplay已恢复历史设置0/不阻断WebAudio。**正在运行/排队：** UI监视器exec39014；完整建图原始录屏exec70874（已功能passed，native回充6.68cm/.035rad；正式收据03/证据/本轮补采_UI配套/trial/audit.json，案例级UI开始已存、结束随wrapper保存）；三独立案例录屏exec77637，脚本/tmp/defense_remaining_cases.py依次厨房碗count→卧室书count→客厅香蕉memory find，根93验证与真实UI配对，当前厨房碗已passed/独立evaluate passed，卧室书进行中，汇总00/本轮UI配套案例.json。其后排队exec46397，等前一recording.json子进程0后执行08/证据/本轮补采_UI配套/run.py的语音两任务，额外保存预览开始/最终UI。所有case串行，不可插入任务。
+
+新库工具：scripts/prepare_defense_collection.py基础复制/流程图/统计图/离线index与caption SHA；scripts/supplement_defense_collection.py补语义变化、两房真实TF朝向/物品位置、书#1三视点97次融合仍1本、多来源引用与各主题展示说明、冻结配置及新原始画面索引。索引可增量重建，但正式SHA/视频解码须任务结束后复核。非选用目录自动排除。截图保留原像素；历史presentation/路线/五区示意移图表，不能称原始截图。当前文件尚在增长，不能称素材已全部完成。
+
+**下一步：** 等当前三例/语音原始录像＋对应UI终态落盘；保存UI配对和原始采集工具（/tmp辅助本身未清理）。还需补真实场景/机器人全屏原图、核对清扫等旧案例开始/结束UI缺口；清扫视频/各旧案例UI未齐不得虚报。最后更新索引/素材状态、核对原图SHA和视频解码、离线打开，更新唯一总计划与交接，关闭本次仿真/Firefox/driver/录制/监视器。无需制作PPT或提交推送。
+
+**2026-11-25素材采集中：** 已建立 `results/defense_materials_20261125/` 和 `scripts/prepare_defense_collection.py`，初版117项带来源说明素材（索引待最终重建）。用户明确要求原始桌面截图/录屏，像真实Gazebo和RViz并排画面；不能裁切拼接、加背景/标题/字幕。标注放旁侧说明文件和索引。早期拼接阶段图/视频已移至各主题 `证据/非选用_早期拼接画面/`，不可入正式选材，尚待清理索引。十主题原件、语义ABBA/补扫增量/四日常真实轨迹图和6张原理图已整理，非原始截图的图表单列。
+
+**本轮活动现场（覆盖下方旧关闭摘要）：** 原生核对无旧机器人进程后启动1a99287c/domain67/8767，root exec47783；同最新显式S1280/image/书球辅助/precision/sim-localization配方，已移动单香蕉三球布局。建图首轮功能通过：2.1503m平移/6.5413rad转弯/9.59cm重访，保存重载82212格完全一致，native回充7.86cm/.004rad、源66272检查0、无记录接触；但录像拼接不合用户要求。正在以原始桌面重录同链（exec48540，trial_raw），原失败与成功证据都不混。语音首轮浏览器录音超时未派发任务，audit failed保留于08/证据/本轮补采；正在核对无头浏览器原有autoplay设置。driver47609，浏览器元数据00/browser_session.json；结束必须关闭本次仿真/驱动/浏览器。原始录屏工具/tmp/defense_raw_record.py、窗口布局/tmp/defense_layout.py，只选所属Gazebo/RViz前景画面，其他前景暂停并记录；补采脚本/最终旁证需复制进包。
+
+**前一回合计划记录（执行进度以上段为准）：** 唯一总计划第5节新增“答辩素材重新整理计划”，保留用户10主题，补00总索引与11验证/局限；新根拟为 `results/defense_materials_20261125/`，未创建、未复制原件、未做PPT或启动仿真。按十主题列贡献/技术、可复用原件、待补图像/视频/图表、证据范围、阶段顺序和素材完成标准。已只读核对10项关键审计状态及两区清扫图/绕行图/地图总览/最新三UI截图存在；旧素材仍原样。用户随后明确四项取舍已同步：取消独立完整任务闭环视频；UI全主题只截图；优先完整建图流程（现有局部闭环不冒充整屋建图）；四种日常避障合成一张2×2关键图，综合去厨房绕行过程视频保留。下一步为按此节盘点筛选、独立复制建索引，再按缺口补采；不把计划当素材已齐。杯瓶椅/碗书、两房四处支撑面、两组杂物间素材沿用；最新三球79.66%仍partial，语义41.11%仅原搜索对照，真人待验、回充为模拟。

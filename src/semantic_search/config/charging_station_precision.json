@@ -34,5 +34,6 @@
     ]
   },
   "note": "Configured service facility, not a perceived object. Map pose is robot base pose; world spawn is already included in this simulator odometry.",
-  "precision_docking": true
+  "precision_docking": true,
+  "refresh_localization_before_dock": true
 }

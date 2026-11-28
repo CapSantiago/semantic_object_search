@@ -44,13 +44,14 @@
               <label for="command">中文指令 <span class="optional">选填</span></label>
               <input id="command" name="command" type="text" maxlength="256" autocomplete="off" placeholder="找一个：去厨房找杯子；找齐：去厨房统计杯子">
               <p class="field-help">填写指令时以文字为准。“找”寻找一个；“统计/清点”完成巡视后报告确认数量。</p>
+              <div id="task-preview" class="memory-trace" hidden><strong>将按以下顺序执行</strong><ol id="task-preview-list"></ol><button id="execute-sequence" class="button primary" type="button">执行以上任务</button><p class="small">每项完成后返回充电处；停止或未完成时终止后续。</p></div>
               <button id="submit-task" class="button primary" type="submit" disabled>等待系统就绪</button>
             </fieldset>
           </form>
           <button id="record-voice" class="button secondary" type="button" disabled>录音转写</button>
           <button id="return-to-dock" class="button secondary" type="button" disabled hidden>返回充电处</button>
           <button id="cancel-task" class="button stop" type="button">停止当前任务</button>
-          <p id="task-help" class="small muted">就绪后可开始。每次执行一个任务。</p>
+          <p id="task-help" class="small muted">就绪后可开始。支持“先去厨房统计杯子，再去卧室找书”等2–3项顺序任务。</p>
         </section>
         <section class="card">
           <div class="section-head"><h2>系统状态</h2><span id="system-dot" class="dot neutral" aria-label="状态未知"></span></div>
@@ -74,7 +75,8 @@
           <details class="avoidance-details"><summary>观测说明</summary><p id="obstacle-note" class="small muted">读取实际激光和运动数据。</p></details>
         </section>
         <div id="semantic-summary" class="semantic-summary" aria-live="polite"></div>
-        <div class="region-controls"><label><input id="show-regions" type="checkbox" checked> 区域轮廓</label><label><input id="show-views" type="checkbox"> 预设巡视点与朝向</label><label><input id="show-memory" type="checkbox" checked> 物品记忆</label><span id="region-note">区域边界可通行，不是墙体</span></div>
+        <div class="region-controls"><label><input id="show-regions" type="checkbox" checked> 区域轮廓</label><label><input id="show-views" type="checkbox"> 预设巡视点与朝向</label><label id="cleaning-layer-control" hidden><input id="show-cleaning" type="checkbox" checked> 实际清扫覆盖</label><label><input id="show-memory" type="checkbox" checked> 物品记忆</label><span id="region-note">区域边界可通行，不是墙体</span></div>
+        <p id="cleaning-layer-note" class="small muted" hidden></p>
         <p id="view-note" class="view-note" hidden>预设巡视路线，非实时检测位置。</p>
         <div class="region-controls"><label><input id="show-obstacles" type="checkbox" checked> 实时激光与规划路径</label><span>橙色点为实测障碍，蓝色虚线为规划路径</span></div>
         <div class="region-controls costmap-controls"><label for="map-layer">地图图层</label><select id="map-layer"><option value="occupancy">占据栅格底图</option><option value="cost">底图＋导航代价</option></select><span id="costmap-state">共用同一张栅格底图</span></div>
@@ -87,10 +89,13 @@
       <aside class="results-sidebar">
         <section class="card execution-card">
           <div class="section-head"><h2 id="task-title">当前任务</h2><span id="task-badge" class="badge neutral">空闲</span></div>
+          <section id="task-sequence" class="memory-trace" hidden aria-label="组合任务进度"></section>
           <p id="active-command" class="active-command">等待你的第一条指令</p>
           <div class="task-facts"><div><span>已用时间</span><strong id="elapsed">—</strong></div><div><span id="task-metric">确认数量</span><strong id="count">—</strong></div></div>
           <p id="task-feedback" class="feedback">选择房间和物品，系统就绪后即可开始。</p>
+          <section id="memory-trace" class="memory-trace" hidden aria-label="记忆引导核验过程"></section>
           <div id="coverage" class="coverage" hidden></div>
+          <section id="cleaning-phases" class="memory-trace" hidden aria-label="主扫与补扫实测"></section>
           <div id="objects" class="objects"></div>
           <div id="artifacts" class="artifact-list"></div>
           <details id="result-details" hidden><summary>查看完整结果</summary><pre id="result-json" class="json-view"></pre></details>

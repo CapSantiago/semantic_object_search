@@ -1,0 +1,49 @@
+{
+  "status": "engineering_passed_robot_acceptance_pending",
+  "scope": "Three approved improvements: semantic explanation, bounded ordered tasks, cleaning phase feedback",
+  "tests": {
+    "passed": 552,
+    "skipped": 38,
+    "seconds": 13.55,
+    "log": "results/development/workflows_20261124/full_tests_final.log"
+  },
+  "build": {
+    "packages": 3,
+    "seconds": 1.13,
+    "log": "results/development/workflows_20261124/build.log"
+  },
+  "ui": {
+    "renderer_tests": "passed",
+    "real_browser": "not_run",
+    "recorded_guided_finds_replayed": 2
+  },
+  "runtime": {
+    "session": "20261124T140843_741610Z_3c78306e",
+    "ready": false,
+    "busy": false,
+    "control_uncertain": false,
+    "new_motion_dispatched": false,
+    "new_source_loaded": false
+  },
+  "limitations": [
+    "No new independent-layout or robot live trial",
+    "No real text/synthetic speech multi-task trial; unit callback tests do not replace actual docking/navigation",
+    "No new physical cleaning/docking or navigation Action timeout fix",
+    "Voice still transcribes first and requires submitting the checked text",
+    "Queue not automatically resumed across restart"
+  ],
+  "source_sha256": {
+    "scripts/robot_console.py": "5e8b469523e06710b89f25007f743e732839667adb95152ca34f170365193283",
+    "scripts/run_cleaning.py": "94e472a00f29e61cfd30037067c6a8cc9969be03075fcf93e8d27238f6b12c88",
+    "src/semantic_search/semantic_search/task_sequence.py": "d0d95ce71f19bb4e84b0894d126f10609c98a08900493ec2c8a87b34250d1fa4",
+    "src/semantic_search/semantic_search/memory_trace.py": "3aec1436aced5dd8eda7afd122289db46aeebd881d46b6c839fb215155733fe3",
+    "src/semantic_search/semantic_search/search_node.py": "3e49d1d3a8e849b89cc1bcf53bedd04036b4b569fc309883897a507cffec68a5",
+    "src/semantic_search/semantic_search/memory_guidance.py": "3a322c0c2e871fbbbd6a925ca397bdc9b79020629ac83ab451c0ce45ac571b15",
+    "ui/index.html": "b374c9f81726eafb8ef011fc1ecc1505044211be33a32665399599d65f031469",
+    "ui/app.js": "8fce0e0e4d5bcdd6b555ee3859a2279b3ec8411f2055cd5e3d67f4bd33b5d087",
+    "ui/style.css": "0b05760d24b7624a9758839dc9ee02f1fac1762c8522b8f89d42f4fa68fdc868",
+    "tests/test_task_sequence.py": "2182f67f7f726ab58751d0adfe84417e8990bbfc9dcc136dba6d59f56a59898a",
+    "tests/test_memory_trace.py": "5df01b5df748813896cf55004fb3ab65277aa5eea39d6ccb1cf8acd43e32d6c9",
+    "tests/test_ui_workflows.js": "3f879ba13bb2560709d5468d67d69aba04e94e85f9bcede84f1367c509377c64"
+  }
+}

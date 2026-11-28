@@ -46,7 +46,7 @@ def configured_route_matches(result,room,category,*,rooms=None,room_id=None):
             return False
         if item.get('basis')=='observed_memory_safe_approach':
             from semantic_search.memory_approach import verify_approach
-            if rooms is None or not verify_approach(item,baseline,rooms,room_id,guidance.get('namespace')):
+            if rooms is None or not verify_approach(item,baseline,rooms,room_id,guidance.get('namespace'),guidance.get('historical_successful_views')):
                 return False
         elif pose[:2]!=source[:2]:return False
         additions.append(pose)

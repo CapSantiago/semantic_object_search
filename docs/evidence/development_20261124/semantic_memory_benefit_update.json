@@ -1,0 +1,478 @@
+{
+  "status": "semantic_benefit_and_update_verified_continuous_runtime_not_accepted",
+  "scope": "One selected living banana variation; two ABBA pairs; same ordinary fixed-view baseline; explicit moved-variant cold recovery",
+  "benefit_accepted": true,
+  "trials": [
+    {
+      "pair": 0,
+      "memory_enabled": false,
+      "search_seconds": 56.36769435699989,
+      "search_odom_distance_m": 10.018812217695302,
+      "visited": 2,
+      "count": 1,
+      "position_error_m": 0.16117654758915723,
+      "all_original_checks_passed": true,
+      "independent_dock": {
+        "position_m": 0.10401775011689686,
+        "yaw_rad": 0.01836883710666287,
+        "fresh": true,
+        "velocity": [
+          0.0,
+          0.0
+        ],
+        "passed": true
+      },
+      "no_recorded_body_contact": true,
+      "odometry_quality": {
+        "passed": true,
+        "samples": 592,
+        "jumps": 0,
+        "max_gap_seconds": 0.10000000000002274
+      }
+    },
+    {
+      "pair": 0,
+      "memory_enabled": true,
+      "search_seconds": 30.107657250000102,
+      "search_odom_distance_m": 5.757786499742369,
+      "visited": 1,
+      "count": 1,
+      "position_error_m": 0.11312306357020743,
+      "all_original_checks_passed": true,
+      "independent_dock": {
+        "position_m": 0.11930064175768226,
+        "yaw_rad": 0.06217678367635463,
+        "fresh": true,
+        "velocity": [
+          0.0,
+          0.0
+        ],
+        "passed": true
+      },
+      "no_recorded_body_contact": true,
+      "odometry_quality": {
+        "passed": true,
+        "samples": 331,
+        "jumps": 0,
+        "max_gap_seconds": 0.10000000000002274
+      }
+    },
+    {
+      "pair": 1,
+      "memory_enabled": true,
+      "search_seconds": 35.733389721000094,
+      "search_odom_distance_m": 5.868964256786166,
+      "visited": 1,
+      "count": 1,
+      "position_error_m": 0.08235010115200615,
+      "all_original_checks_passed": true,
+      "independent_dock": {
+        "position_m": 0.12516156271481743,
+        "yaw_rad": 0.05376819729289819,
+        "fresh": true,
+        "velocity": [
+          0.0,
+          0.0
+        ],
+        "passed": true
+      },
+      "no_recorded_body_contact": true,
+      "odometry_quality": {
+        "passed": true,
+        "samples": 387,
+        "jumps": 0,
+        "max_gap_seconds": 0.10000000000002274
+      }
+    },
+    {
+      "pair": 1,
+      "memory_enabled": false,
+      "search_seconds": 55.43939691100013,
+      "search_odom_distance_m": 9.996995320428255,
+      "visited": 2,
+      "count": 1,
+      "position_error_m": 0.12799686992665207,
+      "all_original_checks_passed": true,
+      "independent_dock": {
+        "position_m": 0.11750235547511045,
+        "yaw_rad": 0.07986551005381512,
+        "fresh": true,
+        "velocity": [
+          0.0,
+          0.0
+        ],
+        "passed": true
+      },
+      "no_recorded_body_contact": true,
+      "odometry_quality": {
+        "passed": true,
+        "samples": 583,
+        "jumps": 0,
+        "max_gap_seconds": 0.12000000000000455
+      }
+    }
+  ],
+  "pairs": [
+    {
+      "pair": 0,
+      "seconds_saved": 26.26003710699979,
+      "measured_search_distance_saved_m": 4.261025717952934,
+      "baseline_views": 2,
+      "guided_views": 1
+    },
+    {
+      "pair": 1,
+      "seconds_saved": 19.706007190000037,
+      "measured_search_distance_saved_m": 4.128031063642089,
+      "baseline_views": 2,
+      "guided_views": 1
+    }
+  ],
+  "mean": {
+    "baseline_seconds": 55.90354563400001,
+    "guided_seconds": 32.9205234855001,
+    "percent_search_time_saved": 41.11192212917861,
+    "baseline_distance_m": 10.007903769061778,
+    "guided_distance_m": 5.813375378264267
+  },
+  "source": {
+    "cloud": {
+      "count": 2984,
+      "max_gap": 0.23252213699970525,
+      "gaps_over_point4": 0,
+      "max_source_age": 0.12999999999999545
+    },
+    "scan": {
+      "count": 1865,
+      "max_gap": 0.25029027100026724,
+      "gaps_over_point4": 0,
+      "max_source_age": 0.060000000000002274
+    },
+    "fresh_checks": 191610,
+    "stale_checks": 0
+  },
+  "provenance": [
+    {
+      "passed": true,
+      "first": [
+        2.7,
+        -1.8,
+        3.04
+      ],
+      "actual_saved_success": [
+        {
+          "memory_id": "568f2374660643a6a81b430ffd788f85",
+          "task_id": "22e0b4f5-ecad-455d-8307-7c47cd358946",
+          "pose": [
+            2.7,
+            -1.8,
+            3.04
+          ],
+          "frames": 33
+        }
+      ]
+    },
+    {
+      "passed": true,
+      "first": [
+        2.7,
+        -1.8,
+        3.04
+      ],
+      "actual_saved_success": [
+        {
+          "memory_id": "568f2374660643a6a81b430ffd788f85",
+          "task_id": "76dd2526-21c7-42d7-a416-b48834fa36fb",
+          "pose": [
+            2.7,
+            -1.8,
+            3.04
+          ],
+          "frames": 32
+        }
+      ]
+    }
+  ],
+  "movement": {
+    "original_status": "failed",
+    "find": {
+      "original_status": "passed",
+      "functional_subchecks_passed": true,
+      "evaluation": {
+        "passed": true,
+        "expected": 1,
+        "actual": 1,
+        "checks": {
+          "task_completed": true,
+          "count": true,
+          "position": true,
+          "unique_ids": true,
+          "map_metres": true,
+          "room": true,
+          "required_surfaces": true,
+          "measured_arrivals": true,
+          "saved": true,
+          "memory_saved": true,
+          "return_passed": true,
+          "configured_route": true,
+          "found": true,
+          "persisted_result": true,
+          "observed_hits": true,
+          "svg_ids": true
+        },
+        "position_limit_m": 0.2,
+        "errors": [
+          {
+            "id": 1,
+            "reference": "living_banana_1",
+            "xy_error_m": 0.15890214557664029
+          }
+        ],
+        "arrivals": [
+          {
+            "index": 0,
+            "passed": true,
+            "xy_error_m": 0.11051803540100022,
+            "yaw_error_rad": 0.09600033026746989
+          }
+        ]
+      },
+      "original_checks": {
+        "observer_healthy": true,
+        "original_task_succeeded": true,
+        "mandatory_surfaces_observed": true,
+        "returned_to_dock": true,
+        "native_settled": true,
+        "no_recorded_contact": true,
+        "no_external_cancel": true,
+        "ui_observation_fresh": true,
+        "independent_world_dock": true,
+        "fresh_sensor_checks": true,
+        "observer_clean": true
+      }
+    },
+    "count": {
+      "original_status": "failed",
+      "functional_subchecks_passed": false,
+      "evaluation": {
+        "passed": false,
+        "expected": 1,
+        "actual": 1,
+        "checks": {
+          "task_completed": false,
+          "count": true,
+          "position": true,
+          "unique_ids": true,
+          "map_metres": true,
+          "room": true,
+          "required_surfaces": true,
+          "measured_arrivals": true,
+          "saved": true,
+          "memory_saved": true,
+          "return_passed": false,
+          "configured_route": true,
+          "full_observation_plan": true,
+          "full_observation_data": true,
+          "no_history_count": true,
+          "persisted_result": true,
+          "observed_hits": true,
+          "svg_ids": true
+        },
+        "position_limit_m": 0.2,
+        "errors": [
+          {
+            "id": 1,
+            "reference": "living_banana_1",
+            "xy_error_m": 0.13113340612283902
+          }
+        ],
+        "arrivals": [
+          {
+            "index": 0,
+            "passed": true,
+            "xy_error_m": 0.11143112267442559,
+            "yaw_error_rad": 0.09603849178277524
+          },
+          {
+            "index": 1,
+            "passed": true,
+            "xy_error_m": 0.10644449626186815,
+            "yaw_error_rad": 0.09569062082605528
+          }
+        ]
+      },
+      "original_checks": {
+        "observer_healthy": false,
+        "original_task_succeeded": true,
+        "mandatory_surfaces_observed": true,
+        "returned_to_dock": false,
+        "native_settled": false,
+        "no_recorded_contact": true,
+        "no_external_cancel": true,
+        "ui_observation_fresh": false,
+        "independent_world_dock": false,
+        "fresh_sensor_checks": false,
+        "observer_clean": true
+      }
+    },
+    "original_count_return_failure_preserved": true
+  },
+  "cold_recovery": {
+    "status": "passed",
+    "session": "20261124T140843_741610Z_3c78306e",
+    "original_movement_count_accepted": false,
+    "cold_memory_checks": {
+      "old_current_record_exists": true,
+      "old_location_pending": true,
+      "one_last_observed": true,
+      "graph_available": true
+    },
+    "count": {
+      "status": "passed",
+      "evaluation": {
+        "passed": true,
+        "expected": 1,
+        "actual": 1,
+        "checks": {
+          "task_completed": true,
+          "count": true,
+          "position": true,
+          "unique_ids": true,
+          "map_metres": true,
+          "room": true,
+          "required_surfaces": true,
+          "measured_arrivals": true,
+          "saved": true,
+          "memory_saved": true,
+          "return_passed": true,
+          "configured_route": true,
+          "full_observation_plan": true,
+          "full_observation_data": true,
+          "no_history_count": true,
+          "persisted_result": true,
+          "observed_hits": true,
+          "svg_ids": true
+        },
+        "position_limit_m": 0.2,
+        "errors": [
+          {
+            "id": 1,
+            "reference": "living_banana_1",
+            "xy_error_m": 0.11162679700437238
+          }
+        ],
+        "arrivals": [
+          {
+            "index": 0,
+            "passed": true,
+            "xy_error_m": 0.08977659033538085,
+            "yaw_error_rad": 0.10444811862828507
+          },
+          {
+            "index": 1,
+            "passed": true,
+            "xy_error_m": 0.10619941082116982,
+            "yaw_error_rad": 0.09754452055208374
+          }
+        ]
+      },
+      "independent_dock": {
+        "position_m": 0.13979989764373033,
+        "yaw_rad": 0.04388210896971516
+      },
+      "cloud": {
+        "cloud": {
+          "count": 968,
+          "max_gap": 0.17674082300027294,
+          "gaps_over_point4": 0,
+          "max_source_age": 0.09999999999999432
+        },
+        "scan": {
+          "count": 605,
+          "max_gap": 0.2476479530000688,
+          "gaps_over_point4": 0,
+          "max_source_age": 0.058000000000006935
+        },
+        "fresh_checks": 62172,
+        "stale_checks": 0
+      }
+    },
+    "graph_reload_exit": 0,
+    "final_state": {
+      "session_id": "20261124T140843_741610Z_3c78306e",
+      "ready": true,
+      "busy": false,
+      "control_uncertain": false
+    }
+  },
+  "graph_reload": {
+    "status": "passed",
+    "checks": {
+      "sqlite_equals_api": true,
+      "graph_same_revision": true,
+      "graph_same_namespace": true,
+      "graph_all_records": true,
+      "graph_record_fields": true,
+      "physical_identity_not_fabricated": true
+    },
+    "session": "20261124T140843_741610Z_3c78306e",
+    "source_revision": "162:2026-11-24T14:10:20.681338+00:00",
+    "objects": 54,
+    "graph_nodes": 60,
+    "graph_edges": 59,
+    "find_history_used": true,
+    "find_actual_prefix_differs_from_baseline": true,
+    "limits": [
+      "Single physical banana is evaluator knowledge only; semantic memory does not establish physical reidentification.",
+      "ABBA correctness, timing, distance and full source timing are audited separately for this same scenario."
+    ],
+    "source_sha256": {
+      "cold_count/report.json": "a0b7c77091a777bb40c404d7a3769ad6f495396fdb67a2247fdcb5cc5f9cb671",
+      "cold_graph/after_all_memory.json": "63be74d785b47cb406dfc39bb5f45af77891080d2d0c20c39df0f6594982d2e7",
+      "cold_graph/after_graph.json": "27cbf7e3d2fbc6bdaf471ad8f467e574ea8faaf239630a00e4d641f8e2e58b0c"
+    }
+  },
+  "negative_first_layout": {
+    "status": "failed",
+    "error": "AssertionError: Actual gain not established",
+    "pairs": [
+      {
+        "pair": 0,
+        "seconds_saved": -5.478389944000128,
+        "measured_search_distance_saved_m": -0.17304943474894952,
+        "baseline_views": 1,
+        "guided_views": 1
+      },
+      {
+        "pair": 1,
+        "seconds_saved": 0.8663226670000768,
+        "measured_search_distance_saved_m": 0.07628471813090165,
+        "baseline_views": 1,
+        "guided_views": 1
+      }
+    ]
+  },
+  "engineering": {
+    "tests_passed": 540,
+    "skipped": 38,
+    "seconds": 20.55,
+    "build_packages": 3,
+    "build_seconds": 2.11
+  },
+  "limitations": [
+    "Two pairs on one selected layout, not category admission or all-room stability.",
+    "Search metrics exclude prior memory creation and return; history was acquired by real complete count and real tasks, not scene truth.",
+    "First layout produced no consistent speed benefit; rejected new-point policy is still off by default.",
+    "Moved-object count perception/memory saved correctly, but the original warm return had unknown navigation terminal and shut down the stack; not relabeled passed.",
+    "One cold moved-variant count/return and independent SQLite/Spark-DSG reload passed; this does not fix the warm Action response timeout.",
+    "Spatial memory records do not establish physical reidentification."
+  ],
+  "source_sha256": {
+    "results/development/demo_two_rooms_20261123/semantic_followup/living_banana/occluded_v2/audit.json": "338bef7d41ccb996106f4882a5b6e25bc61b704cf526c679a1b5fbeedc03a39d",
+    "results/development/demo_two_rooms_20261123/semantic_followup/living_banana/occluded_v2/abba/report.json": "aebe1a6cf25fc01dd31830bdef24f00841d714674138b05678ae649aa4794e41",
+    "results/development/demo_two_rooms_20261123/semantic_followup/living_banana/occluded_v2/movement/audit.json": "103c3a10c79aa8dc9a9bd3359b29e5e4f4777e538507d34a2fcc2df7eaf39c11",
+    "results/development/demo_two_rooms_20261123/semantic_followup/living_banana/occluded_v2/cold_recovery_audit.json": "5e697a72bbf2ee21fdd652685bb7e2bda03feddc11a9eb8d7cee353af7455564",
+    "results/development/demo_two_rooms_20261123/semantic_followup/living_banana/occluded_v2/cold_graph/independent_update_audit.json": "621d790a119dad2f63865a1ef2bec76a188bd288806d7a3c99c7ad60a257d25e",
+    "results/development/demo_two_rooms_20261123/semantic_followup/living_banana/calibrated/audit.json": "2c03d2f78005ff5b152dc0e3b2c5028eb7bd14a9964999b8d7929eeebcded5dc"
+  }
+}

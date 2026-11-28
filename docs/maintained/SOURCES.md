@@ -1,5 +1,7 @@
 # 上游源码与课程资料
 
+2026-11-24发布后停靠候选复用Nav2原生[request_nomotion_update](https://github.com/ros-navigation/navigation2/blob/1.1.20/nav2_amcl/src/amcl_node.cpp)，只请求静止时的普通激光测量更新。客户端提前暖机、最多3次请求共用3秒截止、新AMCL源戳与TF一致性检查属于本项目集成，不修改AMCL参数、设置位姿或保证该服务必然改善精度；收益以停靠实跑单独核验。
+
 2026-11-24显式精确停靠候选继续复用本机Nav2 1.1.20的[RotationShim最终朝向控制](https://github.com/ros-navigation/navigation2/blob/1.1.20/nav2_rotation_shim_controller/src/nav2_rotation_shim_controller.cpp)与[DWB RotateToGoal](https://github.com/ros-navigation/navigation2/blob/1.1.20/nav2_dwb_controller/dwb_critics/src/rotate_to_goal.cpp)。配置5cm执行目标及独立停靠树，由原生组件执行运动/碰撞检查；保留15cm/.15rad独立验收，项目不声称自研新的局部控制算法。历史记忆安全点复用现有RoomSweep栅格几何、SciPy连通/距离与Nav2到点，当前实测无提速收益，默认关闭。
 
 统一地图导出复用现有NumPy/Pillow栅格与中文绘制，关系边读取真实Spark-DSG JSON；当前`view_export.py`负责同底图图层、PNG/SVG双格式和证据封装。清扫原始刷盘/连续标志、观察实测到达及源时间均来自系统原结果；导出不是另一个地图算法，也没有接入场景真值或补造关系。
@@ -135,3 +137,7 @@ C041原地分层对照（static_layer_isolation）：机器人未移动，只禁
 
 
 11月23日只读候选审查核对Nav2 1.1.20 [Lattice参数/目标量化](https://github.com/ros-navigation/navigation2/blob/1.1.20/nav2_smac_planner/src/smac_planner_lattice.cpp)、[NodeLattice碰撞采样](https://github.com/ros-navigation/navigation2/blob/1.1.20/nav2_smac_planner/src/node_lattice.cpp)及安装5cm diff控制集SHA；16heading含cardinal、112原语含32原地，任意yaw与转动中间采样有限制。候选只准备未运行，不能当作本项目已实现或已验证收益。末态停滞重放沿用已安装[ObstacleFootprintCritic](https://github.com/ros-navigation/navigation2/blob/1.1.20/nav2_dwb_controller/dwb_critics/src/obstacle_footprint.cpp)的整数轮廓边缘算法；[原生BackUp/DriveOnHeading](https://github.com/ros-navigation/navigation2/blob/1.1.20/nav2_behaviors/include/nav2_behaviors/plugins/drive_on_heading.hpp)从t=0检查轮廓，因此不能承诺从已重叠安全边缘自动倒出。图和JSON为冻结诊断，实际配置未减小padding。
+
+20261124工作流回充候选复用现有Nav2 DWB GoalDist加权评分，并根据原生/evaluation诊断单独调整DockingPath权重。它是本项目的参数隔离和运行验证，不是新规划算法；原障碍权重、碰撞半径、普通导航和清扫控制器保留。实际收益及失败按各次独立停靠和源时效收据记录。
+
+仿真定位候选复用[Nav2 1.1.20差速运动采样模型](https://raw.githubusercontent.com/ros-navigation/navigation2/1.1.20/nav2_amcl/src/motion_model/differential_motion_model.cpp)；alpha1–4进入里程增量噪声方差，alpha5未进入该差速采样计算。既有TB3使用[Fortress OdometryPublisher](https://raw.githubusercontent.com/gazebosim/gz-sim/ign-gazebo6/src/systems/odometry_publisher/OdometryPublisher.cc)，其无配置时附加高斯噪声为0。当前仅据传感器模型提出四参数显式校准候选，保留激光测量和原地图投影；不是用场景物品真值修定位，也不是新定位算法，正确性和收益以各自现场证据为准；本轮两项短程和05三球补扫解释通过，范围与限制见workflow_completion.json。

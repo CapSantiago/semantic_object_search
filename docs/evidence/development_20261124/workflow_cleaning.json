@@ -1,0 +1,171 @@
+{
+  "status": "passed_explanatory_workflow",
+  "checks": {
+    "durable_journal_matches_full_checks": true,
+    "observer_ready_before_dispatch": true,
+    "observer_processes_clean": true,
+    "contact_observer_healthy": true,
+    "actual_overlay_equals_frozen_masks": true,
+    "exact_frozen_brush_repaint": true,
+    "supplement_has_actual_gain": true,
+    "supplement_delta_equals_real_trace": true,
+    "supplement_within_bounded_budget": true,
+    "total_within_900_seconds": true,
+    "all_native_ball_patches_seen": true,
+    "centres_outside_ball_interiors": true,
+    "actual_brush_gain_after_obstacles": true,
+    "body_contacts_absent": true,
+    "sources_fresh": true,
+    "actual_actions_stopped_and_ordered": true,
+    "map_docked": true,
+    "independent_docked": true,
+    "navigation_settled": true,
+    "original_denominator": true,
+    "partial_preserved": true
+  },
+  "full_cleaning_accepted": false,
+  "result_status": "partial",
+  "coverage": {
+    "floor_cells": 10363,
+    "eligible_cells": 9336,
+    "covered_cells": 7437,
+    "uncovered_cells": 1899,
+    "excluded_floor_cells": 1027,
+    "coverage_fraction": 0.7965938303341902,
+    "covered_area_m2": 18.5925,
+    "repeated_area_m2": 8.4875,
+    "repeated_coverage_fraction": 0.36364610111396745
+  },
+  "spatial_coverage": {
+    "basis": "measured_brush_coverage_of_original_stripe_centerlines",
+    "completed": false,
+    "planned_lanes": 29,
+    "covered_lanes": 18,
+    "incomplete_lanes": [
+      {
+        "lane_id": 7,
+        "centerline_cells": 64,
+        "covered_centerline_cells": 52,
+        "completed": false
+      },
+      {
+        "lane_id": 8,
+        "centerline_cells": 63,
+        "covered_centerline_cells": 47,
+        "completed": false
+      },
+      {
+        "lane_id": 9,
+        "centerline_cells": 63,
+        "covered_centerline_cells": 58,
+        "completed": false
+      },
+      {
+        "lane_id": 13,
+        "centerline_cells": 7,
+        "covered_centerline_cells": 6,
+        "completed": false
+      },
+      {
+        "lane_id": 17,
+        "centerline_cells": 9,
+        "covered_centerline_cells": 5,
+        "completed": false
+      },
+      {
+        "lane_id": 22,
+        "centerline_cells": 38,
+        "covered_centerline_cells": 26,
+        "completed": false
+      },
+      {
+        "lane_id": 23,
+        "centerline_cells": 33,
+        "covered_centerline_cells": 13,
+        "completed": false
+      },
+      {
+        "lane_id": 24,
+        "centerline_cells": 33,
+        "covered_centerline_cells": 19,
+        "completed": false
+      },
+      {
+        "lane_id": 26,
+        "centerline_cells": 41,
+        "covered_centerline_cells": 40,
+        "completed": false
+      },
+      {
+        "lane_id": 27,
+        "centerline_cells": 40,
+        "covered_centerline_cells": 39,
+        "completed": false
+      },
+      {
+        "lane_id": 28,
+        "centerline_cells": 43,
+        "covered_centerline_cells": 41,
+        "completed": false
+      }
+    ]
+  },
+  "phases": [
+    {
+      "phase": "primary",
+      "elapsed_seconds": 525.5583791399986,
+      "measured_new_cells": 7218,
+      "navigation_ready": true
+    },
+    {
+      "phase": "local_supplement",
+      "elapsed_seconds": 46.91628615100126,
+      "measured_new_cells": 219,
+      "navigation_ready": false
+    }
+  ],
+  "independent_dock": {
+    "position_m": 0.07167869446558198,
+    "yaw_rad": 0.05246274460930769,
+    "source_age_seconds": 0.014000000000010004,
+    "age_wall_seconds": 0.013061895999271655,
+    "passed": true
+  },
+  "measured_new_cells_after_obstacles": 5239,
+  "minimum_native_centre_distance_m": [
+    0.5969441535294792,
+    0.5121574924632066,
+    0.5595297523969627
+  ],
+  "display_coverage_layer": {
+    "data_sha256": "e764ee3c3b2912111e1c1af7ac0ae27ad3d5f8026497bc0ca8321bd2064ac866",
+    "covered_cells": 7437,
+    "eligible_cells": 9336
+  },
+  "limits": [
+    "Explanatory workflow pass does not upgrade partial cleaning or mark missing stripes complete.",
+    "Native occupied patches are spatial sensor evidence, not semantic ball identities.",
+    "Truth used only for posthoc fixture evaluation."
+  ],
+  "session": "20261124T174126_297245Z_342edf93",
+  "task_id": "demo_utility_clean_05",
+  "ui": {
+    "sequence_hidden": true,
+    "layer_hidden": false,
+    "note": "绿=实际已扫，黄=可扫未覆盖；红=结束时受阻快照。受阻不等于永久不可达，原覆盖率分母不变。",
+    "phases": "主扫：实际新增 7218 格（18.05 m²），用时 8 分 45 秒。\n\n局部补扫：实际新增 219 格（0.55 m²），用时 46 秒。\n\n执行中曾记录受阻条带 2 条；不表示永久不可达。\n\n覆盖只按实际刷盘轨迹计算；结合代价图、规划路径与实际轨迹查看绕行和剩余区域。",
+    "map_empty": false,
+    "session_id": "20261124T174126_297245Z_342edf93",
+    "task_id": "demo_utility_clean_05",
+    "status": "passed",
+    "scope": "actual_cached_terminal_DOM_after_runtime_shutdown"
+  },
+  "exports": "passed_recorded_session_http_exports",
+  "raw_sha256": {
+    "/home/willmatic/桌面/semantic_object_search/results/development/workflows_20261124/voice_localization_noise/audit.json": "b80a4795a063ce37dcd07f803e36c552a0e0a6fa0a2cb0375cecf557ed13a660",
+    "/home/willmatic/桌面/semantic_object_search/results/development/workflows_20261124/voice_localization_noise/cancel_ready/cancel_audit.json": "5fce56b368a7356889fd7213816626a18b09f13eef3004aa578bc5ba4586f20b",
+    "/home/willmatic/桌面/semantic_object_search/results/development/workflows_20261124/cleaning_localization_noise/feature_audit.json": "f26835d445950d1e0505606e4b8d80f6fcc7befd29365ddb2d97dc3916c6401e",
+    "/home/willmatic/桌面/semantic_object_search/results/development/workflows_20261124/cleaning_localization_noise/exports/audit.json": "5e21fca0955c35ef4e5d083d9289dd1fd1e6a6002f2bfc310e8382dbc21a85a1",
+    "/home/willmatic/桌面/semantic_object_search/results/development/workflows_20261124/localization_noise/cleanup.json": "b756eb12b6e521c4e9dc9f53838d1f4daf3d46269c2ac326e570ecfba7b1d7a0"
+  }
+}

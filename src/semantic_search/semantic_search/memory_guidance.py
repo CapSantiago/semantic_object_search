@@ -50,6 +50,8 @@ def prioritize_find_views(views, room, records, *, half_fov=.515,successful_view
     if not history:
         evidence['reason']='no_usable_history'
         return baseline,evidence
+    evidence['historical_records']=[{k:item.get(k) for k in
+        ('id','x','y','z','state','last_seen','task_id')} for item in history]
     trusted={item['id']:(1. if item['state']=='last_observed' else .25) for item in history}
     observed=[v for v in (successful_views or []) if v.get('memory_id') in trusted]
     evidence['historical_successful_views']=observed
@@ -70,11 +72,19 @@ def prioritize_find_views(views, room, records, *, half_fov=.515,successful_view
     prefix=[p for p in baseline if tuple(p) in required]
     optional=[(i,p) for i,p in enumerate(baseline) if tuple(p) not in required]
     verification=None
+    # A measured, useful configured view takes priority over a fresh bearing
+    # guess. Far historical views may still need the existing close-up probe.
+    proven_near=any(v.get('frames',0)>=2 and v.get('pose') in [p for _,p in optional]
+        and any(item['id']==v['memory_id'] and item['state']=='last_observed'
+                and .8<=math.dist(v['pose'][:2],[item['x'],item['y']])<=2.2 for item in history)
+        for v in observed)
     if approach_context is not None:
         from .memory_approach import propose_approach
-        verification=propose_approach(baseline,records=history,**approach_context)
-    if verification is None:
+        verification=propose_approach(baseline,records=history,successful_views=observed,**approach_context)
+    if verification is None and not (approach_context is None and proven_near):
         verification=_bearing_verification(baseline,history,half_fov)
+    if approach_context is None and proven_near:
+        evidence['basis']='historical_successful_view_before_unverified_bearing'
     ordered=prefix+([verification['pose']]if verification else [])+[
         p for _,p in sorted(optional,key=lambda item:(-observed_score(item[1]),-score(item[1]),item[0]))]
     if verification and verification.get('basis')=='observed_memory_safe_approach':
